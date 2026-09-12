@@ -1,0 +1,244 @@
+{
+ "id": "F03-PLANNING-MEMO",
+ "number": 3,
+ "kind": "worksheet",
+ "phase": "planning",
+ "title": {
+  "en": "Planning memorandum: overall audit strategy and audit plan",
+  "ar": "مذكرة التخطيط: استراتيجية المراجعة الشاملة وخطة المراجعة"
+ },
+ "purpose": {
+  "en": "Set the scope, timing and direction of the audit and plan its procedures.",
+  "ar": "تحديد نطاق المراجعة وتوقيتها واتجاهها وتخطيط إجراءاتها."
+ },
+ "procedures": [
+  "P-FSL-005",
+  "P-FSL-008"
+ ],
+ "standards": [
+  "ISA-300",
+  "ISA-315"
+ ],
+ "sections": [
+  {
+   "id": "engagement",
+   "title": {
+    "en": "Engagement",
+    "ar": "الارتباط"
+   },
+   "fields": [
+    {
+     "id": "client",
+     "label": {
+      "en": "Entity audited",
+      "ar": "المنشأة محل المراجعة"
+     },
+     "type": "text",
+     "required": false,
+     "autofill": "engagement.client",
+     "readonly": true
+    },
+    {
+     "id": "period_start",
+     "label": {
+      "en": "Period from",
+      "ar": "الفترة من"
+     },
+     "type": "date",
+     "required": false,
+     "autofill": "engagement.period_start",
+     "readonly": true
+    },
+    {
+     "id": "period_end",
+     "label": {
+      "en": "Period to",
+      "ar": "الفترة إلى"
+     },
+     "type": "date",
+     "required": false,
+     "autofill": "engagement.period_end",
+     "readonly": true
+    },
+    {
+     "id": "framework",
+     "label": {
+      "en": "Financial reporting framework",
+      "ar": "إطار التقرير المالي"
+     },
+     "type": "text",
+     "required": false,
+     "autofill": "engagement.framework",
+     "readonly": true
+    }
+   ]
+  },
+  {
+   "id": "scope",
+   "title": {
+    "en": "Scope of the engagement",
+    "ar": "نطاق الارتباط"
+   },
+   "fields": [
+    {
+     "id": "components",
+     "label": {
+      "en": "Components, locations and business units in scope",
+      "ar": "المكونات والمواقع ووحدات الأعمال ضمن النطاق"
+     },
+     "type": "textarea",
+     "required": true
+    },
+    {
+     "id": "reporting_requirements",
+     "label": {
+      "en": "Statutory and regulatory reporting requirements",
+      "ar": "متطلبات التقرير القانونية والتنظيمية"
+     },
+     "type": "textarea",
+     "required": true
+    },
+    {
+     "id": "understanding",
+     "label": {
+      "en": "Understanding of the entity and its environment",
+      "ar": "فهم المنشأة وبيئتها"
+     },
+     "type": "textarea",
+     "required": true
+    }
+   ]
+  },
+  {
+   "id": "direction",
+   "title": {
+    "en": "Significant factors and direction",
+    "ar": "العوامل المهمة والاتجاه"
+   },
+   "fields": [
+    {
+     "id": "preliminary_materiality",
+     "label": {
+      "en": "Preliminary overall materiality",
+      "ar": "الأهمية النسبية الأولية الإجمالية"
+     },
+     "type": "money",
+     "required": false,
+     "autofill": "paper.materiality.overall",
+     "readonly": true
+    },
+    {
+     "id": "performance_materiality",
+     "label": {
+      "en": "Performance materiality",
+      "ar": "مادية الأداء"
+     },
+     "type": "money",
+     "required": false,
+     "autofill": "paper.materiality.performance",
+     "readonly": true
+    },
+    {
+     "id": "significant_factors",
+     "label": {
+      "en": "Significant factors that direct the team's efforts",
+      "ar": "العوامل المهمة التي توجه جهود الفريق"
+     },
+     "type": "textarea",
+     "required": true
+    },
+    {
+     "id": "significant_risks_summary",
+     "label": {
+      "en": "Significant risks identified to date",
+      "ar": "المخاطر المهمة المحددة حتى تاريخه"
+     },
+     "type": "textarea",
+     "required": true
+    },
+    {
+     "id": "reliance",
+     "label": {
+      "en": "Planned reliance on controls, internal audit or experts",
+      "ar": "الاعتماد المخطط على الرقابة أو المراجعة الداخلية أو الخبراء"
+     },
+     "type": "textarea",
+     "required": false
+    }
+   ]
+  },
+  {
+   "id": "resources",
+   "title": {
+    "en": "Resources, supervision and timetable",
+    "ar": "الموارد والإشراف والجدول الزمني"
+   },
+   "fields": [
+    {
+     "id": "team_and_supervision",
+     "label": {
+      "en": "Team, direction, supervision and review",
+      "ar": "الفريق والتوجيه والإشراف والفحص"
+     },
+     "type": "textarea",
+     "required": true
+    },
+    {
+     "id": "timetable",
+     "label": {
+      "en": "Timetable",
+      "ar": "الجدول الزمني"
+     },
+     "type": "table",
+     "required": true,
+     "columns": [
+      {
+       "id": "milestone",
+       "label": {
+        "en": "Milestone",
+        "ar": "المرحلة"
+       },
+       "type": "text",
+       "required": true
+      },
+      {
+       "id": "date",
+       "label": {
+        "en": "Date",
+        "ar": "التاريخ"
+       },
+       "type": "date",
+       "required": true
+      },
+      {
+       "id": "owner",
+       "label": {
+        "en": "Responsible",
+        "ar": "المسؤول"
+       },
+       "type": "text",
+       "required": false
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "signoff": {
+  "prepare": [
+   "partner",
+   "manager",
+   "senior",
+   "staff"
+  ],
+  "review": [
+   "partner",
+   "manager"
+  ],
+  "approve": [
+   "partner"
+  ]
+ },
+ "version": 1,
+ "ar_status": "draft_pending_review"
+}

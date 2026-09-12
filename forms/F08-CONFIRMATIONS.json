@@ -1,0 +1,313 @@
+{
+ "id": "F08-CONFIRMATIONS",
+ "number": 8,
+ "kind": "letter",
+ "phase": "fieldwork",
+ "title": {
+  "en": "External confirmation request and control log",
+  "ar": "طلب المصادقة الخارجية وسجل متابعتها"
+ },
+ "purpose": {
+  "en": "Maintain control over external confirmation requests from sending to receipt, and record exceptions and alternative procedures.",
+  "ar": "الحفاظ على الرقابة على طلبات المصادقة الخارجية من الإرسال حتى الاستلام، وتسجيل الاستثناءات والإجراءات البديلة."
+ },
+ "procedures": [
+  "P-TRE-001"
+ ],
+ "standards": [
+  "ISA-505"
+ ],
+ "sections": [
+  {
+   "id": "engagement",
+   "title": {
+    "en": "Engagement",
+    "ar": "الارتباط"
+   },
+   "fields": [
+    {
+     "id": "client",
+     "label": {
+      "en": "Entity audited",
+      "ar": "المنشأة محل المراجعة"
+     },
+     "type": "text",
+     "required": false,
+     "autofill": "engagement.client",
+     "readonly": true
+    },
+    {
+     "id": "period_start",
+     "label": {
+      "en": "Period from",
+      "ar": "الفترة من"
+     },
+     "type": "date",
+     "required": false,
+     "autofill": "engagement.period_start",
+     "readonly": true
+    },
+    {
+     "id": "period_end",
+     "label": {
+      "en": "Period to",
+      "ar": "الفترة إلى"
+     },
+     "type": "date",
+     "required": false,
+     "autofill": "engagement.period_end",
+     "readonly": true
+    },
+    {
+     "id": "framework",
+     "label": {
+      "en": "Financial reporting framework",
+      "ar": "إطار التقرير المالي"
+     },
+     "type": "text",
+     "required": false,
+     "autofill": "engagement.framework",
+     "readonly": true
+    }
+   ]
+  },
+  {
+   "id": "request",
+   "title": {
+    "en": "Request",
+    "ar": "الطلب"
+   },
+   "fields": [
+    {
+     "id": "confirming_party",
+     "label": {
+      "en": "Confirming party",
+      "ar": "الطرف المصادِق"
+     },
+     "type": "text",
+     "required": true
+    },
+    {
+     "id": "confirmation_type",
+     "label": {
+      "en": "Type",
+      "ar": "النوع"
+     },
+     "type": "select",
+     "required": true,
+     "options": [
+      {
+       "value": "bank",
+       "label": {
+        "en": "Bank balances and facilities",
+        "ar": "أرصدة وتسهيلات بنكية"
+       }
+      },
+      {
+       "value": "receivable",
+       "label": {
+        "en": "Receivable",
+        "ar": "مدينون"
+       }
+      },
+      {
+       "value": "payable",
+       "label": {
+        "en": "Payable",
+        "ar": "دائنون"
+       }
+      },
+      {
+       "value": "legal",
+       "label": {
+        "en": "Legal counsel",
+        "ar": "مستشار قانوني"
+       }
+      },
+      {
+       "value": "other",
+       "label": {
+        "en": "Other",
+        "ar": "أخرى"
+       }
+      }
+     ]
+    },
+    {
+     "id": "balance",
+     "label": {
+      "en": "Balance per the entity's records",
+      "ar": "الرصيد وفقًا لسجلات المنشأة"
+     },
+     "type": "money",
+     "required": true
+    },
+    {
+     "id": "reply_to",
+     "label": {
+      "en": "Reply directly to (auditor address)",
+      "ar": "يُرد مباشرةً إلى (عنوان المراجع)"
+     },
+     "type": "textarea",
+     "required": true
+    },
+    {
+     "id": "request_date",
+     "label": {
+      "en": "Date sent",
+      "ar": "تاريخ الإرسال"
+     },
+     "type": "date",
+     "required": true
+    }
+   ]
+  },
+  {
+   "id": "log",
+   "title": {
+    "en": "Control log",
+    "ar": "سجل المتابعة"
+   },
+   "fields": [
+    {
+     "id": "log",
+     "label": {
+      "en": "Requests",
+      "ar": "الطلبات"
+     },
+     "type": "table",
+     "required": true,
+     "columns": [
+      {
+       "id": "party",
+       "label": {
+        "en": "Confirming party",
+        "ar": "الطرف المصادِق"
+       },
+       "type": "text",
+       "required": true
+      },
+      {
+       "id": "amount",
+       "label": {
+        "en": "Amount per records",
+        "ar": "المبلغ وفقًا للسجلات"
+       },
+       "type": "money",
+       "required": true
+      },
+      {
+       "id": "sent",
+       "label": {
+        "en": "Sent",
+        "ar": "أُرسل"
+       },
+       "type": "date",
+       "required": true
+      },
+      {
+       "id": "received",
+       "label": {
+        "en": "Received directly by the auditor",
+        "ar": "استُلم مباشرةً من قبل المراجع"
+       },
+       "type": "date",
+       "required": false
+      },
+      {
+       "id": "status",
+       "label": {
+        "en": "Status",
+        "ar": "الحالة"
+       },
+       "type": "select",
+       "required": true,
+       "options": [
+        {
+         "value": "sent",
+         "label": {
+          "en": "Sent",
+          "ar": "مُرسل"
+         }
+        },
+        {
+         "value": "agreed",
+         "label": {
+          "en": "Agreed",
+          "ar": "مطابق"
+         }
+        },
+        {
+         "value": "difference",
+         "label": {
+          "en": "Difference",
+          "ar": "يوجد فرق"
+         }
+        },
+        {
+         "value": "no_reply",
+         "label": {
+          "en": "No reply",
+          "ar": "لم يُرد"
+         }
+        },
+        {
+         "value": "alternative",
+         "label": {
+          "en": "Alternative procedures",
+          "ar": "إجراءات بديلة"
+         }
+        }
+       ]
+      },
+      {
+       "id": "difference",
+       "label": {
+        "en": "Difference and its resolution",
+        "ar": "الفرق وكيفية تسويته"
+       },
+       "type": "textarea",
+       "required": false
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "letter": {
+  "en": [
+   "To {{field:confirming_party}}",
+   "Our auditors are performing an audit of the financial statements of {{engagement.client}} as at {{engagement.period_end}}. Please confirm directly to our auditors the balance of {{field:balance}} {{engagement.currency}} shown in our records, or state any differences with full particulars.",
+   "Please send your reply directly to: {{field:reply_to}}",
+   "This request is not a request for payment. Your prompt reply is appreciated.",
+   "For and on behalf of {{engagement.client}}: ______________________  Date: {{field:request_date}}",
+   "Confirmation: the balance stated above is correct / differs as follows: ____________________  Signed: __________  Title: __________"
+  ],
+  "ar": [
+   "إلى {{field:confirming_party}}",
+   "يقوم مراجعو حساباتنا بمراجعة القوائم المالية لـ {{engagement.client}} في {{engagement.period_end}}. نرجو التكرم بالمصادقة مباشرةً لدى مراجعي حساباتنا على الرصيد البالغ {{field:balance}} {{engagement.currency}} الظاهر في سجلاتنا، أو بيان أي فروق مع تفاصيلها كاملة.",
+   "يرجى إرسال ردكم مباشرةً إلى: {{field:reply_to}}",
+   "هذا الطلب ليس مطالبة بالسداد. ونقدر ردكم السريع.",
+   "عن وبالنيابة عن {{engagement.client}}: ______________________  التاريخ: {{field:request_date}}",
+   "المصادقة: الرصيد الموضح أعلاه صحيح / يختلف على النحو التالي: ____________________  التوقيع: __________  الصفة: __________"
+  ]
+ },
+ "signoff": {
+  "prepare": [
+   "partner",
+   "manager",
+   "senior",
+   "staff"
+  ],
+  "review": [
+   "partner",
+   "manager"
+  ],
+  "approve": [
+   "partner",
+   "manager"
+  ]
+ },
+ "version": 1,
+ "ar_status": "draft_pending_review"
+}

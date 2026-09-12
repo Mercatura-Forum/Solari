@@ -1,0 +1,203 @@
+"""Wadi Qamar Textiles S.A.E. — completion forms, records and the computations.
+
+Values the contract derives are tokens the emitter turns into reads of the contract's own
+papers at seeding time: @@LIVE:<form>:<field>@@, @@PAPER:<kind>:<field>@@ and
+@@MUSRESULTS:<invoice>:<audit-value-factor>@@. Fictitious.
+Attribution: Thebes Core Team. Licence: Apache 2.0.
+"""
+import random
+from decimal import Decimal as D
+
+from common import FIRM, NAME, PRINCIPAL
+
+F08 = {
+    'confirming_party': 'Nile Delta Bank S.A.E., Corporate Banking, Garden City branch',
+    'confirmation_type': 'bank', 'balance': '71500000.00',
+    'reply_to': f'{FIRM}, Audit Department, 14 Talaat Harb Street, Cairo — replies directly to the auditor, never through the company.',
+    'request_date': '2026-01-06',
+    'log': [
+        {'party': 'Nile Delta Bank — USD export account', 'amount': '71500000.00', 'sent': '2026-01-06', 'received': '2026-01-21', 'status': 'agreed', 'difference': ''},
+        {'party': 'Nile Delta Bank — EGP current account and facilities', 'amount': '38200000.00', 'sent': '2026-01-06', 'received': '2026-01-21', 'status': 'agreed', 'difference': ''},
+        {'party': 'Lombardia Tessuti S.p.A. (receivable)', 'amount': '31480000.00', 'sent': '2026-01-08', 'received': '2026-01-26', 'status': 'agreed', 'difference': ''},
+        {'party': 'Nordic Apparel AB (receivable)', 'amount': '24950000.00', 'sent': '2026-01-08', 'received': '2026-01-30', 'status': 'difference', 'difference': 'Customer records EGP 2,500,000 less: goods shipped 2 January 2026 were invoiced on 30 December 2025. Carried to misstatements (M1).'},
+        {'party': 'Hanseatic Textil GmbH (receivable)', 'amount': '18320000.00', 'sent': '2026-01-08', 'received': '', 'status': 'alternative', 'difference': 'No reply; after-date receipts of EGP 18,320,000 on 12 February 2026 vouched to the bank statement.'},
+        {'party': 'Alexandria Cotton Co. (payable)', 'amount': '22760000.00', 'sent': '2026-01-08', 'received': '2026-01-25', 'status': 'agreed', 'difference': ''},
+    ],
+}
+
+F09 = {
+    'assessment_obtained': 'yes',
+    'method_and_assumptions': 'A monthly cash forecast for 2026 by management, built on contracted export volumes at an assumed USD rate of EGP 50.5, cotton purchases at the 2025 auction prices plus 12%, and the scheduled repayment of the export development loan.',
+    'plans': 'Renewal of the USD 2 million seasonal facility in September 2026, confirmed in principle by the bank on 3 March 2026.',
+    'conclusion': 'no_uncertainty',
+    'disclosure_evaluation': 'No going-concern disclosure is required; the liquidity risk note describes the facility renewal and the foreign-exchange sensitivity adequately.',
+    'report_effect': 'None.',
+}
+
+F10 = {
+    'reasons_not_corrected': 'Management declined to adjust the slow-moving provision (M2), considering its estimate within a reasonable range, and the projected receivables misstatement (M3), which is an extrapolation, not an identified error.',
+    'qualitative': 'Neither item affects the loan covenant, the trend of results or compliance with regulatory requirements; neither involves fraud or related parties.',
+    'conclusion': 'not_material',
+}
+
+F11 = {
+    'reviewed_to': '2026-03-25', 'management_procedures': 'yes', 'inquiries': 'yes', 'minutes': 'yes', 'interim': 'yes', 'legal': 'yes',
+    'events': [
+        {'event': 'Shipments of 2 January 2026 invoiced in December 2025', 'date': '2026-01-02', 'nature': 'adjusting', 'treatment': 'Revenue and receivables reduced by EGP 2,500,000 (M1, corrected).'},
+        {'event': 'Central Bank of Egypt cut the overnight rate by 100 basis points', 'date': '2026-02-20', 'nature': 'non_adjusting', 'treatment': 'Disclosed in the note on events after the reporting period; no effect on year-end measurement.'},
+    ],
+    'conclusion': 'Apart from the cut-off adjustment, which has been corrected, no event after the reporting period requires adjustment, and the non-adjusting event is disclosed.',
+}
+
+F12 = {
+    'firm_name': FIRM, 'letter_date': '2026-03-25',
+    'uncorrected_reference': 'Schedule of uncorrected misstatements (F10), attached',
+    'signatories': [{'name': 'Eng. Samir El-Masry', 'title': 'Chairman and Managing Director'}, {'name': NAME['P6'], 'title': 'Chief Financial Officer'}],
+}
+
+F13 = {
+    'addressee': 'The Audit Committee of Wadi Qamar Textiles S.A.E.', 'firm_name': FIRM, 'letter_date': '2026-03-24',
+    'scope_and_timing': 'Audit of the financial statements for the year ended 31 December 2025 under Egyptian Standards on Auditing; interim visit in November 2025, count on 31 December, fieldwork January–February 2026.',
+    'significant_findings': 'Export revenue cut-off: EGP 2.5m invoiced before shipment, corrected. Slow-moving grey fabric: our estimate exceeds management’s by EGP 1.45m, not corrected. Year-end manual entries posted by the CFO after the close without independent approval.',
+    'deficiencies': [
+        {'deficiency': 'Post-closing manual entries self-approved by the CFO', 'effect': 'Management can change reported results after close without a second approval.', 'recommendation': 'Require approval by the managing director for any entry after the close, and lock the period in the ERP.'},
+        {'deficiency': 'Suspense account for FX clearing not cleared at year end', 'effect': 'EGP 1.85m sat outside the chart of accounts’ classification.', 'recommendation': 'Clear the suspense account monthly and review it at the monthly close.'},
+    ],
+    'independence': 'The engagement team and the firm have complied with the independence requirements of the Code of Ethics for Professional Accountants in Egypt; no non-audit services were provided.',
+}
+
+F14 = {
+    'evidence_sufficient': 'yes', 'misstatements_evaluated': 'yes', 'going_concern_concluded': 'yes', 'subsequent_events': 'yes',
+    'representations': 'yes', 'tcwg': 'yes', 'consultations': 'yes', 'eqr': 'completed', 'opinion': 'unmodified',
+    'key_audit_matters': 'Revenue cut-off on export shipments; net realisable value of slow-moving fabric.',
+    'report_date': '2026-03-25', 'assembly_deadline': '2026-05-24',
+}
+
+# Sign-offs, in the order of their stated dates (the file refuses a date earlier than its
+# latest). (form, [(stage, who, stated date)]).
+SIGNING_PLANNING = [
+    ('F01-ACCEPTANCE', [('prepare', 'P3', '2025-09-07T10:00'), ('review', 'P2', '2025-09-08T12:00'), ('approve', 'P1', '2025-09-09T09:30')]),
+    ('F02-ENGAGEMENT-LETTER', [('prepare', 'P3', '2025-09-14T11:00'), ('review', 'P2', '2025-09-15T10:00'), ('approve', 'P1', '2025-09-16T09:00')]),
+    ('F03-PLANNING-MEMO', [('prepare', 'P3', '2025-10-05T15:00'), ('review', 'P2', '2025-10-07T11:00'), ('approve', 'P1', '2025-10-08T10:00')]),
+    ('F05-FRAUD-DISCUSSION', [('prepare', 'P4', '2025-10-13T14:00'), ('review', 'P2', '2025-10-14T10:00'), ('approve', 'P1', '2025-10-15T09:00')]),
+    ('F04-RISK-REGISTER', [('prepare', 'P3', '2025-10-19T16:00'), ('review', 'P2', '2025-10-21T11:00'), ('approve', 'P1', '2025-10-22T10:00')]),
+    ('F06-MATERIALITY', [('prepare', 'P3', '2025-10-26T13:00'), ('review', 'P2', '2025-10-28T10:00'), ('approve', 'P1', '2025-10-29T09:00')]),
+]
+SIGNING_FIELDWORK = [
+    ('F07-SAMPLING-PLAN', [('prepare', 'P3', '2026-01-22T15:00'), ('review', 'P2', '2026-01-24T11:00'), ('approve', 'P1', '2026-01-25T10:00')]),
+    ('F08-CONFIRMATIONS', [('prepare', 'P4', '2026-02-09T14:00'), ('review', 'P2', '2026-02-10T10:00'), ('approve', 'P2', '2026-02-10T16:00')]),
+]
+SIGNING_COMPLETION = [
+    ('F09-GOING-CONCERN', [('prepare', 'P3', '2026-03-10T15:00'), ('review', 'P2', '2026-03-11T11:00'), ('approve', 'P1', '2026-03-12T10:00')]),
+    ('F10-MISSTATEMENTS', [('prepare', 'P3', '2026-03-14T12:00'), ('review', 'P2', '2026-03-15T10:00'), ('approve', 'P1', '2026-03-16T09:00')]),
+    ('F11-SUBSEQUENT-EVENTS', [('prepare', 'P4', '2026-03-22T11:00'), ('review', 'P2', '2026-03-23T09:00'), ('approve', 'P1', '2026-03-23T15:00')]),
+    ('F13-TCWG-LETTER', [('prepare', 'P2', '2026-03-23T17:00'), ('review', 'P1', '2026-03-24T09:00'), ('approve', 'P1', '2026-03-24T09:30')]),
+    ('F12-REPRESENTATION-LETTER', [('prepare', 'P3', '2026-03-24T12:00'), ('review', 'P2', '2026-03-24T15:00'), ('approve', 'P1', '2026-03-24T17:00')]),
+    ('F14-COMPLETION', [('prepare', 'P2', '2026-03-24T18:00'), ('review', 'P1', '2026-03-24T19:00'), ('eqr', 'P5', '2026-03-25T09:00'), ('approve', 'P1', '2026-03-25T10:00')]),
+]
+REPORT_DATE, ASSEMBLED_AT = '2026-03-25', '2026-03-29T15:00'
+
+A6 = PRINCIPAL['P6']
+REQUESTS = [
+    {'procedure': 'P-TRE-001', 'addressee': A6, 'requested': 'Signed authority letters for the bank confirmations', 'requested_at': '2025-12-18T10:00', 'due': '2025-12-28', 'state': 'closed', 'evidence': 'BANK-AUTH-2025.pdf'},
+    {'procedure': 'P-REV-002', 'addressee': A6, 'requested': 'Aged export receivables listing at 31 December 2025, agreed to account 1410', 'requested_at': '2026-01-04T09:00', 'due': '2026-01-15', 'state': 'received', 'evidence': 'AR-AGING-31DEC2025.xlsx'},
+    {'procedure': 'P-INV-003', 'addressee': A6, 'requested': 'Fabric price list for January–February 2026 sales, for net realisable value', 'requested_at': '2026-01-18T11:00', 'due': '2026-01-31', 'state': 'received', 'evidence': 'PRICE-LIST-Q1-2026.pdf'},
+    {'procedure': 'P-FSL-030', 'addressee': A6, 'requested': 'Minutes of board meetings January to March 2026', 'requested_at': '2026-03-15T10:00', 'due': '2026-03-22', 'state': 'closed', 'evidence': 'BOARD-MINUTES-Q1-2026.pdf'},
+]
+REVIEW_NOTES = [
+    {'object': 'form:F06-MATERIALITY', 'raised_by': NAME['P2'], 'raised_at': '2025-10-27T16:00', 'text': 'Explain why profit before tax rather than revenue, given the 2024 FX gains inflating PBT.', 'state': 'cleared', 'answered_by': NAME['P3'], 'cleared_by': NAME['P2'], 'cleared_at': '2025-10-28T09:30'},
+    {'object': 'form:F07-SAMPLING-PLAN', 'raised_by': NAME['P2'], 'raised_at': '2026-01-23T10:00', 'text': 'Document the rebate agreement for EXP-40519 and confirm no other buyer has a rebate clause.', 'state': 'cleared', 'answered_by': NAME['P3'], 'cleared_by': NAME['P2'], 'cleared_at': '2026-01-24T10:30'},
+    {'object': 'paper:journal_screen', 'raised_by': NAME['P1'], 'raised_at': '2026-02-03T12:00', 'text': 'The two post-close entries by the CFO: obtain support and approval evidence, and consider them in the fraud risk assessment.', 'state': 'cleared', 'answered_by': NAME['P3'], 'cleared_by': NAME['P1'], 'cleared_at': '2026-02-06T15:00'},
+    {'object': 'form:F09-GOING-CONCERN', 'raised_by': NAME['P5'], 'raised_at': '2026-03-24T11:00', 'text': 'EQR: sensitivity of the forecast to a USD rate of EGP 55 — is headroom still positive?', 'state': 'cleared', 'answered_by': NAME['P2'], 'cleared_by': NAME['P5'], 'cleared_at': '2026-03-24T16:00'},
+]
+MISSTATEMENTS = [
+    {'id': 'M1', 'description': 'Export revenue invoiced on 30 December 2025 for goods shipped 2 January 2026 (cut-off)', 'type': 'factual', 'status': 'corrected', 'assets': '-2500000.00', 'liabilities': '0', 'equity': '0', 'profit': '-2500000.00', 'procedure': 'P-REV-004', 'communicated_at': '2026-02-02T10:00'},
+    {'id': 'M2', 'description': 'Provision for slow-moving grey fabric older than twelve months understated', 'type': 'judgmental', 'status': 'uncorrected', 'assets': '-1450000.00', 'liabilities': '0', 'equity': '0', 'profit': '-1450000.00', 'procedure': 'P-INV-003', 'communicated_at': '2026-03-12T10:00'},
+    {'id': 'M3', 'description': 'Projected overstatement of export receivables from the MUS evaluation (volume rebate not applied)', 'type': 'projected', 'status': 'uncorrected', 'assets': '-@@PAPER:mus_evaluate:projected_misstatement@@', 'liabilities': '0', 'equity': '0', 'profit': '-@@PAPER:mus_evaluate:projected_misstatement@@', 'procedure': 'P-REV-002', 'communicated_at': '2026-03-12T10:00'},
+]
+COMMUNICATIONS = [
+    {'with': 'tcwg', 'direction': 'sent', 'subject': 'Audit plan and significant risks for FY2025', 'at': '2025-11-02T10:00', 'form': 'written', 'document': 'AC-PLAN-2025.pdf'},
+    {'with': 'tcwg', 'direction': 'sent', 'subject': 'Findings, uncorrected misstatements and control deficiencies', 'at': '2026-03-24T10:00', 'form': 'written', 'document': 'F13-TCWG-LETTER'},
+]
+DISCLOSURES = [
+    {'framework': 'EAS', 'item': 'EAS 13 — effects of changes in foreign exchange rates: exchange differences recognised in profit or loss', 'applicable': True, 'disclosed': True, 'reference': 'Note 24', 'reviewed_by': NAME['P2']},
+    {'framework': 'EAS', 'item': 'EAS 2 — inventories: write-down to net realisable value and reversals', 'applicable': True, 'disclosed': True, 'reference': 'Note 9', 'reviewed_by': NAME['P2']},
+    {'framework': 'EAS', 'item': 'EAS 48 — revenue: disaggregation by geography (export and local)', 'applicable': True, 'disclosed': True, 'reference': 'Note 20', 'reviewed_by': NAME['P2']},
+    {'framework': 'EAS', 'item': 'EAS 47 — financial instruments: expected credit losses and credit risk', 'applicable': True, 'disclosed': True, 'reference': 'Note 28', 'reviewed_by': NAME['P2']},
+    {'framework': 'EAS', 'item': 'EAS 15 — related parties: key management compensation', 'applicable': True, 'disclosed': True, 'reference': 'Note 30', 'reviewed_by': NAME['P2']},
+    {'framework': 'EAS', 'item': 'EAS 49 — leases: lessee disclosures', 'applicable': False, 'disclosed': False, 'reference': 'No leases above the short-term exemption', 'reviewed_by': NAME['P2']},
+]
+EVIDENCE_LINKS = [
+    {'procedure': 'P-TRE-001', 'evidence_item': 'BANK-CONF-NDB-2025.pdf', 'evidence_kind': 'external_confirmation', 'tick_mark': 'C', 'linked_by': NAME['P4'], 'linked_at': '2026-01-21T15:00'},
+    {'procedure': 'P-INV-001', 'evidence_item': 'COUNT-SHEETS-31DEC2025.pdf', 'evidence_kind': 'observation', 'tick_mark': 'O', 'region': 'Spinning mill, bays 1–6', 'linked_by': NAME['P3'], 'linked_at': '2026-01-03T12:00'},
+]
+POST_ASSEMBLY = {'object': 'form:F13-TCWG-LETTER', 'reason': 'Cross-reference to the management letter corrected; no change to findings', 'changed_by': NAME['P2'], 'changed_at': '2026-04-02T10:00', 'reviewed_by': NAME['P1'], 'reviewed_at': '2026-04-02T12:00'}
+
+# Carried into FY2026: the continuance form is reviewed and saved again.
+F01_FY2026 = dict(__import__('textiles_a').F01, integrity_notes='Fourth year. Nothing has come to our attention affecting management’s integrity; the FY2025 control deficiencies were accepted by the audit committee with a remediation plan.', rationale='Continuance approved: independence reconfirmed, the FY2025 deficiencies are being remediated, and the fee remains below 5% of the firm’s revenue.')
+
+
+def receivable_items():
+    """The 214 open export invoices at 31 December 2025, summing to account 1410. The
+    largest, EXP-40519, exceeds any sampling interval and is always selected."""
+    rng = random.Random(1410)
+    items = [{'id': 'EXP-40519', 'book_value': '9850000.00'}]
+    remaining = D('238700000.00') - D('9850000.00')
+    raw = [rng.lognormvariate(0, 0.9) for _ in range(213)]
+    scale = remaining / D(str(sum(raw)))
+    vals = [(D(str(r)) * scale).quantize(D('0.01')) for r in raw]
+    vals[-1] += remaining - sum(vals)
+    for i, v in enumerate(vals):
+        items.append({'id': f'EXP-{40520 + i}', 'book_value': f'{v}'})
+    assert sum(D(i['book_value']) for i in items) == D('238700000.00')
+    return items
+
+
+def computations(tb):
+    lt = tb.leadsheet_totals()
+
+    def ls(*ids):
+        return f"{sum(D(lt.get(i, '0')) for i in ids):.2f}"
+    statement = [
+        ('REV', 'Revenue', ['LS-REV'], '-1'), ('COS', 'Cost of sales', ['LS-COS'], '1'),
+        ('OPEX', 'Operating, staff and other expenses', ['LS-OPEX', 'LS-STAFF', 'LS-OEXP', 'LS-DEPR', 'LS-IMP'], '1'),
+        ('FIN', 'Finance costs net of finance income', ['LS-FINC', 'LS-FININC'], '1'), ('OINC', 'Other income', ['LS-OINC'], '-1'),
+        ('TAX', 'Income tax expense', ['LS-TAXEXP'], '1'),
+        ('PPE', 'Property, plant and equipment', ['LS-PPE'], '1'), ('INV', 'Inventories', ['LS-INV'], '1'),
+        ('REC', 'Trade and other receivables', ['LS-REC', 'LS-PREP', 'LS-TAXA'], '1'), ('CASH', 'Cash and cash equivalents', ['LS-CASH'], '1'),
+        ('EQ', 'Share capital, reserves and retained earnings', ['LS-SCAP', 'LS-RES', 'LS-RE'], '-1'),
+        ('BOR', 'Borrowings', ['LS-BORNC', 'LS-BORC'], '-1'), ('DTL', 'Deferred tax liability', ['LS-DTL'], '-1'),
+        ('PAY', 'Trade payables, accruals and taxes', ['LS-AP', 'LS-ACCR', 'LS-TAXL', 'LS-VAT'], '-1'),
+    ]
+    lines = []
+    for lid, cap, sheets, sign in statement:
+        presented = D(ls(*sheets)) * D(sign)
+        lines.append({'line_id': lid, 'caption': cap, 'presented': f'{presented:.2f}', 'leadsheets': sheets, 'sign': sign})
+    months = ['2025-%02d' % m for m in range(1, 13)]
+    export_by_month = ['92400000', '96800000', '101300000', '104900000', '108200000', '110700000',
+                       '107900000', '111600000', '114300000', '117800000', '119200000', '132900000']
+    forecast = [{'month': '2026-%02d' % m, 'inflows': f'{D(i):.2f}', 'outflows': f'{D(o):.2f}'} for m, i, o in zip(range(1, 13),
+                ['168000000', '162000000', '171000000', '174000000', '169000000', '158000000', '161000000', '166000000', '172000000', '181000000', '186000000', '192000000'],
+                ['158000000', '165000000', '169000000', '171000000', '174000000', '162000000', '157000000', '163000000', '176000000', '188000000', '179000000', '181000000'])]
+    return {
+        'materiality': {'benchmark': 'profit_before_tax', 'benchmark_amount': '@@LIVE:F06-MATERIALITY:benchmark_amount@@', 'percentage': '5', 'pm_factor': '0.70', 'trivial_factor': '0.05',
+                        'specific': [{'name': 'Related-party transactions and directors’ remuneration', 'factor': '0.10'}], 'justification': 'See F06.'},
+        'mus_sample_size': {'book_value': '238700000.00', 'tolerable_misstatement': '@@LIVE:F07-SAMPLING-PLAN:tolerable_misstatement@@', 'expected_misstatement': '1500000.00', 'beta': '0.05'},
+        'mus_select': {'items': receivable_items(), 'interval': '@@PAPER:mus_sample_size:sampling_interval@@', 'random_start': '1234.56'},
+        'mus_evaluate': {'results': '@@MUSRESULTS:EXP-40519:0.93@@', 'interval': '@@PAPER:mus_sample_size:sampling_interval@@', 'beta': '0.05', 'tolerable_misstatement': '@@LIVE:F07-SAMPLING-PLAN:tolerable_misstatement@@'},
+        'analytical_review': {'lines': [
+            {'name': 'Revenue — export', 'recorded': '1318000000.00', 'model': {'kind': 'prior_growth', 'prior': '942000000.00', 'growth_pct': '38'}},
+            {'name': 'Revenue — local', 'recorded': '547000000.00', 'model': {'kind': 'prior_growth', 'prior': '498000000.00', 'growth_pct': '9'}},
+            {'name': 'Energy — gas and electricity', 'recorded': '58400000.00', 'model': {'kind': 'prior_growth', 'prior': '39600000.00', 'growth_pct': '45'}},
+            {'name': 'Salaries and wages', 'recorded': '164300000.00', 'model': {'kind': 'prior_growth', 'prior': '131800000.00', 'growth_pct': '24'}},
+            {'name': 'Freight and export logistics', 'recorded': '41700000.00', 'model': {'kind': 'prior_growth', 'prior': '30100000.00', 'growth_pct': '28'}},
+        ], 'performance_materiality': '@@LIVE:F06-MATERIALITY:performance@@'},
+        'trend': {'series': [{'period': p, 'value': v} for p, v in zip(months, export_by_month)], 'method': 'linear', 'precision_pct': '5'},
+        'going_concern': {'financial_statement_date': '2025-12-31', 'approval_date': '2026-03-25', 'assessment_end_date': '2026-12-31', 'opening_cash': '109700000.00',
+                          'monthly_forecast': forecast, 'facilities': '60000000', 'standard': 'ISA-570'},
+        'tieout': {'statement_lines': lines, 'leadsheet_totals': lt},
+        'aggregation': {'items': MISSTATEMENTS_FOR_AGG, 'overall_materiality': '@@LIVE:F06-MATERIALITY:overall@@', 'performance_materiality': '@@LIVE:F06-MATERIALITY:performance@@', 'clearly_trivial': '@@LIVE:F06-MATERIALITY:clearly_trivial@@'},
+    }
+
+
+MISSTATEMENTS_FOR_AGG = [{k: m[k] for k in ('id', 'description', 'type', 'status', 'assets', 'liabilities', 'equity', 'profit')} for m in MISSTATEMENTS]

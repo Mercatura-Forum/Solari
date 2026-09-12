@@ -1,0 +1,194 @@
+{
+ "id": "F12-REPRESENTATION-LETTER",
+ "number": 12,
+ "kind": "letter",
+ "phase": "completion",
+ "title": {
+  "en": "Management representation letter",
+  "ar": "خطاب الإفادات المكتوبة من الإدارة"
+ },
+ "purpose": {
+  "en": "Obtain written representations from management, dated as near as practicable to the date of the auditor's report.",
+  "ar": "الحصول على الإفادات المكتوبة من الإدارة، مؤرخة بأقرب تاريخ ممكن لتاريخ تقرير المراجع."
+ },
+ "procedures": [
+  "P-FSL-038"
+ ],
+ "standards": [
+  "ISA-580",
+  "ISA-240",
+  "ISA-250",
+  "ISA-450",
+  "ISA-550",
+  "ISA-560",
+  "ISA-570"
+ ],
+ "sections": [
+  {
+   "id": "engagement",
+   "title": {
+    "en": "Engagement",
+    "ar": "الارتباط"
+   },
+   "fields": [
+    {
+     "id": "client",
+     "label": {
+      "en": "Entity audited",
+      "ar": "المنشأة محل المراجعة"
+     },
+     "type": "text",
+     "required": false,
+     "autofill": "engagement.client",
+     "readonly": true
+    },
+    {
+     "id": "period_start",
+     "label": {
+      "en": "Period from",
+      "ar": "الفترة من"
+     },
+     "type": "date",
+     "required": false,
+     "autofill": "engagement.period_start",
+     "readonly": true
+    },
+    {
+     "id": "period_end",
+     "label": {
+      "en": "Period to",
+      "ar": "الفترة إلى"
+     },
+     "type": "date",
+     "required": false,
+     "autofill": "engagement.period_end",
+     "readonly": true
+    },
+    {
+     "id": "framework",
+     "label": {
+      "en": "Financial reporting framework",
+      "ar": "إطار التقرير المالي"
+     },
+     "type": "text",
+     "required": false,
+     "autofill": "engagement.framework",
+     "readonly": true
+    }
+   ]
+  },
+  {
+   "id": "details",
+   "title": {
+    "en": "Details",
+    "ar": "البيانات"
+   },
+   "fields": [
+    {
+     "id": "firm_name",
+     "label": {
+      "en": "Audit firm",
+      "ar": "مكتب المراجعة"
+     },
+     "type": "text",
+     "required": true
+    },
+    {
+     "id": "letter_date",
+     "label": {
+      "en": "Date (the date of the auditor's report)",
+      "ar": "التاريخ (تاريخ تقرير المراجع)"
+     },
+     "type": "date",
+     "required": true
+    },
+    {
+     "id": "uncorrected_reference",
+     "label": {
+      "en": "Reference to the attached schedule of uncorrected misstatements",
+      "ar": "الإشارة إلى الجدول المرفق للتحريفات غير المصححة"
+     },
+     "type": "text",
+     "required": true
+    },
+    {
+     "id": "signatories",
+     "label": {
+      "en": "Signatories",
+      "ar": "الموقعون"
+     },
+     "type": "table",
+     "required": true,
+     "columns": [
+      {
+       "id": "name",
+       "label": {
+        "en": "Name",
+        "ar": "الاسم"
+       },
+       "type": "text",
+       "required": true
+      },
+      {
+       "id": "title",
+       "label": {
+        "en": "Title",
+        "ar": "الصفة"
+       },
+       "type": "text",
+       "required": true
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "letter": {
+  "en": [
+   "To {{field:firm_name}}",
+   "This representation letter is provided in connection with your audit of the financial statements of {{engagement.client}} for the period ended {{engagement.period_end}} for the purpose of expressing an opinion as to whether the financial statements are presented fairly, in all material respects, in accordance with {{engagement.framework}}.",
+   "We confirm that we have fulfilled our responsibilities, as set out in the terms of the audit engagement, for the preparation of the financial statements in accordance with {{engagement.framework}}, and that they are presented fairly in accordance therewith.",
+   "We have provided you with access to all information of which we are aware that is relevant to the preparation of the financial statements, additional information that you requested, and unrestricted access to persons within the entity from whom you determined it necessary to obtain audit evidence. All transactions have been recorded in the accounting records and are reflected in the financial statements.",
+   "We acknowledge our responsibility for the design, implementation and maintenance of internal control to prevent and detect fraud. We have disclosed to you the results of our assessment of the risk that the financial statements may be materially misstated as a result of fraud, and all information in relation to fraud or suspected fraud that we are aware of and that affects the entity.",
+   "We have disclosed to you all known instances of non-compliance or suspected non-compliance with laws and regulations whose effects should be considered when preparing the financial statements.",
+   "We have disclosed to you the identity of the entity's related parties and all the related party relationships and transactions of which we are aware, and they have been appropriately accounted for and disclosed.",
+   "Significant assumptions used by us in making accounting estimates are reasonable.",
+   "All events subsequent to the date of the financial statements for which {{engagement.framework}} requires adjustment or disclosure have been adjusted or disclosed.",
+   "The effects of uncorrected misstatements are immaterial, both individually and in the aggregate, to the financial statements as a whole. A list of the uncorrected misstatements is attached to this letter ({{field:uncorrected_reference}}).",
+   "We have assessed the entity's ability to continue as a going concern and have disclosed to you all information relevant to that assessment.",
+   "Date: {{field:letter_date}}",
+   "{{table:signatories}}"
+  ],
+  "ar": [
+   "إلى {{field:firm_name}}",
+   "نقدم خطاب الإفادات هذا فيما يتعلق بمراجعتكم للقوائم المالية لـ {{engagement.client}} عن الفترة المنتهية في {{engagement.period_end}}، بغرض إبداء رأي حول ما إذا كانت القوائم المالية معروضة بشكل عادل، من جميع الجوانب الجوهرية، وفقًا لـ {{engagement.framework}}.",
+   "نؤكد أننا قد وفينا بمسؤولياتنا، كما وردت في شروط ارتباط المراجعة، عن إعداد القوائم المالية وفقًا لـ {{engagement.framework}}، وأنها معروضة بشكل عادل وفقًا له.",
+   "لقد زودناكم بإمكانية الوصول إلى جميع المعلومات التي نعلم بها وذات الصلة بإعداد القوائم المالية، والمعلومات الإضافية التي طلبتموها، وإمكانية الوصول غير المقيد إلى الأشخاص داخل المنشأة الذين رأيتم ضرورة الحصول على أدلة المراجعة منهم. وقد تم تسجيل جميع المعاملات في السجلات المحاسبية وهي منعكسة في القوائم المالية.",
+   "نقر بمسؤوليتنا عن تصميم الرقابة الداخلية وتطبيقها والحفاظ عليها لمنع الغش واكتشافه. وقد أفصحنا لكم عن نتائج تقييمنا لخطر أن تكون القوائم المالية محرفة تحريفًا جوهريًا نتيجة الغش، وعن جميع المعلومات المتعلقة بالغش أو الغش المشتبه به التي نعلم بها والتي تؤثر على المنشأة.",
+   "لقد أفصحنا لكم عن جميع حالات عدم الالتزام أو الاشتباه في عدم الالتزام بالأنظمة واللوائح المعروفة لنا والتي ينبغي مراعاة آثارها عند إعداد القوائم المالية.",
+   "لقد أفصحنا لكم عن هوية الأطراف ذات العلاقة بالمنشأة وعن جميع العلاقات والمعاملات مع الأطراف ذات العلاقة التي نعلم بها، وقد تمت المحاسبة عنها والإفصاح عنها بشكل مناسب.",
+   "الافتراضات المهمة التي استخدمناها في إعداد التقديرات المحاسبية معقولة.",
+   "تم تعديل أو الإفصاح عن جميع الأحداث اللاحقة لتاريخ القوائم المالية التي يتطلب {{engagement.framework}} تعديلها أو الإفصاح عنها.",
+   "آثار التحريفات غير المصححة غير جوهرية، بشكل فردي وفي مجملها، بالنسبة للقوائم المالية ككل. ومرفق بهذا الخطاب قائمة بالتحريفات غير المصححة ({{field:uncorrected_reference}}).",
+   "لقد قيّمنا قدرة المنشأة على الاستمرار وأفصحنا لكم عن جميع المعلومات ذات الصلة بهذا التقييم.",
+   "التاريخ: {{field:letter_date}}",
+   "{{table:signatories}}"
+  ]
+ },
+ "signoff": {
+  "prepare": [
+   "partner",
+   "manager",
+   "senior"
+  ],
+  "review": [
+   "partner",
+   "manager"
+  ],
+  "approve": [
+   "partner"
+  ]
+ },
+ "version": 1,
+ "ar_status": "draft_pending_review"
+}

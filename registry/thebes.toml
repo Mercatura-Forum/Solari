@@ -1,0 +1,23 @@
+[project]
+name = "solari-registry"
+default_network = "wan"
+chain_id = 2026
+
+[networks.wan]
+gateway = "https://memphis.mercaturaforum.com"
+validators = [
+    "https://memphis.mercaturaforum.com/deploy-api/v0",
+    "https://memphis.mercaturaforum.com/deploy-api/v1",
+    "https://memphis.mercaturaforum.com/deploy-api/v2",
+    "https://memphis.mercaturaforum.com/deploy-api/v3",
+]
+boundary = "https://memphis.mercaturaforum.com"
+routing = "smart"
+
+[canisters.registry]
+type = "backend-motoko"
+cid = "auto"
+wasm = "../build/registry.wasm"
+source = "../motoko/registry/main.mo"
+build = "cd ../motoko && ${MOC:-moc} --legacy-persistence $(mops sources) -o ../build/registry.wasm registry/main.mo"
+init = "()"

@@ -1,0 +1,230 @@
+{
+ "id": "F13-TCWG-LETTER",
+ "number": 13,
+ "kind": "letter",
+ "phase": "completion",
+ "title": {
+  "en": "Letter to those charged with governance",
+  "ar": "خطاب إلى المكلفين بالحوكمة"
+ },
+ "purpose": {
+  "en": "Communicate in writing the planned scope and timing, significant findings, uncorrected misstatements, significant deficiencies in internal control and independence.",
+  "ar": "الإبلاغ كتابةً عن النطاق والتوقيت المخططين، والنتائج المهمة، والتحريفات غير المصححة، وأوجه القصور المهمة في الرقابة الداخلية، والاستقلال."
+ },
+ "procedures": [
+  "P-FSL-047"
+ ],
+ "standards": [
+  "ISA-260",
+  "ISA-265",
+  "ISA-450"
+ ],
+ "sections": [
+  {
+   "id": "engagement",
+   "title": {
+    "en": "Engagement",
+    "ar": "الارتباط"
+   },
+   "fields": [
+    {
+     "id": "client",
+     "label": {
+      "en": "Entity audited",
+      "ar": "المنشأة محل المراجعة"
+     },
+     "type": "text",
+     "required": false,
+     "autofill": "engagement.client",
+     "readonly": true
+    },
+    {
+     "id": "period_start",
+     "label": {
+      "en": "Period from",
+      "ar": "الفترة من"
+     },
+     "type": "date",
+     "required": false,
+     "autofill": "engagement.period_start",
+     "readonly": true
+    },
+    {
+     "id": "period_end",
+     "label": {
+      "en": "Period to",
+      "ar": "الفترة إلى"
+     },
+     "type": "date",
+     "required": false,
+     "autofill": "engagement.period_end",
+     "readonly": true
+    },
+    {
+     "id": "framework",
+     "label": {
+      "en": "Financial reporting framework",
+      "ar": "إطار التقرير المالي"
+     },
+     "type": "text",
+     "required": false,
+     "autofill": "engagement.framework",
+     "readonly": true
+    }
+   ]
+  },
+  {
+   "id": "content",
+   "title": {
+    "en": "Content",
+    "ar": "المحتوى"
+   },
+   "fields": [
+    {
+     "id": "addressee",
+     "label": {
+      "en": "Addressed to",
+      "ar": "موجه إلى"
+     },
+     "type": "text",
+     "required": true
+    },
+    {
+     "id": "firm_name",
+     "label": {
+      "en": "Audit firm",
+      "ar": "مكتب المراجعة"
+     },
+     "type": "text",
+     "required": true
+    },
+    {
+     "id": "letter_date",
+     "label": {
+      "en": "Date",
+      "ar": "التاريخ"
+     },
+     "type": "date",
+     "required": true
+    },
+    {
+     "id": "scope_and_timing",
+     "label": {
+      "en": "Planned scope and timing, including significant risks",
+      "ar": "النطاق والتوقيت المخططان، بما في ذلك المخاطر المهمة"
+     },
+     "type": "textarea",
+     "required": true
+    },
+    {
+     "id": "significant_findings",
+     "label": {
+      "en": "Significant findings from the audit",
+      "ar": "النتائج المهمة للمراجعة"
+     },
+     "type": "textarea",
+     "required": true
+    },
+    {
+     "id": "uncorrected",
+     "label": {
+      "en": "Uncorrected misstatements (effect on profit)",
+      "ar": "التحريفات غير المصححة (الأثر على الربح)"
+     },
+     "type": "money",
+     "required": false,
+     "autofill": "paper.aggregation.uncorrected.profit",
+     "readonly": true
+    },
+    {
+     "id": "deficiencies",
+     "label": {
+      "en": "Significant deficiencies in internal control",
+      "ar": "أوجه القصور المهمة في الرقابة الداخلية"
+     },
+     "type": "table",
+     "required": false,
+     "columns": [
+      {
+       "id": "deficiency",
+       "label": {
+        "en": "Deficiency",
+        "ar": "أوجه القصور"
+       },
+       "type": "text",
+       "required": true
+      },
+      {
+       "id": "effect",
+       "label": {
+        "en": "Potential effect",
+        "ar": "الأثر المحتمل"
+       },
+       "type": "textarea",
+       "required": true
+      },
+      {
+       "id": "recommendation",
+       "label": {
+        "en": "Recommendation",
+        "ar": "التوصية"
+       },
+       "type": "textarea",
+       "required": true
+      }
+     ]
+    },
+    {
+     "id": "independence",
+     "label": {
+      "en": "Statement on independence",
+      "ar": "بيان الاستقلال"
+     },
+     "type": "textarea",
+     "required": true
+    }
+   ]
+  }
+ ],
+ "letter": {
+  "en": [
+   "To {{field:addressee}}",
+   "We are pleased to communicate the matters arising from our audit of the financial statements of {{engagement.client}} for the period ended {{engagement.period_end}} that we consider relevant to your responsibility to oversee the financial reporting process.",
+   "Our responsibility is to form and express an opinion on the financial statements prepared by management with your oversight. The audit does not relieve management or you of your responsibilities.",
+   "Planned scope and timing: {{field:scope_and_timing}}",
+   "Significant findings: {{field:significant_findings}}",
+   "Uncorrected misstatements: the aggregate effect on profit of misstatements that management has not corrected is {{field:uncorrected}} {{engagement.currency}}. We request that they be corrected.",
+   "Significant deficiencies in internal control: {{table:deficiencies}}",
+   "Independence: {{field:independence}}",
+   "This communication is intended solely for those charged with governance and management and should not be used for any other purpose.",
+   "Yours faithfully, {{field:firm_name}}  Date: {{field:letter_date}}"
+  ],
+  "ar": [
+   "إلى {{field:addressee}}",
+   "يسعدنا أن نبلغكم بالأمور الناشئة عن مراجعتنا للقوائم المالية لـ {{engagement.client}} عن الفترة المنتهية في {{engagement.period_end}} والتي نرى أنها ذات صلة بمسؤوليتكم عن الإشراف على عملية التقرير المالي.",
+   "تتمثل مسؤوليتنا في تكوين رأي وإبدائه حول القوائم المالية التي أعدتها الإدارة تحت إشرافكم. ولا تعفي المراجعة الإدارة أو إياكم من مسؤولياتكم.",
+   "النطاق والتوقيت المخططان: {{field:scope_and_timing}}",
+   "النتائج المهمة: {{field:significant_findings}}",
+   "التحريفات غير المصححة: يبلغ الأثر المجمع على الربح للتحريفات التي لم تصححها الإدارة {{field:uncorrected}} {{engagement.currency}}. ونطلب تصحيحها.",
+   "أوجه القصور المهمة في الرقابة الداخلية: {{table:deficiencies}}",
+   "الاستقلال: {{field:independence}}",
+   "هذا الإبلاغ مقصود حصرًا للمكلفين بالحوكمة والإدارة، ولا ينبغي استخدامه لأي غرض آخر.",
+   "وتفضلوا بقبول فائق الاحترام، {{field:firm_name}}  التاريخ: {{field:letter_date}}"
+  ]
+ },
+ "signoff": {
+  "prepare": [
+   "partner",
+   "manager"
+  ],
+  "review": [
+   "partner",
+   "manager"
+  ],
+  "approve": [
+   "partner"
+  ]
+ },
+ "version": 1,
+ "ar_status": "draft_pending_review"
+}

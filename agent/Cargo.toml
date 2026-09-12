@@ -1,0 +1,28 @@
+[package]
+name = "thebes-agent"
+version = "0.1.0"
+edition = "2021"
+description = "The Thebes connector agent: a signed, read-only agent beside the client's accounting system, serving the audit engine's population page schema over TLS it terminates itself (the connector-agent design)."
+license = "Apache-2.0"
+
+[dependencies]
+anyhow = "1"
+axum = { version = "0.7", features = ["http1", "json", "query"] }
+axum-server = { version = "0.7", features = ["tls-rustls"] }
+base64 = "0.22"
+chrono = { version = "0.4", default-features = false, features = ["std", "clock"] }
+clap = { version = "4", features = ["derive"] }
+hex = "0.4"
+p256 = { version = "0.13", features = ["ecdsa", "pem", "pkcs8"] }
+rust_decimal = "1"
+rustls = { version = "0.23", default-features = false, features = ["ring", "std", "tls12"] }
+serde = { version = "1", features = ["derive"] }
+serde_json = { version = "1", features = ["preserve_order"] }
+sha2 = "0.10"
+thiserror = "1"
+tokio = { version = "1", features = ["rt-multi-thread", "macros", "sync", "fs"] }
+toml = "0.8"
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter"] }
+quick-xml = "0.39"
+ureq = { version = "2", features = ["json"] }

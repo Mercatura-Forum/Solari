@@ -1,0 +1,351 @@
+{
+ "id": "F11-SUBSEQUENT-EVENTS",
+ "number": 11,
+ "kind": "checklist",
+ "phase": "completion",
+ "title": {
+  "en": "Subsequent events review",
+  "ar": "مراجعة الأحداث اللاحقة"
+ },
+ "purpose": {
+  "en": "Identify events between the period end and the report date that require adjustment or disclosure.",
+  "ar": "تحديد الأحداث الواقعة بين نهاية الفترة وتاريخ التقرير والتي تتطلب تعديلًا أو إفصاحًا."
+ },
+ "procedures": [
+  "P-FSL-037"
+ ],
+ "standards": [
+  "ISA-560"
+ ],
+ "sections": [
+  {
+   "id": "engagement",
+   "title": {
+    "en": "Engagement",
+    "ar": "الارتباط"
+   },
+   "fields": [
+    {
+     "id": "client",
+     "label": {
+      "en": "Entity audited",
+      "ar": "المنشأة محل المراجعة"
+     },
+     "type": "text",
+     "required": false,
+     "autofill": "engagement.client",
+     "readonly": true
+    },
+    {
+     "id": "period_start",
+     "label": {
+      "en": "Period from",
+      "ar": "الفترة من"
+     },
+     "type": "date",
+     "required": false,
+     "autofill": "engagement.period_start",
+     "readonly": true
+    },
+    {
+     "id": "period_end",
+     "label": {
+      "en": "Period to",
+      "ar": "الفترة إلى"
+     },
+     "type": "date",
+     "required": false,
+     "autofill": "engagement.period_end",
+     "readonly": true
+    },
+    {
+     "id": "framework",
+     "label": {
+      "en": "Financial reporting framework",
+      "ar": "إطار التقرير المالي"
+     },
+     "type": "text",
+     "required": false,
+     "autofill": "engagement.framework",
+     "readonly": true
+    }
+   ]
+  },
+  {
+   "id": "procedures",
+   "title": {
+    "en": "Procedures performed to the report date",
+    "ar": "الإجراءات المنفذة حتى تاريخ التقرير"
+   },
+   "fields": [
+    {
+     "id": "reviewed_to",
+     "label": {
+      "en": "Review performed up to",
+      "ar": "تمت المراجعة حتى"
+     },
+     "type": "date",
+     "required": true
+    },
+    {
+     "id": "management_procedures",
+     "label": {
+      "en": "Management's procedures for identifying subsequent events understood",
+      "ar": "فهم إجراءات الإدارة لتحديد الأحداث اللاحقة"
+     },
+     "type": "select",
+     "required": true,
+     "options": [
+      {
+       "value": "yes",
+       "label": {
+        "en": "Yes",
+        "ar": "نعم"
+       }
+      },
+      {
+       "value": "no",
+       "label": {
+        "en": "No",
+        "ar": "لا"
+       }
+      },
+      {
+       "value": "na",
+       "label": {
+        "en": "Not applicable",
+        "ar": "لا ينطبق"
+       }
+      }
+     ]
+    },
+    {
+     "id": "inquiries",
+     "label": {
+      "en": "Inquiries of management and those charged with governance",
+      "ar": "الاستفسار من الإدارة والمكلفين بالحوكمة"
+     },
+     "type": "select",
+     "required": true,
+     "options": [
+      {
+       "value": "yes",
+       "label": {
+        "en": "Yes",
+        "ar": "نعم"
+       }
+      },
+      {
+       "value": "no",
+       "label": {
+        "en": "No",
+        "ar": "لا"
+       }
+      },
+      {
+       "value": "na",
+       "label": {
+        "en": "Not applicable",
+        "ar": "لا ينطبق"
+       }
+      }
+     ]
+    },
+    {
+     "id": "minutes",
+     "label": {
+      "en": "Minutes of meetings held after the period end read",
+      "ar": "قراءة محاضر الاجتماعات المنعقدة بعد نهاية الفترة"
+     },
+     "type": "select",
+     "required": true,
+     "options": [
+      {
+       "value": "yes",
+       "label": {
+        "en": "Yes",
+        "ar": "نعم"
+       }
+      },
+      {
+       "value": "no",
+       "label": {
+        "en": "No",
+        "ar": "لا"
+       }
+      },
+      {
+       "value": "na",
+       "label": {
+        "en": "Not applicable",
+        "ar": "لا ينطبق"
+       }
+      }
+     ]
+    },
+    {
+     "id": "interim",
+     "label": {
+      "en": "Latest interim financial information read",
+      "ar": "قراءة أحدث معلومات مالية أولية"
+     },
+     "type": "select",
+     "required": true,
+     "options": [
+      {
+       "value": "yes",
+       "label": {
+        "en": "Yes",
+        "ar": "نعم"
+       }
+      },
+      {
+       "value": "no",
+       "label": {
+        "en": "No",
+        "ar": "لا"
+       }
+      },
+      {
+       "value": "na",
+       "label": {
+        "en": "Not applicable",
+        "ar": "لا ينطبق"
+       }
+      }
+     ]
+    },
+    {
+     "id": "legal",
+     "label": {
+      "en": "Post-period legal and regulatory matters reviewed",
+      "ar": "مراجعة الأمور القانونية والتنظيمية بعد نهاية الفترة"
+     },
+     "type": "select",
+     "required": true,
+     "options": [
+      {
+       "value": "yes",
+       "label": {
+        "en": "Yes",
+        "ar": "نعم"
+       }
+      },
+      {
+       "value": "no",
+       "label": {
+        "en": "No",
+        "ar": "لا"
+       }
+      },
+      {
+       "value": "na",
+       "label": {
+        "en": "Not applicable",
+        "ar": "لا ينطبق"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "events",
+   "title": {
+    "en": "Events identified",
+    "ar": "الأحداث المحددة"
+   },
+   "fields": [
+    {
+     "id": "events",
+     "label": {
+      "en": "Events",
+      "ar": "الأحداث"
+     },
+     "type": "table",
+     "required": false,
+     "columns": [
+      {
+       "id": "event",
+       "label": {
+        "en": "Event",
+        "ar": "الحدث"
+       },
+       "type": "text",
+       "required": true
+      },
+      {
+       "id": "date",
+       "label": {
+        "en": "Date",
+        "ar": "التاريخ"
+       },
+       "type": "date",
+       "required": true
+      },
+      {
+       "id": "nature",
+       "label": {
+        "en": "Adjusting or non-adjusting",
+        "ar": "مُعدِّل أم غير مُعدِّل"
+       },
+       "type": "select",
+       "required": true,
+       "options": [
+        {
+         "value": "adjusting",
+         "label": {
+          "en": "Adjusting",
+          "ar": "مُعدِّل"
+         }
+        },
+        {
+         "value": "non_adjusting",
+         "label": {
+          "en": "Non-adjusting",
+          "ar": "غير مُعدِّل"
+         }
+        }
+       ]
+      },
+      {
+       "id": "treatment",
+       "label": {
+        "en": "Treatment in the financial statements",
+        "ar": "المعالجة في القوائم المالية"
+       },
+       "type": "textarea",
+       "required": true
+      }
+     ]
+    },
+    {
+     "id": "conclusion",
+     "label": {
+      "en": "Conclusion",
+      "ar": "الاستنتاج"
+     },
+     "type": "textarea",
+     "required": true
+    }
+   ]
+  }
+ ],
+ "signoff": {
+  "prepare": [
+   "partner",
+   "manager",
+   "senior",
+   "staff"
+  ],
+  "review": [
+   "partner",
+   "manager"
+  ],
+  "approve": [
+   "partner"
+  ]
+ },
+ "version": 1,
+ "ar_status": "draft_pending_review"
+}

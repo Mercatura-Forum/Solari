@@ -1,0 +1,33 @@
+# build output
+build/
+*.wasm
+*.wasm.gz
+*.most
+.mops/
+mops.lock
+.dfx/
+.thebes/
+.env
+
+# the web application
+node_modules/
+/frontend/dist/
+/demo/dist/
+*.tsbuildinfo
+
+# the connector agent
+agent/target/
+
+# python
+__pycache__/
+*.pyc
+
+# local runs: fleet records, e2e sessions, release pins
+fleet/
+e2e/
+*.log
+
+# editors and OS
+.DS_Store
+.vscode/
+.idea/

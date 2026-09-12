@@ -1,0 +1,395 @@
+{
+ "id": "F01-ACCEPTANCE",
+ "number": 1,
+ "kind": "checklist",
+ "phase": "planning",
+ "title": {
+  "en": "Client acceptance and continuance",
+  "ar": "قبول العميل والاستمرار في الارتباط"
+ },
+ "purpose": {
+  "en": "Decide whether the firm may accept or continue the engagement, including the independence of the firm and every team member.",
+  "ar": "تقرير ما إذا كان يجوز للمكتب قبول الارتباط أو الاستمرار فيه، بما في ذلك استقلال المكتب وكل عضو في فريق الارتباط."
+ },
+ "procedures": [
+  "P-FSL-001",
+  "P-FSL-002",
+  "P-FSL-004"
+ ],
+ "standards": [
+  "ISQM-1",
+  "ISA-220",
+  "ISA-210",
+  "IESBA-CODE"
+ ],
+ "sections": [
+  {
+   "id": "engagement",
+   "title": {
+    "en": "Engagement",
+    "ar": "الارتباط"
+   },
+   "fields": [
+    {
+     "id": "client",
+     "label": {
+      "en": "Entity audited",
+      "ar": "المنشأة محل المراجعة"
+     },
+     "type": "text",
+     "required": false,
+     "autofill": "engagement.client",
+     "readonly": true
+    },
+    {
+     "id": "period_start",
+     "label": {
+      "en": "Period from",
+      "ar": "الفترة من"
+     },
+     "type": "date",
+     "required": false,
+     "autofill": "engagement.period_start",
+     "readonly": true
+    },
+    {
+     "id": "period_end",
+     "label": {
+      "en": "Period to",
+      "ar": "الفترة إلى"
+     },
+     "type": "date",
+     "required": false,
+     "autofill": "engagement.period_end",
+     "readonly": true
+    },
+    {
+     "id": "framework",
+     "label": {
+      "en": "Financial reporting framework",
+      "ar": "إطار التقرير المالي"
+     },
+     "type": "text",
+     "required": false,
+     "autofill": "engagement.framework",
+     "readonly": true
+    }
+   ]
+  },
+  {
+   "id": "basis",
+   "title": {
+    "en": "Nature of the decision",
+    "ar": "طبيعة القرار"
+   },
+   "fields": [
+    {
+     "id": "decision_type",
+     "label": {
+      "en": "New client or continuance",
+      "ar": "عميل جديد أم استمرار"
+     },
+     "type": "select",
+     "required": true,
+     "options": [
+      {
+       "value": "new",
+       "label": {
+        "en": "New engagement",
+        "ar": "ارتباط جديد"
+       }
+      },
+      {
+       "value": "continuing",
+       "label": {
+        "en": "Continuance",
+        "ar": "استمرار"
+       }
+      }
+     ]
+    },
+    {
+     "id": "predecessor",
+     "label": {
+      "en": "Predecessor auditor communicated with (new engagements)",
+      "ar": "تم الاتصال بالمراجع السابق (للارتباطات الجديدة)"
+     },
+     "type": "select",
+     "required": true,
+     "options": [
+      {
+       "value": "yes",
+       "label": {
+        "en": "Yes",
+        "ar": "نعم"
+       }
+      },
+      {
+       "value": "no",
+       "label": {
+        "en": "No",
+        "ar": "لا"
+       }
+      },
+      {
+       "value": "na",
+       "label": {
+        "en": "Not applicable",
+        "ar": "لا ينطبق"
+       }
+      }
+     ]
+    },
+    {
+     "id": "predecessor_notes",
+     "label": {
+      "en": "Matters raised by the predecessor",
+      "ar": "الأمور التي أثارها المراجع السابق"
+     },
+     "type": "textarea",
+     "required": false
+    }
+   ]
+  },
+  {
+   "id": "integrity",
+   "title": {
+    "en": "Integrity of the client and its management",
+    "ar": "نزاهة العميل وإدارته"
+   },
+   "fields": [
+    {
+     "id": "integrity_concerns",
+     "label": {
+      "en": "Is there information that casts doubt on the integrity of management or owners?",
+      "ar": "هل توجد معلومات تثير الشك في نزاهة الإدارة أو الملاك؟"
+     },
+     "type": "yesno",
+     "required": true
+    },
+    {
+     "id": "litigation",
+     "label": {
+      "en": "Is the entity subject to significant litigation or regulatory action?",
+      "ar": "هل تخضع المنشأة لدعاوى قضائية أو إجراءات رقابية جوهرية؟"
+     },
+     "type": "yesno",
+     "required": true
+    },
+    {
+     "id": "integrity_notes",
+     "label": {
+      "en": "Evidence considered and its source",
+      "ar": "الأدلة التي تم النظر فيها ومصدرها"
+     },
+     "type": "textarea",
+     "required": true
+    }
+   ]
+  },
+  {
+   "id": "capability",
+   "title": {
+    "en": "Competence, capabilities and resources",
+    "ar": "الكفاءة والقدرات والموارد"
+   },
+   "fields": [
+    {
+     "id": "competence",
+     "label": {
+      "en": "Does the firm have the competence and capabilities the engagement requires?",
+      "ar": "هل يمتلك المكتب الكفاءة والقدرات التي يتطلبها الارتباط؟"
+     },
+     "type": "yesno",
+     "required": true
+    },
+    {
+     "id": "resources",
+     "label": {
+      "en": "Are sufficient time and resources available to perform the engagement?",
+      "ar": "هل يتوفر الوقت والموارد الكافية لتنفيذ الارتباط؟"
+     },
+     "type": "yesno",
+     "required": true
+    },
+    {
+     "id": "experts",
+     "label": {
+      "en": "Experts or specialists needed",
+      "ar": "الخبراء أو المتخصصون المطلوبون"
+     },
+     "type": "textarea",
+     "required": false
+    }
+   ]
+  },
+  {
+   "id": "independence",
+   "title": {
+    "en": "Relevant ethical requirements and independence",
+    "ar": "المتطلبات المسلكية ذات الصلة والاستقلال"
+   },
+   "fields": [
+    {
+     "id": "financial_interests",
+     "label": {
+      "en": "Does the firm or any team member hold a financial interest in, or a close relationship with, the entity?",
+      "ar": "هل يمتلك المكتب أو أي عضو في الفريق مصلحة مالية في المنشأة أو علاقة وثيقة بها؟"
+     },
+     "type": "yesno",
+     "required": true
+    },
+    {
+     "id": "fee_dependence",
+     "label": {
+      "en": "Do total fees from the entity create a self-interest or intimidation threat?",
+      "ar": "هل تُنشئ إجمالي الأتعاب من المنشأة تهديد المصلحة الذاتية أو التخويف؟"
+     },
+     "type": "yesno",
+     "required": true
+    },
+    {
+     "id": "non_assurance",
+     "label": {
+      "en": "Non-assurance services provided to the entity",
+      "ar": "الخدمات غير التأكيدية المقدمة للمنشأة"
+     },
+     "type": "textarea",
+     "required": false
+    },
+    {
+     "id": "threats",
+     "label": {
+      "en": "Threats identified and safeguards applied",
+      "ar": "التهديدات المحددة والضمانات المطبقة"
+     },
+     "type": "textarea",
+     "required": true
+    },
+    {
+     "id": "confirmations",
+     "label": {
+      "en": "Independence confirmations obtained",
+      "ar": "تأكيدات الاستقلال التي تم الحصول عليها"
+     },
+     "type": "table",
+     "required": true,
+     "columns": [
+      {
+       "id": "member",
+       "label": {
+        "en": "Team member",
+        "ar": "عضو الفريق"
+       },
+       "type": "text",
+       "required": true
+      },
+      {
+       "id": "role",
+       "label": {
+        "en": "Role",
+        "ar": "الدور"
+       },
+       "type": "text",
+       "required": true
+      },
+      {
+       "id": "confirmed_on",
+       "label": {
+        "en": "Confirmed on",
+        "ar": "تاريخ التأكيد"
+       },
+       "type": "date",
+       "required": true
+      },
+      {
+       "id": "matters",
+       "label": {
+        "en": "Matters declared",
+        "ar": "الأمور المفصح عنها"
+       },
+       "type": "textarea",
+       "required": false
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "conclusion",
+   "title": {
+    "en": "Conclusion",
+    "ar": "الاستنتاج"
+   },
+   "fields": [
+    {
+     "id": "decision",
+     "label": {
+      "en": "Decision",
+      "ar": "القرار"
+     },
+     "type": "select",
+     "required": true,
+     "options": [
+      {
+       "value": "accept",
+       "label": {
+        "en": "Accept",
+        "ar": "قبول"
+       }
+      },
+      {
+       "value": "continue",
+       "label": {
+        "en": "Continue",
+        "ar": "استمرار"
+       }
+      },
+      {
+       "value": "decline",
+       "label": {
+        "en": "Decline",
+        "ar": "رفض"
+       }
+      }
+     ]
+    },
+    {
+     "id": "rationale",
+     "label": {
+      "en": "Rationale",
+      "ar": "المبررات"
+     },
+     "type": "textarea",
+     "required": true
+    },
+    {
+     "id": "declining_information",
+     "label": {
+      "en": "Information that would have led the firm to decline",
+      "ar": "المعلومات التي كانت ستؤدي إلى رفض المكتب للارتباط"
+     },
+     "type": "textarea",
+     "required": false
+    }
+   ]
+  }
+ ],
+ "signoff": {
+  "prepare": [
+   "partner",
+   "manager",
+   "senior",
+   "staff"
+  ],
+  "review": [
+   "partner",
+   "manager"
+  ],
+  "approve": [
+   "partner"
+  ]
+ },
+ "version": 1,
+ "ar_status": "draft_pending_review"
+}
