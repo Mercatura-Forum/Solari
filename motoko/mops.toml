@@ -1,0 +1,13 @@
+[package]
+name = "solari"
+version = "0.1.0"
+description = "Solari: the audit contracts for the Thebes Protocol."
+license = "Apache-2.0"
+
+[dependencies]
+core = "2.5.0"
+sha2 = "0.1.9"
+thebes-lib = "https://github.com/Mercatura-Forum/thebes-lib#v1.0.0@15aaa13b0e859da96e0202ea73c414b1e876fdce"
+
+[toolchain]
+moc = "1.4.1"

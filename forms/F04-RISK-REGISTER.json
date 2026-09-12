@@ -1,0 +1,244 @@
+{
+ "id": "F04-RISK-REGISTER",
+ "number": 4,
+ "kind": "worksheet",
+ "phase": "planning",
+ "title": {
+  "en": "Risk assessment register",
+  "ar": "سجل تقييم مخاطر التحريف الجوهري"
+ },
+ "purpose": {
+  "en": "Record the risks of material misstatement at the financial statement and assertion levels and the planned response to each.",
+  "ar": "تسجيل مخاطر التحريف الجوهري على مستوى القوائم المالية ومستوى الإقرارات والاستجابة المخططة لكل منها."
+ },
+ "procedures": [
+  "P-FSL-015",
+  "P-FSL-016"
+ ],
+ "standards": [
+  "ISA-315",
+  "ISA-330"
+ ],
+ "sections": [
+  {
+   "id": "engagement",
+   "title": {
+    "en": "Engagement",
+    "ar": "الارتباط"
+   },
+   "fields": [
+    {
+     "id": "client",
+     "label": {
+      "en": "Entity audited",
+      "ar": "المنشأة محل المراجعة"
+     },
+     "type": "text",
+     "required": false,
+     "autofill": "engagement.client",
+     "readonly": true
+    },
+    {
+     "id": "period_start",
+     "label": {
+      "en": "Period from",
+      "ar": "الفترة من"
+     },
+     "type": "date",
+     "required": false,
+     "autofill": "engagement.period_start",
+     "readonly": true
+    },
+    {
+     "id": "period_end",
+     "label": {
+      "en": "Period to",
+      "ar": "الفترة إلى"
+     },
+     "type": "date",
+     "required": false,
+     "autofill": "engagement.period_end",
+     "readonly": true
+    },
+    {
+     "id": "framework",
+     "label": {
+      "en": "Financial reporting framework",
+      "ar": "إطار التقرير المالي"
+     },
+     "type": "text",
+     "required": false,
+     "autofill": "engagement.framework",
+     "readonly": true
+    }
+   ]
+  },
+  {
+   "id": "register",
+   "title": {
+    "en": "Register",
+    "ar": "السجل"
+   },
+   "fields": [
+    {
+     "id": "risks",
+     "label": {
+      "en": "Risks of material misstatement",
+      "ar": "مخاطر التحريف الجوهري"
+     },
+     "type": "table",
+     "required": true,
+     "autofill": "seed.presumed_risks",
+     "columns": [
+      {
+       "id": "risk",
+       "label": {
+        "en": "Risk",
+        "ar": "الخطر"
+       },
+       "type": "text",
+       "required": true
+      },
+      {
+       "id": "level",
+       "label": {
+        "en": "Level",
+        "ar": "المستوى"
+       },
+       "type": "select",
+       "required": true,
+       "options": [
+        {
+         "value": "financial_statement",
+         "label": {
+          "en": "Financial statement",
+          "ar": "القوائم المالية"
+         }
+        },
+        {
+         "value": "assertion",
+         "label": {
+          "en": "Assertion",
+          "ar": "الإقرار"
+         }
+        }
+       ]
+      },
+      {
+       "id": "assertions",
+       "label": {
+        "en": "Assertions affected",
+        "ar": "الإقرارات المتأثرة"
+       },
+       "type": "text",
+       "required": false
+      },
+      {
+       "id": "inherent_risk",
+       "label": {
+        "en": "Inherent risk",
+        "ar": "الخطر الملازم"
+       },
+       "type": "select",
+       "required": true,
+       "options": [
+        {
+         "value": "low",
+         "label": {
+          "en": "Low",
+          "ar": "منخفض"
+         }
+        },
+        {
+         "value": "moderate",
+         "label": {
+          "en": "Moderate",
+          "ar": "متوسط"
+         }
+        },
+        {
+         "value": "high",
+         "label": {
+          "en": "High",
+          "ar": "مرتفع"
+         }
+        }
+       ]
+      },
+      {
+       "id": "significant",
+       "label": {
+        "en": "Significant risk",
+        "ar": "خطر مهم"
+       },
+       "type": "yesno",
+       "required": true
+      },
+      {
+       "id": "control_risk",
+       "label": {
+        "en": "Control risk",
+        "ar": "خطر الرقابة"
+       },
+       "type": "select",
+       "required": false,
+       "options": [
+        {
+         "value": "low",
+         "label": {
+          "en": "Low",
+          "ar": "منخفض"
+         }
+        },
+        {
+         "value": "moderate",
+         "label": {
+          "en": "Moderate",
+          "ar": "متوسط"
+         }
+        },
+        {
+         "value": "high",
+         "label": {
+          "en": "High",
+          "ar": "مرتفع"
+         }
+        }
+       ]
+      },
+      {
+       "id": "response",
+       "label": {
+        "en": "Planned response",
+        "ar": "الاستجابة المخططة"
+       },
+       "type": "textarea",
+       "required": true
+      }
+     ]
+    }
+   ],
+   "note": {
+    "en": "The presumed risks of fraud in revenue recognition and of management override of controls are loaded from the standards model; the presumption in revenue may be rebutted only with a documented reason.",
+    "ar": "يتم تحميل الخطرين المفترضين للغش في إثبات الإيرادات ولتجاوز الإدارة لأدوات الرقابة من نموذج المعايير؛ ولا يجوز دحض الافتراض المتعلق بالإيرادات إلا بسبب موثق."
+   }
+  }
+ ],
+ "signoff": {
+  "prepare": [
+   "partner",
+   "manager",
+   "senior",
+   "staff"
+  ],
+  "review": [
+   "partner",
+   "manager"
+  ],
+  "approve": [
+   "partner"
+  ]
+ },
+ "version": 1,
+ "ar_status": "draft_pending_review"
+}

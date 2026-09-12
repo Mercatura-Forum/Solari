@@ -1,0 +1,19 @@
+Thebes Protocol SDK
+Copyright (c) 2026 Mercatura Forum
+
+The shared frontend developer SDK for the Thebes Layer 1 example applications:
+a browser boundary client, a Memphis passkey authentication client, a typed
+query/update layer, and React hooks. It is implemented in TypeScript with no
+third-party runtime dependencies.
+
+The Motoko backend library is distributed separately as thebes-lib
+(https://github.com/Mercatura-Forum/thebes-lib).
+
+Thebes is inspired by the canister model of the Internet Computer, created by the
+DFINITY Foundation (https://dfinity.org). With gratitude to the DFINITY team and
+the wider Internet Computer community for their excellent work.
+
+Licensed under the Apache License, Version 2.0. You may obtain a copy of the
+License at http://www.apache.org/licenses/LICENSE-2.0
+
+Authored by the Thebes Protocol contributors.

@@ -1,0 +1,47 @@
+{
+ "hostname": "local.connect.test",
+ "from": "2025-01-01",
+ "to": "2026-01-31",
+ "page_lines": 300,
+ "requests": {
+  "meta": {
+   "path": "/v1/meta"
+  },
+  "accounts": {
+   "path": "/v1/accounts"
+  },
+  "journals": {
+   "path": "/v1/journals"
+  },
+  "balances": {
+   "path": "/v1/balances?from=2025-01-01&to=2026-01-31"
+  },
+  "count": {
+   "path": "/v1/count?from=2025-01-01&to=2026-01-31"
+  },
+  "page:0": {
+   "path": "/v1/lines?from=2025-01-01&to=2026-01-31&offset=0&limit=300"
+  },
+  "page:1": {
+   "path": "/v1/lines?from=2025-01-01&to=2026-01-31&offset=300&limit=300"
+  },
+  "page:2": {
+   "path": "/v1/lines?from=2025-01-01&to=2026-01-31&offset=600&limit=300"
+  },
+  "page:3": {
+   "path": "/v1/lines?from=2025-01-01&to=2026-01-31&offset=900&limit=300"
+  },
+  "page:4": {
+   "path": "/v1/lines?from=2025-01-01&to=2026-01-31&offset=1200&limit=300"
+  },
+  "page:5": {
+   "path": "/v1/lines?from=2025-01-01&to=2026-01-31&offset=1500&limit=300"
+  },
+  "page:6": {
+   "path": "/v1/lines?from=2025-01-01&to=2026-01-31&offset=1800&limit=300"
+  },
+  "recount": {
+   "path": "/v1/count?from=2025-01-01&to=2026-01-31"
+  }
+ }
+}

@@ -1,0 +1,324 @@
+{
+ "id": "F07-SAMPLING-PLAN",
+ "number": 7,
+ "kind": "worksheet",
+ "phase": "fieldwork",
+ "title": {
+  "en": "Sampling plan and evaluation",
+  "ar": "خطة العينة وتقييمها"
+ },
+ "purpose": {
+  "en": "Design a sample so that sampling risk is reduced to an acceptably low level, and evaluate its results.",
+  "ar": "تصميم عينة بحيث يُخفض خطر المعاينة إلى مستوى منخفض مقبول، وتقييم نتائجها."
+ },
+ "procedures": [],
+ "standards": [
+  "ISA-530"
+ ],
+ "computation": "mus_sample_size",
+ "sections": [
+  {
+   "id": "engagement",
+   "title": {
+    "en": "Engagement",
+    "ar": "الارتباط"
+   },
+   "fields": [
+    {
+     "id": "client",
+     "label": {
+      "en": "Entity audited",
+      "ar": "المنشأة محل المراجعة"
+     },
+     "type": "text",
+     "required": false,
+     "autofill": "engagement.client",
+     "readonly": true
+    },
+    {
+     "id": "period_start",
+     "label": {
+      "en": "Period from",
+      "ar": "الفترة من"
+     },
+     "type": "date",
+     "required": false,
+     "autofill": "engagement.period_start",
+     "readonly": true
+    },
+    {
+     "id": "period_end",
+     "label": {
+      "en": "Period to",
+      "ar": "الفترة إلى"
+     },
+     "type": "date",
+     "required": false,
+     "autofill": "engagement.period_end",
+     "readonly": true
+    },
+    {
+     "id": "framework",
+     "label": {
+      "en": "Financial reporting framework",
+      "ar": "إطار التقرير المالي"
+     },
+     "type": "text",
+     "required": false,
+     "autofill": "engagement.framework",
+     "readonly": true
+    }
+   ]
+  },
+  {
+   "id": "design",
+   "title": {
+    "en": "Design",
+    "ar": "التصميم"
+   },
+   "fields": [
+    {
+     "id": "population",
+     "label": {
+      "en": "Population and the assertion tested",
+      "ar": "المجتمع والإقرار محل الاختبار"
+     },
+     "type": "textarea",
+     "required": true
+    },
+    {
+     "id": "completeness_of_population",
+     "label": {
+      "en": "How the population was confirmed complete",
+      "ar": "كيف تم التأكد من اكتمال المجتمع"
+     },
+     "type": "textarea",
+     "required": true
+    },
+    {
+     "id": "book_value",
+     "label": {
+      "en": "Population book value",
+      "ar": "القيمة الدفترية للمجتمع"
+     },
+     "type": "money",
+     "required": true
+    },
+    {
+     "id": "tolerable_misstatement",
+     "label": {
+      "en": "Tolerable misstatement",
+      "ar": "الخطأ المسموح به"
+     },
+     "type": "money",
+     "required": true,
+     "autofill": "paper.materiality.performance"
+    },
+    {
+     "id": "expected_misstatement",
+     "label": {
+      "en": "Expected misstatement",
+      "ar": "التحريف المتوقع"
+     },
+     "type": "money",
+     "required": true
+    },
+    {
+     "id": "beta",
+     "label": {
+      "en": "Risk of incorrect acceptance",
+      "ar": "خطر القبول الخاطئ"
+     },
+     "type": "select",
+     "required": true,
+     "options": [
+      {
+       "value": "0.05",
+       "label": {
+        "en": "5%",
+        "ar": "5%"
+       }
+      },
+      {
+       "value": "0.10",
+       "label": {
+        "en": "10%",
+        "ar": "10%"
+       }
+      },
+      {
+       "value": "0.15",
+       "label": {
+        "en": "15%",
+        "ar": "15%"
+       }
+      },
+      {
+       "value": "0.20",
+       "label": {
+        "en": "20%",
+        "ar": "20%"
+       }
+      }
+     ]
+    },
+    {
+     "id": "method",
+     "label": {
+      "en": "Selection method",
+      "ar": "طريقة الاختيار"
+     },
+     "type": "select",
+     "required": true,
+     "options": [
+      {
+       "value": "mus",
+       "label": {
+        "en": "Monetary unit (systematic)",
+        "ar": "وحدة النقد (منتظمة)"
+       }
+      },
+      {
+       "value": "random",
+       "label": {
+        "en": "Random",
+        "ar": "عشوائية"
+       }
+      },
+      {
+       "value": "stratified",
+       "label": {
+        "en": "Stratified random",
+        "ar": "طبقية"
+       }
+      },
+      {
+       "value": "haphazard",
+       "label": {
+        "en": "Haphazard (non-statistical)",
+        "ar": "عشوائية غير منظمة (غير إحصائية)"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "size",
+   "title": {
+    "en": "Sample size",
+    "ar": "حجم العينة"
+   },
+   "fields": [
+    {
+     "id": "sample_size",
+     "label": {
+      "en": "Sample size",
+      "ar": "حجم العينة"
+     },
+     "type": "integer",
+     "required": false,
+     "autofill": "paper.mus_sample_size.sample_size",
+     "readonly": true
+    },
+    {
+     "id": "sampling_interval",
+     "label": {
+      "en": "Sampling interval",
+      "ar": "فترة المعاينة"
+     },
+     "type": "money",
+     "required": false,
+     "autofill": "paper.mus_sample_size.sampling_interval",
+     "readonly": true
+    },
+    {
+     "id": "random_start",
+     "label": {
+      "en": "Random start",
+      "ar": "نقطة البداية العشوائية"
+     },
+     "type": "money",
+     "required": false
+    }
+   ]
+  },
+  {
+   "id": "evaluation",
+   "title": {
+    "en": "Evaluation",
+    "ar": "التقييم"
+   },
+   "fields": [
+    {
+     "id": "projected",
+     "label": {
+      "en": "Projected misstatement",
+      "ar": "التحريف المتوقع (المسقط)"
+     },
+     "type": "money",
+     "required": false,
+     "autofill": "paper.mus_evaluate.projected_misstatement",
+     "readonly": true
+    },
+    {
+     "id": "upper_limit",
+     "label": {
+      "en": "Upper misstatement limit",
+      "ar": "الحد الأعلى للتحريف"
+     },
+     "type": "money",
+     "required": false,
+     "autofill": "paper.mus_evaluate.upper_misstatement_limit",
+     "readonly": true
+    },
+    {
+     "id": "evaluation_conclusion",
+     "label": {
+      "en": "Result against tolerable misstatement",
+      "ar": "النتيجة مقارنة بالخطأ المسموح به"
+     },
+     "type": "text",
+     "required": false,
+     "autofill": "paper.mus_evaluate.conclusion",
+     "readonly": true
+    },
+    {
+     "id": "deviations_nature",
+     "label": {
+      "en": "Nature and cause of misstatements found",
+      "ar": "طبيعة التحريفات المكتشفة وأسبابها"
+     },
+     "type": "textarea",
+     "required": false
+    },
+    {
+     "id": "conclusion",
+     "label": {
+      "en": "Conclusion on the population",
+      "ar": "الاستنتاج بشأن المجتمع"
+     },
+     "type": "textarea",
+     "required": true
+    }
+   ]
+  }
+ ],
+ "signoff": {
+  "prepare": [
+   "partner",
+   "manager",
+   "senior",
+   "staff"
+  ],
+  "review": [
+   "partner",
+   "manager"
+  ],
+  "approve": [
+   "partner"
+  ]
+ },
+ "version": 1,
+ "ar_status": "draft_pending_review"
+}

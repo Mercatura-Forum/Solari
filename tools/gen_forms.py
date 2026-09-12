@@ -1,0 +1,701 @@
+#!/usr/bin/env python3
+"""The fourteen fill-in forms of the audit cycle, and their generator.
+
+Writes forms/<id>.json (the readable catalogue) and motoko/src/FormsSeed.mo (the
+same documents embedded in the canister). Each form is authored from the
+requirements of the standard it serves, in our own words; no vendor form text,
+numbering or template prose is reproduced.
+
+ARABIC. Arabic labels and letter text are a first draft for professional review
+(`ar_status: draft_pending_review`). Where a term has a sourced Arabic equivalent
+in thebes-audit-standards seed/terms.json (the IAASB handbook Arabic translation,
+or the existing product), that equivalent is used; the rest is drafted and must be
+reviewed by a qualified auditor before client use, per the programme's
+terminology policy.
+
+AUTOFILL expressions a field may carry (resolved by src/Forms.mo at view time and
+frozen into the values when the form is signed as prepared):
+  engagement.<client|period_start|period_end|currency|framework|audit_standard>
+  tb.benchmark.<revenue|total_assets|profit_before_tax|total_equity|total_expenses|gross_profit|net_assets>
+  tb.benchmark.{field}            the benchmark named by another field of this form
+  paper.<kind>.<dot.path>         the latest working paper of that computation
+  records.<RK-KIND>               the engagement's records of that kind (table rows)
+  records.<RK-KIND>.open          how many of them are not in a closing state
+  seed.presumed_risks             the model's presumed and significant risks (table rows)
+
+Attribution: Thebes Core Team. Licence: Apache 2.0.
+"""
+import json, os
+
+HERE = os.path.dirname(os.path.abspath(__file__))
+FORMS_DIR = os.path.join(HERE, '..', 'forms')
+OUT = os.path.join(HERE, '..', 'motoko', 'src', 'FormsSeed.mo')
+
+
+def L(en, ar):
+    return {'en': en, 'ar': ar}
+
+
+def field(fid, en, ar, ftype='text', required=False, **kw):
+    f = {'id': fid, 'label': L(en, ar), 'type': ftype, 'required': required}
+    for k, v in kw.items():
+        f[k] = v
+    return f
+
+
+def opt(value, en, ar):
+    return {'value': value, 'label': L(en, ar)}
+
+
+def yesno(fid, en, ar, required=True):
+    return field(fid, en, ar, 'yesno', required)
+
+
+def section(sid, en, ar, fields, note=None):
+    s = {'id': sid, 'title': L(en, ar), 'fields': fields}
+    if note:
+        s['note'] = note
+    return s
+
+
+PREP = ['partner', 'manager', 'senior', 'staff']
+REVIEW = ['partner', 'manager']
+APPROVE = ['partner']
+YES_NO_NA = [opt('yes', 'Yes', 'نعم'), opt('no', 'No', 'لا'), opt('na', 'Not applicable', 'لا ينطبق')]
+
+ENGAGEMENT = section('engagement', 'Engagement', 'الارتباط', [
+    field('client', 'Entity audited', 'المنشأة محل المراجعة', autofill='engagement.client', readonly=True),
+    field('period_start', 'Period from', 'الفترة من', 'date', autofill='engagement.period_start', readonly=True),
+    field('period_end', 'Period to', 'الفترة إلى', 'date', autofill='engagement.period_end', readonly=True),
+    field('framework', 'Financial reporting framework', 'إطار التقرير المالي', autofill='engagement.framework', readonly=True),
+])
+
+FORMS = []
+
+# 1 ----------------------------------------------------------------------------
+FORMS.append({
+    'id': 'F01-ACCEPTANCE', 'number': 1, 'kind': 'checklist', 'phase': 'planning',
+    'title': L('Client acceptance and continuance', 'قبول العميل والاستمرار في الارتباط'),
+    'purpose': L('Decide whether the firm may accept or continue the engagement, including the independence of the firm and every team member.',
+                 'تقرير ما إذا كان يجوز للمكتب قبول الارتباط أو الاستمرار فيه، بما في ذلك استقلال المكتب وكل عضو في فريق الارتباط.'),
+    'procedures': ['P-FSL-001', 'P-FSL-002', 'P-FSL-004'], 'standards': ['ISQM-1', 'ISA-220', 'ISA-210', 'IESBA-CODE'],
+    'sections': [
+        ENGAGEMENT,
+        section('basis', 'Nature of the decision', 'طبيعة القرار', [
+            field('decision_type', 'New client or continuance', 'عميل جديد أم استمرار', 'select', True,
+                  options=[opt('new', 'New engagement', 'ارتباط جديد'), opt('continuing', 'Continuance', 'استمرار')]),
+            field('predecessor', 'Predecessor auditor communicated with (new engagements)', 'تم الاتصال بالمراجع السابق (للارتباطات الجديدة)', 'select', True, options=YES_NO_NA),
+            field('predecessor_notes', 'Matters raised by the predecessor', 'الأمور التي أثارها المراجع السابق', 'textarea'),
+        ]),
+        section('integrity', 'Integrity of the client and its management', 'نزاهة العميل وإدارته', [
+            yesno('integrity_concerns', 'Is there information that casts doubt on the integrity of management or owners?', 'هل توجد معلومات تثير الشك في نزاهة الإدارة أو الملاك؟'),
+            yesno('litigation', 'Is the entity subject to significant litigation or regulatory action?', 'هل تخضع المنشأة لدعاوى قضائية أو إجراءات رقابية جوهرية؟'),
+            field('integrity_notes', 'Evidence considered and its source', 'الأدلة التي تم النظر فيها ومصدرها', 'textarea', True),
+        ]),
+        section('capability', 'Competence, capabilities and resources', 'الكفاءة والقدرات والموارد', [
+            yesno('competence', 'Does the firm have the competence and capabilities the engagement requires?', 'هل يمتلك المكتب الكفاءة والقدرات التي يتطلبها الارتباط؟'),
+            yesno('resources', 'Are sufficient time and resources available to perform the engagement?', 'هل يتوفر الوقت والموارد الكافية لتنفيذ الارتباط؟'),
+            field('experts', 'Experts or specialists needed', 'الخبراء أو المتخصصون المطلوبون', 'textarea'),
+        ]),
+        section('independence', 'Relevant ethical requirements and independence', 'المتطلبات المسلكية ذات الصلة والاستقلال', [
+            yesno('financial_interests', 'Does the firm or any team member hold a financial interest in, or a close relationship with, the entity?', 'هل يمتلك المكتب أو أي عضو في الفريق مصلحة مالية في المنشأة أو علاقة وثيقة بها؟'),
+            yesno('fee_dependence', 'Do total fees from the entity create a self-interest or intimidation threat?', 'هل تُنشئ إجمالي الأتعاب من المنشأة تهديد المصلحة الذاتية أو التخويف؟'),
+            field('non_assurance', 'Non-assurance services provided to the entity', 'الخدمات غير التأكيدية المقدمة للمنشأة', 'textarea'),
+            field('threats', 'Threats identified and safeguards applied', 'التهديدات المحددة والضمانات المطبقة', 'textarea', True),
+            field('confirmations', 'Independence confirmations obtained', 'تأكيدات الاستقلال التي تم الحصول عليها', 'table', True, columns=[
+                field('member', 'Team member', 'عضو الفريق', required=True),
+                field('role', 'Role', 'الدور', required=True),
+                field('confirmed_on', 'Confirmed on', 'تاريخ التأكيد', 'date', True),
+                field('matters', 'Matters declared', 'الأمور المفصح عنها', 'textarea'),
+            ]),
+        ]),
+        section('conclusion', 'Conclusion', 'الاستنتاج', [
+            field('decision', 'Decision', 'القرار', 'select', True, options=[
+                opt('accept', 'Accept', 'قبول'), opt('continue', 'Continue', 'استمرار'), opt('decline', 'Decline', 'رفض')]),
+            field('rationale', 'Rationale', 'المبررات', 'textarea', True),
+            field('declining_information', 'Information that would have led the firm to decline', 'المعلومات التي كانت ستؤدي إلى رفض المكتب للارتباط', 'textarea'),
+        ]),
+    ],
+    'signoff': {'prepare': PREP, 'review': REVIEW, 'approve': APPROVE},
+})
+
+# 2 ----------------------------------------------------------------------------
+FORMS.append({
+    'id': 'F02-ENGAGEMENT-LETTER', 'number': 2, 'kind': 'letter', 'phase': 'planning',
+    'title': L('Engagement letter', 'خطاب الارتباط'),
+    'purpose': L('Agree the terms of the audit engagement with management and, where appropriate, those charged with governance.',
+                 'الاتفاق على شروط ارتباط المراجعة مع الإدارة، ومع المكلفين بالحوكمة عند الاقتضاء.'),
+    'procedures': ['P-FSL-003'], 'standards': ['ISA-210'],
+    'sections': [
+        ENGAGEMENT,
+        section('terms', 'Terms', 'الشروط', [
+            field('addressee', 'Addressed to', 'موجه إلى', required=True, help=L('The board of directors or the body that appoints the auditor.', 'مجلس الإدارة أو الجهة التي تعين المراجع.')),
+            field('letter_date', 'Date of the letter', 'تاريخ الخطاب', 'date', True),
+            field('firm_name', 'Audit firm', 'مكتب المراجعة', required=True),
+            field('reporting_deadline', 'Expected date of the auditor\'s report', 'التاريخ المتوقع لتقرير المراجع', 'date', True),
+            field('fee_basis', 'Fees and billing arrangements', 'الأتعاب وترتيبات الفوترة', 'textarea', True),
+            field('other_terms', 'Other terms agreed', 'شروط أخرى متفق عليها', 'textarea'),
+        ]),
+    ],
+    'letter': {
+        'en': [
+            'To {{field:addressee}}',
+            'You have requested that we audit the financial statements of {{engagement.client}}, which comprise the statement of financial position as at {{engagement.period_end}}, and the statements of profit or loss, changes in equity and cash flows for the period then ended, and the notes to the financial statements. We are pleased to confirm our acceptance and our understanding of this audit engagement by means of this letter.',
+            'The objectives of our audit are to obtain reasonable assurance about whether the financial statements as a whole are free from material misstatement, whether due to fraud or error, and to issue an auditor\'s report that includes our opinion. Reasonable assurance is a high level of assurance but is not a guarantee that an audit conducted in accordance with {{engagement.audit_standard}} standards will always detect a material misstatement when it exists.',
+            'We will conduct our audit in accordance with {{engagement.audit_standard}} standards. Those standards require that we comply with ethical requirements, and plan and perform the audit to obtain sufficient appropriate audit evidence. We will exercise professional judgment and maintain professional scepticism throughout the audit.',
+            'Because of the inherent limitations of an audit, together with the inherent limitations of internal control, there is an unavoidable risk that some material misstatements may not be detected, even though the audit is properly planned and performed.',
+            'Our audit will be conducted on the basis that management acknowledge and understand that they have responsibility: (a) for the preparation and fair presentation of the financial statements in accordance with {{engagement.framework}}; (b) for such internal control as management determines is necessary to enable the preparation of financial statements that are free from material misstatement, whether due to fraud or error; and (c) to provide us with access to all information relevant to the preparation of the financial statements, additional information that we may request, and unrestricted access to persons within the entity from whom we determine it necessary to obtain audit evidence.',
+            'As part of our audit process, we will request from management written confirmation concerning representations made to us in connection with the audit.',
+            'We expect to issue our report on or about {{field:reporting_deadline}}. The form and content of our report may need to be amended in the light of our audit findings.',
+            'Fees: {{field:fee_basis}}',
+            '{{field:other_terms}}',
+            'Please sign and return a copy of this letter to indicate your acknowledgement of, and agreement with, the arrangements for our audit, including our respective responsibilities.',
+            'Yours faithfully, {{field:firm_name}}',
+            'Acknowledged and agreed on behalf of {{engagement.client}}: ______________________  Date: __________',
+        ],
+        'ar': [
+            'إلى {{field:addressee}}',
+            'طلبتم منا مراجعة القوائم المالية لـ {{engagement.client}}، والتي تتكون من قائمة المركز المالي في {{engagement.period_end}}، وقوائم الأرباح أو الخسائر والتغير في حقوق الملكية والتدفقات النقدية عن الفترة المنتهية في ذلك التاريخ، والإيضاحات المتممة للقوائم المالية. ويسعدنا أن نؤكد بموجب هذا الخطاب قبولنا لارتباط المراجعة هذا وفهمنا له.',
+            'تتمثل أهداف مراجعتنا في الحصول على تأكيد معقول بشأن ما إذا كانت القوائم المالية ككل خالية من التحريف الجوهري، سواء كان ناتجًا عن غش أو خطأ، وإصدار تقرير المراجع الذي يتضمن رأينا. والتأكيد المعقول هو مستوى عالٍ من التأكيد، ولكنه ليس ضمانًا بأن المراجعة التي تتم وفقًا لمعايير {{engagement.audit_standard}} ستكتشف دائمًا أي تحريف جوهري عند وجوده.',
+            'سنقوم بمراجعتنا وفقًا لمعايير {{engagement.audit_standard}}. وتتطلب تلك المعايير منا الالتزام بالمتطلبات المسلكية، وتخطيط المراجعة وتنفيذها للحصول على ما يكفي من أدلة المراجعة المناسبة. وسنمارس الحكم المهني ونحافظ على نزعة الشك المهني طوال المراجعة.',
+            'بسبب القيود الملازمة للمراجعة، إلى جانب القيود الملازمة للرقابة الداخلية، يوجد خطر لا يمكن تجنبه بأن بعض التحريفات الجوهرية قد لا يتم اكتشافها، حتى وإن تم تخطيط المراجعة وتنفيذها بشكل سليم.',
+            'ستُنفَّذ مراجعتنا على أساس أن الإدارة تقر وتفهم أنها مسؤولة عن: (أ) إعداد القوائم المالية وعرضها بشكل عادل وفقًا لـ {{engagement.framework}}؛ (ب) الرقابة الداخلية التي تراها الإدارة ضرورية لتمكينها من إعداد قوائم مالية خالية من التحريف الجوهري، سواء كان ناتجًا عن غش أو خطأ؛ (ج) تزويدنا بإمكانية الوصول إلى جميع المعلومات ذات الصلة بإعداد القوائم المالية، وأي معلومات إضافية قد نطلبها، وإمكانية الوصول غير المقيد إلى الأشخاص داخل المنشأة الذين نرى ضرورة الحصول على أدلة المراجعة منهم.',
+            'كجزء من عملية المراجعة، سنطلب من الإدارة تأكيدًا كتابيًا بشأن الإفادات المقدمة إلينا فيما يتعلق بالمراجعة.',
+            'نتوقع إصدار تقريرنا في أو حوالي {{field:reporting_deadline}}. وقد يلزم تعديل شكل تقريرنا ومحتواه في ضوء نتائج مراجعتنا.',
+            'الأتعاب: {{field:fee_basis}}',
+            '{{field:other_terms}}',
+            'يرجى توقيع نسخة من هذا الخطاب وإعادتها إلينا للإقرار بترتيبات مراجعتنا والموافقة عليها، بما في ذلك مسؤوليات كل منا.',
+            'وتفضلوا بقبول فائق الاحترام، {{field:firm_name}}',
+            'تم الإقرار والموافقة نيابةً عن {{engagement.client}}: ______________________  التاريخ: __________',
+        ],
+    },
+    'signoff': {'prepare': ['partner', 'manager', 'senior'], 'review': REVIEW, 'approve': APPROVE},
+})
+
+# 3 ----------------------------------------------------------------------------
+FORMS.append({
+    'id': 'F03-PLANNING-MEMO', 'number': 3, 'kind': 'worksheet', 'phase': 'planning',
+    'title': L('Planning memorandum: overall audit strategy and audit plan', 'مذكرة التخطيط: استراتيجية المراجعة الشاملة وخطة المراجعة'),
+    'purpose': L('Set the scope, timing and direction of the audit and plan its procedures.', 'تحديد نطاق المراجعة وتوقيتها واتجاهها وتخطيط إجراءاتها.'),
+    'procedures': ['P-FSL-005', 'P-FSL-008'], 'standards': ['ISA-300', 'ISA-315'],
+    'sections': [
+        ENGAGEMENT,
+        section('scope', 'Scope of the engagement', 'نطاق الارتباط', [
+            field('components', 'Components, locations and business units in scope', 'المكونات والمواقع ووحدات الأعمال ضمن النطاق', 'textarea', True),
+            field('reporting_requirements', 'Statutory and regulatory reporting requirements', 'متطلبات التقرير القانونية والتنظيمية', 'textarea', True),
+            field('understanding', 'Understanding of the entity and its environment', 'فهم المنشأة وبيئتها', 'textarea', True),
+        ]),
+        section('direction', 'Significant factors and direction', 'العوامل المهمة والاتجاه', [
+            field('preliminary_materiality', 'Preliminary overall materiality', 'الأهمية النسبية الأولية الإجمالية', 'money', autofill='paper.materiality.overall', readonly=True),
+            field('performance_materiality', 'Performance materiality', 'مادية الأداء', 'money', autofill='paper.materiality.performance', readonly=True),
+            field('significant_factors', 'Significant factors that direct the team\'s efforts', 'العوامل المهمة التي توجه جهود الفريق', 'textarea', True),
+            field('significant_risks_summary', 'Significant risks identified to date', 'المخاطر المهمة المحددة حتى تاريخه', 'textarea', True),
+            field('reliance', 'Planned reliance on controls, internal audit or experts', 'الاعتماد المخطط على الرقابة أو المراجعة الداخلية أو الخبراء', 'textarea'),
+        ]),
+        section('resources', 'Resources, supervision and timetable', 'الموارد والإشراف والجدول الزمني', [
+            field('team_and_supervision', 'Team, direction, supervision and review', 'الفريق والتوجيه والإشراف والفحص', 'textarea', True),
+            field('timetable', 'Timetable', 'الجدول الزمني', 'table', True, columns=[
+                field('milestone', 'Milestone', 'المرحلة', required=True),
+                field('date', 'Date', 'التاريخ', 'date', True),
+                field('owner', 'Responsible', 'المسؤول'),
+            ]),
+        ]),
+    ],
+    'signoff': {'prepare': PREP, 'review': REVIEW, 'approve': APPROVE},
+})
+
+# 4 ----------------------------------------------------------------------------
+LEVELS = [opt('low', 'Low', 'منخفض'), opt('moderate', 'Moderate', 'متوسط'), opt('high', 'High', 'مرتفع')]
+FORMS.append({
+    'id': 'F04-RISK-REGISTER', 'number': 4, 'kind': 'worksheet', 'phase': 'planning',
+    'title': L('Risk assessment register', 'سجل تقييم مخاطر التحريف الجوهري'),
+    'purpose': L('Record the risks of material misstatement at the financial statement and assertion levels and the planned response to each.',
+                 'تسجيل مخاطر التحريف الجوهري على مستوى القوائم المالية ومستوى الإقرارات والاستجابة المخططة لكل منها.'),
+    'procedures': ['P-FSL-015', 'P-FSL-016'], 'standards': ['ISA-315', 'ISA-330'],
+    'sections': [
+        ENGAGEMENT,
+        section('register', 'Register', 'السجل', [
+            field('risks', 'Risks of material misstatement', 'مخاطر التحريف الجوهري', 'table', True, autofill='seed.presumed_risks', columns=[
+                field('risk', 'Risk', 'الخطر', required=True),
+                field('level', 'Level', 'المستوى', 'select', True, options=[opt('financial_statement', 'Financial statement', 'القوائم المالية'), opt('assertion', 'Assertion', 'الإقرار')]),
+                field('assertions', 'Assertions affected', 'الإقرارات المتأثرة', 'text'),
+                field('inherent_risk', 'Inherent risk', 'الخطر الملازم', 'select', True, options=LEVELS),
+                field('significant', 'Significant risk', 'خطر مهم', 'yesno', True),
+                field('control_risk', 'Control risk', 'خطر الرقابة', 'select', options=LEVELS),
+                field('response', 'Planned response', 'الاستجابة المخططة', 'textarea', True),
+            ]),
+        ], note=L('The presumed risks of fraud in revenue recognition and of management override of controls are loaded from the standards model; the presumption in revenue may be rebutted only with a documented reason.',
+                  'يتم تحميل الخطرين المفترضين للغش في إثبات الإيرادات ولتجاوز الإدارة لأدوات الرقابة من نموذج المعايير؛ ولا يجوز دحض الافتراض المتعلق بالإيرادات إلا بسبب موثق.')),
+    ],
+    'signoff': {'prepare': PREP, 'review': REVIEW, 'approve': APPROVE},
+})
+
+# 5 ----------------------------------------------------------------------------
+FORMS.append({
+    'id': 'F05-FRAUD-DISCUSSION', 'number': 5, 'kind': 'worksheet', 'phase': 'planning',
+    'title': L('Engagement team discussion and fraud risk', 'مناقشة فريق الارتباط ومخاطر الغش'),
+    'purpose': L('Minute the team discussion of susceptibility to material misstatement, including fraud, and the fraud inquiries made.',
+                 'توثيق مناقشة الفريق حول قابلية القوائم المالية للتحريف الجوهري، بما في ذلك الغش، والاستفسارات المتعلقة بالغش.'),
+    'procedures': ['P-FSL-007', 'P-FSL-012'], 'standards': ['ISA-240', 'ISA-315'],
+    'sections': [
+        ENGAGEMENT,
+        section('meeting', 'The discussion', 'المناقشة', [
+            field('meeting_date', 'Date of the discussion', 'تاريخ المناقشة', 'date', True),
+            field('attendees', 'Attendees', 'الحاضرون', 'table', True, columns=[
+                field('name', 'Name', 'الاسم', required=True), field('role', 'Role', 'الدور', required=True)]),
+            field('susceptibility', 'How and where the financial statements may be susceptible to material misstatement due to fraud', 'كيف وأين قد تكون القوائم المالية عرضة للتحريف الجوهري الناتج عن الغش', 'textarea', True),
+            field('revenue_presumption', 'Presumed risk of fraud in revenue recognition', 'الخطر المفترض للغش في إثبات الإيرادات', 'select', True, options=[
+                opt('not_rebutted', 'Not rebutted', 'لم يُدحض'), opt('rebutted', 'Rebutted (reason recorded)', 'دُحض (مع تسجيل السبب)')]),
+            field('revenue_rebuttal_reason', 'Reason, if rebutted', 'السبب في حالة الدحض', 'textarea'),
+            field('management_override', 'Management override of controls is treated as a significant risk', 'يُعامل تجاوز الإدارة لأدوات الرقابة كخطر مهم', 'yesno', True, readonly=True, default='yes'),
+            field('absent_members', 'How conclusions were communicated to members not present', 'كيفية إبلاغ الاستنتاجات للأعضاء غير الحاضرين', 'textarea'),
+        ]),
+        section('inquiries', 'Fraud inquiries', 'الاستفسارات المتعلقة بالغش', [
+            field('fraud_inquiries', 'Inquiries of management, internal audit and those charged with governance', 'الاستفسارات من الإدارة والمراجعة الداخلية والمكلفين بالحوكمة', 'table', True, columns=[
+                field('who', 'Person inquired of', 'الشخص المستفسر منه', required=True),
+                field('date', 'Date', 'التاريخ', 'date', True),
+                field('response', 'Response, including any known or suspected fraud', 'الرد، بما في ذلك أي غش معروف أو مشتبه به', 'textarea', True)]),
+            field('risk_factors', 'Fraud risk factors identified', 'عوامل خطر الغش المحددة', 'textarea', True),
+        ]),
+    ],
+    'signoff': {'prepare': PREP, 'review': REVIEW, 'approve': APPROVE},
+})
+
+# 6 ----------------------------------------------------------------------------
+FORMS.append({
+    'id': 'F06-MATERIALITY', 'number': 6, 'kind': 'worksheet', 'phase': 'planning',
+    'title': L('Materiality', 'الأهمية النسبية'),
+    'purpose': L('Determine overall materiality, performance materiality, specific materiality and the clearly trivial threshold, with the rationale for each judgment.',
+                 'تحديد الأهمية النسبية الإجمالية ومادية الأداء والأهمية النسبية المحددة وحد المبالغ التافهة بشكل واضح، مع مبررات كل حكم.'),
+    'procedures': ['P-FSL-006'], 'standards': ['ISA-320'], 'computation': 'materiality',
+    'sections': [
+        ENGAGEMENT,
+        section('benchmark', 'Benchmark', 'الأساس المرجعي', [
+            field('benchmark', 'Benchmark', 'الأساس المرجعي', 'select', True, options=[
+                opt('profit_before_tax', 'Profit before tax', 'الربح قبل الضريبة'), opt('revenue', 'Revenue', 'الإيرادات'),
+                opt('total_assets', 'Total assets', 'إجمالي الأصول'), opt('total_equity', 'Total equity', 'إجمالي حقوق الملكية'),
+                opt('total_expenses', 'Total expenses', 'إجمالي المصروفات'), opt('gross_profit', 'Gross profit', 'مجمل الربح'),
+                opt('net_assets', 'Net assets', 'صافي الأصول')]),
+            field('benchmark_amount', 'Benchmark amount from the trial balance', 'مبلغ الأساس المرجعي من ميزان المراجعة', 'money', True, autofill='tb.benchmark.{benchmark}'),
+            field('percentage', 'Percentage applied', 'النسبة المطبقة', 'percent', True),
+            field('rationale', 'Why this benchmark and percentage', 'مبررات اختيار هذا الأساس وهذه النسبة', 'textarea', True),
+            field('pm_factor', 'Performance materiality factor', 'معامل مادية الأداء', 'select', True, options=[
+                opt('0.50', '50%', '50%'), opt('0.60', '60%', '60%'), opt('0.65', '65%', '65%'), opt('0.70', '70%', '70%'), opt('0.75', '75%', '75%')]),
+            field('trivial_factor', 'Clearly trivial factor', 'معامل المبالغ التافهة بشكل واضح', 'select', True, options=[
+                opt('0.03', '3%', '3%'), opt('0.04', '4%', '4%'), opt('0.05', '5%', '5%')]),
+        ]),
+        section('results', 'Results', 'النتائج', [
+            field('overall', 'Overall materiality', 'الأهمية النسبية الإجمالية', 'money', autofill='paper.materiality.overall', readonly=True),
+            field('performance', 'Performance materiality', 'مادية الأداء', 'money', autofill='paper.materiality.performance', readonly=True),
+            field('clearly_trivial', 'Clearly trivial threshold', 'حد المبالغ التافهة بشكل واضح', 'money', autofill='paper.materiality.clearly_trivial', readonly=True),
+            field('specific', 'Specific materiality for particular classes, balances or disclosures', 'الأهمية النسبية المحددة لفئات أو أرصدة أو إفصاحات معينة', 'table', columns=[
+                field('name', 'Class, balance or disclosure', 'الفئة أو الرصيد أو الإفصاح', required=True),
+                field('factor', 'Factor of overall materiality', 'معامل من الأهمية النسبية الإجمالية', 'text', True),
+                field('reason', 'Reason', 'السبب', 'textarea', True)]),
+            field('revision', 'Revisions during the audit and their effect', 'التعديلات خلال المراجعة وأثرها', 'textarea'),
+        ], note=L('Compute the materiality paper from these inputs before signing; the results are taken from the paper and frozen when the form is prepared.',
+                  'يجب احتساب ورقة الأهمية النسبية من هذه المدخلات قبل التوقيع؛ وتؤخذ النتائج من الورقة وتُثبت عند إعداد النموذج.')),
+    ],
+    'signoff': {'prepare': PREP, 'review': REVIEW, 'approve': APPROVE},
+})
+
+# 7 ----------------------------------------------------------------------------
+FORMS.append({
+    'id': 'F07-SAMPLING-PLAN', 'number': 7, 'kind': 'worksheet', 'phase': 'fieldwork',
+    'title': L('Sampling plan and evaluation', 'خطة العينة وتقييمها'),
+    'purpose': L('Design a sample so that sampling risk is reduced to an acceptably low level, and evaluate its results.',
+                 'تصميم عينة بحيث يُخفض خطر المعاينة إلى مستوى منخفض مقبول، وتقييم نتائجها.'),
+    'procedures': [], 'standards': ['ISA-530'], 'computation': 'mus_sample_size',
+    'sections': [
+        ENGAGEMENT,
+        section('design', 'Design', 'التصميم', [
+            field('population', 'Population and the assertion tested', 'المجتمع والإقرار محل الاختبار', 'textarea', True),
+            field('completeness_of_population', 'How the population was confirmed complete', 'كيف تم التأكد من اكتمال المجتمع', 'textarea', True),
+            field('book_value', 'Population book value', 'القيمة الدفترية للمجتمع', 'money', True),
+            field('tolerable_misstatement', 'Tolerable misstatement', 'الخطأ المسموح به', 'money', True, autofill='paper.materiality.performance'),
+            field('expected_misstatement', 'Expected misstatement', 'التحريف المتوقع', 'money', True),
+            field('beta', 'Risk of incorrect acceptance', 'خطر القبول الخاطئ', 'select', True, options=[
+                opt('0.05', '5%', '5%'), opt('0.10', '10%', '10%'), opt('0.15', '15%', '15%'), opt('0.20', '20%', '20%')]),
+            field('method', 'Selection method', 'طريقة الاختيار', 'select', True, options=[
+                opt('mus', 'Monetary unit (systematic)', 'وحدة النقد (منتظمة)'), opt('random', 'Random', 'عشوائية'),
+                opt('stratified', 'Stratified random', 'طبقية'), opt('haphazard', 'Haphazard (non-statistical)', 'عشوائية غير منظمة (غير إحصائية)')]),
+        ]),
+        section('size', 'Sample size', 'حجم العينة', [
+            field('sample_size', 'Sample size', 'حجم العينة', 'integer', autofill='paper.mus_sample_size.sample_size', readonly=True),
+            field('sampling_interval', 'Sampling interval', 'فترة المعاينة', 'money', autofill='paper.mus_sample_size.sampling_interval', readonly=True),
+            field('random_start', 'Random start', 'نقطة البداية العشوائية', 'money'),
+        ]),
+        section('evaluation', 'Evaluation', 'التقييم', [
+            field('projected', 'Projected misstatement', 'التحريف المتوقع (المسقط)', 'money', autofill='paper.mus_evaluate.projected_misstatement', readonly=True),
+            field('upper_limit', 'Upper misstatement limit', 'الحد الأعلى للتحريف', 'money', autofill='paper.mus_evaluate.upper_misstatement_limit', readonly=True),
+            field('evaluation_conclusion', 'Result against tolerable misstatement', 'النتيجة مقارنة بالخطأ المسموح به', autofill='paper.mus_evaluate.conclusion', readonly=True),
+            field('deviations_nature', 'Nature and cause of misstatements found', 'طبيعة التحريفات المكتشفة وأسبابها', 'textarea'),
+            field('conclusion', 'Conclusion on the population', 'الاستنتاج بشأن المجتمع', 'textarea', True),
+        ]),
+    ],
+    'signoff': {'prepare': PREP, 'review': REVIEW, 'approve': APPROVE},
+})
+
+# 8 ----------------------------------------------------------------------------
+FORMS.append({
+    'id': 'F08-CONFIRMATIONS', 'number': 8, 'kind': 'letter', 'phase': 'fieldwork',
+    'title': L('External confirmation request and control log', 'طلب المصادقة الخارجية وسجل متابعتها'),
+    'purpose': L('Maintain control over external confirmation requests from sending to receipt, and record exceptions and alternative procedures.',
+                 'الحفاظ على الرقابة على طلبات المصادقة الخارجية من الإرسال حتى الاستلام، وتسجيل الاستثناءات والإجراءات البديلة.'),
+    'procedures': ['P-TRE-001'], 'standards': ['ISA-505'],
+    'sections': [
+        ENGAGEMENT,
+        section('request', 'Request', 'الطلب', [
+            field('confirming_party', 'Confirming party', 'الطرف المصادِق', required=True),
+            field('confirmation_type', 'Type', 'النوع', 'select', True, options=[
+                opt('bank', 'Bank balances and facilities', 'أرصدة وتسهيلات بنكية'), opt('receivable', 'Receivable', 'مدينون'),
+                opt('payable', 'Payable', 'دائنون'), opt('legal', 'Legal counsel', 'مستشار قانوني'), opt('other', 'Other', 'أخرى')]),
+            field('balance', 'Balance per the entity\'s records', 'الرصيد وفقًا لسجلات المنشأة', 'money', True),
+            field('reply_to', 'Reply directly to (auditor address)', 'يُرد مباشرةً إلى (عنوان المراجع)', 'textarea', True),
+            field('request_date', 'Date sent', 'تاريخ الإرسال', 'date', True),
+        ]),
+        section('log', 'Control log', 'سجل المتابعة', [
+            field('log', 'Requests', 'الطلبات', 'table', True, columns=[
+                field('party', 'Confirming party', 'الطرف المصادِق', required=True),
+                field('amount', 'Amount per records', 'المبلغ وفقًا للسجلات', 'money', True),
+                field('sent', 'Sent', 'أُرسل', 'date', True),
+                field('received', 'Received directly by the auditor', 'استُلم مباشرةً من قبل المراجع', 'date'),
+                field('status', 'Status', 'الحالة', 'select', True, options=[
+                    opt('sent', 'Sent', 'مُرسل'), opt('agreed', 'Agreed', 'مطابق'), opt('difference', 'Difference', 'يوجد فرق'),
+                    opt('no_reply', 'No reply', 'لم يُرد'), opt('alternative', 'Alternative procedures', 'إجراءات بديلة')]),
+                field('difference', 'Difference and its resolution', 'الفرق وكيفية تسويته', 'textarea')]),
+        ]),
+    ],
+    'letter': {
+        'en': [
+            'To {{field:confirming_party}}',
+            'Our auditors are performing an audit of the financial statements of {{engagement.client}} as at {{engagement.period_end}}. Please confirm directly to our auditors the balance of {{field:balance}} {{engagement.currency}} shown in our records, or state any differences with full particulars.',
+            'Please send your reply directly to: {{field:reply_to}}',
+            'This request is not a request for payment. Your prompt reply is appreciated.',
+            'For and on behalf of {{engagement.client}}: ______________________  Date: {{field:request_date}}',
+            'Confirmation: the balance stated above is correct / differs as follows: ____________________  Signed: __________  Title: __________',
+        ],
+        'ar': [
+            'إلى {{field:confirming_party}}',
+            'يقوم مراجعو حساباتنا بمراجعة القوائم المالية لـ {{engagement.client}} في {{engagement.period_end}}. نرجو التكرم بالمصادقة مباشرةً لدى مراجعي حساباتنا على الرصيد البالغ {{field:balance}} {{engagement.currency}} الظاهر في سجلاتنا، أو بيان أي فروق مع تفاصيلها كاملة.',
+            'يرجى إرسال ردكم مباشرةً إلى: {{field:reply_to}}',
+            'هذا الطلب ليس مطالبة بالسداد. ونقدر ردكم السريع.',
+            'عن وبالنيابة عن {{engagement.client}}: ______________________  التاريخ: {{field:request_date}}',
+            'المصادقة: الرصيد الموضح أعلاه صحيح / يختلف على النحو التالي: ____________________  التوقيع: __________  الصفة: __________',
+        ],
+    },
+    'signoff': {'prepare': PREP, 'review': REVIEW, 'approve': ['partner', 'manager']},
+})
+
+# 9 ----------------------------------------------------------------------------
+FORMS.append({
+    'id': 'F09-GOING-CONCERN', 'number': 9, 'kind': 'worksheet', 'phase': 'completion',
+    'title': L('Going concern evaluation', 'تقييم الاستمرارية'),
+    'purpose': L('Evaluate management\'s assessment of the entity\'s ability to continue as a going concern and conclude on material uncertainty.',
+                 'تقييم تقدير الإدارة لقدرة المنشأة على الاستمرار واستنتاج ما إذا كان يوجد عدم تأكد جوهري متعلق بالاستمرارية.'),
+    'procedures': ['P-FSL-032'], 'standards': ['ISA-570'], 'computation': 'going_concern',
+    'sections': [
+        ENGAGEMENT,
+        section('assessment', 'Management\'s assessment', 'تقدير الإدارة', [
+            yesno('assessment_obtained', 'Has management made an assessment covering at least twelve months?', 'هل أعدت الإدارة تقديرًا يغطي اثني عشر شهرًا على الأقل؟'),
+            field('required_end', 'Required end of the assessment period', 'النهاية المطلوبة لفترة التقدير', 'date', autofill='paper.going_concern.required_assessment_end', readonly=True),
+            field('shortfall_days', 'Shortfall of the assessment period (days)', 'نقص فترة التقدير (بالأيام)', 'integer', autofill='paper.going_concern.assessment_shortfall_days', readonly=True),
+            field('indicators', 'Events or conditions indicated by the computation', 'الأحداث أو الظروف التي يشير إليها الاحتساب', autofill='paper.going_concern.indicators', readonly=True),
+            field('method_and_assumptions', 'Evaluation of the method, assumptions and data', 'تقييم الطريقة والافتراضات والبيانات', 'textarea', True),
+            field('plans', 'Management\'s plans and whether they are feasible', 'خطط الإدارة ومدى إمكانية تنفيذها', 'textarea', True),
+        ]),
+        section('conclusion', 'Conclusion', 'الاستنتاج', [
+            field('conclusion', 'Conclusion', 'الاستنتاج', 'select', True, options=[
+                opt('no_uncertainty', 'Basis appropriate; no material uncertainty', 'الأساس ملائم؛ لا يوجد عدم تأكد جوهري'),
+                opt('uncertainty_disclosed', 'Material uncertainty, adequately disclosed', 'يوجد عدم تأكد جوهري مفصح عنه بشكل كافٍ'),
+                opt('uncertainty_not_disclosed', 'Material uncertainty, not adequately disclosed', 'يوجد عدم تأكد جوهري غير مفصح عنه بشكل كافٍ'),
+                opt('basis_inappropriate', 'Going concern basis inappropriate', 'أساس الاستمرارية غير ملائم')]),
+            field('disclosure_evaluation', 'Evaluation of the related disclosures', 'تقييم الإفصاحات ذات الصلة', 'textarea', True),
+            field('report_effect', 'Effect on the auditor\'s report', 'الأثر على تقرير المراجع', 'textarea', True),
+        ]),
+    ],
+    'signoff': {'prepare': PREP, 'review': REVIEW, 'approve': APPROVE},
+})
+
+# 10 ---------------------------------------------------------------------------
+FORMS.append({
+    'id': 'F10-MISSTATEMENTS', 'number': 10, 'kind': 'worksheet', 'phase': 'completion',
+    'title': L('Summary of misstatements', 'ملخص التحريفات'),
+    'purpose': L('Accumulate identified misstatements other than clearly trivial ones and evaluate uncorrected misstatements, individually and in aggregate.',
+                 'تجميع التحريفات المحددة بخلاف التافهة بشكل واضح، وتقييم التحريفات غير المصححة بشكل فردي وفي مجملها.'),
+    'procedures': ['P-FSL-039'], 'standards': ['ISA-450'], 'computation': 'aggregation',
+    'sections': [
+        ENGAGEMENT,
+        section('schedule', 'Schedule', 'الجدول', [
+            field('misstatements', 'Misstatements recorded on the engagement', 'التحريفات المسجلة على الارتباط', 'table', autofill='records.RK-MISSTATEMENT', readonly=True, columns=[
+                field('description', 'Description', 'الوصف'), field('type', 'Type', 'النوع'), field('status', 'Status', 'الحالة'),
+                field('assets', 'Assets', 'الأصول', 'money'), field('liabilities', 'Liabilities', 'الالتزامات', 'money'),
+                field('equity', 'Equity', 'حقوق الملكية', 'money'), field('profit', 'Profit', 'الربح', 'money')]),
+            field('uncorrected_profit', 'Uncorrected effect on profit', 'أثر التحريفات غير المصححة على الربح', 'money', autofill='paper.aggregation.uncorrected.profit', readonly=True),
+            field('largest_effect', 'Largest effect on any element', 'أكبر أثر على أي عنصر', 'money', autofill='paper.aggregation.largest_element_effect', readonly=True),
+            field('band', 'Proximity to overall materiality', 'مدى القرب من الأهمية النسبية الإجمالية', autofill='paper.aggregation.band', readonly=True),
+        ]),
+        section('evaluation', 'Evaluation', 'التقييم', [
+            field('reasons_not_corrected', 'Management\'s reasons for not correcting', 'أسباب عدم قيام الإدارة بالتصحيح', 'textarea', True),
+            field('qualitative', 'Qualitative considerations', 'الاعتبارات النوعية', 'textarea', True),
+            field('conclusion', 'Conclusion', 'الاستنتاج', 'select', True, options=[
+                opt('not_material', 'Not material, individually or in aggregate', 'غير جوهرية بشكل فردي أو في مجملها'),
+                opt('material', 'Material (effect on the opinion recorded)', 'جوهرية (مع تسجيل الأثر على الرأي)')]),
+        ]),
+    ],
+    'signoff': {'prepare': PREP, 'review': REVIEW, 'approve': APPROVE},
+})
+
+# 11 ---------------------------------------------------------------------------
+FORMS.append({
+    'id': 'F11-SUBSEQUENT-EVENTS', 'number': 11, 'kind': 'checklist', 'phase': 'completion',
+    'title': L('Subsequent events review', 'مراجعة الأحداث اللاحقة'),
+    'purpose': L('Identify events between the period end and the report date that require adjustment or disclosure.',
+                 'تحديد الأحداث الواقعة بين نهاية الفترة وتاريخ التقرير والتي تتطلب تعديلًا أو إفصاحًا.'),
+    'procedures': ['P-FSL-037'], 'standards': ['ISA-560'],
+    'sections': [
+        ENGAGEMENT,
+        section('procedures', 'Procedures performed to the report date', 'الإجراءات المنفذة حتى تاريخ التقرير', [
+            field('reviewed_to', 'Review performed up to', 'تمت المراجعة حتى', 'date', True),
+            field('management_procedures', 'Management\'s procedures for identifying subsequent events understood', 'فهم إجراءات الإدارة لتحديد الأحداث اللاحقة', 'select', True, options=YES_NO_NA),
+            field('inquiries', 'Inquiries of management and those charged with governance', 'الاستفسار من الإدارة والمكلفين بالحوكمة', 'select', True, options=YES_NO_NA),
+            field('minutes', 'Minutes of meetings held after the period end read', 'قراءة محاضر الاجتماعات المنعقدة بعد نهاية الفترة', 'select', True, options=YES_NO_NA),
+            field('interim', 'Latest interim financial information read', 'قراءة أحدث معلومات مالية أولية', 'select', True, options=YES_NO_NA),
+            field('legal', 'Post-period legal and regulatory matters reviewed', 'مراجعة الأمور القانونية والتنظيمية بعد نهاية الفترة', 'select', True, options=YES_NO_NA),
+        ]),
+        section('events', 'Events identified', 'الأحداث المحددة', [
+            field('events', 'Events', 'الأحداث', 'table', columns=[
+                field('event', 'Event', 'الحدث', required=True),
+                field('date', 'Date', 'التاريخ', 'date', True),
+                field('nature', 'Adjusting or non-adjusting', 'مُعدِّل أم غير مُعدِّل', 'select', True, options=[
+                    opt('adjusting', 'Adjusting', 'مُعدِّل'), opt('non_adjusting', 'Non-adjusting', 'غير مُعدِّل')]),
+                field('treatment', 'Treatment in the financial statements', 'المعالجة في القوائم المالية', 'textarea', True)]),
+            field('conclusion', 'Conclusion', 'الاستنتاج', 'textarea', True),
+        ]),
+    ],
+    'signoff': {'prepare': PREP, 'review': REVIEW, 'approve': APPROVE},
+})
+
+# 12 ---------------------------------------------------------------------------
+FORMS.append({
+    'id': 'F12-REPRESENTATION-LETTER', 'number': 12, 'kind': 'letter', 'phase': 'completion',
+    'title': L('Management representation letter', 'خطاب الإفادات المكتوبة من الإدارة'),
+    'purpose': L('Obtain written representations from management, dated as near as practicable to the date of the auditor\'s report.',
+                 'الحصول على الإفادات المكتوبة من الإدارة، مؤرخة بأقرب تاريخ ممكن لتاريخ تقرير المراجع.'),
+    'procedures': ['P-FSL-038'], 'standards': ['ISA-580', 'ISA-240', 'ISA-250', 'ISA-450', 'ISA-550', 'ISA-560', 'ISA-570'],
+    'sections': [
+        ENGAGEMENT,
+        section('details', 'Details', 'البيانات', [
+            field('firm_name', 'Audit firm', 'مكتب المراجعة', required=True),
+            field('letter_date', 'Date (the date of the auditor\'s report)', 'التاريخ (تاريخ تقرير المراجع)', 'date', True),
+            field('uncorrected_reference', 'Reference to the attached schedule of uncorrected misstatements', 'الإشارة إلى الجدول المرفق للتحريفات غير المصححة', required=True),
+            field('signatories', 'Signatories', 'الموقعون', 'table', True, columns=[
+                field('name', 'Name', 'الاسم', required=True), field('title', 'Title', 'الصفة', required=True)]),
+        ]),
+    ],
+    'letter': {
+        'en': [
+            'To {{field:firm_name}}',
+            'This representation letter is provided in connection with your audit of the financial statements of {{engagement.client}} for the period ended {{engagement.period_end}} for the purpose of expressing an opinion as to whether the financial statements are presented fairly, in all material respects, in accordance with {{engagement.framework}}.',
+            'We confirm that we have fulfilled our responsibilities, as set out in the terms of the audit engagement, for the preparation of the financial statements in accordance with {{engagement.framework}}, and that they are presented fairly in accordance therewith.',
+            'We have provided you with access to all information of which we are aware that is relevant to the preparation of the financial statements, additional information that you requested, and unrestricted access to persons within the entity from whom you determined it necessary to obtain audit evidence. All transactions have been recorded in the accounting records and are reflected in the financial statements.',
+            'We acknowledge our responsibility for the design, implementation and maintenance of internal control to prevent and detect fraud. We have disclosed to you the results of our assessment of the risk that the financial statements may be materially misstated as a result of fraud, and all information in relation to fraud or suspected fraud that we are aware of and that affects the entity.',
+            'We have disclosed to you all known instances of non-compliance or suspected non-compliance with laws and regulations whose effects should be considered when preparing the financial statements.',
+            'We have disclosed to you the identity of the entity\'s related parties and all the related party relationships and transactions of which we are aware, and they have been appropriately accounted for and disclosed.',
+            'Significant assumptions used by us in making accounting estimates are reasonable.',
+            'All events subsequent to the date of the financial statements for which {{engagement.framework}} requires adjustment or disclosure have been adjusted or disclosed.',
+            'The effects of uncorrected misstatements are immaterial, both individually and in the aggregate, to the financial statements as a whole. A list of the uncorrected misstatements is attached to this letter ({{field:uncorrected_reference}}).',
+            'We have assessed the entity\'s ability to continue as a going concern and have disclosed to you all information relevant to that assessment.',
+            'Date: {{field:letter_date}}',
+            '{{table:signatories}}',
+        ],
+        'ar': [
+            'إلى {{field:firm_name}}',
+            'نقدم خطاب الإفادات هذا فيما يتعلق بمراجعتكم للقوائم المالية لـ {{engagement.client}} عن الفترة المنتهية في {{engagement.period_end}}، بغرض إبداء رأي حول ما إذا كانت القوائم المالية معروضة بشكل عادل، من جميع الجوانب الجوهرية، وفقًا لـ {{engagement.framework}}.',
+            'نؤكد أننا قد وفينا بمسؤولياتنا، كما وردت في شروط ارتباط المراجعة، عن إعداد القوائم المالية وفقًا لـ {{engagement.framework}}، وأنها معروضة بشكل عادل وفقًا له.',
+            'لقد زودناكم بإمكانية الوصول إلى جميع المعلومات التي نعلم بها وذات الصلة بإعداد القوائم المالية، والمعلومات الإضافية التي طلبتموها، وإمكانية الوصول غير المقيد إلى الأشخاص داخل المنشأة الذين رأيتم ضرورة الحصول على أدلة المراجعة منهم. وقد تم تسجيل جميع المعاملات في السجلات المحاسبية وهي منعكسة في القوائم المالية.',
+            'نقر بمسؤوليتنا عن تصميم الرقابة الداخلية وتطبيقها والحفاظ عليها لمنع الغش واكتشافه. وقد أفصحنا لكم عن نتائج تقييمنا لخطر أن تكون القوائم المالية محرفة تحريفًا جوهريًا نتيجة الغش، وعن جميع المعلومات المتعلقة بالغش أو الغش المشتبه به التي نعلم بها والتي تؤثر على المنشأة.',
+            'لقد أفصحنا لكم عن جميع حالات عدم الالتزام أو الاشتباه في عدم الالتزام بالأنظمة واللوائح المعروفة لنا والتي ينبغي مراعاة آثارها عند إعداد القوائم المالية.',
+            'لقد أفصحنا لكم عن هوية الأطراف ذات العلاقة بالمنشأة وعن جميع العلاقات والمعاملات مع الأطراف ذات العلاقة التي نعلم بها، وقد تمت المحاسبة عنها والإفصاح عنها بشكل مناسب.',
+            'الافتراضات المهمة التي استخدمناها في إعداد التقديرات المحاسبية معقولة.',
+            'تم تعديل أو الإفصاح عن جميع الأحداث اللاحقة لتاريخ القوائم المالية التي يتطلب {{engagement.framework}} تعديلها أو الإفصاح عنها.',
+            'آثار التحريفات غير المصححة غير جوهرية، بشكل فردي وفي مجملها، بالنسبة للقوائم المالية ككل. ومرفق بهذا الخطاب قائمة بالتحريفات غير المصححة ({{field:uncorrected_reference}}).',
+            'لقد قيّمنا قدرة المنشأة على الاستمرار وأفصحنا لكم عن جميع المعلومات ذات الصلة بهذا التقييم.',
+            'التاريخ: {{field:letter_date}}',
+            '{{table:signatories}}',
+        ],
+    },
+    'signoff': {'prepare': ['partner', 'manager', 'senior'], 'review': REVIEW, 'approve': APPROVE},
+})
+
+# 13 ---------------------------------------------------------------------------
+FORMS.append({
+    'id': 'F13-TCWG-LETTER', 'number': 13, 'kind': 'letter', 'phase': 'completion',
+    'title': L('Letter to those charged with governance', 'خطاب إلى المكلفين بالحوكمة'),
+    'purpose': L('Communicate in writing the planned scope and timing, significant findings, uncorrected misstatements, significant deficiencies in internal control and independence.',
+                 'الإبلاغ كتابةً عن النطاق والتوقيت المخططين، والنتائج المهمة، والتحريفات غير المصححة، وأوجه القصور المهمة في الرقابة الداخلية، والاستقلال.'),
+    'procedures': ['P-FSL-047'], 'standards': ['ISA-260', 'ISA-265', 'ISA-450'],
+    'sections': [
+        ENGAGEMENT,
+        section('content', 'Content', 'المحتوى', [
+            field('addressee', 'Addressed to', 'موجه إلى', required=True),
+            field('firm_name', 'Audit firm', 'مكتب المراجعة', required=True),
+            field('letter_date', 'Date', 'التاريخ', 'date', True),
+            field('scope_and_timing', 'Planned scope and timing, including significant risks', 'النطاق والتوقيت المخططان، بما في ذلك المخاطر المهمة', 'textarea', True),
+            field('significant_findings', 'Significant findings from the audit', 'النتائج المهمة للمراجعة', 'textarea', True),
+            field('uncorrected', 'Uncorrected misstatements (effect on profit)', 'التحريفات غير المصححة (الأثر على الربح)', 'money', autofill='paper.aggregation.uncorrected.profit', readonly=True),
+            field('deficiencies', 'Significant deficiencies in internal control', 'أوجه القصور المهمة في الرقابة الداخلية', 'table', columns=[
+                field('deficiency', 'Deficiency', 'أوجه القصور', required=True),
+                field('effect', 'Potential effect', 'الأثر المحتمل', 'textarea', True),
+                field('recommendation', 'Recommendation', 'التوصية', 'textarea', True)]),
+            field('independence', 'Statement on independence', 'بيان الاستقلال', 'textarea', True),
+        ]),
+    ],
+    'letter': {
+        'en': [
+            'To {{field:addressee}}',
+            'We are pleased to communicate the matters arising from our audit of the financial statements of {{engagement.client}} for the period ended {{engagement.period_end}} that we consider relevant to your responsibility to oversee the financial reporting process.',
+            'Our responsibility is to form and express an opinion on the financial statements prepared by management with your oversight. The audit does not relieve management or you of your responsibilities.',
+            'Planned scope and timing: {{field:scope_and_timing}}',
+            'Significant findings: {{field:significant_findings}}',
+            'Uncorrected misstatements: the aggregate effect on profit of misstatements that management has not corrected is {{field:uncorrected}} {{engagement.currency}}. We request that they be corrected.',
+            'Significant deficiencies in internal control: {{table:deficiencies}}',
+            'Independence: {{field:independence}}',
+            'This communication is intended solely for those charged with governance and management and should not be used for any other purpose.',
+            'Yours faithfully, {{field:firm_name}}  Date: {{field:letter_date}}',
+        ],
+        'ar': [
+            'إلى {{field:addressee}}',
+            'يسعدنا أن نبلغكم بالأمور الناشئة عن مراجعتنا للقوائم المالية لـ {{engagement.client}} عن الفترة المنتهية في {{engagement.period_end}} والتي نرى أنها ذات صلة بمسؤوليتكم عن الإشراف على عملية التقرير المالي.',
+            'تتمثل مسؤوليتنا في تكوين رأي وإبدائه حول القوائم المالية التي أعدتها الإدارة تحت إشرافكم. ولا تعفي المراجعة الإدارة أو إياكم من مسؤولياتكم.',
+            'النطاق والتوقيت المخططان: {{field:scope_and_timing}}',
+            'النتائج المهمة: {{field:significant_findings}}',
+            'التحريفات غير المصححة: يبلغ الأثر المجمع على الربح للتحريفات التي لم تصححها الإدارة {{field:uncorrected}} {{engagement.currency}}. ونطلب تصحيحها.',
+            'أوجه القصور المهمة في الرقابة الداخلية: {{table:deficiencies}}',
+            'الاستقلال: {{field:independence}}',
+            'هذا الإبلاغ مقصود حصرًا للمكلفين بالحوكمة والإدارة، ولا ينبغي استخدامه لأي غرض آخر.',
+            'وتفضلوا بقبول فائق الاحترام، {{field:firm_name}}  التاريخ: {{field:letter_date}}',
+        ],
+    },
+    'signoff': {'prepare': ['partner', 'manager'], 'review': REVIEW, 'approve': APPROVE},
+})
+
+# 14 ---------------------------------------------------------------------------
+FORMS.append({
+    'id': 'F14-COMPLETION', 'number': 14, 'kind': 'checklist', 'phase': 'completion',
+    'title': L('Completion and sign-off', 'إنجاز المراجعة والتوقيع'),
+    'purpose': L('Confirm that sufficient appropriate audit evidence supports the opinion, that the partner has discharged the quality responsibilities, and that the file is ready for assembly.',
+                 'التأكد من أن ما يكفي من أدلة المراجعة المناسبة يؤيد الرأي، وأن الشريك قد وفى بمسؤوليات الجودة، وأن الملف جاهز للتجميع.'),
+    'procedures': ['P-FSL-044', 'P-FSL-045', 'P-FSL-049', 'P-FSL-050'], 'standards': ['ISA-220', 'ISA-230', 'ISA-700', 'ISQM-2'],
+    'sections': [
+        ENGAGEMENT,
+        section('checklist', 'Completion checklist', 'قائمة مراجعة الإنجاز', [
+            field('open_review_notes', 'Review notes not yet cleared', 'ملاحظات الفحص التي لم تُغلق بعد', 'integer', autofill='records.RK-REVIEW-NOTE.open', readonly=True),
+            field('open_disclosures', 'Disclosure checklist items applicable and not yet disclosed', 'بنود قائمة الإفصاح المنطبقة التي لم يُفصح عنها بعد', 'integer', autofill='disclosures.open', readonly=True),
+            yesno('evidence_sufficient', 'Sufficient appropriate audit evidence has been obtained', 'تم الحصول على ما يكفي من أدلة المراجعة المناسبة'),
+            yesno('misstatements_evaluated', 'Misstatements have been evaluated (form 10)', 'تم تقييم التحريفات (النموذج 10)'),
+            yesno('going_concern_concluded', 'Going concern has been concluded on (form 9)', 'تم الاستنتاج بشأن الاستمرارية (النموذج 9)'),
+            yesno('subsequent_events', 'Subsequent events reviewed to the report date (form 11)', 'تمت مراجعة الأحداث اللاحقة حتى تاريخ التقرير (النموذج 11)'),
+            yesno('representations', 'Written representations obtained, dated at the report date (form 12)', 'تم الحصول على الإفادات المكتوبة مؤرخة بتاريخ التقرير (النموذج 12)'),
+            yesno('tcwg', 'Matters communicated to those charged with governance (form 13)', 'تم إبلاغ المكلفين بالحوكمة بالأمور المطلوبة (النموذج 13)'),
+            yesno('consultations', 'Consultations on difficult or contentious matters documented and implemented', 'تم توثيق المشاورات بشأن الأمور الصعبة أو الخلافية وتنفيذ نتائجها'),
+            field('eqr', 'Engagement quality review', 'فحص جودة الارتباط', 'select', True, options=[
+                opt('completed', 'Required and completed', 'مطلوب وتم'), opt('not_required', 'Not required by firm policy', 'غير مطلوب وفقًا لسياسة المكتب')]),
+        ]),
+        section('opinion', 'Opinion and report', 'الرأي والتقرير', [
+            field('opinion', 'Opinion', 'الرأي', 'select', True, options=[
+                opt('unmodified', 'Unmodified', 'غير معدل'), opt('qualified', 'Qualified', 'رأي متحفظ'),
+                opt('adverse', 'Adverse', 'رأي معارض'), opt('disclaimer', 'Disclaimer of opinion', 'الامتناع عن إبداء الرأي')]),
+            field('basis_for_modification', 'Basis for any modification', 'أساس أي تعديل', 'textarea'),
+            field('emphasis', 'Emphasis of matter or other matter paragraphs', 'فقرات لفت الانتباه أو فقرات أمور أخرى', 'textarea'),
+            field('key_audit_matters', 'Key audit matters (listed entities)', 'الأمور الرئيسة للمراجعة (للمنشآت المدرجة)', 'textarea'),
+            field('report_date', 'Date of the auditor\'s report', 'تاريخ تقرير المراجع', 'date', True),
+            field('assembly_deadline', 'File assembly deadline (within 60 days of the report date)', 'الموعد النهائي لتجميع الملف (خلال 60 يومًا من تاريخ التقرير)', 'date', True),
+        ]),
+    ],
+    'signoff': {'prepare': ['partner', 'manager'], 'review': REVIEW, 'approve': APPROVE, 'eqr': True},
+})
+
+
+def mo(s):
+    out = []
+    for ch in s:
+        o = ord(ch)
+        if ch == '\\':
+            out.append('\\\\')
+        elif ch == '"':
+            out.append('\\"')
+        elif o < 32 or o == 127:
+            out.append('\\u{%x}' % o)
+        else:
+            out.append(ch)
+    return '"' + ''.join(out) + '"'
+
+
+def check(forms):
+    """Structural checks, so a malformed catalogue never reaches the canister."""
+    types = {'text', 'textarea', 'date', 'money', 'percent', 'integer', 'select', 'yesno', 'table'}
+    ids = set()
+    problems = []
+    for f in forms:
+        if f['id'] in ids:
+            problems.append(f'duplicate form id {f["id"]}')
+        ids.add(f['id'])
+        seen = set()
+        for s in f['sections']:
+            for fd in s['fields']:
+                if fd['id'] in seen:
+                    problems.append(f'{f["id"]}: duplicate field {fd["id"]}')
+                seen.add(fd['id'])
+                if fd['type'] not in types:
+                    problems.append(f'{f["id"]}.{fd["id"]}: unknown type {fd["type"]}')
+                if fd['type'] == 'select' and not fd.get('options'):
+                    problems.append(f'{f["id"]}.{fd["id"]}: select without options')
+                if fd['type'] == 'table' and not fd.get('columns'):
+                    problems.append(f'{f["id"]}.{fd["id"]}: table without columns')
+                for lang in ('en', 'ar'):
+                    if not fd['label'].get(lang):
+                        problems.append(f'{f["id"]}.{fd["id"]}: missing {lang} label')
+        if f['kind'] == 'letter':
+            import re
+            for lang in ('en', 'ar'):
+                for para in f['letter'][lang]:
+                    for ref in re.findall(r'\{\{(field|table):([a-z_]+)\}\}', para):
+                        if ref[1] not in seen:
+                            problems.append(f'{f["id"]}: letter references unknown field {ref[1]}')
+            if len(f['letter']['en']) != len(f['letter']['ar']):
+                problems.append(f'{f["id"]}: English and Arabic letters differ in paragraph count')
+    if len(forms) != 14:
+        problems.append(f'expected 14 forms, have {len(forms)}')
+    return problems
+
+
+def main():
+    problems = check(FORMS)
+    if problems:
+        raise SystemExit('catalogue problems:\n  ' + '\n  '.join(problems))
+    os.makedirs(FORMS_DIR, exist_ok=True)
+    for f in FORMS:
+        f['version'] = 1
+        f['ar_status'] = 'draft_pending_review'
+        with open(os.path.join(FORMS_DIR, f['id'] + '.json'), 'w', encoding='utf-8') as fh:
+            json.dump(f, fh, ensure_ascii=False, indent=1)
+    lines = ['// GENERATED by tools/gen_forms.py from the form catalogue. Do not edit.',
+             '// Attribution: Thebes Core Team. Licence: Apache 2.0.', '', 'module {',
+             '  /// (form id, form definition as JSON), in catalogue order.',
+             '  public let FORMS : [(Text, Text)] = [']
+    for f in FORMS:
+        lines.append(f'    ("{f["id"]}", {mo(json.dumps(f, ensure_ascii=False, separators=(",", ":")))}),')
+    lines += ['  ];', '',
+              '  public func get(id : Text) : ?Text {',
+              '    for ((k, v) in FORMS.vals()) { if (k == id) return ?v };',
+              '    null',
+              '  };', '};']
+    with open(OUT, 'w', encoding='utf-8') as fh:
+        fh.write('\n'.join(lines) + '\n')
+    nfields = sum(len(s['fields']) for f in FORMS for s in f['sections'])
+    print(f'wrote {len(FORMS)} forms ({nfields} fields, {sum(1 for f in FORMS if f["kind"] == "letter")} letters) to forms/ and {os.path.relpath(OUT)}')
+
+
+if __name__ == '__main__':
+    main()

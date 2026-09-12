@@ -1,0 +1,260 @@
+{
+ "id": "F05-FRAUD-DISCUSSION",
+ "number": 5,
+ "kind": "worksheet",
+ "phase": "planning",
+ "title": {
+  "en": "Engagement team discussion and fraud risk",
+  "ar": "مناقشة فريق الارتباط ومخاطر الغش"
+ },
+ "purpose": {
+  "en": "Minute the team discussion of susceptibility to material misstatement, including fraud, and the fraud inquiries made.",
+  "ar": "توثيق مناقشة الفريق حول قابلية القوائم المالية للتحريف الجوهري، بما في ذلك الغش، والاستفسارات المتعلقة بالغش."
+ },
+ "procedures": [
+  "P-FSL-007",
+  "P-FSL-012"
+ ],
+ "standards": [
+  "ISA-240",
+  "ISA-315"
+ ],
+ "sections": [
+  {
+   "id": "engagement",
+   "title": {
+    "en": "Engagement",
+    "ar": "الارتباط"
+   },
+   "fields": [
+    {
+     "id": "client",
+     "label": {
+      "en": "Entity audited",
+      "ar": "المنشأة محل المراجعة"
+     },
+     "type": "text",
+     "required": false,
+     "autofill": "engagement.client",
+     "readonly": true
+    },
+    {
+     "id": "period_start",
+     "label": {
+      "en": "Period from",
+      "ar": "الفترة من"
+     },
+     "type": "date",
+     "required": false,
+     "autofill": "engagement.period_start",
+     "readonly": true
+    },
+    {
+     "id": "period_end",
+     "label": {
+      "en": "Period to",
+      "ar": "الفترة إلى"
+     },
+     "type": "date",
+     "required": false,
+     "autofill": "engagement.period_end",
+     "readonly": true
+    },
+    {
+     "id": "framework",
+     "label": {
+      "en": "Financial reporting framework",
+      "ar": "إطار التقرير المالي"
+     },
+     "type": "text",
+     "required": false,
+     "autofill": "engagement.framework",
+     "readonly": true
+    }
+   ]
+  },
+  {
+   "id": "meeting",
+   "title": {
+    "en": "The discussion",
+    "ar": "المناقشة"
+   },
+   "fields": [
+    {
+     "id": "meeting_date",
+     "label": {
+      "en": "Date of the discussion",
+      "ar": "تاريخ المناقشة"
+     },
+     "type": "date",
+     "required": true
+    },
+    {
+     "id": "attendees",
+     "label": {
+      "en": "Attendees",
+      "ar": "الحاضرون"
+     },
+     "type": "table",
+     "required": true,
+     "columns": [
+      {
+       "id": "name",
+       "label": {
+        "en": "Name",
+        "ar": "الاسم"
+       },
+       "type": "text",
+       "required": true
+      },
+      {
+       "id": "role",
+       "label": {
+        "en": "Role",
+        "ar": "الدور"
+       },
+       "type": "text",
+       "required": true
+      }
+     ]
+    },
+    {
+     "id": "susceptibility",
+     "label": {
+      "en": "How and where the financial statements may be susceptible to material misstatement due to fraud",
+      "ar": "كيف وأين قد تكون القوائم المالية عرضة للتحريف الجوهري الناتج عن الغش"
+     },
+     "type": "textarea",
+     "required": true
+    },
+    {
+     "id": "revenue_presumption",
+     "label": {
+      "en": "Presumed risk of fraud in revenue recognition",
+      "ar": "الخطر المفترض للغش في إثبات الإيرادات"
+     },
+     "type": "select",
+     "required": true,
+     "options": [
+      {
+       "value": "not_rebutted",
+       "label": {
+        "en": "Not rebutted",
+        "ar": "لم يُدحض"
+       }
+      },
+      {
+       "value": "rebutted",
+       "label": {
+        "en": "Rebutted (reason recorded)",
+        "ar": "دُحض (مع تسجيل السبب)"
+       }
+      }
+     ]
+    },
+    {
+     "id": "revenue_rebuttal_reason",
+     "label": {
+      "en": "Reason, if rebutted",
+      "ar": "السبب في حالة الدحض"
+     },
+     "type": "textarea",
+     "required": false
+    },
+    {
+     "id": "management_override",
+     "label": {
+      "en": "Management override of controls is treated as a significant risk",
+      "ar": "يُعامل تجاوز الإدارة لأدوات الرقابة كخطر مهم"
+     },
+     "type": "yesno",
+     "required": true,
+     "readonly": true,
+     "default": "yes"
+    },
+    {
+     "id": "absent_members",
+     "label": {
+      "en": "How conclusions were communicated to members not present",
+      "ar": "كيفية إبلاغ الاستنتاجات للأعضاء غير الحاضرين"
+     },
+     "type": "textarea",
+     "required": false
+    }
+   ]
+  },
+  {
+   "id": "inquiries",
+   "title": {
+    "en": "Fraud inquiries",
+    "ar": "الاستفسارات المتعلقة بالغش"
+   },
+   "fields": [
+    {
+     "id": "fraud_inquiries",
+     "label": {
+      "en": "Inquiries of management, internal audit and those charged with governance",
+      "ar": "الاستفسارات من الإدارة والمراجعة الداخلية والمكلفين بالحوكمة"
+     },
+     "type": "table",
+     "required": true,
+     "columns": [
+      {
+       "id": "who",
+       "label": {
+        "en": "Person inquired of",
+        "ar": "الشخص المستفسر منه"
+       },
+       "type": "text",
+       "required": true
+      },
+      {
+       "id": "date",
+       "label": {
+        "en": "Date",
+        "ar": "التاريخ"
+       },
+       "type": "date",
+       "required": true
+      },
+      {
+       "id": "response",
+       "label": {
+        "en": "Response, including any known or suspected fraud",
+        "ar": "الرد، بما في ذلك أي غش معروف أو مشتبه به"
+       },
+       "type": "textarea",
+       "required": true
+      }
+     ]
+    },
+    {
+     "id": "risk_factors",
+     "label": {
+      "en": "Fraud risk factors identified",
+      "ar": "عوامل خطر الغش المحددة"
+     },
+     "type": "textarea",
+     "required": true
+    }
+   ]
+  }
+ ],
+ "signoff": {
+  "prepare": [
+   "partner",
+   "manager",
+   "senior",
+   "staff"
+  ],
+  "review": [
+   "partner",
+   "manager"
+  ],
+  "approve": [
+   "partner"
+  ]
+ },
+ "version": 1,
+ "ar_status": "draft_pending_review"
+}

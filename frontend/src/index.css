@@ -1,0 +1,36 @@
+@import 'tailwindcss';
+@import '@fontsource-variable/inter';
+@import '@fontsource/ibm-plex-sans-arabic/400.css';
+@import '@fontsource/ibm-plex-sans-arabic/600.css';
+
+/* Thebes Audit — a working tool for audit teams: calm paper chrome, ink text, a
+   single deep-teal action colour, and fixed status colours so a form's state reads
+   at a glance (draft, prepared, reviewed, approved, stale). Numbers are tabular. */
+@theme {
+  --color-ink: #16202a;
+  --color-ink-soft: #5b6775;
+  --color-paper: #f4f5f2;
+  --color-surface: #ffffff;
+  --color-line: #dfe3e0;
+  --color-act: #0f6b62;
+  --color-act-ink: #0a4d47;
+  --color-draft: #64748b;
+  --color-prepared: #b45309;
+  --color-reviewed: #1d4ed8;
+  --color-approved: #047857;
+  --color-stale: #b91c1c;
+  --font-sans: 'Inter Variable', 'IBM Plex Sans Arabic', ui-sans-serif, system-ui, sans-serif;
+}
+
+html[dir='rtl'] body { font-family: 'IBM Plex Sans Arabic', 'Inter Variable', ui-sans-serif, system-ui, sans-serif; }
+body { background: var(--color-paper); color: var(--color-ink); }
+.num { font-variant-numeric: tabular-nums; }
+
+/* The print view is the PDF export: A4, no chrome, the browser shapes Arabic. */
+@media print {
+  @page { size: A4; margin: 18mm 16mm; }
+  .no-print { display: none !important; }
+  body { background: #fff; }
+  .print-sheet { box-shadow: none !important; border: 0 !important; margin: 0 !important; padding: 0 !important; }
+  .avoid-break { break-inside: avoid; }
+}

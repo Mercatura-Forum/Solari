@@ -1,0 +1,361 @@
+{
+ "id": "F06-MATERIALITY",
+ "number": 6,
+ "kind": "worksheet",
+ "phase": "planning",
+ "title": {
+  "en": "Materiality",
+  "ar": "الأهمية النسبية"
+ },
+ "purpose": {
+  "en": "Determine overall materiality, performance materiality, specific materiality and the clearly trivial threshold, with the rationale for each judgment.",
+  "ar": "تحديد الأهمية النسبية الإجمالية ومادية الأداء والأهمية النسبية المحددة وحد المبالغ التافهة بشكل واضح، مع مبررات كل حكم."
+ },
+ "procedures": [
+  "P-FSL-006"
+ ],
+ "standards": [
+  "ISA-320"
+ ],
+ "computation": "materiality",
+ "sections": [
+  {
+   "id": "engagement",
+   "title": {
+    "en": "Engagement",
+    "ar": "الارتباط"
+   },
+   "fields": [
+    {
+     "id": "client",
+     "label": {
+      "en": "Entity audited",
+      "ar": "المنشأة محل المراجعة"
+     },
+     "type": "text",
+     "required": false,
+     "autofill": "engagement.client",
+     "readonly": true
+    },
+    {
+     "id": "period_start",
+     "label": {
+      "en": "Period from",
+      "ar": "الفترة من"
+     },
+     "type": "date",
+     "required": false,
+     "autofill": "engagement.period_start",
+     "readonly": true
+    },
+    {
+     "id": "period_end",
+     "label": {
+      "en": "Period to",
+      "ar": "الفترة إلى"
+     },
+     "type": "date",
+     "required": false,
+     "autofill": "engagement.period_end",
+     "readonly": true
+    },
+    {
+     "id": "framework",
+     "label": {
+      "en": "Financial reporting framework",
+      "ar": "إطار التقرير المالي"
+     },
+     "type": "text",
+     "required": false,
+     "autofill": "engagement.framework",
+     "readonly": true
+    }
+   ]
+  },
+  {
+   "id": "benchmark",
+   "title": {
+    "en": "Benchmark",
+    "ar": "الأساس المرجعي"
+   },
+   "fields": [
+    {
+     "id": "benchmark",
+     "label": {
+      "en": "Benchmark",
+      "ar": "الأساس المرجعي"
+     },
+     "type": "select",
+     "required": true,
+     "options": [
+      {
+       "value": "profit_before_tax",
+       "label": {
+        "en": "Profit before tax",
+        "ar": "الربح قبل الضريبة"
+       }
+      },
+      {
+       "value": "revenue",
+       "label": {
+        "en": "Revenue",
+        "ar": "الإيرادات"
+       }
+      },
+      {
+       "value": "total_assets",
+       "label": {
+        "en": "Total assets",
+        "ar": "إجمالي الأصول"
+       }
+      },
+      {
+       "value": "total_equity",
+       "label": {
+        "en": "Total equity",
+        "ar": "إجمالي حقوق الملكية"
+       }
+      },
+      {
+       "value": "total_expenses",
+       "label": {
+        "en": "Total expenses",
+        "ar": "إجمالي المصروفات"
+       }
+      },
+      {
+       "value": "gross_profit",
+       "label": {
+        "en": "Gross profit",
+        "ar": "مجمل الربح"
+       }
+      },
+      {
+       "value": "net_assets",
+       "label": {
+        "en": "Net assets",
+        "ar": "صافي الأصول"
+       }
+      }
+     ]
+    },
+    {
+     "id": "benchmark_amount",
+     "label": {
+      "en": "Benchmark amount from the trial balance",
+      "ar": "مبلغ الأساس المرجعي من ميزان المراجعة"
+     },
+     "type": "money",
+     "required": true,
+     "autofill": "tb.benchmark.{benchmark}"
+    },
+    {
+     "id": "percentage",
+     "label": {
+      "en": "Percentage applied",
+      "ar": "النسبة المطبقة"
+     },
+     "type": "percent",
+     "required": true
+    },
+    {
+     "id": "rationale",
+     "label": {
+      "en": "Why this benchmark and percentage",
+      "ar": "مبررات اختيار هذا الأساس وهذه النسبة"
+     },
+     "type": "textarea",
+     "required": true
+    },
+    {
+     "id": "pm_factor",
+     "label": {
+      "en": "Performance materiality factor",
+      "ar": "معامل مادية الأداء"
+     },
+     "type": "select",
+     "required": true,
+     "options": [
+      {
+       "value": "0.50",
+       "label": {
+        "en": "50%",
+        "ar": "50%"
+       }
+      },
+      {
+       "value": "0.60",
+       "label": {
+        "en": "60%",
+        "ar": "60%"
+       }
+      },
+      {
+       "value": "0.65",
+       "label": {
+        "en": "65%",
+        "ar": "65%"
+       }
+      },
+      {
+       "value": "0.70",
+       "label": {
+        "en": "70%",
+        "ar": "70%"
+       }
+      },
+      {
+       "value": "0.75",
+       "label": {
+        "en": "75%",
+        "ar": "75%"
+       }
+      }
+     ]
+    },
+    {
+     "id": "trivial_factor",
+     "label": {
+      "en": "Clearly trivial factor",
+      "ar": "معامل المبالغ التافهة بشكل واضح"
+     },
+     "type": "select",
+     "required": true,
+     "options": [
+      {
+       "value": "0.03",
+       "label": {
+        "en": "3%",
+        "ar": "3%"
+       }
+      },
+      {
+       "value": "0.04",
+       "label": {
+        "en": "4%",
+        "ar": "4%"
+       }
+      },
+      {
+       "value": "0.05",
+       "label": {
+        "en": "5%",
+        "ar": "5%"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "results",
+   "title": {
+    "en": "Results",
+    "ar": "النتائج"
+   },
+   "fields": [
+    {
+     "id": "overall",
+     "label": {
+      "en": "Overall materiality",
+      "ar": "الأهمية النسبية الإجمالية"
+     },
+     "type": "money",
+     "required": false,
+     "autofill": "paper.materiality.overall",
+     "readonly": true
+    },
+    {
+     "id": "performance",
+     "label": {
+      "en": "Performance materiality",
+      "ar": "مادية الأداء"
+     },
+     "type": "money",
+     "required": false,
+     "autofill": "paper.materiality.performance",
+     "readonly": true
+    },
+    {
+     "id": "clearly_trivial",
+     "label": {
+      "en": "Clearly trivial threshold",
+      "ar": "حد المبالغ التافهة بشكل واضح"
+     },
+     "type": "money",
+     "required": false,
+     "autofill": "paper.materiality.clearly_trivial",
+     "readonly": true
+    },
+    {
+     "id": "specific",
+     "label": {
+      "en": "Specific materiality for particular classes, balances or disclosures",
+      "ar": "الأهمية النسبية المحددة لفئات أو أرصدة أو إفصاحات معينة"
+     },
+     "type": "table",
+     "required": false,
+     "columns": [
+      {
+       "id": "name",
+       "label": {
+        "en": "Class, balance or disclosure",
+        "ar": "الفئة أو الرصيد أو الإفصاح"
+       },
+       "type": "text",
+       "required": true
+      },
+      {
+       "id": "factor",
+       "label": {
+        "en": "Factor of overall materiality",
+        "ar": "معامل من الأهمية النسبية الإجمالية"
+       },
+       "type": "text",
+       "required": true
+      },
+      {
+       "id": "reason",
+       "label": {
+        "en": "Reason",
+        "ar": "السبب"
+       },
+       "type": "textarea",
+       "required": true
+      }
+     ]
+    },
+    {
+     "id": "revision",
+     "label": {
+      "en": "Revisions during the audit and their effect",
+      "ar": "التعديلات خلال المراجعة وأثرها"
+     },
+     "type": "textarea",
+     "required": false
+    }
+   ],
+   "note": {
+    "en": "Compute the materiality paper from these inputs before signing; the results are taken from the paper and frozen when the form is prepared.",
+    "ar": "يجب احتساب ورقة الأهمية النسبية من هذه المدخلات قبل التوقيع؛ وتؤخذ النتائج من الورقة وتُثبت عند إعداد النموذج."
+   }
+  }
+ ],
+ "signoff": {
+  "prepare": [
+   "partner",
+   "manager",
+   "senior",
+   "staff"
+  ],
+  "review": [
+   "partner",
+   "manager"
+  ],
+  "approve": [
+   "partner"
+  ]
+ },
+ "version": 1,
+ "ar_status": "draft_pending_review"
+}

@@ -1,0 +1,67 @@
+{
+ "host": "https://demo3.odoo.com",
+ "database": "demo_saas-194_d7be75be007c_1789124422",
+ "from": "2026-08-01",
+ "to": "2026-09-30",
+ "page_lines": 50,
+ "requests": {
+  "gate": {
+   "url": "https://demo3.odoo.com/json/2/account.move/has_access",
+   "body": "{\"operation\":\"write\"}"
+  },
+  "accounts:0": {
+   "url": "https://demo3.odoo.com/json/2/account.account/search_read",
+   "body": "{\"domain\":[],\"fields\":[\"code\"],\"limit\":1000,\"offset\":0,\"order\":\"id\"}"
+  },
+  "journals:0": {
+   "url": "https://demo3.odoo.com/json/2/account.journal/search_read",
+   "body": "{\"domain\":[],\"fields\":[\"type\"],\"limit\":1000,\"offset\":0,\"order\":\"id\"}"
+  },
+  "opening:0": {
+   "url": "https://demo3.odoo.com/json/2/account.move.line/formatted_read_group",
+   "body": "{\"aggregates\":[\"debit:sum\",\"credit:sum\"],\"domain\":[[\"parent_state\",\"=\",\"posted\"],[\"display_type\",\"not in\",[\"line_section\",\"line_note\"]],[\"date\",\"<\",\"2026-08-01\"]],\"groupby\":[\"account_id\"],\"limit\":1000,\"offset\":0,\"order\":\"account_id\"}"
+  },
+  "closing:0": {
+   "url": "https://demo3.odoo.com/json/2/account.move.line/formatted_read_group",
+   "body": "{\"aggregates\":[\"debit:sum\",\"credit:sum\"],\"domain\":[[\"parent_state\",\"=\",\"posted\"],[\"display_type\",\"not in\",[\"line_section\",\"line_note\"]],[\"date\",\"<=\",\"2026-09-30\"]],\"groupby\":[\"account_id\"],\"limit\":1000,\"offset\":0,\"order\":\"account_id\"}"
+  },
+  "reversals:0": {
+   "url": "https://demo3.odoo.com/json/2/account.move/search_read",
+   "body": "{\"domain\":[[\"state\",\"=\",\"posted\"],[\"reversal_move_ids\",\"!=\",false]],\"fields\":[\"name\",\"reversal_move_ids\"],\"limit\":1000,\"offset\":0,\"order\":\"id\"}"
+  },
+  "count": {
+   "url": "https://demo3.odoo.com/json/2/account.move.line/search_count",
+   "body": "{\"domain\":[[\"parent_state\",\"=\",\"posted\"],[\"display_type\",\"not in\",[\"line_section\",\"line_note\"]],[\"date\",\">=\",\"2026-08-01\"],[\"date\",\"<=\",\"2026-09-30\"]]}"
+  },
+  "page:0": {
+   "url": "https://demo3.odoo.com/json/2/account.move.line/search_read",
+   "body": "{\"domain\":[[\"parent_state\",\"=\",\"posted\"],[\"display_type\",\"not in\",[\"line_section\",\"line_note\"]],[\"date\",\">=\",\"2026-08-01\"],[\"date\",\"<=\",\"2026-09-30\"]],\"fields\":[\"move_id\",\"move_name\",\"move_type\",\"journal_id\",\"account_id\",\"date\",\"name\",\"ref\",\"debit\",\"credit\",\"create_uid\",\"create_date\"],\"limit\":50,\"offset\":0,\"order\":\"id\"}"
+  },
+  "page:1": {
+   "url": "https://demo3.odoo.com/json/2/account.move.line/search_read",
+   "body": "{\"domain\":[[\"parent_state\",\"=\",\"posted\"],[\"display_type\",\"not in\",[\"line_section\",\"line_note\"]],[\"date\",\">=\",\"2026-08-01\"],[\"date\",\"<=\",\"2026-09-30\"]],\"fields\":[\"move_id\",\"move_name\",\"move_type\",\"journal_id\",\"account_id\",\"date\",\"name\",\"ref\",\"debit\",\"credit\",\"create_uid\",\"create_date\"],\"limit\":50,\"offset\":50,\"order\":\"id\"}"
+  },
+  "page:2": {
+   "url": "https://demo3.odoo.com/json/2/account.move.line/search_read",
+   "body": "{\"domain\":[[\"parent_state\",\"=\",\"posted\"],[\"display_type\",\"not in\",[\"line_section\",\"line_note\"]],[\"date\",\">=\",\"2026-08-01\"],[\"date\",\"<=\",\"2026-09-30\"]],\"fields\":[\"move_id\",\"move_name\",\"move_type\",\"journal_id\",\"account_id\",\"date\",\"name\",\"ref\",\"debit\",\"credit\",\"create_uid\",\"create_date\"],\"limit\":50,\"offset\":100,\"order\":\"id\"}"
+  },
+  "recount": {
+   "url": "https://demo3.odoo.com/json/2/account.move.line/search_count",
+   "body": "{\"domain\":[[\"parent_state\",\"=\",\"posted\"],[\"display_type\",\"not in\",[\"line_section\",\"line_note\"]],[\"date\",\">=\",\"2026-08-01\"],[\"date\",\"<=\",\"2026-09-30\"]]}"
+  }
+ },
+ "status": {
+  "gate": 200,
+  "accounts:0": 200,
+  "journals:0": 200,
+  "opening:0": 200,
+  "closing:0": 200,
+  "reversals:0": 200,
+  "count": 200,
+  "page:0": 200,
+  "page:1": 200,
+  "page:2": 200,
+  "recount": 200
+ },
+ "gate_admin": "true"
+}

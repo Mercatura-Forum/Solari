@@ -1,0 +1,37 @@
+{
+  "name": "solari-web",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "description": "The Thebes Audit Engine web app: engagements, trial-balance import, working papers, the fourteen audit-cycle forms, and PDF, Word and Excel export.",
+  "license": "Apache-2.0",
+  "scripts": {
+    "dev": "npm run sync-sdk && vite",
+    "build": "npm run sync-sdk && tsc -b && vite build",
+    "preview": "vite preview",
+    "sync-sdk": "mkdir -p public && cp node_modules/@thebes/sdk/runtime/boundary.js node_modules/@thebes/sdk/runtime/memphis-connect.js public/"
+  },
+  "dependencies": {
+    "@fontsource-variable/inter": "^5.2.5",
+    "@fontsource/ibm-plex-sans-arabic": "^5.2.5",
+    "@tanstack/react-virtual": "^3.14.11",
+    "@thebes/sdk": "file:vendor/@thebes/sdk",
+    "docx": "9.7.1",
+    "exceljs": "4.4.0",
+    "mammoth": "1.11.0",
+    "pdfjs-dist": "5.4.149",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0",
+    "react-router-dom": "^7.9.1",
+    "recharts": "^3.10.1"
+  },
+  "devDependencies": {
+    "@tailwindcss/vite": "^4.1.0",
+    "@types/react": "^19.2.0",
+    "@types/react-dom": "^19.2.0",
+    "@vitejs/plugin-react": "^5.0.0",
+    "tailwindcss": "^4.1.0",
+    "typescript": "~5.7.0",
+    "vite": "^6.0.0"
+  }
+}

@@ -1,0 +1,309 @@
+{
+ "id": "F14-COMPLETION",
+ "number": 14,
+ "kind": "checklist",
+ "phase": "completion",
+ "title": {
+  "en": "Completion and sign-off",
+  "ar": "إنجاز المراجعة والتوقيع"
+ },
+ "purpose": {
+  "en": "Confirm that sufficient appropriate audit evidence supports the opinion, that the partner has discharged the quality responsibilities, and that the file is ready for assembly.",
+  "ar": "التأكد من أن ما يكفي من أدلة المراجعة المناسبة يؤيد الرأي، وأن الشريك قد وفى بمسؤوليات الجودة، وأن الملف جاهز للتجميع."
+ },
+ "procedures": [
+  "P-FSL-044",
+  "P-FSL-045",
+  "P-FSL-049",
+  "P-FSL-050"
+ ],
+ "standards": [
+  "ISA-220",
+  "ISA-230",
+  "ISA-700",
+  "ISQM-2"
+ ],
+ "sections": [
+  {
+   "id": "engagement",
+   "title": {
+    "en": "Engagement",
+    "ar": "الارتباط"
+   },
+   "fields": [
+    {
+     "id": "client",
+     "label": {
+      "en": "Entity audited",
+      "ar": "المنشأة محل المراجعة"
+     },
+     "type": "text",
+     "required": false,
+     "autofill": "engagement.client",
+     "readonly": true
+    },
+    {
+     "id": "period_start",
+     "label": {
+      "en": "Period from",
+      "ar": "الفترة من"
+     },
+     "type": "date",
+     "required": false,
+     "autofill": "engagement.period_start",
+     "readonly": true
+    },
+    {
+     "id": "period_end",
+     "label": {
+      "en": "Period to",
+      "ar": "الفترة إلى"
+     },
+     "type": "date",
+     "required": false,
+     "autofill": "engagement.period_end",
+     "readonly": true
+    },
+    {
+     "id": "framework",
+     "label": {
+      "en": "Financial reporting framework",
+      "ar": "إطار التقرير المالي"
+     },
+     "type": "text",
+     "required": false,
+     "autofill": "engagement.framework",
+     "readonly": true
+    }
+   ]
+  },
+  {
+   "id": "checklist",
+   "title": {
+    "en": "Completion checklist",
+    "ar": "قائمة مراجعة الإنجاز"
+   },
+   "fields": [
+    {
+     "id": "open_review_notes",
+     "label": {
+      "en": "Review notes not yet cleared",
+      "ar": "ملاحظات الفحص التي لم تُغلق بعد"
+     },
+     "type": "integer",
+     "required": false,
+     "autofill": "records.RK-REVIEW-NOTE.open",
+     "readonly": true
+    },
+    {
+     "id": "open_disclosures",
+     "label": {
+      "en": "Disclosure checklist items applicable and not yet disclosed",
+      "ar": "بنود قائمة الإفصاح المنطبقة التي لم يُفصح عنها بعد"
+     },
+     "type": "integer",
+     "required": false,
+     "autofill": "disclosures.open",
+     "readonly": true
+    },
+    {
+     "id": "evidence_sufficient",
+     "label": {
+      "en": "Sufficient appropriate audit evidence has been obtained",
+      "ar": "تم الحصول على ما يكفي من أدلة المراجعة المناسبة"
+     },
+     "type": "yesno",
+     "required": true
+    },
+    {
+     "id": "misstatements_evaluated",
+     "label": {
+      "en": "Misstatements have been evaluated (form 10)",
+      "ar": "تم تقييم التحريفات (النموذج 10)"
+     },
+     "type": "yesno",
+     "required": true
+    },
+    {
+     "id": "going_concern_concluded",
+     "label": {
+      "en": "Going concern has been concluded on (form 9)",
+      "ar": "تم الاستنتاج بشأن الاستمرارية (النموذج 9)"
+     },
+     "type": "yesno",
+     "required": true
+    },
+    {
+     "id": "subsequent_events",
+     "label": {
+      "en": "Subsequent events reviewed to the report date (form 11)",
+      "ar": "تمت مراجعة الأحداث اللاحقة حتى تاريخ التقرير (النموذج 11)"
+     },
+     "type": "yesno",
+     "required": true
+    },
+    {
+     "id": "representations",
+     "label": {
+      "en": "Written representations obtained, dated at the report date (form 12)",
+      "ar": "تم الحصول على الإفادات المكتوبة مؤرخة بتاريخ التقرير (النموذج 12)"
+     },
+     "type": "yesno",
+     "required": true
+    },
+    {
+     "id": "tcwg",
+     "label": {
+      "en": "Matters communicated to those charged with governance (form 13)",
+      "ar": "تم إبلاغ المكلفين بالحوكمة بالأمور المطلوبة (النموذج 13)"
+     },
+     "type": "yesno",
+     "required": true
+    },
+    {
+     "id": "consultations",
+     "label": {
+      "en": "Consultations on difficult or contentious matters documented and implemented",
+      "ar": "تم توثيق المشاورات بشأن الأمور الصعبة أو الخلافية وتنفيذ نتائجها"
+     },
+     "type": "yesno",
+     "required": true
+    },
+    {
+     "id": "eqr",
+     "label": {
+      "en": "Engagement quality review",
+      "ar": "فحص جودة الارتباط"
+     },
+     "type": "select",
+     "required": true,
+     "options": [
+      {
+       "value": "completed",
+       "label": {
+        "en": "Required and completed",
+        "ar": "مطلوب وتم"
+       }
+      },
+      {
+       "value": "not_required",
+       "label": {
+        "en": "Not required by firm policy",
+        "ar": "غير مطلوب وفقًا لسياسة المكتب"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "opinion",
+   "title": {
+    "en": "Opinion and report",
+    "ar": "الرأي والتقرير"
+   },
+   "fields": [
+    {
+     "id": "opinion",
+     "label": {
+      "en": "Opinion",
+      "ar": "الرأي"
+     },
+     "type": "select",
+     "required": true,
+     "options": [
+      {
+       "value": "unmodified",
+       "label": {
+        "en": "Unmodified",
+        "ar": "غير معدل"
+       }
+      },
+      {
+       "value": "qualified",
+       "label": {
+        "en": "Qualified",
+        "ar": "رأي متحفظ"
+       }
+      },
+      {
+       "value": "adverse",
+       "label": {
+        "en": "Adverse",
+        "ar": "رأي معارض"
+       }
+      },
+      {
+       "value": "disclaimer",
+       "label": {
+        "en": "Disclaimer of opinion",
+        "ar": "الامتناع عن إبداء الرأي"
+       }
+      }
+     ]
+    },
+    {
+     "id": "basis_for_modification",
+     "label": {
+      "en": "Basis for any modification",
+      "ar": "أساس أي تعديل"
+     },
+     "type": "textarea",
+     "required": false
+    },
+    {
+     "id": "emphasis",
+     "label": {
+      "en": "Emphasis of matter or other matter paragraphs",
+      "ar": "فقرات لفت الانتباه أو فقرات أمور أخرى"
+     },
+     "type": "textarea",
+     "required": false
+    },
+    {
+     "id": "key_audit_matters",
+     "label": {
+      "en": "Key audit matters (listed entities)",
+      "ar": "الأمور الرئيسة للمراجعة (للمنشآت المدرجة)"
+     },
+     "type": "textarea",
+     "required": false
+    },
+    {
+     "id": "report_date",
+     "label": {
+      "en": "Date of the auditor's report",
+      "ar": "تاريخ تقرير المراجع"
+     },
+     "type": "date",
+     "required": true
+    },
+    {
+     "id": "assembly_deadline",
+     "label": {
+      "en": "File assembly deadline (within 60 days of the report date)",
+      "ar": "الموعد النهائي لتجميع الملف (خلال 60 يومًا من تاريخ التقرير)"
+     },
+     "type": "date",
+     "required": true
+    }
+   ]
+  }
+ ],
+ "signoff": {
+  "prepare": [
+   "partner",
+   "manager"
+  ],
+  "review": [
+   "partner",
+   "manager"
+  ],
+  "approve": [
+   "partner"
+  ],
+  "eqr": true
+ },
+ "version": 1,
+ "ar_status": "draft_pending_review"
+}

@@ -1,0 +1,31 @@
+Solari: Thebes Protocol Audit System
+Copyright 2026 Mercatura Forum contributors (Thebes Core Team)
+
+This repository is licensed under the Apache License, Version 2.0 (see LICENSE).
+
+================================================================================
+THE STANDARDS MODEL
+================================================================================
+
+`motoko/src/Seed.mo`, `motoko/src/FormsSeed.mo` and `forms/` are generated from
+the standards model published in thebes-audit-standards (Apache-2.0, Thebes Core
+Team): the procedures, requirements, record kinds, disclosure catalogue and the
+fourteen forms, with the sourced Arabic equivalents where the model has them.
+The generators under `tools/` record the model's commit in `Seed.mo`.
+
+================================================================================
+THE VENDORED THEBES SDK
+================================================================================
+
+`frontend/vendor/@thebes/sdk/` is the Thebes frontend SDK (Apache-2.0, Mercatura
+Forum), vendored as source so that the web application builds on its own. Its
+own LICENSE and NOTICE are reproduced in that directory.
+
+================================================================================
+TEST FIXTURES
+================================================================================
+
+`motoko/test/fixtures/` holds recorded replies from public exchange-rate
+publishers and from accounting systems used to build the connector tests; the
+companies, people and figures in the demonstration firm and the test scenarios
+are fictional.

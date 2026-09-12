@@ -1,0 +1,263 @@
+{
+ "id": "F10-MISSTATEMENTS",
+ "number": 10,
+ "kind": "worksheet",
+ "phase": "completion",
+ "title": {
+  "en": "Summary of misstatements",
+  "ar": "ملخص التحريفات"
+ },
+ "purpose": {
+  "en": "Accumulate identified misstatements other than clearly trivial ones and evaluate uncorrected misstatements, individually and in aggregate.",
+  "ar": "تجميع التحريفات المحددة بخلاف التافهة بشكل واضح، وتقييم التحريفات غير المصححة بشكل فردي وفي مجملها."
+ },
+ "procedures": [
+  "P-FSL-039"
+ ],
+ "standards": [
+  "ISA-450"
+ ],
+ "computation": "aggregation",
+ "sections": [
+  {
+   "id": "engagement",
+   "title": {
+    "en": "Engagement",
+    "ar": "الارتباط"
+   },
+   "fields": [
+    {
+     "id": "client",
+     "label": {
+      "en": "Entity audited",
+      "ar": "المنشأة محل المراجعة"
+     },
+     "type": "text",
+     "required": false,
+     "autofill": "engagement.client",
+     "readonly": true
+    },
+    {
+     "id": "period_start",
+     "label": {
+      "en": "Period from",
+      "ar": "الفترة من"
+     },
+     "type": "date",
+     "required": false,
+     "autofill": "engagement.period_start",
+     "readonly": true
+    },
+    {
+     "id": "period_end",
+     "label": {
+      "en": "Period to",
+      "ar": "الفترة إلى"
+     },
+     "type": "date",
+     "required": false,
+     "autofill": "engagement.period_end",
+     "readonly": true
+    },
+    {
+     "id": "framework",
+     "label": {
+      "en": "Financial reporting framework",
+      "ar": "إطار التقرير المالي"
+     },
+     "type": "text",
+     "required": false,
+     "autofill": "engagement.framework",
+     "readonly": true
+    }
+   ]
+  },
+  {
+   "id": "schedule",
+   "title": {
+    "en": "Schedule",
+    "ar": "الجدول"
+   },
+   "fields": [
+    {
+     "id": "misstatements",
+     "label": {
+      "en": "Misstatements recorded on the engagement",
+      "ar": "التحريفات المسجلة على الارتباط"
+     },
+     "type": "table",
+     "required": false,
+     "autofill": "records.RK-MISSTATEMENT",
+     "readonly": true,
+     "columns": [
+      {
+       "id": "description",
+       "label": {
+        "en": "Description",
+        "ar": "الوصف"
+       },
+       "type": "text",
+       "required": false
+      },
+      {
+       "id": "type",
+       "label": {
+        "en": "Type",
+        "ar": "النوع"
+       },
+       "type": "text",
+       "required": false
+      },
+      {
+       "id": "status",
+       "label": {
+        "en": "Status",
+        "ar": "الحالة"
+       },
+       "type": "text",
+       "required": false
+      },
+      {
+       "id": "assets",
+       "label": {
+        "en": "Assets",
+        "ar": "الأصول"
+       },
+       "type": "money",
+       "required": false
+      },
+      {
+       "id": "liabilities",
+       "label": {
+        "en": "Liabilities",
+        "ar": "الالتزامات"
+       },
+       "type": "money",
+       "required": false
+      },
+      {
+       "id": "equity",
+       "label": {
+        "en": "Equity",
+        "ar": "حقوق الملكية"
+       },
+       "type": "money",
+       "required": false
+      },
+      {
+       "id": "profit",
+       "label": {
+        "en": "Profit",
+        "ar": "الربح"
+       },
+       "type": "money",
+       "required": false
+      }
+     ]
+    },
+    {
+     "id": "uncorrected_profit",
+     "label": {
+      "en": "Uncorrected effect on profit",
+      "ar": "أثر التحريفات غير المصححة على الربح"
+     },
+     "type": "money",
+     "required": false,
+     "autofill": "paper.aggregation.uncorrected.profit",
+     "readonly": true
+    },
+    {
+     "id": "largest_effect",
+     "label": {
+      "en": "Largest effect on any element",
+      "ar": "أكبر أثر على أي عنصر"
+     },
+     "type": "money",
+     "required": false,
+     "autofill": "paper.aggregation.largest_element_effect",
+     "readonly": true
+    },
+    {
+     "id": "band",
+     "label": {
+      "en": "Proximity to overall materiality",
+      "ar": "مدى القرب من الأهمية النسبية الإجمالية"
+     },
+     "type": "text",
+     "required": false,
+     "autofill": "paper.aggregation.band",
+     "readonly": true
+    }
+   ]
+  },
+  {
+   "id": "evaluation",
+   "title": {
+    "en": "Evaluation",
+    "ar": "التقييم"
+   },
+   "fields": [
+    {
+     "id": "reasons_not_corrected",
+     "label": {
+      "en": "Management's reasons for not correcting",
+      "ar": "أسباب عدم قيام الإدارة بالتصحيح"
+     },
+     "type": "textarea",
+     "required": true
+    },
+    {
+     "id": "qualitative",
+     "label": {
+      "en": "Qualitative considerations",
+      "ar": "الاعتبارات النوعية"
+     },
+     "type": "textarea",
+     "required": true
+    },
+    {
+     "id": "conclusion",
+     "label": {
+      "en": "Conclusion",
+      "ar": "الاستنتاج"
+     },
+     "type": "select",
+     "required": true,
+     "options": [
+      {
+       "value": "not_material",
+       "label": {
+        "en": "Not material, individually or in aggregate",
+        "ar": "غير جوهرية بشكل فردي أو في مجملها"
+       }
+      },
+      {
+       "value": "material",
+       "label": {
+        "en": "Material (effect on the opinion recorded)",
+        "ar": "جوهرية (مع تسجيل الأثر على الرأي)"
+       }
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "signoff": {
+  "prepare": [
+   "partner",
+   "manager",
+   "senior",
+   "staff"
+  ],
+  "review": [
+   "partner",
+   "manager"
+  ],
+  "approve": [
+   "partner"
+  ]
+ },
+ "version": 1,
+ "ar_status": "draft_pending_review"
+}

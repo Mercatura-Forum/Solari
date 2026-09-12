@@ -1,0 +1,228 @@
+{
+ "id": "F09-GOING-CONCERN",
+ "number": 9,
+ "kind": "worksheet",
+ "phase": "completion",
+ "title": {
+  "en": "Going concern evaluation",
+  "ar": "تقييم الاستمرارية"
+ },
+ "purpose": {
+  "en": "Evaluate management's assessment of the entity's ability to continue as a going concern and conclude on material uncertainty.",
+  "ar": "تقييم تقدير الإدارة لقدرة المنشأة على الاستمرار واستنتاج ما إذا كان يوجد عدم تأكد جوهري متعلق بالاستمرارية."
+ },
+ "procedures": [
+  "P-FSL-032"
+ ],
+ "standards": [
+  "ISA-570"
+ ],
+ "computation": "going_concern",
+ "sections": [
+  {
+   "id": "engagement",
+   "title": {
+    "en": "Engagement",
+    "ar": "الارتباط"
+   },
+   "fields": [
+    {
+     "id": "client",
+     "label": {
+      "en": "Entity audited",
+      "ar": "المنشأة محل المراجعة"
+     },
+     "type": "text",
+     "required": false,
+     "autofill": "engagement.client",
+     "readonly": true
+    },
+    {
+     "id": "period_start",
+     "label": {
+      "en": "Period from",
+      "ar": "الفترة من"
+     },
+     "type": "date",
+     "required": false,
+     "autofill": "engagement.period_start",
+     "readonly": true
+    },
+    {
+     "id": "period_end",
+     "label": {
+      "en": "Period to",
+      "ar": "الفترة إلى"
+     },
+     "type": "date",
+     "required": false,
+     "autofill": "engagement.period_end",
+     "readonly": true
+    },
+    {
+     "id": "framework",
+     "label": {
+      "en": "Financial reporting framework",
+      "ar": "إطار التقرير المالي"
+     },
+     "type": "text",
+     "required": false,
+     "autofill": "engagement.framework",
+     "readonly": true
+    }
+   ]
+  },
+  {
+   "id": "assessment",
+   "title": {
+    "en": "Management's assessment",
+    "ar": "تقدير الإدارة"
+   },
+   "fields": [
+    {
+     "id": "assessment_obtained",
+     "label": {
+      "en": "Has management made an assessment covering at least twelve months?",
+      "ar": "هل أعدت الإدارة تقديرًا يغطي اثني عشر شهرًا على الأقل؟"
+     },
+     "type": "yesno",
+     "required": true
+    },
+    {
+     "id": "required_end",
+     "label": {
+      "en": "Required end of the assessment period",
+      "ar": "النهاية المطلوبة لفترة التقدير"
+     },
+     "type": "date",
+     "required": false,
+     "autofill": "paper.going_concern.required_assessment_end",
+     "readonly": true
+    },
+    {
+     "id": "shortfall_days",
+     "label": {
+      "en": "Shortfall of the assessment period (days)",
+      "ar": "نقص فترة التقدير (بالأيام)"
+     },
+     "type": "integer",
+     "required": false,
+     "autofill": "paper.going_concern.assessment_shortfall_days",
+     "readonly": true
+    },
+    {
+     "id": "indicators",
+     "label": {
+      "en": "Events or conditions indicated by the computation",
+      "ar": "الأحداث أو الظروف التي يشير إليها الاحتساب"
+     },
+     "type": "text",
+     "required": false,
+     "autofill": "paper.going_concern.indicators",
+     "readonly": true
+    },
+    {
+     "id": "method_and_assumptions",
+     "label": {
+      "en": "Evaluation of the method, assumptions and data",
+      "ar": "تقييم الطريقة والافتراضات والبيانات"
+     },
+     "type": "textarea",
+     "required": true
+    },
+    {
+     "id": "plans",
+     "label": {
+      "en": "Management's plans and whether they are feasible",
+      "ar": "خطط الإدارة ومدى إمكانية تنفيذها"
+     },
+     "type": "textarea",
+     "required": true
+    }
+   ]
+  },
+  {
+   "id": "conclusion",
+   "title": {
+    "en": "Conclusion",
+    "ar": "الاستنتاج"
+   },
+   "fields": [
+    {
+     "id": "conclusion",
+     "label": {
+      "en": "Conclusion",
+      "ar": "الاستنتاج"
+     },
+     "type": "select",
+     "required": true,
+     "options": [
+      {
+       "value": "no_uncertainty",
+       "label": {
+        "en": "Basis appropriate; no material uncertainty",
+        "ar": "الأساس ملائم؛ لا يوجد عدم تأكد جوهري"
+       }
+      },
+      {
+       "value": "uncertainty_disclosed",
+       "label": {
+        "en": "Material uncertainty, adequately disclosed",
+        "ar": "يوجد عدم تأكد جوهري مفصح عنه بشكل كافٍ"
+       }
+      },
+      {
+       "value": "uncertainty_not_disclosed",
+       "label": {
+        "en": "Material uncertainty, not adequately disclosed",
+        "ar": "يوجد عدم تأكد جوهري غير مفصح عنه بشكل كافٍ"
+       }
+      },
+      {
+       "value": "basis_inappropriate",
+       "label": {
+        "en": "Going concern basis inappropriate",
+        "ar": "أساس الاستمرارية غير ملائم"
+       }
+      }
+     ]
+    },
+    {
+     "id": "disclosure_evaluation",
+     "label": {
+      "en": "Evaluation of the related disclosures",
+      "ar": "تقييم الإفصاحات ذات الصلة"
+     },
+     "type": "textarea",
+     "required": true
+    },
+    {
+     "id": "report_effect",
+     "label": {
+      "en": "Effect on the auditor's report",
+      "ar": "الأثر على تقرير المراجع"
+     },
+     "type": "textarea",
+     "required": true
+    }
+   ]
+  }
+ ],
+ "signoff": {
+  "prepare": [
+   "partner",
+   "manager",
+   "senior",
+   "staff"
+  ],
+  "review": [
+   "partner",
+   "manager"
+  ],
+  "approve": [
+   "partner"
+  ]
+ },
+ "version": 1,
+ "ar_status": "draft_pending_review"
+}

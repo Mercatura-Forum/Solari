@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Thebes Audit</title>
+    <!-- The Thebes SDK runtime (window.EgyptBoundary): /api/call, /api/query,
+         /api/receipt and Candid encoding. Copied from @thebes/sdk at build time. -->
+    <script src="./boundary.js"></script>
+    <!-- Memphis Connect (window.memphis): the sign-in ceremony runs at the Memphis
+         origin and returns a session minted for this app's origin. Required by
+         MemphisConnectGate. Copied from @thebes/sdk at build time. -->
+    <script src="./memphis-connect.js"></script>
+    <!-- Per-deployment settings (the contract this bundle talks to); empty for the firm deployment. -->
+    <script src="./config.js"></script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

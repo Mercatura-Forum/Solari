@@ -1,0 +1,190 @@
+{
+ "id": "F02-ENGAGEMENT-LETTER",
+ "number": 2,
+ "kind": "letter",
+ "phase": "planning",
+ "title": {
+  "en": "Engagement letter",
+  "ar": "خطاب الارتباط"
+ },
+ "purpose": {
+  "en": "Agree the terms of the audit engagement with management and, where appropriate, those charged with governance.",
+  "ar": "الاتفاق على شروط ارتباط المراجعة مع الإدارة، ومع المكلفين بالحوكمة عند الاقتضاء."
+ },
+ "procedures": [
+  "P-FSL-003"
+ ],
+ "standards": [
+  "ISA-210"
+ ],
+ "sections": [
+  {
+   "id": "engagement",
+   "title": {
+    "en": "Engagement",
+    "ar": "الارتباط"
+   },
+   "fields": [
+    {
+     "id": "client",
+     "label": {
+      "en": "Entity audited",
+      "ar": "المنشأة محل المراجعة"
+     },
+     "type": "text",
+     "required": false,
+     "autofill": "engagement.client",
+     "readonly": true
+    },
+    {
+     "id": "period_start",
+     "label": {
+      "en": "Period from",
+      "ar": "الفترة من"
+     },
+     "type": "date",
+     "required": false,
+     "autofill": "engagement.period_start",
+     "readonly": true
+    },
+    {
+     "id": "period_end",
+     "label": {
+      "en": "Period to",
+      "ar": "الفترة إلى"
+     },
+     "type": "date",
+     "required": false,
+     "autofill": "engagement.period_end",
+     "readonly": true
+    },
+    {
+     "id": "framework",
+     "label": {
+      "en": "Financial reporting framework",
+      "ar": "إطار التقرير المالي"
+     },
+     "type": "text",
+     "required": false,
+     "autofill": "engagement.framework",
+     "readonly": true
+    }
+   ]
+  },
+  {
+   "id": "terms",
+   "title": {
+    "en": "Terms",
+    "ar": "الشروط"
+   },
+   "fields": [
+    {
+     "id": "addressee",
+     "label": {
+      "en": "Addressed to",
+      "ar": "موجه إلى"
+     },
+     "type": "text",
+     "required": true,
+     "help": {
+      "en": "The board of directors or the body that appoints the auditor.",
+      "ar": "مجلس الإدارة أو الجهة التي تعين المراجع."
+     }
+    },
+    {
+     "id": "letter_date",
+     "label": {
+      "en": "Date of the letter",
+      "ar": "تاريخ الخطاب"
+     },
+     "type": "date",
+     "required": true
+    },
+    {
+     "id": "firm_name",
+     "label": {
+      "en": "Audit firm",
+      "ar": "مكتب المراجعة"
+     },
+     "type": "text",
+     "required": true
+    },
+    {
+     "id": "reporting_deadline",
+     "label": {
+      "en": "Expected date of the auditor's report",
+      "ar": "التاريخ المتوقع لتقرير المراجع"
+     },
+     "type": "date",
+     "required": true
+    },
+    {
+     "id": "fee_basis",
+     "label": {
+      "en": "Fees and billing arrangements",
+      "ar": "الأتعاب وترتيبات الفوترة"
+     },
+     "type": "textarea",
+     "required": true
+    },
+    {
+     "id": "other_terms",
+     "label": {
+      "en": "Other terms agreed",
+      "ar": "شروط أخرى متفق عليها"
+     },
+     "type": "textarea",
+     "required": false
+    }
+   ]
+  }
+ ],
+ "letter": {
+  "en": [
+   "To {{field:addressee}}",
+   "You have requested that we audit the financial statements of {{engagement.client}}, which comprise the statement of financial position as at {{engagement.period_end}}, and the statements of profit or loss, changes in equity and cash flows for the period then ended, and the notes to the financial statements. We are pleased to confirm our acceptance and our understanding of this audit engagement by means of this letter.",
+   "The objectives of our audit are to obtain reasonable assurance about whether the financial statements as a whole are free from material misstatement, whether due to fraud or error, and to issue an auditor's report that includes our opinion. Reasonable assurance is a high level of assurance but is not a guarantee that an audit conducted in accordance with {{engagement.audit_standard}} standards will always detect a material misstatement when it exists.",
+   "We will conduct our audit in accordance with {{engagement.audit_standard}} standards. Those standards require that we comply with ethical requirements, and plan and perform the audit to obtain sufficient appropriate audit evidence. We will exercise professional judgment and maintain professional scepticism throughout the audit.",
+   "Because of the inherent limitations of an audit, together with the inherent limitations of internal control, there is an unavoidable risk that some material misstatements may not be detected, even though the audit is properly planned and performed.",
+   "Our audit will be conducted on the basis that management acknowledge and understand that they have responsibility: (a) for the preparation and fair presentation of the financial statements in accordance with {{engagement.framework}}; (b) for such internal control as management determines is necessary to enable the preparation of financial statements that are free from material misstatement, whether due to fraud or error; and (c) to provide us with access to all information relevant to the preparation of the financial statements, additional information that we may request, and unrestricted access to persons within the entity from whom we determine it necessary to obtain audit evidence.",
+   "As part of our audit process, we will request from management written confirmation concerning representations made to us in connection with the audit.",
+   "We expect to issue our report on or about {{field:reporting_deadline}}. The form and content of our report may need to be amended in the light of our audit findings.",
+   "Fees: {{field:fee_basis}}",
+   "{{field:other_terms}}",
+   "Please sign and return a copy of this letter to indicate your acknowledgement of, and agreement with, the arrangements for our audit, including our respective responsibilities.",
+   "Yours faithfully, {{field:firm_name}}",
+   "Acknowledged and agreed on behalf of {{engagement.client}}: ______________________  Date: __________"
+  ],
+  "ar": [
+   "إلى {{field:addressee}}",
+   "طلبتم منا مراجعة القوائم المالية لـ {{engagement.client}}، والتي تتكون من قائمة المركز المالي في {{engagement.period_end}}، وقوائم الأرباح أو الخسائر والتغير في حقوق الملكية والتدفقات النقدية عن الفترة المنتهية في ذلك التاريخ، والإيضاحات المتممة للقوائم المالية. ويسعدنا أن نؤكد بموجب هذا الخطاب قبولنا لارتباط المراجعة هذا وفهمنا له.",
+   "تتمثل أهداف مراجعتنا في الحصول على تأكيد معقول بشأن ما إذا كانت القوائم المالية ككل خالية من التحريف الجوهري، سواء كان ناتجًا عن غش أو خطأ، وإصدار تقرير المراجع الذي يتضمن رأينا. والتأكيد المعقول هو مستوى عالٍ من التأكيد، ولكنه ليس ضمانًا بأن المراجعة التي تتم وفقًا لمعايير {{engagement.audit_standard}} ستكتشف دائمًا أي تحريف جوهري عند وجوده.",
+   "سنقوم بمراجعتنا وفقًا لمعايير {{engagement.audit_standard}}. وتتطلب تلك المعايير منا الالتزام بالمتطلبات المسلكية، وتخطيط المراجعة وتنفيذها للحصول على ما يكفي من أدلة المراجعة المناسبة. وسنمارس الحكم المهني ونحافظ على نزعة الشك المهني طوال المراجعة.",
+   "بسبب القيود الملازمة للمراجعة، إلى جانب القيود الملازمة للرقابة الداخلية، يوجد خطر لا يمكن تجنبه بأن بعض التحريفات الجوهرية قد لا يتم اكتشافها، حتى وإن تم تخطيط المراجعة وتنفيذها بشكل سليم.",
+   "ستُنفَّذ مراجعتنا على أساس أن الإدارة تقر وتفهم أنها مسؤولة عن: (أ) إعداد القوائم المالية وعرضها بشكل عادل وفقًا لـ {{engagement.framework}}؛ (ب) الرقابة الداخلية التي تراها الإدارة ضرورية لتمكينها من إعداد قوائم مالية خالية من التحريف الجوهري، سواء كان ناتجًا عن غش أو خطأ؛ (ج) تزويدنا بإمكانية الوصول إلى جميع المعلومات ذات الصلة بإعداد القوائم المالية، وأي معلومات إضافية قد نطلبها، وإمكانية الوصول غير المقيد إلى الأشخاص داخل المنشأة الذين نرى ضرورة الحصول على أدلة المراجعة منهم.",
+   "كجزء من عملية المراجعة، سنطلب من الإدارة تأكيدًا كتابيًا بشأن الإفادات المقدمة إلينا فيما يتعلق بالمراجعة.",
+   "نتوقع إصدار تقريرنا في أو حوالي {{field:reporting_deadline}}. وقد يلزم تعديل شكل تقريرنا ومحتواه في ضوء نتائج مراجعتنا.",
+   "الأتعاب: {{field:fee_basis}}",
+   "{{field:other_terms}}",
+   "يرجى توقيع نسخة من هذا الخطاب وإعادتها إلينا للإقرار بترتيبات مراجعتنا والموافقة عليها، بما في ذلك مسؤوليات كل منا.",
+   "وتفضلوا بقبول فائق الاحترام، {{field:firm_name}}",
+   "تم الإقرار والموافقة نيابةً عن {{engagement.client}}: ______________________  التاريخ: __________"
+  ]
+ },
+ "signoff": {
+  "prepare": [
+   "partner",
+   "manager",
+   "senior"
+  ],
+  "review": [
+   "partner",
+   "manager"
+  ],
+  "approve": [
+   "partner"
+  ]
+ },
+ "version": 1,
+ "ar_status": "draft_pending_review"
+}
