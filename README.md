@@ -201,6 +201,15 @@ every other, with a negative control that must go red.
 stated-date rule, the population and evidence stores, the connectors, the
 many-firms registry and how each part is proven.
 
+## Contributing
+
+This repository was published as a single commit, by design: the product was built in a
+private tree through iteration, test batteries, oracle comparison and review, and the public
+repository is the clean cut of the result, without the lab work behind it. From this release
+onward, work continues here in the open. Open an issue for a defect or a question, with the
+file and line; open a pull request against `main` with the battery green. Contributions are
+attributed to the team.
+
 ## Licence
 
 Apache License 2.0 (see `LICENSE`). The vendored Thebes SDK under
