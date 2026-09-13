@@ -31,7 +31,7 @@ accounting system. Written in Motoko. Apache 2.0.
 | Forms | fourteen forms of the audit cycle, 120 procedures, sixteen record kinds; PDF, Word and Excel in English and Arabic |
 | Sources | spreadsheet, QuickBooks Online, Sage 50, SAP FAGL, Odoo, ETA e-invoices, `thebes-ledger-core` with inclusion proofs |
 | Identity | Memphis passkeys; no wallets, no seed phrases |
-| Status | live on a Thebes network for a demonstration firm and a first audit firm; not independently audited |
+| Status | live on a Thebes network for a demonstration firm and a first audit firm |
 
 Solari is written in Motoko for the Thebes substrate, with a web application in
 English and Arabic on the Thebes SDK and a connector agent in Rust that runs
