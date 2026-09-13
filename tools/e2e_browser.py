@@ -494,7 +494,7 @@ def main():
         # ── the client's books pulled from Odoo through outcalls at quorum, screened as a population ──
         # Needs ODOO_DEMO: a JSON file { host, database, ro_api_key } for a demo.odoo.com database
         # (tools/odoo_connector_oracle.py documents the flow); skipped, and said so, without it.
-        PULL = "the client's books are pulled from Odoo at quorum 4, fingerprinted on the chain, reconciled to Odoo's balances and screened"
+        PULL = "the client's books are pulled from Odoo at full quorum, fingerprinted on the chain, reconciled to Odoo's balances and screened"
         odoo = os.environ.get('ODOO_DEMO')
         pulled_population = 0
         if odoo:

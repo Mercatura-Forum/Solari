@@ -5,7 +5,7 @@
 ///
 /// 1. **Quorum is per call.** You choose, on each request, how many validators
 ///    must independently fetch the URL and agree on the result. A cheap read
-///    can run at quorum 1 and a settlement oracle at quorum 4 in the same
+///    can run at quorum 1 and a settlement oracle at full quorum in the same
 ///    contract.
 /// 2. **Agreement is declared, not programmed.** There is no transform
 ///    callback to write. Instead the request DECLARES which parts of the

@@ -2,7 +2,7 @@
 //! unspent capability in `Authorization: Capability <base64url JSON token>`; the page
 //! route counts against the capability's page budget, the metadata routes do not.
 //! Every body is canonical JSON (sorted keys, no whitespace), so the same request gives
-//! the same bytes to all four validators.
+//! the same bytes to every validator of the subnet.
 //!
 //! Attribution: Thebes Core Team. Licence: Apache 2.0.
 

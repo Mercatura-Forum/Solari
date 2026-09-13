@@ -3,7 +3,7 @@
 
   --pin <cid>      pin the release: <cid> is a REFERENCE contract just installed or upgraded
                    from build/audit.wasm (the e2e contract after the test pass). Its module
-                   hash as ALL FOUR validators report it becomes the registry's pin (the
+                   hash as EVERY validator of the subnet reports it becomes the registry's pin (the
                    substrate rewrites a module at install, so the pin is the chain's hash,
                    not the file's); the file's sha256 and the build label are recorded in
                    fleet/release.json. Refused unless the reference reports the local build
@@ -15,7 +15,7 @@
 Per firm: figures before (setupState, firmOwner, registryStatus.registry, engagement and
 member counts); `thebes-deploy upgrade` — its gates (stable types compatible, stable-memory
 persistence) refuse an incompatible module before any install, they never trap a running
-firm; the module hash from ALL FOUR validators must then equal the pin; figures after must
+firm; the module hash from EVERY validator of the subnet must then equal the pin; figures after must
 equal figures before; the registry records the firm's new hash. The first firm that fails
 STOPS the rollout with a STOP line; nothing after it is touched.
 Attribution: Thebes Core Team. Licence: Apache 2.0.

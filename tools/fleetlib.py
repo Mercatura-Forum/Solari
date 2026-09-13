@@ -3,7 +3,7 @@ validators' management interface for a contract's real module hash, cid allocati
 per-firm manifest directory. Used by provision_firm.py, verify_fleet.py, fleet_upgrade.py and
 issue_invitation.py.
 
-Every chain fact here is read from ALL FOUR validators and must agree; a disagreement is a
+Every chain fact here is read from EVERY validator of the subnet and must agree; a disagreement is a
 finding (the Sep-11 demo contract held a stale module on one node), never averaged away.
 Attribution: Thebes Core Team. Licence: Apache 2.0.
 """
