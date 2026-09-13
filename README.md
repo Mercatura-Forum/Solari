@@ -1,12 +1,37 @@
 # Solari: Thebes Protocol Audit System
 
-An audit system for audit firms that runs as a smart contract, built on a
-hash-chained engagement trail. Every engagement the firm holds is a file whose
-every change is an entry in that trail, written in the same message as the
-change; every figure is the output of a specified computation that reproduces
-its published reference byte for byte; every sign-off, working paper and
-evidence document is an object a third party can verify against the chain's
-own commitment.
+**Solari is an audit system for audit firms that runs as a smart contract on the
+Thebes substrate.** Every engagement is a file whose every change is an entry
+in a hash-chained trail; every figure is the output of a specified computation
+under the International Standards on Auditing that reproduces its published
+reference byte for byte; every sign-off, working paper and evidence document is
+an object a third party can verify against the chain's own commitment. Web
+application in English and Arabic; connector agent in Rust for the client's
+accounting system. Written in Motoko. Apache 2.0.
+
+- **A trail, not a database.** Every accepted change appends to the engagement's
+  hash chain in the same message; `verifyTrail` recomputes it and locates the
+  first break.
+- **Figures that reproduce.** Materiality (ISA 320, 600), sampling (ISA 530),
+  analytical review (ISA 520), misstatement aggregation (ISA 450) and
+  journal-entry testing against 26 stated criteria, byte-identical to the
+  reference implementation in `thebes-audit-standards`.
+- **Books read live.** Seven trial-balance sources; Odoo through the substrate's
+  HTTP outcalls at a declared validator quorum; any system through a signed
+  connector agent; Tally and the Egyptian Tax Authority e-invoicing.
+- **Signed by people, not accounts.** Passkey sign-offs, four-eyes on every
+  form, documents encrypted in the browser and stored by fingerprint with keys
+  wrapped to registered devices.
+- **Many firms on one service.** One contract per firm from a registry that pins
+  the release every firm runs; isolation proven method by method.
+
+| | |
+|---|---|
+| Standards | ISA 220, 230, 240, 260, 265, 300, 315, 320, 330, 450, 505, 520, 530, 560, 570, 580, 600, 700; ISQM 1, 2 |
+| Forms | fourteen forms of the audit cycle, 120 procedures, sixteen record kinds; PDF, Word and Excel in English and Arabic |
+| Sources | spreadsheet, QuickBooks Online, Sage 50, SAP FAGL, Odoo, ETA e-invoices, `thebes-ledger-core` with inclusion proofs |
+| Identity | Memphis passkeys; no wallets, no seed phrases |
+| Status | live on a Thebes network for a demonstration firm and a first audit firm; not independently audited |
 
 Solari is written in Motoko for the Thebes substrate, with a web application in
 English and Arabic on the Thebes SDK and a connector agent in Rust that runs
