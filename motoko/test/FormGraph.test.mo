@@ -158,6 +158,10 @@ cases += 1;
 cases += 1;
 // no mover for record kind RK-CARRY-FORWARD
 
+// records:RK-CONSULTATION -> F14-COMPLETION.open_consultations (records)
+cases += 1;
+// no mover for record kind RK-CONSULTATION
+
 // records:RK-CONTROL -> F17-INTERNAL-CONTROL.controls_rev (records)
 cases += 1;
 prepare("F17-INTERNAL-CONTROL", "{\"control_environment\": \"Recorded for the graph battery.\", \"control_environment_eval\": \"effective\", \"risk_process\": \"Recorded for the graph battery.\", \"risk_process_eval\": \"effective\", \"monitoring\": \"Recorded for the graph battery.\", \"monitoring_eval\": \"effective\", \"information_system\": \"Recorded for the graph battery.\", \"information_system_eval\": \"effective\", \"control_activities\": \"Recorded for the graph battery.\", \"control_activities_eval\": \"effective\", \"walkthroughs\": [{\"cycle\": \"REV\", \"process\": \"Recorded for the graph battery.\", \"performed_on\": \"2026-02-01\", \"controls\": \"Recorded for the graph battery.\"}], \"tolerable_rate\": \"5\", \"expected_rate\": \"5\", \"beta\": \"0.05\", \"controls_tested\": [{\"control\": \"Recorded for the graph battery.\", \"cycle\": \"REV\", \"assertion\": \"Recorded for the graph battery.\", \"items\": 3, \"deviations\": 3, \"conclusion\": \"yes\"}], \"conclusion\": \"Recorded for the graph battery.\"}");

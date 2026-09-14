@@ -226,6 +226,17 @@
      "readonly": true
     },
     {
+     "id": "open_consultations",
+     "label": {
+      "en": "Consultations without an agreed conclusion, or with a difference of opinion unresolved",
+      "ar": "المشاورات دون استنتاج متفق عليه، أو باختلاف في الرأي لم يُحل"
+     },
+     "type": "integer",
+     "required": false,
+     "autofill": "records.RK-CONSULTATION.unresolved",
+     "readonly": true
+    },
+    {
      "id": "consultations",
      "label": {
       "en": "Consultations on difficult or contentious matters documented and implemented",

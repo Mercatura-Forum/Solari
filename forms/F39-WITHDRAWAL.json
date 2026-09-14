@@ -1,0 +1,339 @@
+{
+ "id": "F39-WITHDRAWAL",
+ "number": 39,
+ "kind": "worksheet",
+ "phase": "completion",
+ "title": {
+  "en": "Withdrawal from the engagement",
+  "ar": "الانسحاب من الارتباط"
+ },
+ "purpose": {
+  "en": "Record the ground for withdrawing from the engagement, the consultation and the firm's approval, the communications made, and the implications for the auditor's report, before the partner withdraws.",
+  "ar": "تسجيل سبب الانسحاب من الارتباط، والمشاورة وموافقة المكتب، والمراسلات التي تمت، وآثار ذلك على تقرير المراجع، قبل أن ينسحب الشريك."
+ },
+ "procedures": [
+  "P-FSL-050"
+ ],
+ "standards": [
+  "ISA-210",
+  "ISA-240",
+  "ISA-250",
+  "ISA-220",
+  "ISA-705"
+ ],
+ "sections": [
+  {
+   "id": "engagement",
+   "title": {
+    "en": "Engagement",
+    "ar": "الارتباط"
+   },
+   "fields": [
+    {
+     "id": "client",
+     "label": {
+      "en": "Entity audited",
+      "ar": "المنشأة محل المراجعة"
+     },
+     "type": "text",
+     "required": false,
+     "autofill": "engagement.client",
+     "readonly": true
+    },
+    {
+     "id": "period_start",
+     "label": {
+      "en": "Period from",
+      "ar": "الفترة من"
+     },
+     "type": "date",
+     "required": false,
+     "autofill": "engagement.period_start",
+     "readonly": true
+    },
+    {
+     "id": "period_end",
+     "label": {
+      "en": "Period to",
+      "ar": "الفترة إلى"
+     },
+     "type": "date",
+     "required": false,
+     "autofill": "engagement.period_end",
+     "readonly": true
+    },
+    {
+     "id": "framework",
+     "label": {
+      "en": "Financial reporting framework",
+      "ar": "إطار التقرير المالي"
+     },
+     "type": "text",
+     "required": false,
+     "autofill": "engagement.framework",
+     "readonly": true
+    }
+   ]
+  },
+  {
+   "id": "grounds",
+   "title": {
+    "en": "The ground and the circumstances",
+    "ar": "السبب والظروف"
+   },
+   "fields": [
+    {
+     "id": "ground",
+     "label": {
+      "en": "Ground for withdrawal",
+      "ar": "سبب الانسحاب"
+     },
+     "type": "select",
+     "required": true,
+     "options": [
+      {
+       "value": "scope_limitation",
+       "label": {
+        "en": "Management imposes a limitation on scope, or a change of terms cannot be agreed (ISA 210.17)",
+        "ar": "الإدارة تفرض قيداً على النطاق، أو تعذر الاتفاق على تغيير الشروط (معيار 210 فقرة 17)"
+       }
+      },
+      {
+       "value": "fraud",
+       "label": {
+        "en": "Fraud or suspected fraud brings the engagement into question (ISA 240.38)",
+        "ar": "غش أو اشتباه في غش يضع الارتباط موضع تساؤل (معيار 240 فقرة 38)"
+       }
+      },
+      {
+       "value": "non_compliance",
+       "label": {
+        "en": "Non-compliance with laws and regulations (ISA 250.19)",
+        "ar": "عدم الامتثال للقوانين واللوائح (معيار 250 فقرة 19)"
+       }
+      },
+      {
+       "value": "independence",
+       "label": {
+        "en": "A threat to independence that cannot be reduced to an acceptable level",
+        "ar": "تهديد للاستقلال لا يمكن تخفيضه إلى مستوى مقبول"
+       }
+      },
+      {
+       "value": "other",
+       "label": {
+        "en": "Another ground, stated below",
+        "ar": "سبب آخر، مبين أدناه"
+       }
+      }
+     ]
+    },
+    {
+     "id": "circumstances",
+     "label": {
+      "en": "The circumstances: what was found, when, and how management responded",
+      "ar": "الظروف: ما تم اكتشافه، ومتى، وكيف استجابت الإدارة"
+     },
+     "type": "textarea",
+     "required": true
+    },
+    {
+     "id": "alternatives",
+     "label": {
+      "en": "Why continuing is not possible, and what constrains withdrawing (legal or regulatory duties, ISA 240.38(b), ISA 250.19)",
+      "ar": "لماذا لا يمكن الاستمرار، وما الذي يقيد الانسحاب (واجبات قانونية أو تنظيمية، معيار 240 فقرة 38(ب)، معيار 250 فقرة 19)"
+     },
+     "type": "textarea",
+     "required": true
+    },
+    {
+     "id": "consultation",
+     "label": {
+      "en": "The consultation the firm's policy requires (the record, agreed)",
+      "ar": "المشاورة التي تتطلبها سياسة المكتب (السجل، متفق عليه)"
+     },
+     "type": "text",
+     "required": true,
+     "cites": [
+      "RK-CONSULTATION"
+     ],
+     "help": {
+      "en": "The record number of the consultation on the withdrawal: it is cited only once its conclusion is agreed (ISA 220.35).",
+      "ar": "رقم سجل المشاورة بشأن الانسحاب: لا يُستشهد به إلا بعد الاتفاق على استنتاجه (معيار 220 فقرة 35)."
+     }
+    },
+    {
+     "id": "firm_approved_by",
+     "label": {
+      "en": "Firm approval: by whom",
+      "ar": "موافقة المكتب: من"
+     },
+     "type": "text",
+     "required": true
+    },
+    {
+     "id": "firm_approved_on",
+     "label": {
+      "en": "Firm approval: on",
+      "ar": "موافقة المكتب: في"
+     },
+     "type": "date",
+     "required": true
+    }
+   ]
+  },
+  {
+   "id": "communications",
+   "title": {
+    "en": "Communications",
+    "ar": "المراسلات"
+   },
+   "fields": [
+    {
+     "id": "management_discussed",
+     "label": {
+      "en": "The reasons discussed with the appropriate level of management (ISA 240.38(c), ISA 250.19)",
+      "ar": "نوقشت الأسباب مع المستوى المناسب من الإدارة (معيار 240 فقرة 38(ج)، معيار 250 فقرة 19)"
+     },
+     "type": "yesno",
+     "required": true
+    },
+    {
+     "id": "tcwg_discussed",
+     "label": {
+      "en": "The reasons discussed with those charged with governance; the written communication follows the withdrawal",
+      "ar": "نوقشت الأسباب مع المكلفين بالحوكمة؛ ويلي الانسحابَ الإبلاغ الكتابي"
+     },
+     "type": "yesno",
+     "required": true
+    },
+    {
+     "id": "regulator",
+     "label": {
+      "en": "Regulator or other authority",
+      "ar": "الجهة الرقابية أو أي سلطة أخرى"
+     },
+     "type": "select",
+     "required": true,
+     "options": [
+      {
+       "value": "not_required",
+       "label": {
+        "en": "Not required",
+        "ar": "غير مطلوب"
+       }
+      },
+      {
+       "value": "notified",
+       "label": {
+        "en": "Notified",
+        "ar": "تم الإبلاغ"
+       }
+      },
+      {
+       "value": "to_be_notified",
+       "label": {
+        "en": "To be notified by the date stated",
+        "ar": "سيتم الإبلاغ بحلول التاريخ المبين"
+       }
+      }
+     ]
+    },
+    {
+     "id": "regulator_note",
+     "label": {
+      "en": "Which authority, on what duty, by when",
+      "ar": "أي جهة، وبموجب أي واجب، وبحلول متى"
+     },
+     "type": "textarea",
+     "required": false
+    },
+    {
+     "id": "successor_note",
+     "label": {
+      "en": "What a successor auditor will be told on inquiry",
+      "ar": "ما سيُبلَّغ به المراجع الخلف عند الاستفسار"
+     },
+     "type": "textarea",
+     "required": false
+    }
+   ]
+  },
+  {
+   "id": "report",
+   "title": {
+    "en": "The report and the date",
+    "ar": "التقرير والتاريخ"
+   },
+   "fields": [
+    {
+     "id": "report_implication",
+     "label": {
+      "en": "Implication for the auditor's report",
+      "ar": "الأثر على تقرير المراجع"
+     },
+     "type": "select",
+     "required": true,
+     "options": [
+      {
+       "value": "no_report",
+       "label": {
+        "en": "No auditor's report is issued",
+        "ar": "لا يصدر تقرير للمراجع"
+       }
+      },
+      {
+       "value": "report_withdrawn",
+       "label": {
+        "en": "A report already issued is withdrawn",
+        "ar": "يُسحب تقرير صدر بالفعل"
+       }
+      },
+      {
+       "value": "disclaimer",
+       "label": {
+        "en": "A disclaimer of opinion is issued (ISA 705.13)",
+        "ar": "يصدر امتناع عن إبداء الرأي (معيار 705 فقرة 13)"
+       }
+      }
+     ]
+    },
+    {
+     "id": "report_note",
+     "label": {
+      "en": "The matters the report or its withdrawal states",
+      "ar": "الأمور التي يبينها التقرير أو سحبه"
+     },
+     "type": "textarea",
+     "required": false
+    },
+    {
+     "id": "withdrawal_date",
+     "label": {
+      "en": "Date of withdrawal",
+      "ar": "تاريخ الانسحاب"
+     },
+     "type": "date",
+     "required": true
+    }
+   ]
+  }
+ ],
+ "signoff": {
+  "prepare": [
+   "partner",
+   "manager",
+   "senior",
+   "staff"
+  ],
+  "review": [
+   "partner",
+   "manager"
+  ],
+  "approve": [
+   "partner"
+  ]
+ },
+ "version": 1,
+ "ar_status": "draft_pending_review"
+}

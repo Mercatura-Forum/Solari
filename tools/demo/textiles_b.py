@@ -150,6 +150,13 @@ MEETINGS = [
      'agreed': 'The findings letter is accepted; management to respond on the pay-rate control by the June meeting.', 'significance': 'none',
      'recorded_by': NAME['P2'], 'recorded_at': '2026-03-24T18:00'},
 ]
+CONSULTATIONS = [
+    {'matter': 'Whether the December export shipments invoiced before the bill of lading date are a cut-off error or a fraud indicator',
+     'with_whom': 'The technical department', 'party': 'technical_department', 'consulted_at': '2026-01-26T10:00',
+     'advice': 'Treat as a cut-off misstatement; extend the cut-off test to the full December population and reassess the fraud risk factors.',
+     'state': 'agreed', 'conclusion': 'Cut-off misstatement M1, corrected; cut-off test extended; fraud risk reassessed with no further indicator.', 'concluded_at': '2026-01-27T16:00',
+     'consulted_by': NAME['P2'], 'object': 'form:F31-REVENUE-RECEIVABLES'},
+]
 CARRY_FORWARD = [
     {'matter': 'The new NDB term loan and the spinning frame commissioning in Q2 2026', 'action': 'Confirm the loan covenants at the interim visit; test the capitalisation of the frame and its depreciation from commissioning.',
      'raised_by': NAME['P2'], 'raised_at': '2026-03-25T11:00', 'source': 'record:minutes 2025-11-20', 'state': 'open'},

@@ -184,6 +184,8 @@ def steps():
         st.record('P3', 'a', 'RK-MINUTES-REVIEW', m)
     for m in B.MEETINGS:
         st.record('P3', 'a', 'RK-MEETING-NOTE', m)
+    for m in B.CONSULTATIONS:
+        st.record('P2', 'a', 'RK-CONSULTATION', m)
     for m in B.CARRY_FORWARD:
         st.record('P2', 'a', 'RK-CARRY-FORWARD', m)
     st.summary(f'Wadi Qamar: {len(je_a)} journal lines screened on fourteen criteria; first-digit analysis; minutes, meetings and the matters for next year recorded')

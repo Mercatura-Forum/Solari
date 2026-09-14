@@ -73,7 +73,7 @@ module {
     periodEnd : Text;
     createdBy : Principal;
     createdAt : Int;
-    var status : Text; // planning → fieldwork → completion → assembled
+    var status : Text; // planning → fieldwork → completion → assembled, or withdrawn (terminal)
     var members : [(Principal, Role)];
     // The latest date and time recorded in this file (YYYY-MM-DDTHH:MM, "" before any).
     // Dates are stated by the person signing; a stated date earlier than this is refused,
@@ -241,6 +241,7 @@ module {
   public func authorise(s : State, id : Nat, by : Principal, isAdmin : Bool, allowed : [Role], evenIfAssembled : Bool) : { #ok : Engagement; #err : Text } {
     let e = switch (engagement(s, id)) { case (#ok(e)) e; case (#err(m)) return #err(m) };
     if (e.status == "assembled" and not evenIfAssembled) return #err("the engagement file is assembled; changes need a post-assembly change record");
+    if (e.status == "withdrawn" and not evenIfAssembled) return #err("the auditor withdrew from this engagement; its file is closed");
     let asMember = switch (memberRole(e, by)) {
       case (?r) has(allowed, r);
       case null false;
@@ -543,13 +544,20 @@ module {
     let spec = switch (kindSpec(kind)) { case (?k) k; case null return #err("unknown record kind " # Py.repr(kind)) };
     switch (validateFields(spec, fields)) { case (?p) return #err(kind # ": " # p); case null {} };
     if (kind == "RK-CONTROL") { switch (ControlRules.problem(fields)) { case (?p) return #err(kind # ": " # p); case null {} } };
-    switch (GovernanceRules.problem(kind, fields)) { case (?p) return #err(kind # ": " # p); case null {} };
+    switch (GovernanceRules.problem(kind, fields, lookup(s))) { case (?p) return #err(kind # ": " # p); case null {} };
     let rid = nextId(s);
     let text = Json.toText(fields);
     let contentHash = append(s, by, at, "record.add", "engagement:" # Nat.toText(id) # "/record:" # Nat.toText(rid), kind # "\n" # text);
     let r : Record = { id = rid; engagementId = id; kind; var fields = text; var version = 1; var contentHash; createdBy = by; createdAt = at; var updatedAt = at };
     List.add(s.records, r);
     #ok(recordJ(r))
+  };
+
+  /// A record of the file by id, as (kind, fields), for rules that read what a record cites.
+  func lookup(s : State) : GovernanceRules.Lookup {
+    func(id : Nat) : ?(Text, J) {
+      switch (findRecord(s, id)) { case (?r) ?(r.kind, switch (Json.parse(r.fields)) { case (#ok(j)) j; case (#err(_)) #null_ }); case null null }
+    }
   };
 
   public func findRecord(s : State, recordId : Nat) : ?Record {
@@ -576,7 +584,7 @@ module {
     let spec = switch (kindSpec(r.kind)) { case (?k) k; case null return #err("unknown record kind") };
     switch (validateFields(spec, fields)) { case (?p) return #err(r.kind # ": " # p); case null {} };
     if (r.kind == "RK-CONTROL") { switch (ControlRules.problem(fields)) { case (?p) return #err(r.kind # ": " # p); case null {} } };
-    switch (GovernanceRules.problem(r.kind, fields)) { case (?p) return #err(r.kind # ": " # p); case null {} };
+    switch (GovernanceRules.problem(r.kind, fields, lookup(s))) { case (?p) return #err(r.kind # ": " # p); case null {} };
     r.fields := Json.toText(fields);
     r.version += 1;
     r.updatedAt := at;
@@ -605,6 +613,7 @@ module {
     } else {
       let e = switch (engagement(s, r.engagementId)) { case (#ok(e)) e; case (#err(m)) return #err(m) };
       if (e.status == "assembled") return #err("the engagement file is assembled; changes need a post-assembly change record");
+      if (e.status == "withdrawn") return #err("the auditor withdrew from this engagement; its file is closed");
       switch (memberRole(e, by)) {
         case (?#client) {
           let before = switch (Json.parse(r.fields)) { case (#ok(j)) j; case (#err(_)) #null_ };

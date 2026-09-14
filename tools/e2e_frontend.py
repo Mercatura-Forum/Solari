@@ -695,6 +695,15 @@ def main():
             pg.get_by_test_id('gv-save-meeting').click()
             pg.wait_for_function(f'() => document.body.innerText.includes("Chief financial officer {GV}")', timeout=180000)
             row('a meeting noted appears in the list with whom, when and what was agreed', pg.locator('[data-testid=gv-meetings-list] li', has_text=f'Chief financial officer {GV}').count() == 1)
+            # a consultation recorded is open until concluded, and says so
+            pg.get_by_test_id('gv-add-consultation').click()
+            pg.get_by_test_id('gv-form-consultation').wait_for(timeout=30000)
+            pg.locator('#gv-consult-matter').fill(f'Cut-off of the December shipments {GV}')
+            pg.locator('#gv-consult-with').fill('The technical department')
+            pg.locator('#gv-consult-advice').fill('Extend the cut-off test to the full December population.')
+            pg.get_by_test_id('gv-save-consultation').click()
+            pg.wait_for_function(f'() => document.body.innerText.includes("Cut-off of the December shipments {GV}")', timeout=180000)
+            row('a consultation recorded is listed open until its conclusion is agreed', pg.locator('[data-testid=gv-consultations-list] li[data-state=open]', has_text=f'Cut-off of the December shipments {GV}').count() == 1)
             shot(pg, 'd5-09-governance')
             axe(pg, 'minutes and meetings', 'en')
         except Exception as e:

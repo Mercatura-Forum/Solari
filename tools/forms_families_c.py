@@ -1,5 +1,15 @@
-"""The per-balance substantive analytical procedure paper (F40): one definition, one
-instance for every populated leadsheet of the engagement.
+"""The withdrawal memorandum (F39) and the per-balance substantive analytical procedure
+paper (F40): one definition of the latter, one instance for every populated leadsheet.
+
+F39 records the auditor's withdrawal from an engagement: the ground (ISA 210.17 when a change
+of terms cannot be agreed, ISA 240.38 when fraud brings the engagement into question, ISA
+250.19 for non-compliance, or an independence or other ground), the circumstances, why
+continuing is not possible and what constrains withdrawing, the consultation the firm's policy
+requires (cited, and agreed before the memorandum is prepared), the firm's approval, the
+communications with management, those charged with governance and any regulator, and the
+implications for the report. The partner's act of withdrawing on the approved memorandum
+records a written communication to those charged with governance and closes the engagement on
+a terminal status.
 
 ISA 520.5 names four steps for a substantive analytical procedure: decide that it suits the
 assertion (a), check the reliability of the data the expectation is built from (b), build an
@@ -15,7 +25,7 @@ is instantiated for a leadsheet (the instance id is `F40-BALANCE-ANALYTICS@<lead
 
 Attribution: Thebes Core Team. Licence: Apache 2.0.
 """
-from forms_lib import ENGAGEMENT, L, field, opt, section, signoff
+from forms_lib import ENGAGEMENT, L, field, opt, section, signoff, yesno
 
 MODELS = [
     opt('prior_growth', 'Prior period balance grown by a rate', 'رصيد الفترة السابقة مضافاً إليه معدل نمو'),
@@ -30,7 +40,54 @@ CONCLUSIONS = [
     opt('inconclusive', 'Inconclusive: another procedure is performed', 'غير حاسم: يُنفذ إجراء آخر'),
 ]
 
+GROUNDS = [
+    opt('scope_limitation', 'Management imposes a limitation on scope, or a change of terms cannot be agreed (ISA 210.17)', 'الإدارة تفرض قيداً على النطاق، أو تعذر الاتفاق على تغيير الشروط (معيار 210 فقرة 17)'),
+    opt('fraud', 'Fraud or suspected fraud brings the engagement into question (ISA 240.38)', 'غش أو اشتباه في غش يضع الارتباط موضع تساؤل (معيار 240 فقرة 38)'),
+    opt('non_compliance', 'Non-compliance with laws and regulations (ISA 250.19)', 'عدم الامتثال للقوانين واللوائح (معيار 250 فقرة 19)'),
+    opt('independence', 'A threat to independence that cannot be reduced to an acceptable level', 'تهديد للاستقلال لا يمكن تخفيضه إلى مستوى مقبول'),
+    opt('other', 'Another ground, stated below', 'سبب آخر، مبين أدناه'),
+]
+REGULATOR = [
+    opt('not_required', 'Not required', 'غير مطلوب'), opt('notified', 'Notified', 'تم الإبلاغ'), opt('to_be_notified', 'To be notified by the date stated', 'سيتم الإبلاغ بحلول التاريخ المبين'),
+]
+REPORT = [
+    opt('no_report', 'No auditor\'s report is issued', 'لا يصدر تقرير للمراجع'),
+    opt('report_withdrawn', 'A report already issued is withdrawn', 'يُسحب تقرير صدر بالفعل'),
+    opt('disclaimer', 'A disclaimer of opinion is issued (ISA 705.13)', 'يصدر امتناع عن إبداء الرأي (معيار 705 فقرة 13)'),
+]
+
 FORMS = [{
+    'id': 'F39-WITHDRAWAL', 'number': 39, 'kind': 'worksheet', 'phase': 'completion',
+    'title': L('Withdrawal from the engagement', 'الانسحاب من الارتباط'),
+    'purpose': L('Record the ground for withdrawing from the engagement, the consultation and the firm\'s approval, the communications made, and the implications for the auditor\'s report, before the partner withdraws.',
+                 'تسجيل سبب الانسحاب من الارتباط، والمشاورة وموافقة المكتب، والمراسلات التي تمت، وآثار ذلك على تقرير المراجع، قبل أن ينسحب الشريك.'),
+    'procedures': ['P-FSL-050'], 'standards': ['ISA-210', 'ISA-240', 'ISA-250', 'ISA-220', 'ISA-705'],
+    'sections': [
+        ENGAGEMENT,
+        section('grounds', 'The ground and the circumstances', 'السبب والظروف', [
+            field('ground', 'Ground for withdrawal', 'سبب الانسحاب', 'select', True, options=GROUNDS),
+            field('circumstances', 'The circumstances: what was found, when, and how management responded', 'الظروف: ما تم اكتشافه، ومتى، وكيف استجابت الإدارة', 'textarea', True),
+            field('alternatives', 'Why continuing is not possible, and what constrains withdrawing (legal or regulatory duties, ISA 240.38(b), ISA 250.19)', 'لماذا لا يمكن الاستمرار، وما الذي يقيد الانسحاب (واجبات قانونية أو تنظيمية، معيار 240 فقرة 38(ب)، معيار 250 فقرة 19)', 'textarea', True),
+            field('consultation', 'The consultation the firm\'s policy requires (the record, agreed)', 'المشاورة التي تتطلبها سياسة المكتب (السجل، متفق عليه)', 'text', True, cites=['RK-CONSULTATION'],
+                  help=L('The record number of the consultation on the withdrawal: it is cited only once its conclusion is agreed (ISA 220.35).', 'رقم سجل المشاورة بشأن الانسحاب: لا يُستشهد به إلا بعد الاتفاق على استنتاجه (معيار 220 فقرة 35).')),
+            field('firm_approved_by', 'Firm approval: by whom', 'موافقة المكتب: من', 'text', True),
+            field('firm_approved_on', 'Firm approval: on', 'موافقة المكتب: في', 'date', True),
+        ]),
+        section('communications', 'Communications', 'المراسلات', [
+            yesno('management_discussed', 'The reasons discussed with the appropriate level of management (ISA 240.38(c), ISA 250.19)', 'نوقشت الأسباب مع المستوى المناسب من الإدارة (معيار 240 فقرة 38(ج)، معيار 250 فقرة 19)'),
+            yesno('tcwg_discussed', 'The reasons discussed with those charged with governance; the written communication follows the withdrawal', 'نوقشت الأسباب مع المكلفين بالحوكمة؛ ويلي الانسحابَ الإبلاغ الكتابي'),
+            field('regulator', 'Regulator or other authority', 'الجهة الرقابية أو أي سلطة أخرى', 'select', True, options=REGULATOR),
+            field('regulator_note', 'Which authority, on what duty, by when', 'أي جهة، وبموجب أي واجب، وبحلول متى', 'textarea'),
+            field('successor_note', 'What a successor auditor will be told on inquiry', 'ما سيُبلَّغ به المراجع الخلف عند الاستفسار', 'textarea'),
+        ]),
+        section('report', 'The report and the date', 'التقرير والتاريخ', [
+            field('report_implication', 'Implication for the auditor\'s report', 'الأثر على تقرير المراجع', 'select', True, options=REPORT),
+            field('report_note', 'The matters the report or its withdrawal states', 'الأمور التي يبينها التقرير أو سحبه', 'textarea'),
+            field('withdrawal_date', 'Date of withdrawal', 'تاريخ الانسحاب', 'date', True),
+        ]),
+    ],
+    'signoff': signoff(),
+}, {
     'id': 'F40-BALANCE-ANALYTICS', 'number': 40, 'kind': 'worksheet', 'phase': 'fieldwork', 'per': 'leadsheet',
     'title': L('Substantive analytical procedure: {leadsheet_name} ({leadsheet})', 'إجراء تحليلي أساسي: {leadsheet_name} ({leadsheet})'),
     'purpose': L('Build an expectation for the balance, set the difference that is acceptable without investigation, compare the recorded balance with the expectation, and investigate any difference beyond it.',

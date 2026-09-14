@@ -361,7 +361,7 @@ module {
         if (parts.size() == 3 and parts[2] == "count") return Json.nat(rows.size());
         if (parts.size() == 3 and parts[2] == "unresolved") {
           var n = 0;
-          for (r in rows.vals()) { if (Governance.isUnresolved(r)) n += 1 };
+          for (r in rows.vals()) { if (Governance.isUnresolvedOf(parts[1], r)) n += 1 };
           return Json.nat(n);
         };
         if (parts.size() == 3 and parts[2] == "open") {
@@ -917,7 +917,11 @@ module {
                 let wanted = Py.scalar(v);
                 var found = false;
                 for (r in List.values(s.records)) {
-                  if (r.engagementId == eng and Nat.toText(r.id) == wanted) { for (k in kinds.vals()) { if (Py.scalar(k) == r.kind) found := true } };
+                  if (r.engagementId == eng and Nat.toText(r.id) == wanted) {
+                    for (k in kinds.vals()) { if (Py.scalar(k) == r.kind) found := true };
+                    // a consultation is cited only once its conclusion is agreed (ISA 220.35)
+                    if (r.kind == "RK-CONSULTATION" and Py.textOr(parse(r.fields), "state", "") != "agreed") return #err("cannot prepare: " # id # " cites consultation " # wanted # ", which has no agreed conclusion");
+                  };
                 };
                 if (not found) return #err("cannot prepare: " # id # " cites no " # Text.join(Array.map<J, Text>(kinds, Py.scalar).vals(), ", ") # " record of this file (" # wanted # ")");
               };
@@ -1022,7 +1026,7 @@ module {
     if (e.status != "completion") return #err("the file is assembled at completion; the engagement is at " # e.status);
     // every significant matter raised in minutes or a meeting has its resolution documented (ISA 230.8(c), ISA 230.10)
     let unresolved = Governance.unresolved(s, eng);
-    if (unresolved.size() > 0) return #err("the file is not assembled while " # Nat.toText(unresolved.size()) # " significant matter(s) from minutes and meetings have no resolution: " # Text.join(Array.map<(Nat, Text), Text>(unresolved, func((id, m)) { "record " # Nat.toText(id) # " (" # m # ")" }).vals(), "; "));
+    if (unresolved.size() > 0) return #err("the file is not assembled while " # Nat.toText(unresolved.size()) # " matter(s) from minutes, meetings and consultations have no resolution: " # Text.join(Array.map<(Nat, Text), Text>(unresolved, func((id, m)) { "record " # Nat.toText(id) # " (" # m # ")" }).vals(), "; "));
     let completion = switch (instance(s, eng, "F14-COMPLETION")) {
       case (?i) { if (i.status != "approved") return #err("the completion form must be approved before the file is assembled"); i };
       case null return #err("the completion form must be approved before the file is assembled");
@@ -1071,6 +1075,32 @@ module {
     e.lastDated := assembledOn;
     ignore Engine.append(s, by, at, "engagement.assembled", "engagement:" # Nat.toText(eng), Json.toText(fields));
     #ok(#obj([("record", rec), ("late", #bool(late)), ("deadline", #str(Dates.toText(deadline))), ("objects", Json.nat(objects))]))
+  };
+
+  /// Withdraw from the engagement (ISA 210.17, ISA 240.38, ISA 250.19): the partner's act on an
+  /// approved withdrawal form (F39), which cites the consultation the firm's policy requires.
+  /// The reasons are recorded as a written communication to those charged with governance and
+  /// the engagement closes on a terminal status: nothing of its file changes after.
+  /// Input: {withdrawn_at}.
+  public func withdraw(s : Engine.State, ff : FirmForms.State, by : Principal, isAdmin : Bool, at : Int, eng : Nat, inp : J) : R {
+    let e = switch (Engine.authorise(s, eng, by, isAdmin, [#partner], false)) { case (#ok(e)) e; case (#err(m)) return #err(m) };
+    let form = switch (instance(s, eng, "F39-WITHDRAWAL")) {
+      case (?i) { if (i.status != "approved") return #err("the withdrawal form (F39) must be approved before the auditor withdraws; it is " # i.status); i };
+      case null return #err("the withdrawal form (F39) must be approved before the auditor withdraws");
+    };
+    let values = parse(form.values);
+    let when = Py.textOr(inp, "withdrawn_at", "");
+    switch (Engine.statedDateProblem(e, when)) { case (?p) return #err("withdrawn_at: " # p); case null {} };
+    let ground = Py.textOr(values, "ground", "");
+    let comm = switch (Engine.addRecord(s, by, isAdmin, at, eng, #obj([("kind", #str("RK-COMMUNICATION")), ("fields", #obj([
+      ("with", #str("tcwg")), ("direction", #str("sent")), ("subject", #str("Withdrawal from the engagement: " # ground # " (F39-WITHDRAWAL)")),
+      ("at", #str(when)), ("form", #str("written")), ("document", #str("F39-WITHDRAWAL")),
+    ]))]))) { case (#ok(c)) c; case (#err(m)) return #err(m) };
+    e.status := "withdrawn";
+    e.lastDated := when;
+    let fields : J = #obj([("withdrawn_at", #str(when)), ("withdrawn_by", #str(Principal.toText(by))), ("ground", #str(ground)), ("form_version", Json.nat(form.version)), ("communication", Json.nat(Py.natOr(comm, "id", 0)))]);
+    ignore Engine.append(s, by, at, "engagement.withdrawn", "engagement:" # Nat.toText(eng), Json.toText(fields));
+    #ok(#obj([("status", #str("withdrawn")), ("communication", comm), ("ground", #str(ground))]))
   };
 
   /// Roll an assembled engagement forward to its next period (a continuing

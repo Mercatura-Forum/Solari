@@ -604,6 +604,7 @@ FORMS.append({
             field('meetings_unresolved', 'Significant matters from meetings without a documented resolution', 'الأمور الهامة من الاجتماعات دون حل موثق', 'integer', autofill='records.RK-MEETING-NOTE.unresolved', readonly=True),
             yesno('significant_matters_resolved', 'Every significant matter raised in minutes or meetings has its resolution documented (ISA 230.8(c), 230.10)', 'كل أمر هام أثير في المحاضر أو الاجتماعات له حل موثق (معيار 230 فقرة 8(ج) و10)'),
             field('carried_forward', 'Matters noted for the next engagement, still open', 'الأمور المدونة للارتباط القادم التي ما زالت مفتوحة', 'integer', autofill='records.RK-CARRY-FORWARD.open', readonly=True),
+            field('open_consultations', 'Consultations without an agreed conclusion, or with a difference of opinion unresolved', 'المشاورات دون استنتاج متفق عليه، أو باختلاف في الرأي لم يُحل', 'integer', autofill='records.RK-CONSULTATION.unresolved', readonly=True),
             yesno('consultations', 'Consultations on difficult or contentious matters documented and implemented', 'تم توثيق المشاورات بشأن الأمور الصعبة أو الخلافية وتنفيذ نتائجها'),
             field('eqr', 'Engagement quality review', 'فحص جودة الارتباط', 'select', True, options=[
                 opt('completed', 'Required and completed', 'مطلوب وتم'), opt('not_required', 'Not required by firm policy', 'غير مطلوب وفقًا لسياسة المكتب')]),

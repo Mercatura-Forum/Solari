@@ -381,6 +381,16 @@
    }
   },
   {
+   "id": "F39-WITHDRAWAL",
+   "kind": "form",
+   "number": 39,
+   "phase": "completion",
+   "title": {
+    "en": "Withdrawal from the engagement",
+    "ar": "الانسحاب من الارتباط"
+   }
+  },
+  {
    "id": "F40-BALANCE-ANALYTICS",
    "kind": "form",
    "number": 40,
@@ -542,6 +552,14 @@
    "title": {
     "en": "Records: RK-CARRY-FORWARD",
     "ar": "Records: RK-CARRY-FORWARD"
+   }
+  },
+  {
+   "id": "records:RK-CONSULTATION",
+   "kind": "records",
+   "title": {
+    "en": "Records: RK-CONSULTATION",
+    "ar": "Records: RK-CONSULTATION"
    }
   },
   {
@@ -710,6 +728,13 @@
    "to": "F14-COMPLETION",
    "to_field": "carried_forward",
    "via": "records.RK-CARRY-FORWARD.open",
+   "kind": "records"
+  },
+  {
+   "from": "records:RK-CONSULTATION",
+   "to": "F14-COMPLETION",
+   "to_field": "open_consultations",
+   "via": "records.RK-CONSULTATION.unresolved",
    "kind": "records"
   },
   {

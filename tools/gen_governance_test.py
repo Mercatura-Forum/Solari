@@ -147,7 +147,7 @@ check("the unresolved list names the matter and the discussion", (func() : Bool 
 // the file is not assembled over a significant matter without its resolution
 ignore must("to fieldwork", E.advanceStatus(s, partner, false, 7, 1, "fieldwork"));
 ignore must("to completion", E.advanceStatus(s, partner, false, 7, 1, "completion"));
-refused("assembly waits for the resolutions", F.assembleFile(s, ff, partner, false, 8, 1, "2026-03-25", "2026-03-26T10:00"), "significant matter(s) from minutes and meetings have no resolution");
+refused("assembly waits for the resolutions", F.assembleFile(s, ff, partner, false, 8, 1, "2026-03-25", "2026-03-26T10:00"), "matter(s) from minutes, meetings and consultations have no resolution");
 ignore must("the resolution of the minutes matter is documented", E.updateRecord(s, senior, false, 9, minutesIds[0], j(__RES_MINUTES__)));
 refused("one resolution is not enough", F.assembleFile(s, ff, partner, false, 10, 1, "2026-03-25", "2026-03-26T10:00"), "record " # Nat.toText(meetingIds[0]));
 ignore must("the resolution of the meeting matter is documented", E.updateRecord(s, senior, false, 11, meetingIds[0], j(__RES_MEETING__)));

@@ -633,6 +633,15 @@ shared (install) persistent actor class AuditEngine() = self {
     switch (await* identify(token)) { case (#ok(p)) commit(Forms.assembleFile(engine, firmForms, p, isAdmin(p), now(), engagementId, reportDate, assembledOn)); case (#err(m)) refuse(m) };
   };
 
+  /// The partner withdraws from the engagement on an approved withdrawal form: {withdrawn_at}. Terminal.
+  public shared func withdrawEngagement(token : Text, engagementId : Nat, json : Text) : async Reply {
+    switch (await* identify(token), Json.parse(json)) {
+      case (#ok(p), #ok(j)) commit(Forms.withdraw(engine, firmForms, p, isAdmin(p), now(), engagementId, j));
+      case (#err(m), _) refuse(m);
+      case (_, #err(m)) refuse("invalid JSON: " # m);
+    }
+  };
+
   // ------------------------------------------------------------------ the firm's own forms (src/FirmForms.mo)
 
   /// Validate a definition without storing it (the builder's live check).

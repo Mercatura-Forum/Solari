@@ -112,7 +112,7 @@ ignore must("open", E.createEngagement(s, partner, true, 1, j("{\"client\":\"Nil
 for ((p, r) in [(manager, "manager"), (senior, "senior"), (staff, "staff"), (eqr, "eqr"), (client, "client")].vals()) ignore must("member " # r, E.setMember(s, partner, true, 2, 1, p, r));
 
 // the catalogue
-check("forty-eight product forms are catalogued", Py.items(F.catalogue(ff)).size() == 48);
+check("forty-nine product forms are catalogued", Py.items(F.catalogue(ff)).size() == 49);
 
 // live values before and after a trial balance
 let before = view(staff, "F06-MATERIALITY");
@@ -345,7 +345,7 @@ let f31b = view(manager, "F31-REVENUE-RECEIVABLES");
 check("preparing the paper freezes the balances it was performed on", field(f31b, ["frozen", "ls_rev"]) == #str("-10500000.00") and field(f31b, ["frozen", "risks"]) != #null_);
 ignore must("the original trial balance is re-imported", E.importTrialBalance(s, staff, false, 27, 1, #obj([("profile_id", #str("spreadsheet-generic-csv")), ("source", #str(__FIXTURE__))])));
 check("the paper's balance is flagged as moved", staleHas(view(manager, "F31-REVENUE-RECEIVABLES"), "ls_rev"));
-check("statuses lists every form of the catalogue, a per-balance paper once per populated leadsheet", Py.items(peek("statuses", F.statuses(s, ff, manager, false, 1))).size() == 47 + __POPULATED__);
+check("statuses lists every form of the catalogue, a per-balance paper once per populated leadsheet", Py.items(peek("statuses", F.statuses(s, ff, manager, false, 1))).size() == 48 + __POPULATED__);
 check("statuses counts the moved figure", (switch (Py.items(peek("statuses 2", F.statuses(s, ff, manager, false, 1))).vals().next()) { case (?_) true; case null false }));
 ignore must("the revised trial balance is imported again", E.importTrialBalance(s, staff, false, 27, 1, #obj([("profile_id", #str("spreadsheet-generic-csv")), ("source", #str(__FIXTURE2__))])));
 
