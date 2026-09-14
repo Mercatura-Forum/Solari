@@ -1,4 +1,4 @@
-"""Generate motoko/src/Demo.mo — the demonstration firm's seed — and
+"""Generate motoko/src/Demo.mo: the demonstration firm's seed, and
 motoko/test/DemoSeed.test.mo, which runs every step against the real engine.
 
 Usage: python3 tools/demo/gen_demo.py
@@ -129,7 +129,7 @@ def steps():
     ca, cb = B.computations(tb_a), H.computations(tb_b)
     out = []
 
-    # 0 — the firm and Wadi Qamar opened
+    # 0: the firm and Wadi Qamar opened
     st = Step('firm quality records; Wadi Qamar opened, team, trial balance')
     for f in FIRM_FINDINGS:
         st.record('P1', '0', 'RK-MONITORING-FINDING', f, admin=True)
@@ -146,7 +146,7 @@ def steps():
     st.summary('Wadi Qamar Textiles opened with its team; FY2025 trial balance imported; the applicability it proposes accepted and reviewed')
     out.append(st)
 
-    # 1 — Wadi Qamar planning
+    # 1: Wadi Qamar planning
     st = Step('Wadi Qamar planning')
     st.eng('a', A.CLIENT, '2025-12-31')
     for form, v in (('F01-ACCEPTANCE', A.F01), ('F02-ENGAGEMENT-LETTER', A.F02), ('F03-PLANNING-MEMO', A.F03),
@@ -173,7 +173,7 @@ def steps():
     st.summary('Wadi Qamar planning: six forms approved through four eyes, materiality computed')
     out.append(st)
 
-    # 2 — Wadi Qamar journal entries
+    # 2: Wadi Qamar journal entries
     st = Step('Wadi Qamar journal-entry screen and digit analysis')
     st.eng('a', A.CLIENT, '2025-12-31')
     st.ok('compute journal_screen', f'E.compute(s, P3, false, at, a, j("{{\\"kind\\":\\"journal_screen\\",\\"procedure_id\\":\\"\\",\\"input\\":{{\\"lines\\":" # JE_TEXTILES # ",\\"params\\":" # {mo(js(par_a))} # "}}}}"))')
@@ -191,7 +191,7 @@ def steps():
     st.summary(f'Wadi Qamar: {len(je_a)} journal lines screened on fourteen criteria; first-digit analysis; minutes, meetings and the matters for next year recorded')
     out.append(st)
 
-    # 3 — Wadi Qamar fieldwork
+    # 3: Wadi Qamar fieldwork
     st = Step('Wadi Qamar fieldwork')
     st.eng('a', A.CLIENT, '2025-12-31')
     for r in B.REQUESTS:
@@ -253,7 +253,7 @@ def steps():
     st.summary('Wadi Qamar fieldwork: MUS on export receivables, confirmations, analytics, trend, a substantive analytical procedure on every populated leadsheet')
     out.append(st)
 
-    # 4 — Wadi Qamar completion, assembly, roll-forward
+    # 4: Wadi Qamar completion, assembly, roll-forward
     st = Step('Wadi Qamar completion, assembly and roll-forward')
     st.eng('a', A.CLIENT, '2025-12-31')
     for m in B.MISSTATEMENTS:
@@ -317,7 +317,7 @@ def steps():
     st.summary('Wadi Qamar: completion, quality review, auditor’s report 25 March 2026, file assembled, rolled forward to FY2026')
     out.append(st)
 
-    # 5 — Shams El-Bahr opened
+    # 5: Shams El-Bahr opened
     st = Step('Shams El-Bahr opened, team, two trial balances')
     st.ok('open Shams El-Bahr', f'E.createEngagement(s, P8, true, at, j({mo(js(H.ENGAGEMENT))}))')
     st.eng('b', H.CLIENT, '2026-06-30')
@@ -327,7 +327,7 @@ def steps():
     st.summary('Shams El-Bahr opened with its team; interim (Odoo) and year-end trial balances imported')
     out.append(st)
 
-    # 6 — Shams El-Bahr planning
+    # 6: Shams El-Bahr planning
     st = Step('Shams El-Bahr planning')
     st.eng('b', H.CLIENT, '2026-06-30')
     for form, v in (('F01-ACCEPTANCE', H.F01), ('F02-ENGAGEMENT-LETTER', H.F02), ('F03-PLANNING-MEMO', H.F03),
@@ -340,7 +340,7 @@ def steps():
     st.summary('Shams El-Bahr planning: six forms approved, materiality on revenue')
     out.append(st)
 
-    # 7 — Shams El-Bahr journal entries
+    # 7: Shams El-Bahr journal entries
     st = Step('Shams El-Bahr journal-entry screen and digit analysis')
     st.eng('b', H.CLIENT, '2026-06-30')
     st.ok('compute journal_screen', f'E.compute(s, P9, false, at, b, j("{{\\"kind\\":\\"journal_screen\\",\\"procedure_id\\":\\"\\",\\"input\\":{{\\"lines\\":" # JE_HOTEL # ",\\"params\\":" # {mo(js(par_b))} # "}}}}"))')
@@ -349,7 +349,7 @@ def steps():
     st.summary(f'Shams El-Bahr: {len(je_b)} journal lines screened; first-two-digit analysis')
     out.append(st)
 
-    # 8 — Shams El-Bahr fieldwork in progress
+    # 8: Shams El-Bahr fieldwork in progress
     st = Step('Shams El-Bahr fieldwork in progress')
     st.eng('b', H.CLIENT, '2026-06-30')
     for r in H.REQUESTS:
@@ -362,7 +362,7 @@ def steps():
     st.summary('Shams El-Bahr fieldwork: requests, the control sample, analytics and the seasonal trend')
     out.append(st)
 
-    # 9 — Shams El-Bahr fieldwork, continued
+    # 9: Shams El-Bahr fieldwork, continued
     st = Step('Shams El-Bahr fieldwork, continued')
     st.eng('b', H.CLIENT, '2026-06-30')
     st.compute('P9', 'b', 'going_concern', cb['going_concern'])
@@ -374,7 +374,7 @@ def steps():
     st.save('P4', 'b', 'F08-CONFIRMATIONS', H.F08_DRAFT)
     for note in (H.REVIEW_NOTES[1], H.REVIEW_NOTES[3]):
         st.record('P2', 'b', 'RK-REVIEW-NOTE', note)
-    # the group audit (ISA 600): two components — a resort audited by another firm, instructed,
+    # the group audit (ISA 600): two components, a resort audited by another firm, instructed,
     # reported and evaluated; a cruise operation whose balances the group team audits itself
     st.add('let gpmB = Dec.parse(Py.textOr(ok("group view", Gr.view(s, P2, false, b)), "group_performance_materiality", "100000"));')
     st.add('let cpmB = Dec.money(Dec.mul(gpmB, Dec.parse("0.6"), Dec.PREC), 2);')
@@ -408,7 +408,7 @@ FIRM_REMEDIATIONS = [
 ]
 
 
-PREAMBLE = r'''/// Demo.mo — GENERATED by tools/demo/gen_demo.py. Do not edit.
+PREAMBLE = r'''/// Demo.mo: GENERATED by tools/demo/gen_demo.py. Do not edit.
 ///
 /// The demonstration firm, "__FIRM__": two fictitious Egyptian companies audited through
 /// the engine's own operations under a fictitious team, so a visitor sees real four-eyes

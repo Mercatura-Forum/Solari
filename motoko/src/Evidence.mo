@@ -294,7 +294,7 @@ module {
             };
           };
         };
-        // live devices holding the current epoch's key: when none is left (every holder revoked —
+        // live devices holding the current epoch's key: when none is left (every holder revoked,
         // a lost laptop, a run whose browser is gone), nobody can share it and the ring must
         // start a new epoch rather than wait forever
         var holders = 0;

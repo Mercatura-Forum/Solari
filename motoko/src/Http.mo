@@ -1,4 +1,4 @@
-/// Http.mo — outbound HTTPS from a Thebes smart contract.
+/// Http.mo: outbound HTTPS from a Thebes smart contract.
 ///
 /// A canister can fetch a URL from the open internet. This is not the same as
 /// the `http_request` interface, and three differences matter:
@@ -12,7 +12,7 @@
 ///    response participate in agreement (`withAgreement`): `#bodyOnly`,
 ///    `#headers [...]`, or `#full`. A real-world endpoint that stamps a
 ///    `Date` header or a per-request id reaches agreement at any quorum with
-///    `#bodyOnly` — no callback ABI, and the declaration is checked at
+///    `#bodyOnly`: no callback ABI, and the declaration is checked at
 ///    compile time. (`#full`, the default and the v1 behaviour, requires
 ///    byte-identical responses INCLUDING headers, which only an endpoint you
 ///    control can promise.)
@@ -23,11 +23,11 @@
 /// Two API generations live here. The v2 surface (`submitV2` → `Handle` →
 /// `pollV2` / `headerValueByName` / `responseHeaders` / `free`) supports
 /// several outcalls in flight, response-size bounds, and name-keyed headers;
-/// prefer it for all new code — it needs a chain with the outcalls-v2
+/// prefer it for all new code, it needs a chain with the outcalls-v2
 /// activation armed. The v1 surface (`submit`/`poll`, one response slot,
 /// index-only header values) keeps working unchanged.
 ///
-/// Submits are update-only — the runtime rejects them from a query, and so
+/// Submits are update-only: the runtime rejects them from a query, and so
 /// does the compiler. Reading a response (`poll`/`pollV2`, headers) is
 /// query-safe.
 ///
@@ -40,7 +40,7 @@ module {
   public type Method = { #get; #post; #head; #put; #delete };
 
   public type Error = {
-    /// The runtime rejected the request — a malformed URL, an unsupported
+    /// The runtime rejected the request, a malformed URL, an unsupported
     /// scheme, a body on a method that forbids one, or a quorum out of range.
     #rejected;
     /// A header was refused; carries the header name.
@@ -51,14 +51,14 @@ module {
 
   public type Poll = { #pending; #ready : Response };
 
-  /// v2 — which parts of the response the validators must agree on.
+  /// v2, which parts of the response the validators must agree on.
   ///
-  /// * `#full` — status + every header + body (v1 semantics). Sound only for
+  /// * `#full`, status + every header + body (v1 semantics). Sound only for
   ///   an endpoint you control that returns byte-identical responses.
-  /// * `#bodyOnly` — status + body; all headers are excluded from agreement
+  /// * `#bodyOnly`, status + body; all headers are excluded from agreement
   ///   (and from the delivered response). An endpoint stamping `Date` or a
   ///   request id reaches agreement at any quorum.
-  /// * `#headers names` — status + body + exactly these headers (matched
+  /// * `#headers names`, status + body + exactly these headers (matched
   ///   ASCII-case-insensitively, delivered lowercased, in the order you list
   ///   them). Use it when you need e.g. `content-type` or `etag` attested.
   public type Agreement = { #full; #bodyOnly; #headers : [Text] };
@@ -69,11 +69,11 @@ module {
     body : Blob;
     quorum : Nat32;
     headers : [(Text, Text)];
-    /// v2 — refuse a response larger than this many bytes (1 ..= 2 MiB).
+    /// v2, refuse a response larger than this many bytes (1 ..= 2 MiB).
     /// The bound is part of the agreement input: an oversize fetch yields a
     /// deterministic refusal (`#tooLarge` from `pollV2`) on every validator.
     maxResponseBytes : Nat;
-    /// v2 — the agreement declaration. `#full` for v1-style endpoints.
+    /// v2, the agreement declaration. `#full` for v1-style endpoints.
     agreement : Agreement;
   };
 
@@ -117,7 +117,7 @@ module {
   /// Set the request body.
   public func withBody(r : Request, body : Blob) : Request = { r with body };
 
-  /// v2 — declare which parts of the response participate in agreement.
+  /// v2, declare which parts of the response participate in agreement.
   /// The one to reach for against real third-party APIs: `#bodyOnly` (or
   /// `#headers` naming the ones you need) lets a `Date`-stamping endpoint
   /// agree at quorum 4.
@@ -125,7 +125,7 @@ module {
     r with agreement
   };
 
-  /// v2 — bound the response size (1 ..= 2 MiB). An oversize response is
+  /// v2, bound the response size (1 ..= 2 MiB). An oversize response is
   /// refused deterministically on every validator (`#tooLarge`).
   public func withMaxResponseBytes(r : Request, maxResponseBytes : Nat) : Request = {
     r with maxResponseBytes
@@ -138,7 +138,7 @@ module {
       func i = if (i < r.headers.size()) r.headers[i] else (name, value))
   };
 
-  /// Submit the request. Returns once it is queued — not once it has
+  /// Submit the request. Returns once it is queued, not once it has
   /// completed. Read the response from a later update with `poll`.
   ///
   /// Update-only: calling this from a query is a compile-time error.
@@ -146,7 +146,7 @@ module {
     // Submit FIRST: the host attaches `addHeader` calls to the most
     // recently submitted request. (Adding before submitting attached the
     // headers to an earlier in-flight request, or failed outright when
-    // none existed — the v1 ordering bug.)
+    // none existed, the v1 ordering bug.)
     let rc = Prim.thebesHttpRequestSubmit(
       Prim.encodeUtf8(r.url), methodCode(r.method), r.body, r.quorum);
     if (rc != 0) return #err(#rejected);
@@ -189,7 +189,7 @@ module {
   };
 
   // ════════════════════════════════════════════════════════════════════
-  // v2 — handles, agreement, bounded responses, name-keyed headers.
+  // v2, handles, agreement, bounded responses, name-keyed headers.
   //
   // `submitV2` returns a Handle; every read takes it, so several outcalls
   // can be in flight at once and a stale read is an explicit
@@ -217,13 +217,13 @@ module {
     #ready : Response;
     /// The handle was never issued, was freed, or its slot was evicted.
     #unknownHandle;
-    /// The response exceeded `maxResponseBytes` — refused identically on
+    /// The response exceeded `maxResponseBytes`, refused identically on
     /// every validator (the refusal itself is quorum-agreed).
     #tooLarge;
   };
 
   // ── request encoding (host codec v2; layout owned by the host's
-  //    decode_submit_v2 — version(1)=2, method(1), quorum(1), mode(1),
+  //    decode_submit_v2, version(1)=2, method(1), quorum(1), mode(1),
   //    maxResponseBytes be64, url, request headers, allow-list, body; all
   //    lengths be32) ──
 
@@ -321,12 +321,12 @@ module {
     })
   };
 
-  /// v2 — a response header VALUE looked up by NAME (ASCII-case-
+  /// v2, a response header VALUE looked up by NAME (ASCII-case-
   /// insensitive; first match). `null` when the handle is unknown, the
   /// response is pending, the header is absent, or the value is not UTF-8.
   ///
   /// Only headers inside the agreement (`#full` or listed in `#headers`)
-  /// are delivered — `#bodyOnly` responses have none.
+  /// are delivered, `#bodyOnly` responses have none.
   public func headerValueByName(h : Handle, name : Text) : ?Text {
     let nameBlob = Prim.encodeUtf8(name);
     let size = Prim.thebesHttpResponseHeaderValueSizeByName(h, nameBlob);
@@ -334,7 +334,7 @@ module {
     Prim.decodeUtf8(Prim.thebesHttpResponseHeaderValueCopyByName(h, nameBlob))
   };
 
-  /// v2 — all delivered (agreed) response headers as (name, value) pairs.
+  /// v2, all delivered (agreed) response headers as (name, value) pairs.
   /// Empty when the handle is unknown or the response is pending.
   public func responseHeaders(h : Handle) : [(Text, Text)] {
     let n = Prim.int32ToInt(Prim.thebesHttpResponseHeaderCountV2(h));
@@ -351,7 +351,7 @@ module {
     })
   };
 
-  /// v2 — release a delivered response slot. Returns false when the handle
+  /// v2, release a delivered response slot. Returns false when the handle
   /// is unknown or still pending. Update-only.
   public func free(h : Handle) : Bool {
     Prim.int64ToInt(Prim.thebesHttpResponseFree(h)) == 0

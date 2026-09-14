@@ -1,7 +1,7 @@
 //! The one-time capability a pull carries. The client's browser mints it: a payload naming
 //! the engagement, this agent's hostname, the period, a page count, an expiry and a nonce,
 //! signed with the client's passkey as a WebAuthn assertion whose challenge is the SHA-256
-//! of the canonical payload — the same shape the audit engine verifies for e-signatures
+//! of the canonical payload, the same shape the audit engine verifies for e-signatures
 //! (motoko/src/Signing.mo, tools/verify_signature_bundle.py).
 //!
 //! Verified here against the registered public key, the relying party and the app origin.

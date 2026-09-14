@@ -1,7 +1,7 @@
 /// Route B of the connector agent: a signed export for
 /// machines that must never be reachable. The agent wrote the population's pages, the
 /// balances and a manifest carrying every page's SHA-256, the source fingerprint and the
-/// system's own control totals, and signed the manifest's bytes with its TLS key — the key
+/// system's own control totals, and signed the manifest's bytes with its TLS key, the key
 /// whose public-key fingerprint the client registered.
 ///
 /// This module verifies that manifest against the registration and checks that what the

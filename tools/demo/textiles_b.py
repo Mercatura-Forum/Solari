@@ -1,4 +1,4 @@
-"""Wadi Qamar Textiles S.A.E. — completion forms, records and the computations.
+"""Wadi Qamar Textiles S.A.E., completion forms, records and the computations.
 
 Values the contract derives are tokens the emitter turns into reads of the contract's own
 papers at seeding time: @@LIVE:<form>:<field>@@, @@PAPER:<kind>:<field>@@ and

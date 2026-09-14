@@ -3,7 +3,7 @@
 /// `computations/benford.py`; the Python module is the oracle.
 ///
 /// ISA 240 (Revised).A44 and ISA 520.A5; method per Nigrini (2012). The result says
-/// where to look — a digit's excess over its expected count — and is not evidence
+/// where to look, a digit's excess over its expected count, and is not evidence
 /// that an amount is misstated. The expected proportions log10(1 + 1/d) are the
 /// reference's published ten-place table, copied from it verbatim, so no logarithm
 /// is computed here; every other number is a ratio of counts in Python-decimal

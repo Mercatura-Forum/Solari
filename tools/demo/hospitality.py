@@ -1,4 +1,4 @@
-"""Shams El-Bahr Hospitality S.A.E., year to 30 June 2026 — mid-fieldwork.
+"""Shams El-Bahr Hospitality S.A.E., year to 30 June 2026, mid-fieldwork.
 Planning approved; sampling prepared and awaiting review; confirmations in draft;
 review notes and client requests open; misstatements under evaluation. Fictitious.
 Attribution: Thebes Core Team. Licence: Apache 2.0.

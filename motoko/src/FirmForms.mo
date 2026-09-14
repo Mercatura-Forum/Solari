@@ -1,4 +1,4 @@
-/// FirmForms.mo — the firm's own form definitions: the same document as a product form
+/// FirmForms.mo: the firm's own form definitions: the same document as a product form
 /// (bilingual title and purpose, the procedures and standards it serves, an optional
 /// computation, sections of fields, the sign-off policy), validated by the contract before
 /// it is stored, versioned, and never edited in place.

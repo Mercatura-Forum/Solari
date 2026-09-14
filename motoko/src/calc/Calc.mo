@@ -1,4 +1,4 @@
-/// Calc.mo — one entry point for every deterministic audit computation, keyed by
+/// Calc.mo: one entry point for every deterministic audit computation, keyed by
 /// the reference implementation's function name. Input and output are JSON in the
 /// shape of the Python reference, so the canister, the forms and the oracle tests
 /// all speak one format.

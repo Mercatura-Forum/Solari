@@ -9,7 +9,7 @@ bytes the validators agreed on), recompute from nothing but those files:
   2. each page's part text through the documented mapping (tools/odoo_connector_oracle.py,
      with the chart, journals and reversals the paper's counts describe, read from the
      accompanying page files `odoo-pull-<id>-accounts.json` etc. when present), and its
-     SHA-256 against `part_sha256` — the fingerprint `Population.begin` was given;
+     SHA-256 against `part_sha256`: the fingerprint `Population.begin` was given;
   3. the pull's `source_sha256` over the page hashes in order;
   4. the line count.
 

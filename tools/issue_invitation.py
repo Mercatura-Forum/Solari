@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Issue a one-time signup invitation. Prints the code ONCE — hand it to the firm out of
+"""Issue a one-time signup invitation. Prints the code ONCE, hand it to the firm out of
 band; only its SHA-256 goes to the registry, and nothing here can recover a lost code
 (issue another and revoke the first).
 

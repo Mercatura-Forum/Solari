@@ -1,4 +1,4 @@
-/// Rates.mo — spot and closing exchange rates from public sources, each fetched through
+/// Rates.mo: spot and closing exchange rates from public sources, each fetched through
 /// HTTP outcalls v2 and agreed by quorum, then reduced across independent publishers
 /// (procedure P-TRE-009,
 /// "closing rates from an independent source").

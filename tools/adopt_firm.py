@@ -1,13 +1,13 @@
 #!/usr/bin/env python3
-"""Register a firm that already exists on the chain — the firm and the demonstration firm
-of the single-firm era — without a redeploy.
+"""Register a firm that already exists on the chain, the firm and the demonstration firm
+of the single-firm era, without a redeploy.
 
   adopt_firm.py <cid> "<name>" --owner <principal>
 
 The contract must already run the pinned release (upgrade it with fleet_upgrade.py first): the
 registry refuses any other module. `--owner` is the firm's owner as the contract names it
 (`firmOwner`); the tool refuses a different principal. The demonstration firm has no owner by
-design — pass the operator's own principal for it and say so in the name.
+design, pass the operator's own principal for it and say so in the name.
 
 After adoption the firm's OWNER links the contract to the registry from the app (Firm page →
 "Link this firm to the registry", which also reports every member); a contract with no owner

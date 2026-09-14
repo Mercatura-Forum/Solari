@@ -1,4 +1,4 @@
-/// Py.mo — Python keyword-argument semantics over a JSON object, so each
+/// Py.mo: Python keyword-argument semantics over a JSON object, so each
 /// computation reads its input exactly as the reference function signature does:
 /// a missing key takes the signature's default, `None` and `null` are the same
 /// thing, and a refusal is returned as the reference's ValueError message.

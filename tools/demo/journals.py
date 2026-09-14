@@ -119,7 +119,7 @@ def textiles():
     for d in ('2025-06-30', '2025-12-30'):
         amt = log_uniform(rng, 1_200_000, 1_900_000)
         b.entry(d, [('1510', amt, 0), ('5210', 0, amt)], 'system', 'treasury.system', description='Interest on time deposits')
-    # — planted —
+    #, planted,
     b.entry('2025-12-31', [('5010', D('2500000.00'), 0), ('1410', 0, D('2500000.00'))], 'manual', 'a.farouk', 'a.farouk', 'Year-end revenue adjustment per management', posted='2026-01-14T21:47:00')
     b.entry('2025-12-31', [('1395', D('1800000.00'), 0), ('6010', 0, D('1800000.00'))], 'manual', 'a.farouk', 'a.farouk', 'Reclass obsolescence provision — reserve release', posted='2026-01-19T10:05:00')
     b.entry('2025-12-29', [('7010', D('1850000.00'), 0), ('5310', 0, D('1850000.00'))], 'manual', 'gl.accountant', 'fin.manager', 'FX clearing', posted='2025-12-29T14:10:00')
@@ -193,7 +193,7 @@ def hospitality():
         for _ in range(3):
             amt = log_uniform(rng, 60_000, 2_800_000)
             b.entry(b.working_day(rng, a, z), [('6410', amt, 0), ('4110', 0, amt)], 'subledger', 'ap.system', 'gm.office', description='Maintenance — approved purchase order')
-    # — planted: payments split to stay under the 50,000 EGP approval limit —
+    #, planted: payments split to stay under the 50,000 EGP approval limit,
     for k in range(28):
         d = dt.date(2025, 10, 1) + dt.timedelta(days=int(rng.uniform(0, 240)))
         if d.weekday() == 4:

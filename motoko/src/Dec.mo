@@ -1,4 +1,4 @@
-/// Dec.mo — exact decimal arithmetic reproducing Python's `decimal` module
+/// Dec.mo: exact decimal arithmetic reproducing Python's `decimal` module
 /// (the General Decimal Arithmetic Specification) for every operation the audit
 /// computations use: a context precision counted in significant digits,
 /// ROUND_HALF_EVEN for arithmetic, an explicit rounding mode for quantize, signed

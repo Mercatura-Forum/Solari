@@ -45,7 +45,7 @@ def row(name, ok, detail=''):
 
 STATE = os.environ.get('E2E_STATE')  # a JSON file: the passkeys and Memphis handle of the run that named the owner
 saved = json.load(open(STATE)) if STATE and os.path.exists(STATE) else None
-authenticators = []  # (cdp session, authenticator id) — exported at the end so the next run is the SAME owner
+authenticators = []  # (cdp session, authenticator id), exported at the end so the next run is the SAME owner
 
 
 def authenticator(ctx, page):
@@ -129,7 +129,7 @@ def main():
         row('the boundary runtime is present', pg.evaluate('() => !!window.EgyptBoundary'))
 
         # ── sign in: the real Connect ceremony (skipped when the persistent profile still holds a
-        # live session from the last run — the app then shows Sign out, not Sign in) ──────────
+        # live session from the last run, the app then shows Sign out, not Sign in) ──────────
         pg.wait_for_timeout(2500)
         already = saved is not None and pg.get_by_role('button', name='Sign out').count() > 0
         if already:

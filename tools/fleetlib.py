@@ -201,7 +201,7 @@ def chain_status(cid, settle_s=180):
     """The contract's status as ALL validators agree on it. Returns None when no validator
     has it. A validator that lacks it or disagrees while the others have it is given
     `settle_s` seconds to catch up (an install commit replicates a few blocks behind on a
-    lagging node); past that it is a divergence and the tool dies — never averaged."""
+    lagging node); past that it is a divergence and the tool dies, never averaged."""
     deadline = time.time() + settle_s
     while True:
         per = {v: status_of(cid, v) for v in validators()}
@@ -260,7 +260,7 @@ def local_build_label():
 
 def release():
     """The pinned release as `fleet_upgrade.py --pin <reference cid>` recorded it: the CHAIN's
-    module hash (the substrate rewrites a module at install — `maybe_apply_global_exposer` —
+    module hash (the substrate rewrites a module at install, `maybe_apply_global_exposer`,
     so the stored bytes, and their hash, differ from the file's; the rewrite is deterministic:
     two contracts installed from one wasm carry one hash), the local file's sha256 it was
     built from, and the build label the contract reports."""

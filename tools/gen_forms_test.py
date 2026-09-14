@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Generate motoko/test/FormsScenario.test.mo: the fill-in forms walked through an
-engagement — live values from an imported trial balance and computed papers,
+engagement, live values from an imported trial balance and computed papers,
 validation, prepare → review → approve with four eyes, figures frozen at
 preparation, staleness when the data changes afterwards, the lock on an approved
 form, reopening with a reason, and the engagement quality review gate.

@@ -1,4 +1,4 @@
-/// Dates.mo — proleptic Gregorian calendar dates with the behaviour of Python's
+/// Dates.mo: proleptic Gregorian calendar dates with the behaviour of Python's
 /// `datetime.date` that the audit computations rely on: ISO `YYYY-MM-DD` parsing,
 /// day differences, weekday (Monday = 0), month addition clamped to the month's
 /// last day, and ISO formatting.

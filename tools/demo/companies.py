@@ -5,7 +5,7 @@ Attribution: Thebes Core Team. Licence: Apache 2.0.
 """
 from common import TrialBalance
 
-# Wadi Qamar Textiles S.A.E. — cotton spinning and weaving, 10th of Ramadan City.
+# Wadi Qamar Textiles S.A.E., cotton spinning and weaving, 10th of Ramadan City.
 # Year to 31 December 2025 against 2024. Exports are invoiced in US dollars, so the
 # March 2024 float of the pound lifted 2024's foreign-exchange gains and 2025's
 # revenue in pounds.
@@ -52,7 +52,7 @@ TEXTILES = TrialBalance([
     ('7010', 'Suspense — FX clearing', 1_850_000, 0),   # outside every range: reported, not bucketed
 ])
 
-# Shams El-Bahr Hospitality S.A.E. — three resorts in Hurghada and Marsa Alam.
+# Shams El-Bahr Hospitality S.A.E., three resorts in Hurghada and Marsa Alam.
 # Year to 30 June 2026 against the year to 30 June 2025.
 HOSPITALITY = TrialBalance([
     ('1010', 'Land — Hurghada and Marsa Alam', 310_000_000, 310_000_000),

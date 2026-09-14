@@ -1,7 +1,7 @@
 //! The population page schema every adapter serves: the audit engine's journal line
 //! (motoko/src/calc/Journals.mo REQUIRED + the optional fields), serialized exactly as the
-//! engine's `Json.toText` and `tools/odoo_connector_oracle.py` write it — object keys in
-//! sorted order, no whitespace, UTF-8 — so a page's bytes are the part's bytes and its
+//! engine's `Json.toText` and `tools/odoo_connector_oracle.py` write it, object keys in
+//! sorted order, no whitespace, UTF-8, so a page's bytes are the part's bytes and its
 //! SHA-256 is the part fingerprint the contract records.
 //!
 //! Attribution: Thebes Core Team. Licence: Apache 2.0.
@@ -70,7 +70,7 @@ pub struct BalanceRow {
     pub credit: String,
 }
 
-/// `Decimal` quantized half-up to exactly `places` fractional digits, as text — the
+/// `Decimal` quantized half-up to exactly `places` fractional digits, as text, the
 /// engine's `Dec.money` and Python's `Decimal.quantize(ROUND_HALF_UP)`.
 pub fn money(v: Decimal, places: u32) -> String {
     let mut d = v.round_dp_with_strategy(places, RoundingStrategy::MidpointAwayFromZero);

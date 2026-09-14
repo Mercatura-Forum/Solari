@@ -1,4 +1,4 @@
-/// The Thebes Audit firm registry contract — many audit firms on one service, one
+/// The Thebes Audit firm registry contract, many audit firms on one service, one
 /// contract per firm.
 ///
 /// Three kinds of caller:
@@ -13,7 +13,7 @@
 ///     the registry activated is heard.
 ///
 /// The registry decides nothing inside a firm. It holds no person's name, no client,
-/// no engagement — see src/Registry.mo.
+/// no engagement, see src/Registry.mo.
 ///
 /// REPLIES: rows `[{ ok; json; seq }]` as the firm contract (one text field carries the
 /// structured result; `seq` counts successful writes for read-your-writes).
@@ -41,11 +41,11 @@ shared (install) persistent actor class FirmRegistry() = self {
   public type Reply = [{ ok : Bool; json : Text; seq : Nat }];
 
   /// The operator: the key that installed the contract. There is no owner to hand
-  /// this to — the registry is run by the platform operator, as the credit gateway is.
+  /// this to, the registry is run by the platform operator, as the credit gateway is.
   let operator : Principal = install.caller;
 
   var registry = Registry.init();
-  // PSEUDONYM NAMESPACE — the firm contracts' (main.mo), so one person is one principal
+  // PSEUDONYM NAMESPACE: the firm contracts' (main.mo), so one person is one principal
   // in the registry and in every firm.
   var memphisGate : MemphisAuth.State = MemphisAuth.initFromCid(921, "thebes-audit-engine", 1);
   var memphisAudience : Text = "";
@@ -184,7 +184,7 @@ shared (install) persistent actor class FirmRegistry() = self {
     reply(Registry.resumeFirm(registry, now(), id))
   };
 
-  /// Every firm with its owner — the operator's tools.
+  /// Every firm with its owner, the operator's tools.
   public query (msg) func listFirms() : async Reply {
     switch (operatorOnly(msg.caller)) { case (?r) return r; case null {} };
     reply(Registry.listFirms(registry))

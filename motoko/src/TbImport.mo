@@ -1,4 +1,4 @@
-/// TbImport.mo — source export → normalised trial balance → leadsheets.
+/// TbImport.mo: source export → normalised trial balance → leadsheets.
 /// Port of `tools/tb_import.py`; the Python module is the oracle.
 ///
 /// normalise   one source file under an adapter profile → the contract of
@@ -10,8 +10,8 @@
 ///             is REPORTED as unmapped, never bucketed
 ///
 /// Where the reference uses regular expressions, this module implements exactly the
-/// pattern shapes the adapter profiles use — an anchored literal row prefix, the
-/// empty-row pattern, and the QuickBooks "code name" split — and refuses any other
+/// pattern shapes the adapter profiles use, an anchored literal row prefix, the
+/// empty-row pattern, and the QuickBooks "code name" split, and refuses any other
 /// pattern by name rather than approximating it. Sources must be UTF-8 (`utf-8` or
 /// `utf-8-sig`); any other declared encoding is refused.
 ///
@@ -166,7 +166,7 @@ module {
   };
 
   /// The one code-from-name pattern profiles use: `^(\d[\w.\-]*)\s+(.*)$`, code group 1,
-  /// name group 2 — "1200 Accounts Receivable (A/R)" → ("1200", "Accounts Receivable (A/R)").
+  /// name group 2, "1200 Accounts Receivable (A/R)" → ("1200", "Accounts Receivable (A/R)").
   public let CODE_FROM_NAME_PATTERN : Text = "^(\\d[\\w.\\-]*)\\s+(.*)$";
 
   func codeFromName(s : Text) : ?(Text, Text) {

@@ -1,4 +1,4 @@
-"""Wadi Qamar Textiles S.A.E., year to 31 December 2025 — planning and fieldwork forms.
+"""Wadi Qamar Textiles S.A.E., year to 31 December 2025, planning and fieldwork forms.
 Fictitious. Attribution: Thebes Core Team. Licence: Apache 2.0.
 """
 from common import FIRM, NAME

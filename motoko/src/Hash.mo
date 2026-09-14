@@ -1,4 +1,4 @@
-/// Hash.mo — SHA-256 (FIPS 180-4) over bytes, as lowercase hex: the fingerprint
+/// Hash.mo: SHA-256 (FIPS 180-4) over bytes, as lowercase hex: the fingerprint
 /// recorded for every imported source file (`hashlib.sha256(bytes).hexdigest()`).
 ///
 /// Attribution: Thebes Core Team. Licence: Apache 2.0.

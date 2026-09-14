@@ -1,4 +1,4 @@
-/// Engine.mo — the audit engagement: its team and roles, imported trial balances,
+/// Engine.mo: the audit engagement: its team and roles, imported trial balances,
 /// computed working papers, the standards' record kinds, and a hash-chained trail
 /// of every change.
 ///

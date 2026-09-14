@@ -9,7 +9,7 @@
 //!                      every page's SHA-256, the source fingerprint, the mapping and the
 //!                      not-provided fields;
 //!   manifest.sig       ECDSA P-256 over SHA-256(manifest.json bytes), by the agent's own
-//!                      TLS key — the key whose public-key fingerprint the client registered;
+//!                      TLS key: the key whose public-key fingerprint the client registered;
 //!   manifest.spki      that public key (SubjectPublicKeyInfo, base64), so the contract can
 //!                      check its fingerprint against the registration and verify.
 //!
@@ -112,7 +112,7 @@ pub fn export(i: &ExportInputs, out: &Path) -> Result<String> {
         bail!("the ledger changed during the export: {count} lines before, {recount} after, {total_lines} exported; run it again");
     }
     // the SYSTEM'S totals for the period: its own aggregation (closing − opening per account),
-    // which the exported lines must add up to — the control the contract enforces again
+    // which the exported lines must add up to, the control the contract enforces again
     let mut sys_debit = Decimal::ZERO;
     let mut sys_credit = Decimal::ZERO;
     for b in &balances {

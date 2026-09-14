@@ -1,4 +1,4 @@
-/// Forms.mo — the fill-in forms on an engagement: the product's catalogue (forms 1 to 14 in
+/// Forms.mo: the fill-in forms on an engagement: the product's catalogue (forms 1 to 14 in
 /// FormsSeed, 15 onwards in FormsSeedExt).
 ///
 ///  LIVE VALUES   A field with an `autofill` expression reads the engagement's
@@ -1020,9 +1020,9 @@ module {
 
   /// Assemble the final engagement file (ISA 230.14, ISQM 1): by a partner, at the
   /// completion phase, once the completion form is approved and only for the report
-  /// date recorded on it. Records RK-FILE-ASSEMBLY — the report date, the assembly
+  /// date recorded on it. Records RK-FILE-ASSEMBLY, the report date, the assembly
   /// deadline sixty days after it, the number of objects in the file, and the trail
-  /// head the file closes on — and locks the engagement. From then on the only change
+  /// head the file closes on, and locks the engagement. From then on the only change
   /// accepted is a post-assembly change record (RK-POST-ASSEMBLY-CHANGE).
   /// ISA 230 A21: a file assembled at `assembledAt` (YYYY-MM-DDTHH:MM) is late when its
   /// day is after the deadline day (YYYY-MM-DD).

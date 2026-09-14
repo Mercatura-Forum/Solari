@@ -1,6 +1,6 @@
 /// The firm registry: many audit firms on one service, one contract per firm.
 ///
-/// What it holds — and only this: the firms (id, contract id, display name, the module
+/// What it holds: and only this: the firms (id, contract id, display name, the module
 /// hash the firm was activated with, status), the operator's one-time invitations (as
 /// SHA-256 of the code, never the code), and a membership index (per-app principal →
 /// firm ids) so the app can show a person their firms. Authority stays in each firm's
@@ -33,7 +33,7 @@ module {
     var cid : ?Nat;
     name : Text;
     /// The per-app principal that redeemed the invitation; named the firm's owner by
-    /// the provisioning service (`nameOwner`) — the registry only remembers who it was.
+    /// the provisioning service (`nameOwner`), the registry only remembers who it was.
     owner : Principal;
     /// The invitation the firm was created against (its id, not its code).
     invitation : Nat;
@@ -55,7 +55,7 @@ module {
     /// The firm created against it; an invitation is redeemed exactly once.
     var usedBy : ?Nat;
     /// Free text the operator attaches for their own bookkeeping ("invoice 12"), never a
-    /// person's name — the issuing tool refuses one that looks like an e-mail.
+    /// person's name, the issuing tool refuses one that looks like an e-mail.
     note : Text;
   };
 
@@ -126,7 +126,7 @@ module {
     ])
   };
 
-  /// The same, with the owner's principal — for the operator and the provisioning
+  /// The same, with the owner's principal, for the operator and the provisioning
   /// service only (the app's views never carry it).
   public func firmJsonForOperator(f : Firm) : J {
     switch (firmJson(f)) {
@@ -271,7 +271,7 @@ module {
   };
 
   /// Register a firm that already exists on the chain (the firm and the demonstration
-  /// firm of the single-firm era) — no redeploy, no invitation. The operator states the
+  /// firm of the single-firm era), no redeploy, no invitation. The operator states the
   /// owner it already has and the module hash it runs; the hash must be the pin.
   public func adoptFirm(s : State, at : Int, cid : Nat, name : Text, owner : Principal, moduleHash : Text) : R {
     let trimmed = Text.trim(name, #char ' ');
@@ -381,12 +381,12 @@ module {
     #ok(#arr(List.toArray(out)))
   };
 
-  /// One firm, by id — what anyone may know: its contract, name, status and module.
+  /// One firm, by id, what anyone may know: its contract, name, status and module.
   public func firmById(s : State, id : Nat) : R {
     switch (firm(s, id)) { case (?f) #ok(firmJson(f)); case null #err("no such firm") }
   };
 
-  /// Every firm, with owners — the operator and the tools.
+  /// Every firm, with owners, the operator and the tools.
   public func listFirms(s : State) : R {
     let out = List.empty<J>();
     for (f in Map.values(s.firms)) List.add(out, firmJsonForOperator(f));

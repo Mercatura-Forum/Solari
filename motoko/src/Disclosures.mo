@@ -14,8 +14,8 @@
 ///
 /// Status, per item:
 ///   disclosed        answered applicable and disclosed (with the note reference)
-///   missing          answered applicable, not yet disclosed              — open
-///   open             applicable by default and not yet answered           — open
+///   missing          answered applicable, not yet disclosed, open
+///   open             applicable by default and not yet answered, open
 ///   not_applicable   answered not applicable
 ///   to_consider      an event item, or a leadsheet item whose leadsheets are empty, unanswered
 ///
@@ -178,7 +178,7 @@ module {
     }
   };
 
-  /// Many answers in one call: [{item, applicable, disclosed?, reference?}] — checked first,
+  /// Many answers in one call: [{item, applicable, disclosed?, reference?}], checked first,
   /// then recorded; the first refusal stops before anything is written.
   public func answerMany(s : Engine.State, by : Principal, isAdmin : Bool, at : Int, eng : Nat, inp : J) : R {
     let items = Py.items(inp);

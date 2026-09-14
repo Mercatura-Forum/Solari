@@ -1,4 +1,4 @@
-//! `thebes-agent` — the connector agent.
+//! `thebes-agent`: the connector agent.
 //!
 //!   thebes-agent check  --config agent.toml     log in, run the read-only check, print /v1/meta
 //!   thebes-agent serve  --config agent.toml     serve the read-only API over TLS

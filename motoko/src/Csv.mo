@@ -1,4 +1,4 @@
-/// Csv.mo — a CSV reader with the behaviour of Python's `csv.reader` under the
+/// Csv.mo: a CSV reader with the behaviour of Python's `csv.reader` under the
 /// default `excel` dialect (quotechar '"', doublequote, no skipinitialspace,
 /// non-strict), reading a file opened with `newline=''`.
 ///

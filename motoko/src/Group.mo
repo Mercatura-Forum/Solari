@@ -205,7 +205,7 @@ module {
     ]))
   };
 
-  /// Components whose evidence is not yet sufficient — the assembly gate's list.
+  /// Components whose evidence is not yet sufficient, the assembly gate's list.
   public func open(s : Engine.State, eng : Nat) : [Text] {
     let out = List.empty<Text>();
     for (c in build(s, eng).vals()) {

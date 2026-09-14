@@ -1,5 +1,5 @@
 /// The audit programme: every procedure of the standards model (120, seed `procedures`) with its
-/// state on one engagement, derived from what the file already holds — the forms that serve it,
+/// state on one engagement, derived from what the file already holds, the forms that serve it,
 /// the working papers computed for it, the records that cite it, and its RK-PROCEDURE-CONCLUSION
 /// with the reviewer's RK-SIGNOFF. Nothing here is stored twice: the programme is a view.
 ///
@@ -345,7 +345,7 @@ module {
     out
   };
 
-  /// Applicable procedures not yet reviewed — what stands between the file and its assembly.
+  /// Applicable procedures not yet reviewed, what stands between the file and its assembly.
   public func open(s : Engine.State, ff : FirmForms.State, eng : Nat) : [Text] {
     let (m, procs) = build(s, ff, eng);
     let out = List.empty<Text>();
@@ -385,7 +385,7 @@ module {
 
   /// Many conclusions in one call (programme tailoring at planning): [{procedure, conclusion,
   /// rationale, performed_at}]. All or nothing: the first refusal stops before anything is
-  /// written — the inputs are checked first, then recorded.
+  /// written, the inputs are checked first, then recorded.
   public func concludeMany(s : Engine.State, by : Principal, isAdmin : Bool, at : Int, eng : Nat, inp : J) : R {
     let items = Py.items(inp);
     if (items.size() == 0 or items.size() > 200) return #err("1 to 200 conclusions per call");

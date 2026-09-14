@@ -8,7 +8,7 @@
 ///
 /// IDENTITY. Every user is their Memphis per-app principal, verified from a
 /// session token scoped to this app's web origin (thebes-lib MemphisAuth). All
-/// authority — firm owner, firm administrators, engagement roles — is keyed on
+/// authority, firm owner, firm administrators, engagement roles, is keyed on
 /// that principal, never on the transport sender. `openSession(token)` verifies a
 /// token with Memphis (an update: only Memphis can attest a token) and caches it;
 /// queries then accept the cached token until its expiry.
@@ -81,7 +81,7 @@ shared (install) persistent actor class AuditEngine() = self {
 
   var admin = Admin.init();
   var engine = Engine.init();
-  // PSEUDONYM NAMESPACE — fixed for the life of the deployment; changing it would
+  // PSEUDONYM NAMESPACE: fixed for the life of the deployment; changing it would
   // change every user's principal and orphan their engagements.
   var memphisGate : MemphisAuth.State = MemphisAuth.initFromCid(921, "thebes-audit-engine", 1);
   // The web origin the app is served from; tokens must have been minted for it.
@@ -202,7 +202,7 @@ shared (install) persistent actor class AuditEngine() = self {
 
   /// Verify a session token with Memphis.
   /// THE FIRM'S SILO. A verified session is accepted here only for someone who holds a
-  /// role in THIS firm (owner, administrator, any engagement role) — or in a demonstration
+  /// role in THIS firm (owner, administrator, any engagement role), or in a demonstration
   /// firm, where every visitor reads. Every method but `openSession` sits behind it, so a
   /// person from another firm is refused before any object of this firm is looked up: no
   /// probing by id, no argument validation reached, nothing of the firm's in any reply.
@@ -277,13 +277,13 @@ shared (install) persistent actor class AuditEngine() = self {
     }
   };
 
-  /// The firm's owner, if one is named — the provisioning service resumes from it.
+  /// The firm's owner, if one is named, the provisioning service resumes from it.
   /// (A pseudonymous per-app principal; the registry's operator view carries it too.)
   public query func firmOwner() : async Reply {
     answer(true, Json.toText(switch (Admin.getOwner(admin)) { case (?o) #str(Principal.toText(o)); case null #null_ }))
   };
 
-  /// Counts only — what a fleet upgrade must leave unchanged, readable without a session
+  /// Counts only: what a fleet upgrade must leave unchanged, readable without a session
   /// (no content, no names: the numbers of things the firm holds).
   public query func fleetCounts() : async Reply {
     answer(true, Json.toText(#obj([
@@ -1444,7 +1444,7 @@ shared (install) persistent actor class AuditEngine() = self {
   };
 
   /// Register an agent for an engagement: `json` { hostname, adapter, client_key (one of the
-  /// caller's registered signing keys — the agent verifies capabilities against it),
+  /// caller's registered signing keys, the agent verifies capabilities against it),
   /// spki_fingerprint (SHA-256 of the agent's TLS public key, hex) }. The caller then signs
   /// `agent:<id>` with that passkey (beginSignature / completeSignature); only a signed
   /// registration can be pulled from.

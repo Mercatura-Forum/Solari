@@ -8,12 +8,12 @@
                    not the file's); the file's sha256 and the build label are recorded in
                    fleet/release.json. Refused unless the reference reports the local build
                    label and every validator agrees on its hash.
-  --canary <id>    upgrade one firm and stop — the operator inspects it, then runs --all.
+  --canary <id>    upgrade one firm and stop, the operator inspects it, then runs --all.
   --all            upgrade every active firm whose module is not the pin, in id order.
   --figures <id>   print a firm's figures (what the before/after check compares).
 
 Per firm: figures before (setupState, firmOwner, registryStatus.registry, engagement and
-member counts); `thebes-deploy upgrade` — its gates (stable types compatible, stable-memory
+member counts); `thebes-deploy upgrade`, its gates (stable types compatible, stable-memory
 persistence) refuse an incompatible module before any install, they never trap a running
 firm; the module hash from every validator must then equal the pin; figures after must
 equal figures before; the registry records the firm's new hash. The first firm that fails

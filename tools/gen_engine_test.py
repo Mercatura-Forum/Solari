@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Generate motoko/test/EngineScenario.test.mo: one engagement walked end to end
-through src/Engine.mo — roles and objectivity, forward-only phases, a real
+through src/Engine.mo, roles and objectivity, forward-only phases, a real
 trial-balance import, a computed working paper, the standards' record kinds with a
 client answering its own request, file views per role, and the hash-chained trail
 with a tamper negative control. The fixture source is embedded from

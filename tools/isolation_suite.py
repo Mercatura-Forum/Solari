@@ -3,13 +3,13 @@
 
 Reads the firm contract's Candid interface (moc --idl) and, for every public method, calls
 firm B's contract with a VALID Memphis session of a person who holds no role in B (the owner
-of firm A; a person who is staff only in A; a client only in A — all three sessions verify on
+of firm A; a person who is staff only in A; a client only in A, all three sessions verify on
 B, since every firm shares one web origin). The verdict per (method, person):
 
   PASS   refused for an AUTHORITY reason (no role here / only the owner / not on the
-         engagement …) — the check fired before anything of B's was touched;
+         engagement …), the check fired before anything of B's was touched;
   PASS   a method with no session argument (public counts, the rulebook, build info): by
-         design it carries no name, no client, no engagement — listed for the record;
+         design it carries no name, no client, no engagement, listed for the record;
   PASS   accepted but SELF-ONLY: the reply is about the caller alone (an opened session, the
          caller's own empty device or key lists);
   FAIL   accepted with anything of B's in the reply, accepted as a write, or refused for a
@@ -18,7 +18,7 @@ B, since every firm shares one web origin). The verdict per (method, person):
 
 The negative control (--negative-control): a copy of main.mo with ONE check deliberately
 widened (`reads` = anyone reads across the firm) is built, installed on a scratch contract
-owned by B's owner, given an engagement, probed with the same sessions — and the suite must
+owned by B's owner, given an engagement, probed with the same sessions, and the suite must
 go RED there; then the scratch contract is deleted. A suite that cannot fail proves nothing.
 
 Usage: isolation_suite.py <sessions.json from e2e_firms.py> [--negative-control] [--out <dir>]

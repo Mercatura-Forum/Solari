@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Browser end to end for MANY FIRMS on the live chain:
 
-  three people, each a fresh Memphis passkey in its own browser context —
+  three people, each a fresh Memphis passkey in its own browser context,
   Alice signs up firm A with invitation A; the provisioning service (tools/provision_firm.py,
   run from here, interrupted after its first step and rerun) installs and
   activates it; the page opens the firm by itself. Bob does the same for firm B. Carol signs in
@@ -76,8 +76,8 @@ def issue():
 
 def provision(kill_after_manifest_of=None):
     """Run the service once. With `kill_after_manifest_of=<firm id>`, the service is KILLED
-    (SIGKILL, a real crash) the moment it has written that firm's manifest — its first durable
-    step, before the chain is touched — and then run again: the rerun must finish the same
+    (SIGKILL, a real crash) the moment it has written that firm's manifest, its first durable
+    step, before the chain is touched, and then run again: the rerun must finish the same
     firm on the same contract, with no second manifest and no second contract."""
     if kill_after_manifest_of is not None:
         man = f'{R}/fleet/firms/{kill_after_manifest_of}/thebes.toml'

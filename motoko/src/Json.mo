@@ -1,4 +1,4 @@
-/// Json.mo — a JSON value, a strict parser, and the canonical serialisation the
+/// Json.mo: a JSON value, a strict parser, and the canonical serialisation the
 /// audit engine exchanges with its callers and its oracle.
 ///
 /// `toText` reproduces Python's `json.dumps(v, sort_keys=True, separators=(',', ':'),

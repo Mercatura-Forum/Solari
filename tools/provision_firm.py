@@ -4,14 +4,14 @@
 For each pending firm, in order, each step idempotent so a crash anywhere is finished by
 the next pass and never leaves a contract the registry does not know about:
 
-  1. a contract id — allocated, checked unused on every validator, and written to the
+  1. a contract id, allocated, checked unused on every validator, and written to the
      firm's manifest (fleet/firms/<id>/thebes.toml) BEFORE anything touches the chain;
      a manifest on disk is the durable record that this firm owns that id;
   2. the pinned release module installed on it (thebes-deploy, chunked,
-     --legacy-persistence) — skipped when every validator already reports a module;
+     --legacy-persistence), skipped when every validator already reports a module;
   3. the module hash read from every validator must equal the pinned hash;
   4. setMemphisAudience, setRegistry (the installing key, before an owner exists);
-  5. nameOwner(the person who redeemed the invitation) — once; a resumed pass reads
+  5. nameOwner(the person who redeemed the invitation), once; a resumed pass reads
      `firmOwner` and refuses to continue if a DIFFERENT owner is already named;
   6. activateFirm at the registry with the hash the validators reported.
 
@@ -43,7 +43,7 @@ def ensure_cid(firm):
             die(f'{man} exists but names no cid; fix it by hand')
         return man, cid
     if firm.get('cid'):
-        # the registry knows a cid (an activation that never completed) — keep it
+        # the registry knows a cid (an activation that never completed), keep it
         return write_firm_manifest(firm['id'], firm['cid']), firm['cid']
     cid = allocate_cid()
     log(f'firm {firm["id"]}: allocated contract {cid}')
