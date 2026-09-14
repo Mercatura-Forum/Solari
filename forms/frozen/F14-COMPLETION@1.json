@@ -3,7 +3,6 @@
  "number": 14,
  "kind": "checklist",
  "phase": "completion",
- "version": 2,
  "title": {
   "en": "Completion and sign-off",
   "ar": "إنجاز المراجعة والتوقيع"
@@ -162,70 +161,6 @@
      "required": true
     },
     {
-     "id": "minutes_reviewed",
-     "label": {
-      "en": "Minutes of governance meetings reviewed",
-      "ar": "محاضر اجتماعات الحوكمة التي تمت مراجعتها"
-     },
-     "type": "integer",
-     "required": false,
-     "autofill": "records.RK-MINUTES-REVIEW.count",
-     "readonly": true
-    },
-    {
-     "id": "meetings_noted",
-     "label": {
-      "en": "Meetings with management and those charged with governance noted",
-      "ar": "الاجتماعات المدونة مع الإدارة والمكلفين بالحوكمة"
-     },
-     "type": "integer",
-     "required": false,
-     "autofill": "records.RK-MEETING-NOTE.count",
-     "readonly": true
-    },
-    {
-     "id": "minutes_unresolved",
-     "label": {
-      "en": "Significant matters from the minutes without a documented resolution",
-      "ar": "الأمور الهامة من المحاضر دون حل موثق"
-     },
-     "type": "integer",
-     "required": false,
-     "autofill": "records.RK-MINUTES-REVIEW.unresolved",
-     "readonly": true
-    },
-    {
-     "id": "meetings_unresolved",
-     "label": {
-      "en": "Significant matters from meetings without a documented resolution",
-      "ar": "الأمور الهامة من الاجتماعات دون حل موثق"
-     },
-     "type": "integer",
-     "required": false,
-     "autofill": "records.RK-MEETING-NOTE.unresolved",
-     "readonly": true
-    },
-    {
-     "id": "significant_matters_resolved",
-     "label": {
-      "en": "Every significant matter raised in minutes or meetings has its resolution documented (ISA 230.8(c), 230.10)",
-      "ar": "كل أمر هام أثير في المحاضر أو الاجتماعات له حل موثق (معيار 230 فقرة 8(ج) و10)"
-     },
-     "type": "yesno",
-     "required": true
-    },
-    {
-     "id": "carried_forward",
-     "label": {
-      "en": "Matters noted for the next engagement, still open",
-      "ar": "الأمور المدونة للارتباط القادم التي ما زالت مفتوحة"
-     },
-     "type": "integer",
-     "required": false,
-     "autofill": "records.RK-CARRY-FORWARD.open",
-     "readonly": true
-    },
-    {
      "id": "consultations",
      "label": {
       "en": "Consultations on difficult or contentious matters documented and implemented",
@@ -369,5 +304,6 @@
   ],
   "eqr": true
  },
+ "version": 1,
  "ar_status": "draft_pending_review"
 }

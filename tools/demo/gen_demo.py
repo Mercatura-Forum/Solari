@@ -179,7 +179,14 @@ def steps():
     st.ok('compute journal_screen', f'E.compute(s, P3, false, at, a, j("{{\\"kind\\":\\"journal_screen\\",\\"procedure_id\\":\\"\\",\\"input\\":{{\\"lines\\":" # JE_TEXTILES # ",\\"params\\":" # {mo(js(par_a))} # "}}}}"))')
     st.compute('P3', 'a', 'benford', {'amounts': J.amounts(je_a), 'test': 'first', 'minimum': '10', 'sample_warning_below': 5000})
     st.record('P1', 'a', 'RK-REVIEW-NOTE', B.REVIEW_NOTES[2])
-    st.summary(f'Wadi Qamar: {len(je_a)} journal lines screened on fourteen criteria; first-digit analysis')
+    # the minutes read and the meetings held, their significant matters resolved; the matters for next year
+    for m in B.MINUTES:
+        st.record('P3', 'a', 'RK-MINUTES-REVIEW', m)
+    for m in B.MEETINGS:
+        st.record('P3', 'a', 'RK-MEETING-NOTE', m)
+    for m in B.CARRY_FORWARD:
+        st.record('P2', 'a', 'RK-CARRY-FORWARD', m)
+    st.summary(f'Wadi Qamar: {len(je_a)} journal lines screened on fourteen criteria; first-digit analysis; minutes, meetings and the matters for next year recorded')
     out.append(st)
 
     # 3 — Wadi Qamar fieldwork

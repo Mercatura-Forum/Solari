@@ -521,6 +521,30 @@
    }
   },
   {
+   "id": "records:RK-MINUTES-REVIEW",
+   "kind": "records",
+   "title": {
+    "en": "Records: RK-MINUTES-REVIEW",
+    "ar": "Records: RK-MINUTES-REVIEW"
+   }
+  },
+  {
+   "id": "records:RK-MEETING-NOTE",
+   "kind": "records",
+   "title": {
+    "en": "Records: RK-MEETING-NOTE",
+    "ar": "Records: RK-MEETING-NOTE"
+   }
+  },
+  {
+   "id": "records:RK-CARRY-FORWARD",
+   "kind": "records",
+   "title": {
+    "en": "Records: RK-CARRY-FORWARD",
+    "ar": "Records: RK-CARRY-FORWARD"
+   }
+  },
+  {
    "id": "records:RK-CONTROL",
    "kind": "records",
    "title": {
@@ -652,6 +676,41 @@
    "to_field": "open_disclosures",
    "via": "disclosures.open",
    "kind": "checklist"
+  },
+  {
+   "from": "records:RK-MINUTES-REVIEW",
+   "to": "F14-COMPLETION",
+   "to_field": "minutes_reviewed",
+   "via": "records.RK-MINUTES-REVIEW.count",
+   "kind": "records"
+  },
+  {
+   "from": "records:RK-MEETING-NOTE",
+   "to": "F14-COMPLETION",
+   "to_field": "meetings_noted",
+   "via": "records.RK-MEETING-NOTE.count",
+   "kind": "records"
+  },
+  {
+   "from": "records:RK-MINUTES-REVIEW",
+   "to": "F14-COMPLETION",
+   "to_field": "minutes_unresolved",
+   "via": "records.RK-MINUTES-REVIEW.unresolved",
+   "kind": "records"
+  },
+  {
+   "from": "records:RK-MEETING-NOTE",
+   "to": "F14-COMPLETION",
+   "to_field": "meetings_unresolved",
+   "via": "records.RK-MEETING-NOTE.unresolved",
+   "kind": "records"
+  },
+  {
+   "from": "records:RK-CARRY-FORWARD",
+   "to": "F14-COMPLETION",
+   "to_field": "carried_forward",
+   "via": "records.RK-CARRY-FORWARD.open",
+   "kind": "records"
   },
   {
    "from": "records:RK-CONTROL",

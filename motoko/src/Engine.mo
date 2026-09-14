@@ -34,6 +34,7 @@ import Py "Py";
 import Seed "Seed";
 import TbImport "TbImport";
 import ControlRules "ControlRules";
+import GovernanceRules "GovernanceRules";
 
 module {
   type J = Json.J;
@@ -542,6 +543,7 @@ module {
     let spec = switch (kindSpec(kind)) { case (?k) k; case null return #err("unknown record kind " # Py.repr(kind)) };
     switch (validateFields(spec, fields)) { case (?p) return #err(kind # ": " # p); case null {} };
     if (kind == "RK-CONTROL") { switch (ControlRules.problem(fields)) { case (?p) return #err(kind # ": " # p); case null {} } };
+    switch (GovernanceRules.problem(kind, fields)) { case (?p) return #err(kind # ": " # p); case null {} };
     let rid = nextId(s);
     let text = Json.toText(fields);
     let contentHash = append(s, by, at, "record.add", "engagement:" # Nat.toText(id) # "/record:" # Nat.toText(rid), kind # "\n" # text);
@@ -574,6 +576,7 @@ module {
     let spec = switch (kindSpec(r.kind)) { case (?k) k; case null return #err("unknown record kind") };
     switch (validateFields(spec, fields)) { case (?p) return #err(r.kind # ": " # p); case null {} };
     if (r.kind == "RK-CONTROL") { switch (ControlRules.problem(fields)) { case (?p) return #err(r.kind # ": " # p); case null {} } };
+    switch (GovernanceRules.problem(r.kind, fields)) { case (?p) return #err(r.kind # ": " # p); case null {} };
     r.fields := Json.toText(fields);
     r.version += 1;
     r.updatedAt := at;

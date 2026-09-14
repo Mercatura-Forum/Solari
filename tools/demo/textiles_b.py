@@ -68,7 +68,7 @@ F13 = {
 
 F14 = {
     'evidence_sufficient': 'yes', 'misstatements_evaluated': 'yes', 'going_concern_concluded': 'yes', 'subsequent_events': 'yes',
-    'representations': 'yes', 'tcwg': 'yes', 'consultations': 'yes', 'eqr': 'completed', 'opinion': 'unmodified',
+    'representations': 'yes', 'tcwg': 'yes', 'significant_matters_resolved': 'yes', 'consultations': 'yes', 'eqr': 'completed', 'opinion': 'unmodified',
     'key_audit_matters': 'Revenue cut-off on export shipments; net realisable value of slow-moving fabric.',
     'report_date': '2026-03-25', 'assembly_deadline': '2026-05-24',
 }
@@ -131,6 +131,32 @@ EVIDENCE_LINKS = [
     {'procedure': 'P-TRE-001', 'evidence_item': 'BANK-CONF-NDB-2025.pdf', 'evidence_kind': 'external_confirmation', 'tick_mark': 'C', 'linked_by': NAME['P4'], 'linked_at': '2026-01-21T15:00'},
     {'procedure': 'P-INV-001', 'evidence_item': 'COUNT-SHEETS-31DEC2025.pdf', 'evidence_kind': 'observation', 'tick_mark': 'O', 'region': 'Spinning mill, bays 1–6', 'linked_by': NAME['P3'], 'linked_at': '2026-01-03T12:00'},
 ]
+# governance: the minutes read, the meetings noted and the matters for next year (ISA 230.8(c), .10; ISA 300.7)
+MINUTES = [
+    {'meeting': 'Board of directors', 'held_on': '2025-11-20', 'extract': 'The board approved the USD 1.2m spinning frame order from Rieter for delivery in Q2 2026, financed by a new NDB term loan.',
+     'matter': 'Capital commitment and new borrowing after the year end: disclosure and the going-concern forecast', 'significance': 'significant',
+     'resolution': 'Commitment disclosed in note 27; the loan is in the going-concern forecast (form 9) and the subsequent events review (form 11).',
+     'procedure': 'P-FSL-008', 'reviewed_by': NAME['P3'], 'reviewed_at': '2026-01-12T10:00'},
+    {'meeting': 'Audit committee', 'held_on': '2026-02-18', 'extract': 'The committee noted the auditor\'s planning letter and asked for the cut-off findings before the March meeting.',
+     'matter': 'None noted beyond the request for the findings', 'significance': 'none', 'procedure': 'P-FSL-047', 'reviewed_by': NAME['P3'], 'reviewed_at': '2026-02-20T09:30'},
+]
+MEETINGS = [
+    {'with_whom': 'Chief financial officer and financial controller', 'party': 'management', 'held_on': '2026-01-22T14:00',
+     'discussed': 'The December export shipments invoiced before the bill of lading date, and the rebate clause in the Delta Textiles contract.',
+     'agreed': 'Management will reverse the two cut-off invoices and provide the signed rebate schedule by 30 January.', 'significance': 'significant',
+     'resolution': 'Reversed and recorded as misstatement M1 (corrected); the rebate applied in the MUS evaluation.', 'recorded_by': NAME['P3'], 'recorded_at': '2026-01-22T17:00'},
+    {'with_whom': 'Audit committee chair', 'party': 'tcwg', 'held_on': '2026-03-24T15:00',
+     'discussed': 'The uncorrected misstatements, the control deficiency in pay-rate changes and the going-concern headroom.',
+     'agreed': 'The findings letter is accepted; management to respond on the pay-rate control by the June meeting.', 'significance': 'none',
+     'recorded_by': NAME['P2'], 'recorded_at': '2026-03-24T18:00'},
+]
+CARRY_FORWARD = [
+    {'matter': 'The new NDB term loan and the spinning frame commissioning in Q2 2026', 'action': 'Confirm the loan covenants at the interim visit; test the capitalisation of the frame and its depreciation from commissioning.',
+     'raised_by': NAME['P2'], 'raised_at': '2026-03-25T11:00', 'source': 'record:minutes 2025-11-20', 'state': 'open'},
+    {'matter': 'Pay-rate changes approved after the fact (control deficiency)', 'action': 'Reassess the payroll control at planning; if not remediated, extend the substantive test of pay-rate changes.',
+     'raised_by': NAME['P2'], 'raised_at': '2026-03-25T11:10', 'source': 'form:F13-TCWG-LETTER', 'state': 'open'},
+]
+
 POST_ASSEMBLY = {'object': 'form:F13-TCWG-LETTER', 'reason': 'Cross-reference to the management letter corrected; no change to findings', 'changed_by': NAME['P2'], 'changed_at': '2026-04-02T10:00', 'reviewed_by': NAME['P1'], 'reviewed_at': '2026-04-02T12:00'}
 
 # Carried into FY2026: the continuance form is reviewed and saved again.

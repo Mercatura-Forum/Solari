@@ -51,6 +51,7 @@ import Adjustments "src/Adjustments";
 import Controls "src/Controls";
 import Risks "src/Risks";
 import Letters "src/Letters";
+import Governance "src/Governance";
 import Api "src/Api";
 import Dates "src/Dates";
 import Dec "src/Dec";
@@ -843,6 +844,14 @@ shared (install) persistent actor class AuditEngine() = self {
       case (#ok(p), #ok(j)) commit(Programme.acceptProposal(engine, firmForms, p, isAdmin(p), now(), engagementId, j));
       case (#err(m), _) refuse(m);
       case (_, #err(m)) refuse("invalid JSON: " # m);
+    }
+  };
+
+  /// Minutes reviewed, meetings noted and matters carried forward, with the significant matters that hold the file.
+  public query func governanceView(token : Text, engagementId : Nat) : async Reply {
+    switch (cached(token)) {
+      case (#ok(p)) reply(observed(p, Governance.view(engine, p, reads(p), engagementId)));
+      case (#err(m)) refuse(m);
     }
   };
 

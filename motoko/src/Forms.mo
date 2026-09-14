@@ -37,6 +37,7 @@ import Adjustments "Adjustments";
 import Controls "Controls";
 import Risks "Risks";
 import Letters "Letters";
+import Governance "Governance";
 import ProductForms "ProductForms";
 import Hash "Hash";
 import FirmForms "FirmForms";
@@ -225,7 +226,7 @@ module {
     #null_
   };
 
-  let CLOSED_STATES : [Text] = ["cleared", "closed", "booked", "waived"];
+  let CLOSED_STATES : [Text] = ["cleared", "closed", "booked", "waived", "addressed"];
 
   func recordsOf(s : Engine.State, eng : Nat, kind : Text) : [J] {
     let out = List.empty<J>();
@@ -354,6 +355,13 @@ module {
         if (parts.size() == 4 and parts[2] == "for") {
           var n = 0;
           for (r in rows.vals()) { if (Py.textOr(r, "procedure", "") == parts[3]) n += 1 };
+          return Json.nat(n);
+        };
+        // records.<kind>.count: how many; records.<kind>.unresolved: the significant matters without a resolution
+        if (parts.size() == 3 and parts[2] == "count") return Json.nat(rows.size());
+        if (parts.size() == 3 and parts[2] == "unresolved") {
+          var n = 0;
+          for (r in rows.vals()) { if (Governance.isUnresolved(r)) n += 1 };
           return Json.nat(n);
         };
         if (parts.size() == 3 and parts[2] == "open") {
@@ -1012,6 +1020,9 @@ module {
     let unanswered = Risks.unanswered(s, eng);
     if (unanswered.size() > 0) return #err("the file is not assembled while " # Nat.toText(unanswered.size()) # " risk(s) of the register have no response: " # Text.join(Array.map<Risks.Risk, Text>(unanswered, func(r) { r.name }).vals(), "; "));
     if (e.status != "completion") return #err("the file is assembled at completion; the engagement is at " # e.status);
+    // every significant matter raised in minutes or a meeting has its resolution documented (ISA 230.8(c), ISA 230.10)
+    let unresolved = Governance.unresolved(s, eng);
+    if (unresolved.size() > 0) return #err("the file is not assembled while " # Nat.toText(unresolved.size()) # " significant matter(s) from minutes and meetings have no resolution: " # Text.join(Array.map<(Nat, Text), Text>(unresolved, func((id, m)) { "record " # Nat.toText(id) # " (" # m # ")" }).vals(), "; "));
     let completion = switch (instance(s, eng, "F14-COMPLETION")) {
       case (?i) { if (i.status != "approved") return #err("the completion form must be approved before the file is assembled"); i };
       case null return #err("the completion form must be approved before the file is assembled");
@@ -1114,9 +1125,12 @@ module {
       i.contentHash := Engine.append(s, by, at, "form.carry", "engagement:" # Nat.toText(newId) # "/form:" # f.formId, text);
       List.add(s.forms, i);
     };
+    // the matters noted for the next engagement come with the file, open until addressed
+    let carried = Governance.carry(s, by, isAdmin, at, priorId, newId);
     let conclusion = "Carried forward from the assembled file of engagement " # Nat.toText(priorId)
       # (if (head != "") " (trail head " # head # ")" else "") # "; " # Nat.toText(priorForms.size())
-      # " forms carried as unaffirmed drafts, each to be reviewed and saved in this period before it is prepared.";
+      # " forms carried as unaffirmed drafts, each to be reviewed and saved in this period before it is prepared"
+      # (if (carried.size() > 0) "; " # Nat.toText(carried.size()) # " matter(s) carried forward, open until addressed." else ".");
     let rec = switch (Engine.addRecord(s, by, isAdmin, at, newId, #obj([("kind", #str("RK-PRIOR-PERIOD-REFERENCE")), ("fields", #obj([
       ("prior_object", #str("engagement:" # Nat.toText(priorId))), ("current_procedure", #str("P-FSL-042")),
       ("re_evaluated", #bool(false)), ("conclusion", #str(conclusion)),
@@ -1124,10 +1138,10 @@ module {
     // Targets the prior file (the duplicate check above reads it back) and commits to
     // the successor, the file it closed on, and the team carried over.
     ignore Engine.append(s, by, at, "engagement.rolled_forward", priorTarget, Json.toText(#obj([
-      ("to", Json.nat(newId)), ("prior_file_hash", #str(head)), ("forms_carried", Json.nat(priorForms.size())),
+      ("to", Json.nat(newId)), ("prior_file_hash", #str(head)), ("forms_carried", Json.nat(priorForms.size())), ("matters_carried", Json.nat(carried.size())),
       ("team", #arr(Array.map<(Principal, Engine.Role), J>(e.members, func((p, r)) { #obj([("principal", #str(Principal.toText(p))), ("role", #str(Engine.roleText(r)))]) }))),
     ])));
-    #ok(#obj([("engagement_id", Json.nat(newId)), ("forms_carried", Json.nat(priorForms.size())), ("prior_file_hash", #str(head)), ("record", rec)]))
+    #ok(#obj([("engagement_id", Json.nat(newId)), ("forms_carried", Json.nat(priorForms.size())), ("matters_carried", Json.nat(carried.size())), ("carried", #arr(carried)), ("prior_file_hash", #str(head)), ("record", rec)]))
   };
 
   /// A partner reopens a signed form with a reason: back to draft, a new version,

@@ -680,6 +680,26 @@ def main():
         except Exception as e:
             shot(pg, 'd5-08-applicability-failed')
             row('the applicability workflow completes', False, e)
+
+        # ── minutes, meetings and matters carried forward: the page, a meeting noted ──
+        try:
+            GV = f'{int(time.time()) % 100000:05d}'
+            pg.goto(f'{URL}#/e/{eid}/governance', wait_until='load')
+            pg.get_by_test_id('gv-page').wait_for(timeout=120000)
+            row('the minutes and meetings page carries its three sections', pg.locator('#gv-minutes').count() == 1 and pg.locator('#gv-meetings').count() == 1 and pg.locator('#gv-carried').count() == 1)
+            pg.get_by_test_id('gv-add-meeting').click()
+            pg.get_by_test_id('gv-form-meeting').wait_for(timeout=30000)
+            pg.locator('#gv-with-whom').fill(f'Chief financial officer {GV}')
+            pg.locator('#gv-discussed').fill('The December shipments invoiced before the bill of lading date.')
+            pg.locator('#gv-agreed').fill('Management reverses the two invoices.')
+            pg.get_by_test_id('gv-save-meeting').click()
+            pg.wait_for_function(f'() => document.body.innerText.includes("Chief financial officer {GV}")', timeout=180000)
+            row('a meeting noted appears in the list with whom, when and what was agreed', pg.locator('[data-testid=gv-meetings-list] li', has_text=f'Chief financial officer {GV}').count() == 1)
+            shot(pg, 'd5-09-governance')
+            axe(pg, 'minutes and meetings', 'en')
+        except Exception as e:
+            shot(pg, 'd5-09-governance-failed')
+            row('the governance workflow completes', False, e)
         return finish(ctx)
 
 

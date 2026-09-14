@@ -582,7 +582,7 @@ FORMS.append({
 
 # 14 ---------------------------------------------------------------------------
 FORMS.append({
-    'id': 'F14-COMPLETION', 'number': 14, 'kind': 'checklist', 'phase': 'completion',
+    'id': 'F14-COMPLETION', 'number': 14, 'kind': 'checklist', 'phase': 'completion', 'version': 2,
     'title': L('Completion and sign-off', 'إنجاز المراجعة والتوقيع'),
     'purpose': L('Confirm that sufficient appropriate audit evidence supports the opinion, that the partner has discharged the quality responsibilities, and that the file is ready for assembly.',
                  'التأكد من أن ما يكفي من أدلة المراجعة المناسبة يؤيد الرأي، وأن الشريك قد وفى بمسؤوليات الجودة، وأن الملف جاهز للتجميع.'),
@@ -598,6 +598,12 @@ FORMS.append({
             yesno('subsequent_events', 'Subsequent events reviewed to the report date (form 11)', 'تمت مراجعة الأحداث اللاحقة حتى تاريخ التقرير (النموذج 11)'),
             yesno('representations', 'Written representations obtained, dated at the report date (form 12)', 'تم الحصول على الإفادات المكتوبة مؤرخة بتاريخ التقرير (النموذج 12)'),
             yesno('tcwg', 'Matters communicated to those charged with governance (form 13)', 'تم إبلاغ المكلفين بالحوكمة بالأمور المطلوبة (النموذج 13)'),
+            field('minutes_reviewed', 'Minutes of governance meetings reviewed', 'محاضر اجتماعات الحوكمة التي تمت مراجعتها', 'integer', autofill='records.RK-MINUTES-REVIEW.count', readonly=True),
+            field('meetings_noted', 'Meetings with management and those charged with governance noted', 'الاجتماعات المدونة مع الإدارة والمكلفين بالحوكمة', 'integer', autofill='records.RK-MEETING-NOTE.count', readonly=True),
+            field('minutes_unresolved', 'Significant matters from the minutes without a documented resolution', 'الأمور الهامة من المحاضر دون حل موثق', 'integer', autofill='records.RK-MINUTES-REVIEW.unresolved', readonly=True),
+            field('meetings_unresolved', 'Significant matters from meetings without a documented resolution', 'الأمور الهامة من الاجتماعات دون حل موثق', 'integer', autofill='records.RK-MEETING-NOTE.unresolved', readonly=True),
+            yesno('significant_matters_resolved', 'Every significant matter raised in minutes or meetings has its resolution documented (ISA 230.8(c), 230.10)', 'كل أمر هام أثير في المحاضر أو الاجتماعات له حل موثق (معيار 230 فقرة 8(ج) و10)'),
+            field('carried_forward', 'Matters noted for the next engagement, still open', 'الأمور المدونة للارتباط القادم التي ما زالت مفتوحة', 'integer', autofill='records.RK-CARRY-FORWARD.open', readonly=True),
             yesno('consultations', 'Consultations on difficult or contentious matters documented and implemented', 'تم توثيق المشاورات بشأن الأمور الصعبة أو الخلافية وتنفيذ نتائجها'),
             field('eqr', 'Engagement quality review', 'فحص جودة الارتباط', 'select', True, options=[
                 opt('completed', 'Required and completed', 'مطلوب وتم'), opt('not_required', 'Not required by firm policy', 'غير مطلوب وفقًا لسياسة المكتب')]),
