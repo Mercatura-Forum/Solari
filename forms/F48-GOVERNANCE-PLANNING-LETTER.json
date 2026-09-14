@@ -1,0 +1,227 @@
+{
+ "id": "F48-GOVERNANCE-PLANNING-LETTER",
+ "number": 48,
+ "kind": "letter",
+ "phase": "planning",
+ "title": {
+  "en": "Planning letter to those charged with governance",
+  "ar": "خطاب التخطيط إلى المكلفين بالحوكمة"
+ },
+ "purpose": {
+  "en": "Communicate the planned scope and timing of the audit, the significant risks identified, the team and the auditor's independence to those charged with governance before fieldwork.",
+  "ar": "إبلاغ المكلفين بالحوكمة بالنطاق والتوقيت المخططين للمراجعة والمخاطر المهمة المحددة والفريق واستقلال المراجع قبل العمل الميداني."
+ },
+ "procedures": [
+  "P-FSL-047"
+ ],
+ "standards": [
+  "ISA-260",
+  "ISA-300"
+ ],
+ "sections": [
+  {
+   "id": "engagement",
+   "title": {
+    "en": "Engagement",
+    "ar": "الارتباط"
+   },
+   "fields": [
+    {
+     "id": "client",
+     "label": {
+      "en": "Entity audited",
+      "ar": "المنشأة محل المراجعة"
+     },
+     "type": "text",
+     "required": false,
+     "autofill": "engagement.client",
+     "readonly": true
+    },
+    {
+     "id": "period_start",
+     "label": {
+      "en": "Period from",
+      "ar": "الفترة من"
+     },
+     "type": "date",
+     "required": false,
+     "autofill": "engagement.period_start",
+     "readonly": true
+    },
+    {
+     "id": "period_end",
+     "label": {
+      "en": "Period to",
+      "ar": "الفترة إلى"
+     },
+     "type": "date",
+     "required": false,
+     "autofill": "engagement.period_end",
+     "readonly": true
+    },
+    {
+     "id": "framework",
+     "label": {
+      "en": "Financial reporting framework",
+      "ar": "إطار التقرير المالي"
+     },
+     "type": "text",
+     "required": false,
+     "autofill": "engagement.framework",
+     "readonly": true
+    }
+   ]
+  },
+  {
+   "id": "request",
+   "title": {
+    "en": "The letter",
+    "ar": "الخطاب"
+   },
+   "fields": [
+    {
+     "id": "party",
+     "label": {
+      "en": "Those charged with governance",
+      "ar": "المكلفون بالحوكمة"
+     },
+     "type": "text",
+     "required": true
+    },
+    {
+     "id": "address",
+     "label": {
+      "en": "Address",
+      "ar": "العنوان"
+     },
+     "type": "textarea",
+     "required": true
+    },
+    {
+     "id": "request_date",
+     "label": {
+      "en": "Date of the letter",
+      "ar": "تاريخ الخطاب"
+     },
+     "type": "date",
+     "required": true
+    },
+    {
+     "id": "scope",
+     "label": {
+      "en": "Planned scope and approach",
+      "ar": "النطاق والمنهج المخططان"
+     },
+     "type": "textarea",
+     "required": true
+    },
+    {
+     "id": "timing",
+     "label": {
+      "en": "Timing of the audit and the expected report date",
+      "ar": "توقيت المراجعة وتاريخ التقرير المتوقع"
+     },
+     "type": "textarea",
+     "required": true
+    },
+    {
+     "id": "significant_risks",
+     "label": {
+      "en": "Significant risks identified",
+      "ar": "المخاطر المهمة المحددة"
+     },
+     "type": "textarea",
+     "required": true
+    },
+    {
+     "id": "team",
+     "label": {
+      "en": "The engagement team and its leadership",
+      "ar": "فريق الارتباط وقيادته"
+     },
+     "type": "textarea",
+     "required": true
+    },
+    {
+     "id": "independence",
+     "label": {
+      "en": "Statement of independence and safeguards",
+      "ar": "بيان الاستقلال والضمانات"
+     },
+     "type": "textarea",
+     "required": true
+    },
+    {
+     "id": "reply_to",
+     "label": {
+      "en": "Contact at the firm",
+      "ar": "جهة الاتصال بالمكتب"
+     },
+     "type": "textarea",
+     "required": true
+    },
+    {
+     "id": "reply_by",
+     "label": {
+      "en": "Comments requested by",
+      "ar": "التعليقات مطلوبة قبل"
+     },
+     "type": "date",
+     "required": true
+    },
+    {
+     "id": "sent",
+     "label": {
+      "en": "Requests sent under this letter",
+      "ar": "الطلبات المرسلة بموجب هذا الخطاب"
+     },
+     "type": "integer",
+     "required": false,
+     "autofill": "records.RK-REQUEST.for.P-FSL-047",
+     "readonly": true
+    }
+   ]
+  }
+ ],
+ "letter": {
+  "en": [
+   "To {{field:party}}, {{field:address}}",
+   "We write ahead of our audit of the financial statements of {{engagement.client}} for the period ending {{engagement.period_end}} to communicate its planned scope and timing.",
+   "Scope and approach: {{field:scope}}",
+   "Timing: {{field:timing}}",
+   "Significant risks identified at this stage: {{field:significant_risks}}",
+   "The engagement team: {{field:team}}",
+   "Independence: {{field:independence}}",
+   "We would welcome your views on these matters and on any area you would like us to consider. Reply to: {{field:reply_to}}. Please reply by {{field:reply_by}}.",
+   "Yours faithfully, the engagement partner. Date: {{field:request_date}}"
+  ],
+  "ar": [
+   "إلى {{field:party}}، {{field:address}}",
+   "نكتب إليكم قبل مراجعتنا للقوائم المالية لـ {{engagement.client}} عن الفترة المنتهية في {{engagement.period_end}} لإبلاغكم بالنطاق والتوقيت المخططين لها.",
+   "النطاق والمنهج: {{field:scope}}",
+   "التوقيت: {{field:timing}}",
+   "المخاطر المهمة المحددة في هذه المرحلة: {{field:significant_risks}}",
+   "فريق الارتباط: {{field:team}}",
+   "الاستقلال: {{field:independence}}",
+   "يسرنا الاطلاع على آرائكم في هذه الأمور وفي أي مجال ترغبون في أن ننظر فيه. يُرد إلى: {{field:reply_to}}. يرجى الرد قبل {{field:reply_by}}.",
+   "وتفضلوا بقبول فائق الاحترام، شريك الارتباط. التاريخ: {{field:request_date}}"
+  ]
+ },
+ "signoff": {
+  "prepare": [
+   "partner",
+   "manager",
+   "senior",
+   "staff"
+  ],
+  "review": [
+   "partner",
+   "manager"
+  ],
+  "approve": [
+   "partner"
+  ]
+ },
+ "version": 1,
+ "ar_status": "draft_pending_review"
+}

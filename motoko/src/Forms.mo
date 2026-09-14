@@ -36,6 +36,7 @@ import Group "Group";
 import Adjustments "Adjustments";
 import Controls "Controls";
 import Risks "Risks";
+import Letters "Letters";
 import ProductForms "ProductForms";
 import Hash "Hash";
 import FirmForms "FirmForms";
@@ -1066,6 +1067,13 @@ module {
   /// A partner reopens a signed form with a reason: back to draft, a new version,
   /// the frozen values released. The earlier sign-offs remain on the trail and as
   /// RK-SIGNOFF records of the version they signed.
+  /// Send a prepared letter: the communication and the request it opens are recorded.
+  public func sendLetter(s : Engine.State, ff : FirmForms.State, by : Principal, isAdmin : Bool, at : Int, eng : Nat, formId : Text, inp : J) : R {
+    let inst = instance(s, eng, formId);
+    let sp = switch (inst) { case (?i) specFor(ff, formId, parse(i.values)); case null spec(ff, formId) };
+    Letters.send(s, by, isAdmin, at, eng, formId, inst, sp, inp)
+  };
+
   public func reopen(s : Engine.State, by : Principal, isAdmin : Bool, at : Int, eng : Nat, formId : Text, reason : Text) : R {
     ignore switch (Engine.authorise(s, eng, by, isAdmin, [#partner], false)) { case (#ok(e)) e; case (#err(m)) return #err(m) };
     let i = switch (instance(s, eng, formId)) { case (?i) i; case null return #err("the form has not been started") };

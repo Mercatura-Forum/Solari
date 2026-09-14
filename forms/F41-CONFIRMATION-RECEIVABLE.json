@@ -1,0 +1,197 @@
+{
+ "id": "F41-CONFIRMATION-RECEIVABLE",
+ "number": 41,
+ "kind": "letter",
+ "phase": "fieldwork",
+ "title": {
+  "en": "Receivable confirmation request",
+  "ar": "طلب مصادقة على رصيد مدين"
+ },
+ "purpose": {
+  "en": "Request a customer's direct confirmation of the balance owed to the entity at the period end, under the auditor's control.",
+  "ar": "طلب مصادقة العميل مباشرةً على الرصيد المستحق للمنشأة في نهاية الفترة، تحت رقابة المراجع."
+ },
+ "procedures": [
+  "P-REV-008"
+ ],
+ "standards": [
+  "ISA-505"
+ ],
+ "sections": [
+  {
+   "id": "engagement",
+   "title": {
+    "en": "Engagement",
+    "ar": "الارتباط"
+   },
+   "fields": [
+    {
+     "id": "client",
+     "label": {
+      "en": "Entity audited",
+      "ar": "المنشأة محل المراجعة"
+     },
+     "type": "text",
+     "required": false,
+     "autofill": "engagement.client",
+     "readonly": true
+    },
+    {
+     "id": "period_start",
+     "label": {
+      "en": "Period from",
+      "ar": "الفترة من"
+     },
+     "type": "date",
+     "required": false,
+     "autofill": "engagement.period_start",
+     "readonly": true
+    },
+    {
+     "id": "period_end",
+     "label": {
+      "en": "Period to",
+      "ar": "الفترة إلى"
+     },
+     "type": "date",
+     "required": false,
+     "autofill": "engagement.period_end",
+     "readonly": true
+    },
+    {
+     "id": "framework",
+     "label": {
+      "en": "Financial reporting framework",
+      "ar": "إطار التقرير المالي"
+     },
+     "type": "text",
+     "required": false,
+     "autofill": "engagement.framework",
+     "readonly": true
+    }
+   ]
+  },
+  {
+   "id": "request",
+   "title": {
+    "en": "The request",
+    "ar": "الطلب"
+   },
+   "fields": [
+    {
+     "id": "party",
+     "label": {
+      "en": "Customer",
+      "ar": "العميل"
+     },
+     "type": "text",
+     "required": true
+    },
+    {
+     "id": "address",
+     "label": {
+      "en": "Address",
+      "ar": "العنوان"
+     },
+     "type": "textarea",
+     "required": true
+    },
+    {
+     "id": "reply_to",
+     "label": {
+      "en": "Reply directly to (the auditor's address)",
+      "ar": "يُرد مباشرةً إلى (عنوان المراجع)"
+     },
+     "type": "textarea",
+     "required": true
+    },
+    {
+     "id": "request_date",
+     "label": {
+      "en": "Date of the request",
+      "ar": "تاريخ الطلب"
+     },
+     "type": "date",
+     "required": true
+    },
+    {
+     "id": "reply_by",
+     "label": {
+      "en": "Reply requested by",
+      "ar": "الرد مطلوب قبل"
+     },
+     "type": "date",
+     "required": true
+    },
+    {
+     "id": "balance",
+     "label": {
+      "en": "Balance owed per the entity's records",
+      "ar": "الرصيد المستحق وفقًا لسجلات المنشأة"
+     },
+     "type": "money",
+     "required": true
+    },
+    {
+     "id": "balance_date",
+     "label": {
+      "en": "Balance as at",
+      "ar": "الرصيد في"
+     },
+     "type": "date",
+     "required": false,
+     "autofill": "engagement.period_end",
+     "readonly": true
+    },
+    {
+     "id": "sent",
+     "label": {
+      "en": "Requests sent under this letter",
+      "ar": "الطلبات المرسلة بموجب هذا الخطاب"
+     },
+     "type": "integer",
+     "required": false,
+     "autofill": "records.RK-REQUEST.for.P-REV-008",
+     "readonly": true
+    }
+   ]
+  }
+ ],
+ "letter": {
+  "en": [
+   "To {{field:party}}, {{field:address}}",
+   "Our auditors are auditing the financial statements of {{engagement.client}} for the period ended {{engagement.period_end}}. Our records show a balance owed by you of {{field:balance}} {{engagement.currency}} as at {{field:balance_date}}.",
+   "Please confirm directly to our auditors whether this balance agrees with your records, and if not, state the amount per your records and the details of any difference.",
+   "Please send your reply directly to our auditors at the address below, not to the entity. This request is not a request for payment.",
+   "Reply to: {{field:reply_to}}. Please reply by {{field:reply_by}}.",
+   "For and on behalf of {{engagement.client}}: ______________________  Date: {{field:request_date}}",
+   "Confirmation: the balance stated above agrees with our records / differs as follows: ____________________  Signed: __________  Title: __________  Date: __________"
+  ],
+  "ar": [
+   "إلى {{field:party}}، {{field:address}}",
+   "يقوم مراجعونا بمراجعة القوائم المالية لـ {{engagement.client}} عن الفترة المنتهية في {{engagement.period_end}}. وتُظهر سجلاتنا رصيدًا مستحقًا عليكم قدره {{field:balance}} {{engagement.currency}} في {{field:balance_date}}.",
+   "يرجى التكرم بالمصادقة مباشرةً لدى مراجعينا على مطابقة هذا الرصيد لسجلاتكم، وإن لم يكن مطابقًا فبيان الرصيد وفقًا لسجلاتكم وتفاصيل أي فرق.",
+   "يرجى إرسال ردكم مباشرةً إلى مراجعينا على العنوان أدناه وليس إلى المنشأة. هذا الطلب ليس مطالبة بالسداد.",
+   "يُرد إلى: {{field:reply_to}}. يرجى الرد قبل {{field:reply_by}}.",
+   "عن وبالنيابة عن {{engagement.client}}: ______________________  التاريخ: {{field:request_date}}",
+   "المصادقة: الرصيد الموضح أعلاه مطابق لسجلاتنا / يختلف على النحو التالي: ____________________  التوقيع: __________  الصفة: __________  التاريخ: __________"
+  ]
+ },
+ "signoff": {
+  "prepare": [
+   "partner",
+   "manager",
+   "senior",
+   "staff"
+  ],
+  "review": [
+   "partner",
+   "manager"
+  ],
+  "approve": [
+   "partner"
+  ]
+ },
+ "version": 1,
+ "ar_status": "draft_pending_review"
+}

@@ -145,16 +145,16 @@ func compute(form : Text, inp : Text) : E.R {
 // the engagement, its team, the trial balance and the materiality the papers read
 ignore must("open", E.createEngagement(s, partner, true, 1, j("{\"client\":\"Nile Trading SAE\",\"framework\":\"EAS\",\"audit_standard\":\"EAS\",\"currency\":\"EGP\",\"period_start\":\"2025-01-01\",\"period_end\":\"2025-12-31\"}")));
 for ((p, r) in [(manager, "manager"), (senior, "senior"), (staff, "staff")].vals()) ignore must("member " # r, E.setMember(s, partner, true, 2, 1, p, r));
-check("before a trial balance the paper has no instance", Py.items(field(must("statuses", F.statuses(s, ff, manager, false, 1)), [])).size() == 38);
+check("before a trial balance the paper has no instance", Py.items(field(must("statuses", F.statuses(s, ff, manager, false, 1)), [])).size() == 47);
 refused("no leadsheet is populated yet", F.save(s, ff, staff, false, 3, 1, "__BASE__@LS-REV", j("{\"values\":{}}")), "not populated");
 ignore must("import the trial balance", E.importTrialBalance(s, staff, false, 3, 1, #obj([("profile_id", #str("spreadsheet-generic-csv")), ("source", #str(__FIXTURE__))])));
 ignore must("compute materiality", E.compute(s, senior, false, 4, 1, #obj([("kind", #str("materiality")), ("procedure_id", #str("P-FSL-006")), ("input", j(__MAT_INPUT__))])));
 
 // the definition and its instances
 let cat = Py.items(F.catalogue(ff));
-check("the paper is catalogued once, per leadsheet", field(rowWhere(cat, "id", "__BASE__"), ["per"]) == #str("leadsheet") and cat.size() == 39);
+check("the paper is catalogued once, per leadsheet", field(rowWhere(cat, "id", "__BASE__"), ["per"]) == #str("leadsheet") and cat.size() == 48);
 let statuses = Py.items(must("statuses", F.statuses(s, ff, manager, false, 1)));
-check("one instance per populated leadsheet, beside the other thirty-eight", statuses.size() == 38 + __N__);
+check("one instance per populated leadsheet, beside the other thirty-eight", statuses.size() == 47 + __N__);
 check("an instance names its definition, its leadsheet and its own title", (func() : Bool {
   let r = rowWhere(statuses, "form", "__BASE__@LS-REV");
   field(r, ["base"]) == #str("__BASE__") and field(r, ["leadsheet"]) == #str("LS-REV") and Text.contains(Py.textOr(field(r, ["title"]), "en", ""), #text "LS-REV") and Text.contains(Py.textOr(field(r, ["title"]), "en", ""), #text "Revenue")

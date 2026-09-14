@@ -1,0 +1,193 @@
+{
+ "id": "F47-PREDECESSOR-LETTER",
+ "number": 47,
+ "kind": "letter",
+ "phase": "planning",
+ "title": {
+  "en": "Communication with the predecessor auditor",
+  "ar": "مراسلة المراجع السابق"
+ },
+ "purpose": {
+  "en": "Ask the predecessor auditor, with the client's consent, about matters bearing on the acceptance of the engagement and the opening balances.",
+  "ar": "سؤال المراجع السابق، بموافقة العميل، عن الأمور المؤثرة في قبول الارتباط وفي الأرصدة الافتتاحية."
+ },
+ "procedures": [
+  "P-FSL-004"
+ ],
+ "standards": [
+  "ISA-300",
+  "ISA-510",
+  "IESBA-CODE"
+ ],
+ "sections": [
+  {
+   "id": "engagement",
+   "title": {
+    "en": "Engagement",
+    "ar": "الارتباط"
+   },
+   "fields": [
+    {
+     "id": "client",
+     "label": {
+      "en": "Entity audited",
+      "ar": "المنشأة محل المراجعة"
+     },
+     "type": "text",
+     "required": false,
+     "autofill": "engagement.client",
+     "readonly": true
+    },
+    {
+     "id": "period_start",
+     "label": {
+      "en": "Period from",
+      "ar": "الفترة من"
+     },
+     "type": "date",
+     "required": false,
+     "autofill": "engagement.period_start",
+     "readonly": true
+    },
+    {
+     "id": "period_end",
+     "label": {
+      "en": "Period to",
+      "ar": "الفترة إلى"
+     },
+     "type": "date",
+     "required": false,
+     "autofill": "engagement.period_end",
+     "readonly": true
+    },
+    {
+     "id": "framework",
+     "label": {
+      "en": "Financial reporting framework",
+      "ar": "إطار التقرير المالي"
+     },
+     "type": "text",
+     "required": false,
+     "autofill": "engagement.framework",
+     "readonly": true
+    }
+   ]
+  },
+  {
+   "id": "request",
+   "title": {
+    "en": "The request",
+    "ar": "الطلب"
+   },
+   "fields": [
+    {
+     "id": "party",
+     "label": {
+      "en": "Predecessor auditor",
+      "ar": "المراجع السابق"
+     },
+     "type": "text",
+     "required": true
+    },
+    {
+     "id": "address",
+     "label": {
+      "en": "Address",
+      "ar": "العنوان"
+     },
+     "type": "textarea",
+     "required": true
+    },
+    {
+     "id": "reply_to",
+     "label": {
+      "en": "Reply directly to (the auditor's address)",
+      "ar": "يُرد مباشرةً إلى (عنوان المراجع)"
+     },
+     "type": "textarea",
+     "required": true
+    },
+    {
+     "id": "request_date",
+     "label": {
+      "en": "Date of the request",
+      "ar": "تاريخ الطلب"
+     },
+     "type": "date",
+     "required": true
+    },
+    {
+     "id": "reply_by",
+     "label": {
+      "en": "Reply requested by",
+      "ar": "الرد مطلوب قبل"
+     },
+     "type": "date",
+     "required": true
+    },
+    {
+     "id": "consent_date",
+     "label": {
+      "en": "Date of the client's written consent",
+      "ar": "تاريخ موافقة العميل الكتابية"
+     },
+     "type": "date",
+     "required": true
+    },
+    {
+     "id": "prior_period_end",
+     "label": {
+      "en": "Prior period end audited by the predecessor",
+      "ar": "نهاية الفترة السابقة التي راجعها المراجع السابق"
+     },
+     "type": "date",
+     "required": true
+    },
+    {
+     "id": "sent",
+     "label": {
+      "en": "Requests sent under this letter",
+      "ar": "الطلبات المرسلة بموجب هذا الخطاب"
+     },
+     "type": "integer",
+     "required": false,
+     "autofill": "records.RK-REQUEST.for.P-FSL-004",
+     "readonly": true
+    }
+   ]
+  }
+ ],
+ "letter": {
+  "en": [
+   "To {{field:party}}, {{field:address}}",
+   "We have been asked to accept appointment as auditors of {{engagement.client}} for the period ending {{engagement.period_end}}. The entity gave its written consent on {{field:consent_date}} for you to reply to us.",
+   "Please tell us whether there is any professional reason why we should not accept the appointment, and, for the period ended {{field:prior_period_end}}, of any disagreements with management, matters of unlawful acts, significant deficiencies in internal control or unpaid fees, and whether we may review your working papers on the opening balances.",
+   "Reply to: {{field:reply_to}}. Please reply by {{field:reply_by}}.",
+   "Yours faithfully, the engagement partner."
+  ],
+  "ar": [
+   "إلى {{field:party}}، {{field:address}}",
+   "طُلب منا قبول التعيين مراجعين لـ {{engagement.client}} عن الفترة المنتهية في {{engagement.period_end}}. وقد منحت المنشأة موافقتها الكتابية في {{field:consent_date}} على أن تردوا علينا.",
+   "يرجى إفادتنا عما إذا كان هناك سبب مهني يمنع قبولنا التعيين، وعن الفترة المنتهية في {{field:prior_period_end}}، بأي خلافات مع الإدارة أو أمور تتعلق بأفعال غير قانونية أو أوجه قصور جوهرية في الرقابة الداخلية أو أتعاب غير مسددة، وما إذا كان يمكننا الاطلاع على أوراق عملكم بشأن الأرصدة الافتتاحية.",
+   "يُرد إلى: {{field:reply_to}}. يرجى الرد قبل {{field:reply_by}}.",
+   "وتفضلوا بقبول فائق الاحترام، شريك الارتباط."
+  ]
+ },
+ "signoff": {
+  "prepare": [
+   "partner",
+   "manager",
+   "senior",
+   "staff"
+  ],
+  "review": [
+   "partner",
+   "manager"
+  ],
+  "approve": [
+   "partner"
+  ]
+ },
+ "version": 1,
+ "ar_status": "draft_pending_review"
+}

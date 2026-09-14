@@ -598,6 +598,40 @@ def main():
         except Exception as e:
             shot(pg, 'd5-05-risk-views-failed')
             row('the risk views workflow completes', False, e)
+
+        # ── the letter templates: a confirmation prepared and sent, the request it opens ──
+        try:
+            LT = f'{int(time.time()) % 100000:05d}'
+            pg.goto(f'{URL}#/e/{eid}/f/F41-CONFIRMATION-RECEIVABLE', wait_until='load')
+            pg.get_by_test_id('signoff-panel').wait_for(timeout=120000)
+            pg.get_by_test_id('letter-send').wait_for(timeout=60000)
+            row('a letter template carries its send panel beside the sign-off ladder', True)
+            if pg.get_by_role('button', name='Reopen with a reason').count():
+                pg.get_by_test_id('signoff-panel').get_by_label('Reason').fill('letters battery')
+                pg.get_by_role('button', name='Reopen with a reason').click()
+                pg.wait_for_timeout(2500)
+            pg.wait_for_function('() => { const e = document.getElementById("f-party"); return e && !e.disabled }', timeout=180000)
+            pg.locator('#f-party').fill(f'Delta Textiles {LT}')
+            pg.locator('#f-address').fill('12 Nile Corniche, Cairo')
+            pg.locator('#f-reply_to').fill('The audit firm, 5 Tahrir Square, Cairo')
+            pg.locator('#f-request_date').fill('2026-02-01')
+            pg.locator('#f-reply_by').fill('2026-03-01')
+            pg.locator('#f-balance').fill('125000.00')
+            pg.get_by_role('button', name='Save', exact=True).click()
+            pg.wait_for_timeout(2500)
+            pg.get_by_role('button', name='Sign as preparer').click()
+            pg.wait_for_function('() => !document.body.innerText.includes("Sign as preparer")', timeout=180000)
+            pg.get_by_test_id('letter-send-open').wait_for(timeout=60000)
+            pg.get_by_test_id('letter-send-open').click()
+            row('the addressee is taken from the party the paper names', pg.get_by_test_id('letter-addressee').input_value() == f'Delta Textiles {LT}')
+            pg.get_by_test_id('letter-send-confirm').click()
+            pg.wait_for_function(f'() => document.body.innerText.includes("Delta Textiles {LT}") && document.querySelector("[data-testid=letter-sent-list]")', timeout=180000)
+            row('sending the letter records the communication and opens the request under the paper', pg.locator('[data-testid=letter-sent-list] li', has_text=f'Delta Textiles {LT}').count() == 1)
+            shot(pg, 'd5-06-letter')
+            axe(pg, 'a letter template', 'en')
+        except Exception as e:
+            shot(pg, 'd5-06-letter-failed')
+            row('the letters workflow completes', False, e)
         return finish(ctx)
 
 

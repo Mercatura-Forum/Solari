@@ -391,6 +391,96 @@
    }
   },
   {
+   "id": "F41-CONFIRMATION-RECEIVABLE",
+   "kind": "form",
+   "number": 41,
+   "phase": "fieldwork",
+   "title": {
+    "en": "Receivable confirmation request",
+    "ar": "طلب مصادقة على رصيد مدين"
+   }
+  },
+  {
+   "id": "F42-CONFIRMATION-PAYABLE",
+   "kind": "form",
+   "number": 42,
+   "phase": "fieldwork",
+   "title": {
+    "en": "Payable confirmation request",
+    "ar": "طلب مصادقة على رصيد دائن"
+   }
+  },
+  {
+   "id": "F43-CONFIRMATION-DEBT",
+   "kind": "form",
+   "number": 43,
+   "phase": "fieldwork",
+   "title": {
+    "en": "Long-term debt confirmation request",
+    "ar": "طلب مصادقة على الديون طويلة الأجل"
+   }
+  },
+  {
+   "id": "F44-CONFIRMATION-INVENTORY-CONSIGNED",
+   "kind": "form",
+   "number": 44,
+   "phase": "fieldwork",
+   "title": {
+    "en": "Confirmation of inventory consigned to others",
+    "ar": "مصادقة على مخزون مودع لدى الغير"
+   }
+  },
+  {
+   "id": "F45-CONFIRMATION-INVENTORY-HELD",
+   "kind": "form",
+   "number": 45,
+   "phase": "fieldwork",
+   "title": {
+    "en": "Confirmation of inventory held by others",
+    "ar": "مصادقة على مخزون محتفظ به لدى الغير"
+   }
+  },
+  {
+   "id": "F46-LEGAL-LETTER",
+   "kind": "form",
+   "number": 46,
+   "phase": "fieldwork",
+   "title": {
+    "en": "Letter of inquiry to legal counsel",
+    "ar": "خطاب استفسار إلى المستشار القانوني"
+   }
+  },
+  {
+   "id": "F47-PREDECESSOR-LETTER",
+   "kind": "form",
+   "number": 47,
+   "phase": "planning",
+   "title": {
+    "en": "Communication with the predecessor auditor",
+    "ar": "مراسلة المراجع السابق"
+   }
+  },
+  {
+   "id": "F48-GOVERNANCE-PLANNING-LETTER",
+   "kind": "form",
+   "number": 48,
+   "phase": "planning",
+   "title": {
+    "en": "Planning letter to those charged with governance",
+    "ar": "خطاب التخطيط إلى المكلفين بالحوكمة"
+   }
+  },
+  {
+   "id": "F49-DELIVERABLES-LETTER",
+   "kind": "form",
+   "number": 49,
+   "phase": "planning",
+   "title": {
+    "en": "Deliverables letter",
+    "ar": "خطاب المخرجات"
+   }
+  },
+  {
    "id": "seed",
    "kind": "model",
    "title": {
@@ -484,6 +574,14 @@
    "title": {
     "en": "Records: RK-EVIDENCE-LINK",
     "ar": "Records: RK-EVIDENCE-LINK"
+   }
+  },
+  {
+   "id": "records:RK-REQUEST",
+   "kind": "records",
+   "title": {
+    "en": "Records: RK-REQUEST",
+    "ar": "Records: RK-REQUEST"
    }
   }
  ],
@@ -2528,6 +2626,69 @@
    "to_field": "performance_materiality",
    "via": "paper.materiality.performance",
    "kind": "computed"
+  },
+  {
+   "from": "records:RK-REQUEST",
+   "to": "F41-CONFIRMATION-RECEIVABLE",
+   "to_field": "sent",
+   "via": "records.RK-REQUEST.for.P-REV-008",
+   "kind": "records"
+  },
+  {
+   "from": "records:RK-REQUEST",
+   "to": "F42-CONFIRMATION-PAYABLE",
+   "to_field": "sent",
+   "via": "records.RK-REQUEST.for.P-PUR-004",
+   "kind": "records"
+  },
+  {
+   "from": "records:RK-REQUEST",
+   "to": "F43-CONFIRMATION-DEBT",
+   "to_field": "sent",
+   "via": "records.RK-REQUEST.for.P-TRE-005",
+   "kind": "records"
+  },
+  {
+   "from": "records:RK-REQUEST",
+   "to": "F44-CONFIRMATION-INVENTORY-CONSIGNED",
+   "to_field": "sent",
+   "via": "records.RK-REQUEST.for.P-INV-004",
+   "kind": "records"
+  },
+  {
+   "from": "records:RK-REQUEST",
+   "to": "F45-CONFIRMATION-INVENTORY-HELD",
+   "to_field": "sent",
+   "via": "records.RK-REQUEST.for.P-INV-004",
+   "kind": "records"
+  },
+  {
+   "from": "records:RK-REQUEST",
+   "to": "F46-LEGAL-LETTER",
+   "to_field": "sent",
+   "via": "records.RK-REQUEST.for.P-FSL-033",
+   "kind": "records"
+  },
+  {
+   "from": "records:RK-REQUEST",
+   "to": "F47-PREDECESSOR-LETTER",
+   "to_field": "sent",
+   "via": "records.RK-REQUEST.for.P-FSL-004",
+   "kind": "records"
+  },
+  {
+   "from": "records:RK-REQUEST",
+   "to": "F48-GOVERNANCE-PLANNING-LETTER",
+   "to_field": "sent",
+   "via": "records.RK-REQUEST.for.P-FSL-047",
+   "kind": "records"
+  },
+  {
+   "from": "records:RK-REQUEST",
+   "to": "F49-DELIVERABLES-LETTER",
+   "to_field": "sent",
+   "via": "records.RK-REQUEST.for.P-FSL-003",
+   "kind": "records"
   },
   {
    "from": "F40-BALANCE-ANALYTICS",

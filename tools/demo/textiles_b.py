@@ -244,3 +244,39 @@ CONTROLS = [
     _control('Programme changes tested and approved before release', 'GITC', ['C', 'ACC'], 'general_it', 'each_transaction', 'IT manager',
              'A change to the ERP is tested in the staging system and approved by the finance manager before release.', area='change', test=('P-FSL-011', 12, 0, 'effective'), relied=True),
 ]
+
+
+# The letters of the file: the party, the addresses and the dates each is generated from, and how it is sent.
+REPLY_TO = 'The audit firm, 5 Tahrir Square, Cairo, attention of the engagement team'
+LETTERS = [
+    ('F47-PREDECESSOR-LETTER', 'planning', {'party': 'Nasr & Partners, Chartered Accountants', 'address': '18 Kasr El Nil Street, Cairo', 'reply_to': REPLY_TO, 'request_date': '2025-11-01', 'reply_by': '2025-11-20',
+                                             'consent_date': '2025-10-28', 'prior_period_end': '2024-12-31'}, 'predecessor', 'P-FSL-004', 'Nasr & Partners, Chartered Accountants', '2025-11-01T10:00', '2025-11-20'),
+    ('F48-GOVERNANCE-PLANNING-LETTER', 'planning', {'party': 'The audit committee of Wadi Qamar Textiles', 'address': 'Wadi Qamar Textiles SAE, Sadat City industrial zone', 'request_date': '2025-11-02', 'reply_by': '2025-11-16',
+                                                     'scope': 'A risk-based audit of the financial statements for the year ending 31 December 2025 under the Egyptian Standards on Auditing, with the group scope covering the two Egyptian subsidiaries and the export receivables the letters of credit secure.',
+                                                     'timing': 'Interim work in November 2025 on the revenue and inventory cycles; final work from late January 2026; the report expected by 25 March 2026.',
+                                                     'significant_risks': 'Revenue recognition on export shipments around the year end, the net realisable value of grey fabric, and management override of controls.',
+                                                     'team': 'The engagement partner, a manager, a senior and two staff; the engagement quality reviewer is a partner who takes no other part in the audit.',
+                                                     'independence': 'The firm and every member of the team have confirmed their independence under the IESBA Code and the Egyptian requirements; no threat needing safeguards was identified.',
+                                                     'reply_to': REPLY_TO}, 'tcwg', 'P-FSL-047', 'The audit committee of Wadi Qamar Textiles', '2025-11-02T10:00', '2025-11-16'),
+    ('F49-DELIVERABLES-LETTER', 'planning', {'party': 'The finance director, Wadi Qamar Textiles', 'address': 'Wadi Qamar Textiles SAE, Sadat City industrial zone', 'request_date': '2025-11-03', 'reply_by': '2025-11-17',
+                                              'deliverables': [{'deliverable': 'The planning letter to the audit committee', 'date': '2025-11-02'}, {'deliverable': 'The management letter on internal control', 'date': '2026-03-20'}, {'deliverable': 'The auditor\'s report', 'date': '2026-03-25'}],
+                                              'provided_by_entity': [{'item': 'The trial balance and the fixed-asset register', 'date': '2026-01-20'}, {'item': 'The draft financial statements', 'date': '2026-02-27'}, {'item': 'The signed representation letter', 'date': '2026-03-25'}],
+                                              'fees': 'The fee agreed in the engagement letter, billed in three instalments at planning, at the end of fieldwork and on the report.', 'reply_to': REPLY_TO},
+     'management', 'P-FSL-003', 'The finance director, Wadi Qamar Textiles', '2025-11-03T10:00', '2025-11-17'),
+    ('F41-CONFIRMATION-RECEIVABLE', 'fieldwork', {'party': 'Hanse Textilhandel GmbH', 'address': 'Speicherstadt 4, Hamburg', 'reply_to': REPLY_TO, 'request_date': '2026-02-11', 'reply_by': '2026-03-01', 'balance': '38700000.00'},
+     'management', 'P-REV-008', 'Hanse Textilhandel GmbH', '2026-02-11T09:00', '2026-03-01'),
+    ('F42-CONFIRMATION-PAYABLE', 'fieldwork', {'party': 'Delta Cotton Ginning Company', 'address': 'Kafr El Sheikh industrial road', 'reply_to': REPLY_TO, 'request_date': '2026-02-11', 'reply_by': '2026-03-01', 'balance': '21400000.00'},
+     'management', 'P-PUR-004', 'Delta Cotton Ginning Company', '2026-02-11T09:30', '2026-03-01'),
+    ('F43-CONFIRMATION-DEBT', 'fieldwork', {'party': 'Banque Misr, corporate banking', 'address': '151 Mohamed Farid Street, Cairo', 'reply_to': REPLY_TO, 'request_date': '2026-02-12', 'reply_by': '2026-03-01',
+                                             'facility': 'Term loan 2023/117 for the dye-house expansion', 'principal': '60000000.00'}, 'management', 'P-TRE-005', 'Banque Misr, corporate banking', '2026-02-12T09:00', '2026-03-01'),
+    ('F44-CONFIRMATION-INVENTORY-CONSIGNED', 'fieldwork', {'party': 'Al Amal Trading, Alexandria', 'address': 'El Manshia, Alexandria', 'reply_to': REPLY_TO, 'request_date': '2026-02-12', 'reply_by': '2026-03-01',
+                                                            'goods': [{'description': 'Finished cotton fabric, bleached, 30 rolls', 'quantity': '4,200 metres', 'location': 'Al Amal showroom'}]},
+     'management', 'P-INV-004', 'Al Amal Trading, Alexandria', '2026-02-12T09:30', '2026-03-01'),
+    ('F45-CONFIRMATION-INVENTORY-HELD', 'fieldwork', {'party': 'Port Said bonded warehouse, Suez Canal Container Terminal', 'address': 'East Port Said', 'reply_to': REPLY_TO, 'request_date': '2026-02-13', 'reply_by': '2026-03-01',
+                                                       'goods': [{'description': 'Egyptian long-staple cotton bales awaiting export', 'quantity': '860 bales', 'location': 'Bonded shed 7'}]},
+     'management', 'P-INV-004', 'Port Said bonded warehouse, Suez Canal Container Terminal', '2026-02-13T09:00', '2026-03-01'),
+    ('F46-LEGAL-LETTER', 'fieldwork', {'party': 'Sharkawy & Sarhan, Attorneys at Law', 'address': 'Nile City Towers, Cairo', 'reply_to': REPLY_TO, 'request_date': '2026-02-13', 'reply_by': '2026-03-05',
+                                       'matters': [{'matter': 'Labour claim of the former dye-house supervisor', 'status': 'Pending before the labour court; hearing in April 2026', 'exposure': '1200000.00'},
+                                                   {'matter': 'Customs dispute on the 2024 imported dyes', 'status': 'Appeal lodged with the customs committee', 'exposure': '3400000.00'}]},
+     'management', 'P-FSL-033', 'Sharkawy & Sarhan, Attorneys at Law', '2026-02-13T09:30', '2026-03-05'),
+]

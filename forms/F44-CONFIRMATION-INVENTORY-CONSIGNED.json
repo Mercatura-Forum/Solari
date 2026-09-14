@@ -1,0 +1,227 @@
+{
+ "id": "F44-CONFIRMATION-INVENTORY-CONSIGNED",
+ "number": 44,
+ "kind": "letter",
+ "phase": "fieldwork",
+ "title": {
+  "en": "Confirmation of inventory consigned to others",
+  "ar": "مصادقة على مخزون مودع لدى الغير"
+ },
+ "purpose": {
+  "en": "Request a consignee's direct confirmation of the entity's goods it holds on consignment at the period end, by description and quantity.",
+  "ar": "طلب مصادقة المودَع لديه مباشرةً على بضائع المنشأة التي يحتفظ بها لديه على سبيل الأمانة في نهاية الفترة، بالوصف والكمية."
+ },
+ "procedures": [
+  "P-INV-004"
+ ],
+ "standards": [
+  "ISA-501",
+  "ISA-505"
+ ],
+ "sections": [
+  {
+   "id": "engagement",
+   "title": {
+    "en": "Engagement",
+    "ar": "الارتباط"
+   },
+   "fields": [
+    {
+     "id": "client",
+     "label": {
+      "en": "Entity audited",
+      "ar": "المنشأة محل المراجعة"
+     },
+     "type": "text",
+     "required": false,
+     "autofill": "engagement.client",
+     "readonly": true
+    },
+    {
+     "id": "period_start",
+     "label": {
+      "en": "Period from",
+      "ar": "الفترة من"
+     },
+     "type": "date",
+     "required": false,
+     "autofill": "engagement.period_start",
+     "readonly": true
+    },
+    {
+     "id": "period_end",
+     "label": {
+      "en": "Period to",
+      "ar": "الفترة إلى"
+     },
+     "type": "date",
+     "required": false,
+     "autofill": "engagement.period_end",
+     "readonly": true
+    },
+    {
+     "id": "framework",
+     "label": {
+      "en": "Financial reporting framework",
+      "ar": "إطار التقرير المالي"
+     },
+     "type": "text",
+     "required": false,
+     "autofill": "engagement.framework",
+     "readonly": true
+    }
+   ]
+  },
+  {
+   "id": "request",
+   "title": {
+    "en": "The request",
+    "ar": "الطلب"
+   },
+   "fields": [
+    {
+     "id": "party",
+     "label": {
+      "en": "Consignee",
+      "ar": "المودَع لديه"
+     },
+     "type": "text",
+     "required": true
+    },
+    {
+     "id": "address",
+     "label": {
+      "en": "Address",
+      "ar": "العنوان"
+     },
+     "type": "textarea",
+     "required": true
+    },
+    {
+     "id": "reply_to",
+     "label": {
+      "en": "Reply directly to (the auditor's address)",
+      "ar": "يُرد مباشرةً إلى (عنوان المراجع)"
+     },
+     "type": "textarea",
+     "required": true
+    },
+    {
+     "id": "request_date",
+     "label": {
+      "en": "Date of the request",
+      "ar": "تاريخ الطلب"
+     },
+     "type": "date",
+     "required": true
+    },
+    {
+     "id": "reply_by",
+     "label": {
+      "en": "Reply requested by",
+      "ar": "الرد مطلوب قبل"
+     },
+     "type": "date",
+     "required": true
+    },
+    {
+     "id": "goods",
+     "label": {
+      "en": "Goods per the entity's records",
+      "ar": "البضائع وفقًا لسجلات المنشأة"
+     },
+     "type": "table",
+     "required": true,
+     "columns": [
+      {
+       "id": "description",
+       "label": {
+        "en": "Description",
+        "ar": "الوصف"
+       },
+       "type": "text",
+       "required": true
+      },
+      {
+       "id": "quantity",
+       "label": {
+        "en": "Quantity",
+        "ar": "الكمية"
+       },
+       "type": "text",
+       "required": true
+      },
+      {
+       "id": "location",
+       "label": {
+        "en": "Location",
+        "ar": "الموقع"
+       },
+       "type": "text",
+       "required": false
+      }
+     ]
+    },
+    {
+     "id": "balance_date",
+     "label": {
+      "en": "As at",
+      "ar": "في"
+     },
+     "type": "date",
+     "required": false,
+     "autofill": "engagement.period_end",
+     "readonly": true
+    },
+    {
+     "id": "sent",
+     "label": {
+      "en": "Requests sent under this letter",
+      "ar": "الطلبات المرسلة بموجب هذا الخطاب"
+     },
+     "type": "integer",
+     "required": false,
+     "autofill": "records.RK-REQUEST.for.P-INV-004",
+     "readonly": true
+    }
+   ]
+  }
+ ],
+ "letter": {
+  "en": [
+   "To {{field:party}}, {{field:address}}",
+   "Our auditors are auditing the financial statements of {{engagement.client}} for the period ended {{engagement.period_end}}. Our records show the following goods of the entity held by you on consignment as at {{field:balance_date}}:",
+   "{{table:goods}}",
+   "Please confirm directly to our auditors the description, quantity and condition of the goods you hold, whether any lien or charge attaches to them, and the terms under which they are held.",
+   "Please send your reply directly to our auditors at the address below, not to the entity. This request is not a request for payment.",
+   "Reply to: {{field:reply_to}}. Please reply by {{field:reply_by}}.",
+   "For and on behalf of {{engagement.client}}: ______________________  Date: {{field:request_date}}"
+  ],
+  "ar": [
+   "إلى {{field:party}}، {{field:address}}",
+   "يقوم مراجعونا بمراجعة القوائم المالية لـ {{engagement.client}} عن الفترة المنتهية في {{engagement.period_end}}. وتُظهر سجلاتنا البضائع التالية للمنشأة المودعة لديكم على سبيل الأمانة في {{field:balance_date}}:",
+   "{{table:goods}}",
+   "يرجى المصادقة مباشرةً لدى مراجعينا على وصف البضائع التي تحتفظون بها وكميتها وحالتها، وما إذا كان عليها أي حق حبس أو رهن، والشروط التي تُحفظ بموجبها.",
+   "يرجى إرسال ردكم مباشرةً إلى مراجعينا على العنوان أدناه وليس إلى المنشأة. هذا الطلب ليس مطالبة بالسداد.",
+   "يُرد إلى: {{field:reply_to}}. يرجى الرد قبل {{field:reply_by}}.",
+   "عن وبالنيابة عن {{engagement.client}}: ______________________  التاريخ: {{field:request_date}}"
+  ]
+ },
+ "signoff": {
+  "prepare": [
+   "partner",
+   "manager",
+   "senior",
+   "staff"
+  ],
+  "review": [
+   "partner",
+   "manager"
+  ],
+  "approve": [
+   "partner"
+  ]
+ },
+ "version": 1,
+ "ar_status": "draft_pending_review"
+}

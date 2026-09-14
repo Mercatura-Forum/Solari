@@ -50,6 +50,7 @@ import Group "src/Group";
 import Adjustments "src/Adjustments";
 import Controls "src/Controls";
 import Risks "src/Risks";
+import Letters "src/Letters";
 import Api "src/Api";
 import Dates "src/Dates";
 import Dec "src/Dec";
@@ -746,6 +747,25 @@ shared (install) persistent actor class AuditEngine() = self {
   public query func controlsView(token : Text, engagementId : Nat) : async Reply {
     switch (cached(token)) {
       case (#ok(p)) reply(observed(p, Controls.view(engine, p, reads(p), engagementId)));
+      case (#err(m)) refuse(m);
+    }
+  };
+
+  // ------------------------------------------------------------------ letters (src/Letters.mo)
+
+  /// Send a prepared letter of the file: {with, procedure, addressee, sent_at, due?, document?}; records the communication and opens the request.
+  public shared func sendLetter(token : Text, engagementId : Nat, formId : Text, json : Text) : async Reply {
+    switch (await* identify(token), Json.parse(json)) {
+      case (#ok(p), #ok(j)) commit(Forms.sendLetter(engine, firmForms, p, isAdmin(p), now(), engagementId, formId, j));
+      case (#err(m), _) refuse(m);
+      case (_, #err(m)) refuse("invalid JSON: " # m);
+    }
+  };
+
+  /// The letters sent on an engagement: the requests they opened, with their state.
+  public query func lettersSent(token : Text, engagementId : Nat) : async Reply {
+    switch (cached(token)) {
+      case (#ok(p)) { switch (Engine.authorise(engine, engagementId, p, reads(p), [#partner, #manager, #senior, #staff, #eqr], true)) { case (#ok(_)) reply(#ok(#arr(Letters.sent(engine, engagementId)))); case (#err(m)) refuse(m) } };
       case (#err(m)) refuse(m);
     }
   };
@@ -1747,7 +1767,7 @@ shared (install) persistent actor class AuditEngine() = self {
 
   // `transient`, so every build states its own label: a plain `let` here is a stable field,
   // and an upgrade would restore the previous build's label over the new code's.
-  transient let THIS_BUILD : Text = "2026-09-13.18 the per-balance analytical procedure paper and controls as data: the register, the matrix and the reliance report as queries";
+  transient let THIS_BUILD : Text = "2026-09-13.19 the per-balance analytical procedure paper, controls as data, the risk views and the letter templates";
   func buildJ() : Json.J { #obj([("build", #str(THIS_BUILD)), ("rulebook", #str(Seed.SOURCE_COMMIT))]) };
 
   func scopeOf(json : Text) : ?[Nat] {

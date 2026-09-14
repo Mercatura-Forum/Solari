@@ -302,6 +302,9 @@ def main():
                     if target == 'GITC':
                         ctrl.update({'type': 'general_it', 'gitc_area': 'access'})
                     add = f'ignore must("add a control", E.addRecord(s, staff, false, stamp, 1, {jl({"kind": "RK-CONTROL", "fields": ctrl})}));'
+                elif rk == 'RK-REQUEST':
+                    proc = e['via'].split('.')[-1]
+                    add = f'ignore must("open a request", E.addRecord(s, staff, false, stamp, 1, {jl({"kind": "RK-REQUEST", "fields": {"procedure": proc, "addressee": "client", "requested": "Graph battery request", "requested_at": "2026-02-01T09:00", "state": "open"}})}));'
                 elif rk == 'RK-EVIDENCE-LINK':
                     proc = e['via'].split('.')[-1]
                     add = f'ignore must("link evidence", E.addRecord(s, staff, false, stamp, 1, j("{{\\"kind\\":\\"RK-EVIDENCE-LINK\\",\\"fields\\":{{\\"procedure\\":\\"{proc}\\",\\"evidence_item\\":\\"doc:1\\",\\"evidence_kind\\":\\"EK-INSPECTION\\",\\"linked_by\\":\\"staff\\",\\"linked_at\\":\\"2026-02-01T09:00\\"}}}}")));'

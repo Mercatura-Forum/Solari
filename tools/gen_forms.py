@@ -44,7 +44,7 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
 from forms_lib import APPROVE, ENGAGEMENT, L, LEVELS, PREP, REVIEW, YES_NO_NA, field, opt, section, yesno  # noqa: E402
 from forms_cycles import cycle_forms  # noqa: E402
-import forms_families_a, forms_families_b, forms_families_c  # noqa: E402
+import forms_families_a, forms_families_b, forms_families_c, forms_letters  # noqa: E402
 from forms_graph import build_graph  # noqa: E402
 
 FORMS_DIR = os.path.join(HERE, '..', 'forms')
@@ -812,7 +812,7 @@ def main():
     procedures = seed('procedures')
     leadsheets = seed('leadsheets')
     standards = seed('standards')
-    catalogue = FORMS + forms_families_a.FORMS + forms_families_b.FORMS + cycle_forms(procedures, leadsheets, seed('movement_schedules')) + forms_families_c.FORMS
+    catalogue = FORMS + forms_families_a.FORMS + forms_families_b.FORMS + cycle_forms(procedures, leadsheets, seed('movement_schedules')) + forms_families_c.FORMS + forms_letters.FORMS
     catalogue.sort(key=lambda f: f['number'])
     controls_register(catalogue, seed('cycles'))
     for f in catalogue:

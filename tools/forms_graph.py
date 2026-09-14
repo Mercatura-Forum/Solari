@@ -61,7 +61,12 @@ DECLARED = [
 # Every cycle working paper closes before completion attests the sufficiency of evidence.
 CYCLE_PAPERS = ['F31-REVENUE-RECEIVABLES', 'F32-PURCHASES-PAYABLES', 'F33-PAYROLL', 'F34-INVENTORY-COST', 'F35-PPE-INTANGIBLES', 'F36-TREASURY', 'F37-EQUITY', 'F38-TAXES']
 # Forms that lead nowhere by design: the budget is a planning aid, not evidence.
-SINKS = {'F28-TIME-BUDGET'}
+SINKS = {'F28-TIME-BUDGET'} | {
+    # a letter is sent when its procedure calls for it; the request it opens is what the programme
+    # and the confirmation log read, so the letter itself leads nowhere in the graph
+    'F41-CONFIRMATION-RECEIVABLE', 'F42-CONFIRMATION-PAYABLE', 'F43-CONFIRMATION-DEBT', 'F44-CONFIRMATION-INVENTORY-CONSIGNED',
+    'F45-CONFIRMATION-INVENTORY-HELD', 'F46-LEGAL-LETTER', 'F47-PREDECESSOR-LETTER', 'F48-GOVERNANCE-PLANNING-LETTER', 'F49-DELIVERABLES-LETTER',
+}
 
 # Forms whose content informs particular disclosure requirements (the checklist stays the
 # surface that serves them; these are shown beside the items).

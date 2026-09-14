@@ -1,0 +1,246 @@
+{
+ "id": "F49-DELIVERABLES-LETTER",
+ "number": 49,
+ "kind": "letter",
+ "phase": "planning",
+ "title": {
+  "en": "Deliverables letter",
+  "ar": "خطاب المخرجات"
+ },
+ "purpose": {
+  "en": "Set out in writing, beside the engagement letter, what the firm will deliver and when, what the entity will provide and by when, and the fee basis.",
+  "ar": "تحديد كتابةً، إلى جانب خطاب الارتباط، ما سيقدمه المكتب ومتى، وما ستوفره المنشأة ومتى، وأساس الأتعاب."
+ },
+ "procedures": [
+  "P-FSL-003"
+ ],
+ "standards": [
+  "ISA-210"
+ ],
+ "sections": [
+  {
+   "id": "engagement",
+   "title": {
+    "en": "Engagement",
+    "ar": "الارتباط"
+   },
+   "fields": [
+    {
+     "id": "client",
+     "label": {
+      "en": "Entity audited",
+      "ar": "المنشأة محل المراجعة"
+     },
+     "type": "text",
+     "required": false,
+     "autofill": "engagement.client",
+     "readonly": true
+    },
+    {
+     "id": "period_start",
+     "label": {
+      "en": "Period from",
+      "ar": "الفترة من"
+     },
+     "type": "date",
+     "required": false,
+     "autofill": "engagement.period_start",
+     "readonly": true
+    },
+    {
+     "id": "period_end",
+     "label": {
+      "en": "Period to",
+      "ar": "الفترة إلى"
+     },
+     "type": "date",
+     "required": false,
+     "autofill": "engagement.period_end",
+     "readonly": true
+    },
+    {
+     "id": "framework",
+     "label": {
+      "en": "Financial reporting framework",
+      "ar": "إطار التقرير المالي"
+     },
+     "type": "text",
+     "required": false,
+     "autofill": "engagement.framework",
+     "readonly": true
+    }
+   ]
+  },
+  {
+   "id": "request",
+   "title": {
+    "en": "The letter",
+    "ar": "الخطاب"
+   },
+   "fields": [
+    {
+     "id": "party",
+     "label": {
+      "en": "Addressee at the entity",
+      "ar": "المرسل إليه في المنشأة"
+     },
+     "type": "text",
+     "required": true
+    },
+    {
+     "id": "address",
+     "label": {
+      "en": "Address",
+      "ar": "العنوان"
+     },
+     "type": "textarea",
+     "required": true
+    },
+    {
+     "id": "request_date",
+     "label": {
+      "en": "Date of the letter",
+      "ar": "تاريخ الخطاب"
+     },
+     "type": "date",
+     "required": true
+    },
+    {
+     "id": "deliverables",
+     "label": {
+      "en": "What the firm delivers",
+      "ar": "ما يقدمه المكتب"
+     },
+     "type": "table",
+     "required": true,
+     "columns": [
+      {
+       "id": "deliverable",
+       "label": {
+        "en": "Deliverable",
+        "ar": "المخرج"
+       },
+       "type": "text",
+       "required": true
+      },
+      {
+       "id": "date",
+       "label": {
+        "en": "Date",
+        "ar": "التاريخ"
+       },
+       "type": "date",
+       "required": true
+      }
+     ]
+    },
+    {
+     "id": "provided_by_entity",
+     "label": {
+      "en": "What the entity provides, and by when",
+      "ar": "ما توفره المنشأة ومتى"
+     },
+     "type": "table",
+     "required": true,
+     "columns": [
+      {
+       "id": "item",
+       "label": {
+        "en": "Item",
+        "ar": "البند"
+       },
+       "type": "text",
+       "required": true
+      },
+      {
+       "id": "date",
+       "label": {
+        "en": "By",
+        "ar": "قبل"
+       },
+       "type": "date",
+       "required": true
+      }
+     ]
+    },
+    {
+     "id": "fees",
+     "label": {
+      "en": "Fee basis and billing",
+      "ar": "أساس الأتعاب والفوترة"
+     },
+     "type": "textarea",
+     "required": true
+    },
+    {
+     "id": "reply_to",
+     "label": {
+      "en": "Contact at the firm",
+      "ar": "جهة الاتصال بالمكتب"
+     },
+     "type": "textarea",
+     "required": true
+    },
+    {
+     "id": "reply_by",
+     "label": {
+      "en": "Acknowledgement requested by",
+      "ar": "الإقرار مطلوب قبل"
+     },
+     "type": "date",
+     "required": true
+    },
+    {
+     "id": "sent",
+     "label": {
+      "en": "Requests sent under this letter",
+      "ar": "الطلبات المرسلة بموجب هذا الخطاب"
+     },
+     "type": "integer",
+     "required": false,
+     "autofill": "records.RK-REQUEST.for.P-FSL-003",
+     "readonly": true
+    }
+   ]
+  }
+ ],
+ "letter": {
+  "en": [
+   "To {{field:party}}, {{field:address}}",
+   "Further to our engagement letter for the audit of {{engagement.client}} for the period ending {{engagement.period_end}}, we set out what we will deliver and when:",
+   "{{table:deliverables}}",
+   "And what we ask the entity to provide, and by when:",
+   "{{table:provided_by_entity}}",
+   "Fees: {{field:fees}}",
+   "Please acknowledge this letter. Reply to: {{field:reply_to}}. Please reply by {{field:reply_by}}.",
+   "Yours faithfully, the engagement partner. Date: {{field:request_date}}"
+  ],
+  "ar": [
+   "إلى {{field:party}}، {{field:address}}",
+   "إلحاقًا بخطاب الارتباط الخاص بمراجعة {{engagement.client}} عن الفترة المنتهية في {{engagement.period_end}}، نبين فيما يلي ما سنقدمه ومتى:",
+   "{{table:deliverables}}",
+   "وما نطلب من المنشأة توفيره ومتى:",
+   "{{table:provided_by_entity}}",
+   "الأتعاب: {{field:fees}}",
+   "يرجى الإقرار باستلام هذا الخطاب. يُرد إلى: {{field:reply_to}}. يرجى الرد قبل {{field:reply_by}}.",
+   "وتفضلوا بقبول فائق الاحترام، شريك الارتباط. التاريخ: {{field:request_date}}"
+  ]
+ },
+ "signoff": {
+  "prepare": [
+   "partner",
+   "manager",
+   "senior",
+   "staff"
+  ],
+  "review": [
+   "partner",
+   "manager"
+  ],
+  "approve": [
+   "partner"
+  ]
+ },
+ "version": 1,
+ "ar_status": "draft_pending_review"
+}

@@ -92,6 +92,19 @@ class Step:
         self.add(f'{mo(text)}')
 
 
+def letters(st, e, stage):
+    """The letters of the file at a stage: each filled, signed through four eyes and sent, its
+    communication and request recorded by the send act."""
+    for fid, at_stage, values, with_, proc, addressee, sent_at, due in B.LETTERS:
+        if at_stage != stage:
+            continue
+        day, hh, mm = sent_at[:10], int(sent_at[11:13]), int(sent_at[14:16])
+        before = lambda minutes: f'{day}T{(hh * 60 + mm - minutes) // 60:02d}:{(hh * 60 + mm - minutes) % 60:02d}'
+        st.save('P3', e, fid, values)
+        chain(st, e, fid, 'P3', (before(25), before(15), before(5)))
+        st.ok(f'send {fid}', f'F.sendLetter(s, ff, P3, false, at, {e}, {mo(fid)}, j({expr({"with": with_, "procedure": proc, "addressee": addressee, "sent_at": sent_at, "due": due}, e)}))')
+
+
 def chain(st, e, form, prep, dates, eqr=None, reviewer=None):
     """Save nothing; sign prepare, review, approve (and the quality review) at rising dates."""
     stages = [('prepare', prep, dates[0]), ('review', reviewer or ('P2' if prep != 'P2' else 'P1'), dates[1])]
@@ -150,6 +163,7 @@ def steps():
                             ('F17-INTERNAL-CONTROL', C.F17, 'P3', '2025-10-31T09'), ('F28-TIME-BUDGET', C.F28, 'P2', '2025-10-31T12')):
         st.save(who, 'a', form, v)
         chain(st, 'a', form, who, (d + ':00', d + ':30', d + ':50'))
+    letters(st, 'a', 'planning')
     st.record('P2', 'a', 'RK-COMMUNICATION', B.COMMUNICATIONS[0])
     st.advance('P1', 'a', 'fieldwork')
     st.summary('Wadi Qamar planning: six forms approved through four eyes, materiality computed')
@@ -179,6 +193,7 @@ def steps():
     for ev in B.EVIDENCE_LINKS:
         st.record('P3', 'a', 'RK-EVIDENCE-LINK', ev)
     st.sign('a', B.SIGNING_FIELDWORK)
+    letters(st, 'a', 'fieldwork')
     # the fieldwork forms beyond the fourteen and the eight cycle working papers
     day = 20
     for form, v in (('F18-JOURNAL-ENTRY-TESTING', C.F18), ('F19-RELATED-PARTIES', C.F19), ('F20-LAWS-AND-REGULATIONS', C.F20), ('F21-AUDITORS-EXPERT', C.F21),

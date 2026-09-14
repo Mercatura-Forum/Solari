@@ -1,0 +1,215 @@
+{
+ "id": "F46-LEGAL-LETTER",
+ "number": 46,
+ "kind": "letter",
+ "phase": "fieldwork",
+ "title": {
+  "en": "Letter of inquiry to legal counsel",
+  "ar": "خطاب استفسار إلى المستشار القانوني"
+ },
+ "purpose": {
+  "en": "Inquire of the entity's external legal counsel, through a letter the auditor sends, about litigation and claims, their status and the likely outcome, at the period end.",
+  "ar": "الاستفسار من المستشار القانوني الخارجي للمنشأة، بخطاب يرسله المراجع، عن الدعاوى والمطالبات وحالتها والنتيجة المرجحة في نهاية الفترة."
+ },
+ "procedures": [
+  "P-FSL-033"
+ ],
+ "standards": [
+  "ISA-501"
+ ],
+ "sections": [
+  {
+   "id": "engagement",
+   "title": {
+    "en": "Engagement",
+    "ar": "الارتباط"
+   },
+   "fields": [
+    {
+     "id": "client",
+     "label": {
+      "en": "Entity audited",
+      "ar": "المنشأة محل المراجعة"
+     },
+     "type": "text",
+     "required": false,
+     "autofill": "engagement.client",
+     "readonly": true
+    },
+    {
+     "id": "period_start",
+     "label": {
+      "en": "Period from",
+      "ar": "الفترة من"
+     },
+     "type": "date",
+     "required": false,
+     "autofill": "engagement.period_start",
+     "readonly": true
+    },
+    {
+     "id": "period_end",
+     "label": {
+      "en": "Period to",
+      "ar": "الفترة إلى"
+     },
+     "type": "date",
+     "required": false,
+     "autofill": "engagement.period_end",
+     "readonly": true
+    },
+    {
+     "id": "framework",
+     "label": {
+      "en": "Financial reporting framework",
+      "ar": "إطار التقرير المالي"
+     },
+     "type": "text",
+     "required": false,
+     "autofill": "engagement.framework",
+     "readonly": true
+    }
+   ]
+  },
+  {
+   "id": "request",
+   "title": {
+    "en": "The request",
+    "ar": "الطلب"
+   },
+   "fields": [
+    {
+     "id": "party",
+     "label": {
+      "en": "Legal counsel",
+      "ar": "المستشار القانوني"
+     },
+     "type": "text",
+     "required": true
+    },
+    {
+     "id": "address",
+     "label": {
+      "en": "Address",
+      "ar": "العنوان"
+     },
+     "type": "textarea",
+     "required": true
+    },
+    {
+     "id": "reply_to",
+     "label": {
+      "en": "Reply directly to (the auditor's address)",
+      "ar": "يُرد مباشرةً إلى (عنوان المراجع)"
+     },
+     "type": "textarea",
+     "required": true
+    },
+    {
+     "id": "request_date",
+     "label": {
+      "en": "Date of the request",
+      "ar": "تاريخ الطلب"
+     },
+     "type": "date",
+     "required": true
+    },
+    {
+     "id": "reply_by",
+     "label": {
+      "en": "Reply requested by",
+      "ar": "الرد مطلوب قبل"
+     },
+     "type": "date",
+     "required": true
+    },
+    {
+     "id": "matters",
+     "label": {
+      "en": "Matters per management's list",
+      "ar": "المسائل وفقًا لقائمة الإدارة"
+     },
+     "type": "table",
+     "required": true,
+     "columns": [
+      {
+       "id": "matter",
+       "label": {
+        "en": "Matter",
+        "ar": "المسألة"
+       },
+       "type": "text",
+       "required": true
+      },
+      {
+       "id": "status",
+       "label": {
+        "en": "Status per management",
+        "ar": "الحالة وفقًا للإدارة"
+       },
+       "type": "text",
+       "required": true
+      },
+      {
+       "id": "exposure",
+       "label": {
+        "en": "Estimated exposure",
+        "ar": "التعرض المقدر"
+       },
+       "type": "money",
+       "required": false
+      }
+     ]
+    },
+    {
+     "id": "sent",
+     "label": {
+      "en": "Requests sent under this letter",
+      "ar": "الطلبات المرسلة بموجب هذا الخطاب"
+     },
+     "type": "integer",
+     "required": false,
+     "autofill": "records.RK-REQUEST.for.P-FSL-033",
+     "readonly": true
+    }
+   ]
+  }
+ ],
+ "letter": {
+  "en": [
+   "To {{field:party}}, {{field:address}}",
+   "In connection with the audit of the financial statements of {{engagement.client}} for the period ended {{engagement.period_end}}, management has prepared the following list of litigation, claims and assessments with which you have been engaged:",
+   "{{table:matters}}",
+   "Please confirm directly to our auditors whether the list is complete, and for each matter give your evaluation of the likely outcome and an estimate of the financial effect, or state that you cannot. Please also state any unasserted claims you consider probable of assertion, and the amount of any unbilled fees.",
+   "Please send your reply directly to our auditors at the address below, not to the entity. This request is not a request for payment.",
+   "Reply to: {{field:reply_to}}. Please reply by {{field:reply_by}}.",
+   "For and on behalf of {{engagement.client}}: ______________________  Date: {{field:request_date}}"
+  ],
+  "ar": [
+   "إلى {{field:party}}، {{field:address}}",
+   "فيما يتعلق بمراجعة القوائم المالية لـ {{engagement.client}} عن الفترة المنتهية في {{engagement.period_end}}، أعدت الإدارة القائمة التالية بالدعاوى والمطالبات والتقييمات التي تولّيتموها:",
+   "{{table:matters}}",
+   "يرجى المصادقة مباشرةً لدى مراجعينا على اكتمال القائمة، وإبداء تقييمكم للنتيجة المرجحة لكل مسألة وتقدير أثرها المالي، أو بيان تعذر ذلك. كما يرجى بيان أي مطالبات غير مؤكدة ترون احتمال إثارتها، ومبلغ أي أتعاب لم تُفوتر بعد.",
+   "يرجى إرسال ردكم مباشرةً إلى مراجعينا على العنوان أدناه وليس إلى المنشأة. هذا الطلب ليس مطالبة بالسداد.",
+   "يُرد إلى: {{field:reply_to}}. يرجى الرد قبل {{field:reply_by}}.",
+   "عن وبالنيابة عن {{engagement.client}}: ______________________  التاريخ: {{field:request_date}}"
+  ]
+ },
+ "signoff": {
+  "prepare": [
+   "partner",
+   "manager",
+   "senior",
+   "staff"
+  ],
+  "review": [
+   "partner",
+   "manager"
+  ],
+  "approve": [
+   "partner"
+  ]
+ },
+ "version": 1,
+ "ar_status": "draft_pending_review"
+}

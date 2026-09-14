@@ -1978,6 +1978,60 @@ ignore must("recompute materiality", E.compute(s, staff, false, stamp, 1, j("{\"
 switch (driftOf(view("F40-BALANCE-ANALYTICS@LS-PPE"), "performance_materiality")) { case (?d) check("F06-MATERIALITY.performance -> F40-BALANCE-ANALYTICS.performance_materiality: the source is named", field(d, ["source", "node"]) == #str("F06-MATERIALITY")); case null check("F06-MATERIALITY.performance -> F40-BALANCE-ANALYTICS.performance_materiality: drifted", false) };
 ignore must("compute materiality back", E.compute(s, staff, false, stamp, 1, j("{\"kind\":\"materiality\",\"input\":{\"benchmark\":\"revenue\",\"benchmark_amount\":\"10450000.00\",\"percentage\":\"1\"}}")));
 
+// records:RK-REQUEST -> F41-CONFIRMATION-RECEIVABLE.sent (records)
+cases += 1;
+prepare("F41-CONFIRMATION-RECEIVABLE", "{\"party\": \"Recorded for the graph battery.\", \"address\": \"Recorded for the graph battery.\", \"reply_to\": \"Recorded for the graph battery.\", \"request_date\": \"2026-02-01\", \"reply_by\": \"2026-02-01\", \"balance\": \"1000.00\"}");
+ignore must("open a request", E.addRecord(s, staff, false, stamp, 1, j("{\"kind\":\"RK-REQUEST\",\"fields\":{\"procedure\":\"P-REV-008\",\"addressee\":\"client\",\"requested\":\"Graph battery request\",\"requested_at\":\"2026-02-01T09:00\",\"state\":\"open\"}}")));
+switch (driftOf(view("F41-CONFIRMATION-RECEIVABLE"), "sent")) { case (?d) check("records:RK-REQUEST -> F41-CONFIRMATION-RECEIVABLE.sent: the source is named", field(d, ["source", "node"]) == #str("records:RK-REQUEST")); case null check("records:RK-REQUEST -> F41-CONFIRMATION-RECEIVABLE.sent: drifted", false) };
+
+// records:RK-REQUEST -> F42-CONFIRMATION-PAYABLE.sent (records)
+cases += 1;
+prepare("F42-CONFIRMATION-PAYABLE", "{\"party\": \"Recorded for the graph battery.\", \"address\": \"Recorded for the graph battery.\", \"reply_to\": \"Recorded for the graph battery.\", \"request_date\": \"2026-02-01\", \"reply_by\": \"2026-02-01\", \"balance\": \"1000.00\"}");
+ignore must("open a request", E.addRecord(s, staff, false, stamp, 1, j("{\"kind\":\"RK-REQUEST\",\"fields\":{\"procedure\":\"P-PUR-004\",\"addressee\":\"client\",\"requested\":\"Graph battery request\",\"requested_at\":\"2026-02-01T09:00\",\"state\":\"open\"}}")));
+switch (driftOf(view("F42-CONFIRMATION-PAYABLE"), "sent")) { case (?d) check("records:RK-REQUEST -> F42-CONFIRMATION-PAYABLE.sent: the source is named", field(d, ["source", "node"]) == #str("records:RK-REQUEST")); case null check("records:RK-REQUEST -> F42-CONFIRMATION-PAYABLE.sent: drifted", false) };
+
+// records:RK-REQUEST -> F43-CONFIRMATION-DEBT.sent (records)
+cases += 1;
+prepare("F43-CONFIRMATION-DEBT", "{\"party\": \"Recorded for the graph battery.\", \"address\": \"Recorded for the graph battery.\", \"reply_to\": \"Recorded for the graph battery.\", \"request_date\": \"2026-02-01\", \"reply_by\": \"2026-02-01\", \"facility\": \"Recorded for the graph battery.\", \"principal\": \"1000.00\"}");
+ignore must("open a request", E.addRecord(s, staff, false, stamp, 1, j("{\"kind\":\"RK-REQUEST\",\"fields\":{\"procedure\":\"P-TRE-005\",\"addressee\":\"client\",\"requested\":\"Graph battery request\",\"requested_at\":\"2026-02-01T09:00\",\"state\":\"open\"}}")));
+switch (driftOf(view("F43-CONFIRMATION-DEBT"), "sent")) { case (?d) check("records:RK-REQUEST -> F43-CONFIRMATION-DEBT.sent: the source is named", field(d, ["source", "node"]) == #str("records:RK-REQUEST")); case null check("records:RK-REQUEST -> F43-CONFIRMATION-DEBT.sent: drifted", false) };
+
+// records:RK-REQUEST -> F44-CONFIRMATION-INVENTORY-CONSIGNED.sent (records)
+cases += 1;
+prepare("F44-CONFIRMATION-INVENTORY-CONSIGNED", "{\"party\": \"Recorded for the graph battery.\", \"address\": \"Recorded for the graph battery.\", \"reply_to\": \"Recorded for the graph battery.\", \"request_date\": \"2026-02-01\", \"reply_by\": \"2026-02-01\", \"goods\": [{\"description\": \"Recorded for the graph battery.\", \"quantity\": \"Recorded for the graph battery.\"}]}");
+ignore must("open a request", E.addRecord(s, staff, false, stamp, 1, j("{\"kind\":\"RK-REQUEST\",\"fields\":{\"procedure\":\"P-INV-004\",\"addressee\":\"client\",\"requested\":\"Graph battery request\",\"requested_at\":\"2026-02-01T09:00\",\"state\":\"open\"}}")));
+switch (driftOf(view("F44-CONFIRMATION-INVENTORY-CONSIGNED"), "sent")) { case (?d) check("records:RK-REQUEST -> F44-CONFIRMATION-INVENTORY-CONSIGNED.sent: the source is named", field(d, ["source", "node"]) == #str("records:RK-REQUEST")); case null check("records:RK-REQUEST -> F44-CONFIRMATION-INVENTORY-CONSIGNED.sent: drifted", false) };
+
+// records:RK-REQUEST -> F45-CONFIRMATION-INVENTORY-HELD.sent (records)
+cases += 1;
+prepare("F45-CONFIRMATION-INVENTORY-HELD", "{\"party\": \"Recorded for the graph battery.\", \"address\": \"Recorded for the graph battery.\", \"reply_to\": \"Recorded for the graph battery.\", \"request_date\": \"2026-02-01\", \"reply_by\": \"2026-02-01\", \"goods\": [{\"description\": \"Recorded for the graph battery.\", \"quantity\": \"Recorded for the graph battery.\"}]}");
+ignore must("open a request", E.addRecord(s, staff, false, stamp, 1, j("{\"kind\":\"RK-REQUEST\",\"fields\":{\"procedure\":\"P-INV-004\",\"addressee\":\"client\",\"requested\":\"Graph battery request\",\"requested_at\":\"2026-02-01T09:00\",\"state\":\"open\"}}")));
+switch (driftOf(view("F45-CONFIRMATION-INVENTORY-HELD"), "sent")) { case (?d) check("records:RK-REQUEST -> F45-CONFIRMATION-INVENTORY-HELD.sent: the source is named", field(d, ["source", "node"]) == #str("records:RK-REQUEST")); case null check("records:RK-REQUEST -> F45-CONFIRMATION-INVENTORY-HELD.sent: drifted", false) };
+
+// records:RK-REQUEST -> F46-LEGAL-LETTER.sent (records)
+cases += 1;
+prepare("F46-LEGAL-LETTER", "{\"party\": \"Recorded for the graph battery.\", \"address\": \"Recorded for the graph battery.\", \"reply_to\": \"Recorded for the graph battery.\", \"request_date\": \"2026-02-01\", \"reply_by\": \"2026-02-01\", \"matters\": [{\"matter\": \"Recorded for the graph battery.\", \"status\": \"Recorded for the graph battery.\"}]}");
+ignore must("open a request", E.addRecord(s, staff, false, stamp, 1, j("{\"kind\":\"RK-REQUEST\",\"fields\":{\"procedure\":\"P-FSL-033\",\"addressee\":\"client\",\"requested\":\"Graph battery request\",\"requested_at\":\"2026-02-01T09:00\",\"state\":\"open\"}}")));
+switch (driftOf(view("F46-LEGAL-LETTER"), "sent")) { case (?d) check("records:RK-REQUEST -> F46-LEGAL-LETTER.sent: the source is named", field(d, ["source", "node"]) == #str("records:RK-REQUEST")); case null check("records:RK-REQUEST -> F46-LEGAL-LETTER.sent: drifted", false) };
+
+// records:RK-REQUEST -> F47-PREDECESSOR-LETTER.sent (records)
+cases += 1;
+prepare("F47-PREDECESSOR-LETTER", "{\"party\": \"Recorded for the graph battery.\", \"address\": \"Recorded for the graph battery.\", \"reply_to\": \"Recorded for the graph battery.\", \"request_date\": \"2026-02-01\", \"reply_by\": \"2026-02-01\", \"consent_date\": \"2026-02-01\", \"prior_period_end\": \"2026-02-01\"}");
+ignore must("open a request", E.addRecord(s, staff, false, stamp, 1, j("{\"kind\":\"RK-REQUEST\",\"fields\":{\"procedure\":\"P-FSL-004\",\"addressee\":\"client\",\"requested\":\"Graph battery request\",\"requested_at\":\"2026-02-01T09:00\",\"state\":\"open\"}}")));
+switch (driftOf(view("F47-PREDECESSOR-LETTER"), "sent")) { case (?d) check("records:RK-REQUEST -> F47-PREDECESSOR-LETTER.sent: the source is named", field(d, ["source", "node"]) == #str("records:RK-REQUEST")); case null check("records:RK-REQUEST -> F47-PREDECESSOR-LETTER.sent: drifted", false) };
+
+// records:RK-REQUEST -> F48-GOVERNANCE-PLANNING-LETTER.sent (records)
+cases += 1;
+prepare("F48-GOVERNANCE-PLANNING-LETTER", "{\"party\": \"Recorded for the graph battery.\", \"address\": \"Recorded for the graph battery.\", \"request_date\": \"2026-02-01\", \"scope\": \"Recorded for the graph battery.\", \"timing\": \"Recorded for the graph battery.\", \"significant_risks\": \"Recorded for the graph battery.\", \"team\": \"Recorded for the graph battery.\", \"independence\": \"Recorded for the graph battery.\", \"reply_to\": \"Recorded for the graph battery.\", \"reply_by\": \"2026-02-01\"}");
+ignore must("open a request", E.addRecord(s, staff, false, stamp, 1, j("{\"kind\":\"RK-REQUEST\",\"fields\":{\"procedure\":\"P-FSL-047\",\"addressee\":\"client\",\"requested\":\"Graph battery request\",\"requested_at\":\"2026-02-01T09:00\",\"state\":\"open\"}}")));
+switch (driftOf(view("F48-GOVERNANCE-PLANNING-LETTER"), "sent")) { case (?d) check("records:RK-REQUEST -> F48-GOVERNANCE-PLANNING-LETTER.sent: the source is named", field(d, ["source", "node"]) == #str("records:RK-REQUEST")); case null check("records:RK-REQUEST -> F48-GOVERNANCE-PLANNING-LETTER.sent: drifted", false) };
+
+// records:RK-REQUEST -> F49-DELIVERABLES-LETTER.sent (records)
+cases += 1;
+prepare("F49-DELIVERABLES-LETTER", "{\"party\": \"Recorded for the graph battery.\", \"address\": \"Recorded for the graph battery.\", \"request_date\": \"2026-02-01\", \"deliverables\": [{\"deliverable\": \"Recorded for the graph battery.\", \"date\": \"2026-02-01\"}], \"provided_by_entity\": [{\"item\": \"Recorded for the graph battery.\", \"date\": \"2026-02-01\"}], \"fees\": \"Recorded for the graph battery.\", \"reply_to\": \"Recorded for the graph battery.\", \"reply_by\": \"2026-02-01\"}");
+ignore must("open a request", E.addRecord(s, staff, false, stamp, 1, j("{\"kind\":\"RK-REQUEST\",\"fields\":{\"procedure\":\"P-FSL-003\",\"addressee\":\"client\",\"requested\":\"Graph battery request\",\"requested_at\":\"2026-02-01T09:00\",\"state\":\"open\"}}")));
+switch (driftOf(view("F49-DELIVERABLES-LETTER"), "sent")) { case (?d) check("records:RK-REQUEST -> F49-DELIVERABLES-LETTER.sent: the source is named", field(d, ["source", "node"]) == #str("records:RK-REQUEST")); case null check("records:RK-REQUEST -> F49-DELIVERABLES-LETTER.sent: drifted", false) };
+
 // F40-BALANCE-ANALYTICS.conclusion -> F14-COMPLETION.evidence_sufficient (declared)
 cases += 1;
 prepare("F40-BALANCE-ANALYTICS@LS-PPE", "{\"suitability\": \"Recorded for the graph battery.\", \"data_reliability\": \"Recorded for the graph battery.\", \"model\": \"prior_growth\", \"threshold_pct\": \"5\", \"precision\": \"Recorded for the graph battery.\", \"conclusion\": \"consistent\", \"rationale\": \"Recorded for the graph battery.\"}");
