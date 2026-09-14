@@ -49,6 +49,7 @@ import Disclosures "src/Disclosures";
 import Group "src/Group";
 import Adjustments "src/Adjustments";
 import Controls "src/Controls";
+import Risks "src/Risks";
 import Api "src/Api";
 import Dates "src/Dates";
 import Dec "src/Dec";
@@ -745,6 +746,16 @@ shared (install) persistent actor class AuditEngine() = self {
   public query func controlsView(token : Text, engagementId : Nat) : async Reply {
     switch (cached(token)) {
       case (#ok(p)) reply(observed(p, Controls.view(engine, p, reads(p), engagementId)));
+      case (#err(m)) refuse(m);
+    }
+  };
+
+  // ------------------------------------------------------------------ the risk views (src/Risks.mo)
+
+  /// The eight risk views generated from the register and the controls: by cycle, fraud, business, the control-risk summary, all, addressed, controls not designed or implemented, no response.
+  public query func riskViews(token : Text, engagementId : Nat) : async Reply {
+    switch (cached(token)) {
+      case (#ok(p)) reply(observed(p, Risks.view(engine, p, reads(p), engagementId)));
       case (#err(m)) refuse(m);
     }
   };

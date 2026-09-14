@@ -3,7 +3,6 @@
  "number": 4,
  "kind": "worksheet",
  "phase": "planning",
- "version": 2,
  "title": {
   "en": "Risk assessment register",
   "ar": "سجل تقييم مخاطر التحريف الجوهري"
@@ -215,121 +214,6 @@
        },
        "type": "textarea",
        "required": true
-      },
-      {
-       "id": "category",
-       "label": {
-        "en": "Category",
-        "ar": "الفئة"
-       },
-       "type": "select",
-       "required": false,
-       "options": [
-        {
-         "value": "fraud",
-         "label": {
-          "en": "Fraud risk",
-          "ar": "خطر غش"
-         }
-        },
-        {
-         "value": "business",
-         "label": {
-          "en": "Business risk",
-          "ar": "خطر أعمال"
-         }
-        },
-        {
-         "value": "control",
-         "label": {
-          "en": "Control risk",
-          "ar": "خطر رقابة"
-         }
-        }
-       ]
-      },
-      {
-       "id": "cycle",
-       "label": {
-        "en": "Cycle",
-        "ar": "الدورة"
-       },
-       "type": "select",
-       "required": false,
-       "options": [
-        {
-         "value": "REV",
-         "label": {
-          "en": "Revenue and receivables",
-          "ar": "Revenue and receivables"
-         }
-        },
-        {
-         "value": "PUR",
-         "label": {
-          "en": "Purchases, payables and expenditure",
-          "ar": "Purchases, payables and expenditure"
-         }
-        },
-        {
-         "value": "PAY",
-         "label": {
-          "en": "Payroll",
-          "ar": "Payroll"
-         }
-        },
-        {
-         "value": "INV",
-         "label": {
-          "en": "Inventory and cost of sales",
-          "ar": "Inventory and cost of sales"
-         }
-        },
-        {
-         "value": "PPE",
-         "label": {
-          "en": "Property, plant, equipment and intangibles",
-          "ar": "Property, plant, equipment and intangibles"
-         }
-        },
-        {
-         "value": "TRE",
-         "label": {
-          "en": "Treasury and financial instruments",
-          "ar": "Treasury and financial instruments"
-         }
-        },
-        {
-         "value": "EQY",
-         "label": {
-          "en": "Equity",
-          "ar": "Equity"
-         }
-        },
-        {
-         "value": "TAX",
-         "label": {
-          "en": "Income and indirect taxes",
-          "ar": "Income and indirect taxes"
-         }
-        },
-        {
-         "value": "FSL",
-         "label": {
-          "en": "Financial-statement level and entity-wide",
-          "ar": "Financial-statement level and entity-wide"
-         }
-        }
-       ]
-      },
-      {
-       "id": "procedures",
-       "label": {
-        "en": "Procedures that respond (ids, separated by commas)",
-        "ar": "الإجراءات المستجيبة (المعرفات مفصولة بفواصل)"
-       },
-       "type": "text",
-       "required": false
       }
      ]
     }
@@ -355,5 +239,6 @@
    "partner"
   ]
  },
+ "version": 1,
  "ar_status": "draft_pending_review"
 }

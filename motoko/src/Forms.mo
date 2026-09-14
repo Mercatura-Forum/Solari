@@ -35,6 +35,7 @@ import Disclosures "Disclosures";
 import Group "Group";
 import Adjustments "Adjustments";
 import Controls "Controls";
+import Risks "Risks";
 import ProductForms "ProductForms";
 import Hash "Hash";
 import FirmForms "FirmForms";
@@ -942,6 +943,9 @@ module {
 
   public func assembleFile(s : Engine.State, ff : FirmForms.State, by : Principal, isAdmin : Bool, at : Int, eng : Nat, reportDate : Text, assembledOn : Text) : R {
     let e = switch (Engine.authorise(s, eng, by, isAdmin, [#partner], false)) { case (#ok(e)) e; case (#err(m)) return #err(m) };
+    // every risk of the register has a response, a procedure or a control relied on (ISA 330.6)
+    let unanswered = Risks.unanswered(s, eng);
+    if (unanswered.size() > 0) return #err("the file is not assembled while " # Nat.toText(unanswered.size()) # " risk(s) of the register have no response: " # Text.join(Array.map<Risks.Risk, Text>(unanswered, func(r) { r.name }).vals(), "; "));
     if (e.status != "completion") return #err("the file is assembled at completion; the engagement is at " # e.status);
     let completion = switch (instance(s, eng, "F14-COMPLETION")) {
       case (?i) { if (i.status != "approved") return #err("the completion form must be approved before the file is assembled"); i };

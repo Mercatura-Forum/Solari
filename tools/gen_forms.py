@@ -48,6 +48,8 @@ import forms_families_a, forms_families_b, forms_families_c  # noqa: E402
 from forms_graph import build_graph  # noqa: E402
 
 FORMS_DIR = os.path.join(HERE, '..', 'forms')
+STD_EARLY = os.environ.get('AUDIT_STANDARDS', '../thebes-audit-standards')
+CYCLE_OPTIONS = [opt(c['id'], c['name'], c['name']) for c in sorted(json.load(open(os.path.join(STD_EARLY, 'seed', 'cycles.json'), encoding='utf-8')), key=lambda c: c['sort_order'])]
 OUT = os.path.join(HERE, '..', 'motoko', 'src', 'FormsSeed.mo')
 OUT_EXT = os.path.join(HERE, '..', 'motoko', 'src', 'FormsSeedExt.mo')
 OUT_MORE = os.path.join(HERE, '..', 'motoko', 'src', 'FormsSeedMore.mo')
@@ -200,7 +202,7 @@ FORMS.append({
 # 4 ----------------------------------------------------------------------------
 LEVELS = [opt('low', 'Low', 'منخفض'), opt('moderate', 'Moderate', 'متوسط'), opt('high', 'High', 'مرتفع')]
 FORMS.append({
-    'id': 'F04-RISK-REGISTER', 'number': 4, 'kind': 'worksheet', 'phase': 'planning',
+    'id': 'F04-RISK-REGISTER', 'number': 4, 'kind': 'worksheet', 'phase': 'planning', 'version': 2,
     'title': L('Risk assessment register', 'سجل تقييم مخاطر التحريف الجوهري'),
     'purpose': L('Record the risks of material misstatement at the financial statement and assertion levels and the planned response to each.',
                  'تسجيل مخاطر التحريف الجوهري على مستوى القوائم المالية ومستوى الإقرارات والاستجابة المخططة لكل منها.'),
@@ -216,6 +218,9 @@ FORMS.append({
                 field('significant', 'Significant risk', 'خطر مهم', 'yesno', True),
                 field('control_risk', 'Control risk', 'خطر الرقابة', 'select', options=LEVELS),
                 field('response', 'Planned response', 'الاستجابة المخططة', 'textarea', True),
+                field('category', 'Category', 'الفئة', 'select', options=[opt('fraud', 'Fraud risk', 'خطر غش'), opt('business', 'Business risk', 'خطر أعمال'), opt('control', 'Control risk', 'خطر رقابة')]),
+                field('cycle', 'Cycle', 'الدورة', 'select', options=CYCLE_OPTIONS),
+                field('procedures', 'Procedures that respond (ids, separated by commas)', 'الإجراءات المستجيبة (المعرفات مفصولة بفواصل)', 'text'),
             ]),
         ], note=L('The presumed risks of fraud in revenue recognition and of management override of controls are loaded from the standards model; the presumption in revenue may be rebutted only with a documented reason.',
                   'يتم تحميل الخطرين المفترضين للغش في إثبات الإيرادات ولتجاوز الإدارة لأدوات الرقابة من نموذج المعايير؛ ولا يجوز دحض الافتراض المتعلق بالإيرادات إلا بسبب موثق.')),

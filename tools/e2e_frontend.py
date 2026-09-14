@@ -576,6 +576,28 @@ def main():
         except Exception as e:
             shot(pg, 'd5-04-controls-failed')
             row('the controls workflow completes', False, e)
+
+        # ── the risk views: eight reports over the register, no response blocks assembly ──
+        try:
+            pg.goto(f'{URL}#/e/{eid}/risks', wait_until='load')
+            pg.get_by_test_id('risk-views').wait_for(timeout=120000)
+            pg.get_by_test_id('rv-counts').wait_for(timeout=120000)
+            n_risks = int(pg.get_by_test_id('rv-counts').get_attribute('data-risks') or 0)
+            row('the risk views read the register', n_risks >= 1, n_risks)
+            pg.get_by_role('tab', name='All risks').click()
+            pg.get_by_test_id('rv-all').wait_for(timeout=60000)
+            row('every risk of the register appears in the view of all risks', pg.locator('[data-testid=rv-all] tbody tr').count() == n_risks)
+            pg.get_by_role('tab', name='By cycle').click()
+            pg.wait_for_timeout(300)
+            row('the risks are grouped by the cycle the model or the register places them in', pg.locator('[data-testid=risk-views] [data-cycle]').count() >= 1)
+            pg.get_by_role('tab', name='No response').click()
+            pg.wait_for_timeout(300)
+            row('the no-response view states what blocks assembly, or that nothing does', pg.locator('[data-testid=risk-views] [role=alert], [data-testid=risk-views] [role=note]').count() >= 1)
+            shot(pg, 'd5-05-risk-views')
+            axe(pg, 'the risk views', 'en')
+        except Exception as e:
+            shot(pg, 'd5-05-risk-views-failed')
+            row('the risk views workflow completes', False, e)
         return finish(ctx)
 
 
