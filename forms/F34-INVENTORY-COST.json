@@ -334,6 +334,237 @@
        }
       }
      ]
+    },
+    {
+     "id": "p_inv_005_s1_conclusion",
+     "label": {
+      "en": "ISA-330.18: Irrespective of the assessed risks, design and perform substantive procedures for each material class of transactions, account balance and disclosure.",
+      "ar": "ISA-330.18: Irrespective of the assessed risks, design and perform substantive procedures for each material class of transactions, account balance and disclosure."
+     },
+     "type": "select",
+     "required": true,
+     "options": [
+      {
+       "value": "performed_no_exception",
+       "label": {
+        "en": "Performed, no exception",
+        "ar": "نُفذ دون استثناء"
+       }
+      },
+      {
+       "value": "performed_exception",
+       "label": {
+        "en": "Performed, exception noted",
+        "ar": "نُفذ مع ملاحظة استثناء"
+       }
+      },
+      {
+       "value": "not_applicable",
+       "label": {
+        "en": "Not applicable",
+        "ar": "لا ينطبق"
+       }
+      }
+     ],
+     "step": "ISA-330.18"
+    },
+    {
+     "id": "p_inv_005_s1_evidence",
+     "label": {
+      "en": "Evidence links citing step 1",
+      "ar": "روابط الأدلة التي تستشهد بالخطوة 1"
+     },
+     "type": "integer",
+     "required": false,
+     "autofill": "records.RK-EVIDENCE-LINK.for.P-INV-005.step.ISA-330.18",
+     "readonly": true
+    },
+    {
+     "id": "p_inv_005_s1_ticks",
+     "label": {
+      "en": "Tick marks on step 1",
+      "ar": "علامات التدقيق على الخطوة 1"
+     },
+     "type": "text",
+     "required": false,
+     "autofill": "records.RK-EVIDENCE-LINK.ticks.P-INV-005.ISA-330.18",
+     "readonly": true
+    },
+    {
+     "id": "p_inv_005_s1_citation",
+     "label": {
+      "en": "Record cited for the exception on step 1 (a misstatement, a review note or a communication)",
+      "ar": "السجل المستشهد به للاستثناء في الخطوة 1 (تحريف أو ملاحظة مراجعة أو مراسلة)"
+     },
+     "type": "text",
+     "required": false,
+     "required_if": {
+      "field": "p_inv_005_s1_conclusion",
+      "equals": "performed_exception",
+      "message": {
+       "en": "a step concluded with an exception cites the misstatement, review note or communication it raised",
+       "ar": "الخطوة التي خُلص فيها إلى استثناء تستشهد بالتحريف أو ملاحظة المراجعة أو المراسلة التي أثارتها"
+      }
+     },
+     "cites": [
+      "RK-MISSTATEMENT",
+      "RK-REVIEW-NOTE",
+      "RK-COMMUNICATION"
+     ]
+    },
+    {
+     "id": "p_inv_005_s2_conclusion",
+     "label": {
+      "en": "ISA-530.8: Select items so that each sampling unit in the population has a chance of selection.",
+      "ar": "ISA-530.8: Select items so that each sampling unit in the population has a chance of selection."
+     },
+     "type": "select",
+     "required": true,
+     "options": [
+      {
+       "value": "performed_no_exception",
+       "label": {
+        "en": "Performed, no exception",
+        "ar": "نُفذ دون استثناء"
+       }
+      },
+      {
+       "value": "performed_exception",
+       "label": {
+        "en": "Performed, exception noted",
+        "ar": "نُفذ مع ملاحظة استثناء"
+       }
+      },
+      {
+       "value": "not_applicable",
+       "label": {
+        "en": "Not applicable",
+        "ar": "لا ينطبق"
+       }
+      }
+     ],
+     "step": "ISA-530.8"
+    },
+    {
+     "id": "p_inv_005_s2_evidence",
+     "label": {
+      "en": "Evidence links citing step 2",
+      "ar": "روابط الأدلة التي تستشهد بالخطوة 2"
+     },
+     "type": "integer",
+     "required": false,
+     "autofill": "records.RK-EVIDENCE-LINK.for.P-INV-005.step.ISA-530.8",
+     "readonly": true
+    },
+    {
+     "id": "p_inv_005_s2_ticks",
+     "label": {
+      "en": "Tick marks on step 2",
+      "ar": "علامات التدقيق على الخطوة 2"
+     },
+     "type": "text",
+     "required": false,
+     "autofill": "records.RK-EVIDENCE-LINK.ticks.P-INV-005.ISA-530.8",
+     "readonly": true
+    },
+    {
+     "id": "p_inv_005_s2_citation",
+     "label": {
+      "en": "Record cited for the exception on step 2 (a misstatement, a review note or a communication)",
+      "ar": "السجل المستشهد به للاستثناء في الخطوة 2 (تحريف أو ملاحظة مراجعة أو مراسلة)"
+     },
+     "type": "text",
+     "required": false,
+     "required_if": {
+      "field": "p_inv_005_s2_conclusion",
+      "equals": "performed_exception",
+      "message": {
+       "en": "a step concluded with an exception cites the misstatement, review note or communication it raised",
+       "ar": "الخطوة التي خُلص فيها إلى استثناء تستشهد بالتحريف أو ملاحظة المراجعة أو المراسلة التي أثارتها"
+      }
+     },
+     "cites": [
+      "RK-MISSTATEMENT",
+      "RK-REVIEW-NOTE",
+      "RK-COMMUNICATION"
+     ]
+    },
+    {
+     "id": "p_inv_005_s3_conclusion",
+     "label": {
+      "en": "ISA-530.14: For tests of details, project misstatements found in the sample to the population.",
+      "ar": "ISA-530.14: For tests of details, project misstatements found in the sample to the population."
+     },
+     "type": "select",
+     "required": true,
+     "options": [
+      {
+       "value": "performed_no_exception",
+       "label": {
+        "en": "Performed, no exception",
+        "ar": "نُفذ دون استثناء"
+       }
+      },
+      {
+       "value": "performed_exception",
+       "label": {
+        "en": "Performed, exception noted",
+        "ar": "نُفذ مع ملاحظة استثناء"
+       }
+      },
+      {
+       "value": "not_applicable",
+       "label": {
+        "en": "Not applicable",
+        "ar": "لا ينطبق"
+       }
+      }
+     ],
+     "step": "ISA-530.14"
+    },
+    {
+     "id": "p_inv_005_s3_evidence",
+     "label": {
+      "en": "Evidence links citing step 3",
+      "ar": "روابط الأدلة التي تستشهد بالخطوة 3"
+     },
+     "type": "integer",
+     "required": false,
+     "autofill": "records.RK-EVIDENCE-LINK.for.P-INV-005.step.ISA-530.14",
+     "readonly": true
+    },
+    {
+     "id": "p_inv_005_s3_ticks",
+     "label": {
+      "en": "Tick marks on step 3",
+      "ar": "علامات التدقيق على الخطوة 3"
+     },
+     "type": "text",
+     "required": false,
+     "autofill": "records.RK-EVIDENCE-LINK.ticks.P-INV-005.ISA-530.14",
+     "readonly": true
+    },
+    {
+     "id": "p_inv_005_s3_citation",
+     "label": {
+      "en": "Record cited for the exception on step 3 (a misstatement, a review note or a communication)",
+      "ar": "السجل المستشهد به للاستثناء في الخطوة 3 (تحريف أو ملاحظة مراجعة أو مراسلة)"
+     },
+     "type": "text",
+     "required": false,
+     "required_if": {
+      "field": "p_inv_005_s3_conclusion",
+      "equals": "performed_exception",
+      "message": {
+       "en": "a step concluded with an exception cites the misstatement, review note or communication it raised",
+       "ar": "الخطوة التي خُلص فيها إلى استثناء تستشهد بالتحريف أو ملاحظة المراجعة أو المراسلة التي أثارتها"
+      }
+     },
+     "cites": [
+      "RK-MISSTATEMENT",
+      "RK-REVIEW-NOTE",
+      "RK-COMMUNICATION"
+     ]
     }
    ],
    "note": {
@@ -419,6 +650,314 @@
        }
       }
      ]
+    },
+    {
+     "id": "p_inv_006_s1_conclusion",
+     "label": {
+      "en": "ISA-540.18: Design further procedures responsive to the assessed risks and their reasons, using one or more of: evidence from events up to the report date, testing how management made the estimate, or developing an auditor's point estimate or range; obtain more persuasive evidence the higher the risk, and perform the procedures without bias towards corroborative or away from contradictory evidence.",
+      "ar": "ISA-540.18: Design further procedures responsive to the assessed risks and their reasons, using one or more of: evidence from events up to the report date, testing how management made the estimate, or developing an auditor's point estimate or range; obtain more persuasive evidence the higher the risk, and perform the procedures without bias towards corroborative or away from contradictory evidence."
+     },
+     "type": "select",
+     "required": true,
+     "options": [
+      {
+       "value": "performed_no_exception",
+       "label": {
+        "en": "Performed, no exception",
+        "ar": "نُفذ دون استثناء"
+       }
+      },
+      {
+       "value": "performed_exception",
+       "label": {
+        "en": "Performed, exception noted",
+        "ar": "نُفذ مع ملاحظة استثناء"
+       }
+      },
+      {
+       "value": "not_applicable",
+       "label": {
+        "en": "Not applicable",
+        "ar": "لا ينطبق"
+       }
+      }
+     ],
+     "step": "ISA-540.18"
+    },
+    {
+     "id": "p_inv_006_s1_evidence",
+     "label": {
+      "en": "Evidence links citing step 1",
+      "ar": "روابط الأدلة التي تستشهد بالخطوة 1"
+     },
+     "type": "integer",
+     "required": false,
+     "autofill": "records.RK-EVIDENCE-LINK.for.P-INV-006.step.ISA-540.18",
+     "readonly": true
+    },
+    {
+     "id": "p_inv_006_s1_ticks",
+     "label": {
+      "en": "Tick marks on step 1",
+      "ar": "علامات التدقيق على الخطوة 1"
+     },
+     "type": "text",
+     "required": false,
+     "autofill": "records.RK-EVIDENCE-LINK.ticks.P-INV-006.ISA-540.18",
+     "readonly": true
+    },
+    {
+     "id": "p_inv_006_s1_citation",
+     "label": {
+      "en": "Record cited for the exception on step 1 (a misstatement, a review note or a communication)",
+      "ar": "السجل المستشهد به للاستثناء في الخطوة 1 (تحريف أو ملاحظة مراجعة أو مراسلة)"
+     },
+     "type": "text",
+     "required": false,
+     "required_if": {
+      "field": "p_inv_006_s1_conclusion",
+      "equals": "performed_exception",
+      "message": {
+       "en": "a step concluded with an exception cites the misstatement, review note or communication it raised",
+       "ar": "الخطوة التي خُلص فيها إلى استثناء تستشهد بالتحريف أو ملاحظة المراجعة أو المراسلة التي أثارتها"
+      }
+     },
+     "cites": [
+      "RK-MISSTATEMENT",
+      "RK-REVIEW-NOTE",
+      "RK-COMMUNICATION"
+     ]
+    },
+    {
+     "id": "p_inv_006_s2_conclusion",
+     "label": {
+      "en": "ISA-540.22: Where management's process is tested, obtain sufficient appropriate evidence on the selection and application of methods, significant assumptions and data, and on how management selected the point estimate and developed the estimation-uncertainty disclosures.",
+      "ar": "ISA-540.22: Where management's process is tested, obtain sufficient appropriate evidence on the selection and application of methods, significant assumptions and data, and on how management selected the point estimate and developed the estimation-uncertainty disclosures."
+     },
+     "type": "select",
+     "required": true,
+     "options": [
+      {
+       "value": "performed_no_exception",
+       "label": {
+        "en": "Performed, no exception",
+        "ar": "نُفذ دون استثناء"
+       }
+      },
+      {
+       "value": "performed_exception",
+       "label": {
+        "en": "Performed, exception noted",
+        "ar": "نُفذ مع ملاحظة استثناء"
+       }
+      },
+      {
+       "value": "not_applicable",
+       "label": {
+        "en": "Not applicable",
+        "ar": "لا ينطبق"
+       }
+      }
+     ],
+     "step": "ISA-540.22"
+    },
+    {
+     "id": "p_inv_006_s2_evidence",
+     "label": {
+      "en": "Evidence links citing step 2",
+      "ar": "روابط الأدلة التي تستشهد بالخطوة 2"
+     },
+     "type": "integer",
+     "required": false,
+     "autofill": "records.RK-EVIDENCE-LINK.for.P-INV-006.step.ISA-540.22",
+     "readonly": true
+    },
+    {
+     "id": "p_inv_006_s2_ticks",
+     "label": {
+      "en": "Tick marks on step 2",
+      "ar": "علامات التدقيق على الخطوة 2"
+     },
+     "type": "text",
+     "required": false,
+     "autofill": "records.RK-EVIDENCE-LINK.ticks.P-INV-006.ISA-540.22",
+     "readonly": true
+    },
+    {
+     "id": "p_inv_006_s2_citation",
+     "label": {
+      "en": "Record cited for the exception on step 2 (a misstatement, a review note or a communication)",
+      "ar": "السجل المستشهد به للاستثناء في الخطوة 2 (تحريف أو ملاحظة مراجعة أو مراسلة)"
+     },
+     "type": "text",
+     "required": false,
+     "required_if": {
+      "field": "p_inv_006_s2_conclusion",
+      "equals": "performed_exception",
+      "message": {
+       "en": "a step concluded with an exception cites the misstatement, review note or communication it raised",
+       "ar": "الخطوة التي خُلص فيها إلى استثناء تستشهد بالتحريف أو ملاحظة المراجعة أو المراسلة التي أثارتها"
+      }
+     },
+     "cites": [
+      "RK-MISSTATEMENT",
+      "RK-REVIEW-NOTE",
+      "RK-COMMUNICATION"
+     ]
+    },
+    {
+     "id": "p_inv_006_s3_conclusion",
+     "label": {
+      "en": "ISA-540.24: Address whether significant assumptions are appropriate under the framework and any changes are appropriate, whether their selection indicates possible bias, whether they are consistent with each other, with other estimates and with other areas of the business, and where applicable whether management has the intent and ability to carry out specific actions.",
+      "ar": "ISA-540.24: Address whether significant assumptions are appropriate under the framework and any changes are appropriate, whether their selection indicates possible bias, whether they are consistent with each other, with other estimates and with other areas of the business, and where applicable whether management has the intent and ability to carry out specific actions."
+     },
+     "type": "select",
+     "required": true,
+     "options": [
+      {
+       "value": "performed_no_exception",
+       "label": {
+        "en": "Performed, no exception",
+        "ar": "نُفذ دون استثناء"
+       }
+      },
+      {
+       "value": "performed_exception",
+       "label": {
+        "en": "Performed, exception noted",
+        "ar": "نُفذ مع ملاحظة استثناء"
+       }
+      },
+      {
+       "value": "not_applicable",
+       "label": {
+        "en": "Not applicable",
+        "ar": "لا ينطبق"
+       }
+      }
+     ],
+     "step": "ISA-540.24"
+    },
+    {
+     "id": "p_inv_006_s3_evidence",
+     "label": {
+      "en": "Evidence links citing step 3",
+      "ar": "روابط الأدلة التي تستشهد بالخطوة 3"
+     },
+     "type": "integer",
+     "required": false,
+     "autofill": "records.RK-EVIDENCE-LINK.for.P-INV-006.step.ISA-540.24",
+     "readonly": true
+    },
+    {
+     "id": "p_inv_006_s3_ticks",
+     "label": {
+      "en": "Tick marks on step 3",
+      "ar": "علامات التدقيق على الخطوة 3"
+     },
+     "type": "text",
+     "required": false,
+     "autofill": "records.RK-EVIDENCE-LINK.ticks.P-INV-006.ISA-540.24",
+     "readonly": true
+    },
+    {
+     "id": "p_inv_006_s3_citation",
+     "label": {
+      "en": "Record cited for the exception on step 3 (a misstatement, a review note or a communication)",
+      "ar": "السجل المستشهد به للاستثناء في الخطوة 3 (تحريف أو ملاحظة مراجعة أو مراسلة)"
+     },
+     "type": "text",
+     "required": false,
+     "required_if": {
+      "field": "p_inv_006_s3_conclusion",
+      "equals": "performed_exception",
+      "message": {
+       "en": "a step concluded with an exception cites the misstatement, review note or communication it raised",
+       "ar": "الخطوة التي خُلص فيها إلى استثناء تستشهد بالتحريف أو ملاحظة المراجعة أو المراسلة التي أثارتها"
+      }
+     },
+     "cites": [
+      "RK-MISSTATEMENT",
+      "RK-REVIEW-NOTE",
+      "RK-COMMUNICATION"
+     ]
+    },
+    {
+     "id": "p_inv_006_s4_conclusion",
+     "label": {
+      "en": "ISA-540.35: Determine whether the estimates and related disclosures are reasonable under the framework or misstated, distinguishing factual, judgmental and projected misstatements for the evaluation of uncorrected misstatements.",
+      "ar": "ISA-540.35: Determine whether the estimates and related disclosures are reasonable under the framework or misstated, distinguishing factual, judgmental and projected misstatements for the evaluation of uncorrected misstatements."
+     },
+     "type": "select",
+     "required": true,
+     "options": [
+      {
+       "value": "performed_no_exception",
+       "label": {
+        "en": "Performed, no exception",
+        "ar": "نُفذ دون استثناء"
+       }
+      },
+      {
+       "value": "performed_exception",
+       "label": {
+        "en": "Performed, exception noted",
+        "ar": "نُفذ مع ملاحظة استثناء"
+       }
+      },
+      {
+       "value": "not_applicable",
+       "label": {
+        "en": "Not applicable",
+        "ar": "لا ينطبق"
+       }
+      }
+     ],
+     "step": "ISA-540.35"
+    },
+    {
+     "id": "p_inv_006_s4_evidence",
+     "label": {
+      "en": "Evidence links citing step 4",
+      "ar": "روابط الأدلة التي تستشهد بالخطوة 4"
+     },
+     "type": "integer",
+     "required": false,
+     "autofill": "records.RK-EVIDENCE-LINK.for.P-INV-006.step.ISA-540.35",
+     "readonly": true
+    },
+    {
+     "id": "p_inv_006_s4_ticks",
+     "label": {
+      "en": "Tick marks on step 4",
+      "ar": "علامات التدقيق على الخطوة 4"
+     },
+     "type": "text",
+     "required": false,
+     "autofill": "records.RK-EVIDENCE-LINK.ticks.P-INV-006.ISA-540.35",
+     "readonly": true
+    },
+    {
+     "id": "p_inv_006_s4_citation",
+     "label": {
+      "en": "Record cited for the exception on step 4 (a misstatement, a review note or a communication)",
+      "ar": "السجل المستشهد به للاستثناء في الخطوة 4 (تحريف أو ملاحظة مراجعة أو مراسلة)"
+     },
+     "type": "text",
+     "required": false,
+     "required_if": {
+      "field": "p_inv_006_s4_conclusion",
+      "equals": "performed_exception",
+      "message": {
+       "en": "a step concluded with an exception cites the misstatement, review note or communication it raised",
+       "ar": "الخطوة التي خُلص فيها إلى استثناء تستشهد بالتحريف أو ملاحظة المراجعة أو المراسلة التي أثارتها"
+      }
+     },
+     "cites": [
+      "RK-MISSTATEMENT",
+      "RK-REVIEW-NOTE",
+      "RK-COMMUNICATION"
+     ]
     }
    ],
    "note": {
@@ -503,6 +1042,160 @@
         "ar": "لا ينطبق، مع بيان السبب"
        }
       }
+     ]
+    },
+    {
+     "id": "p_inv_007_s1_conclusion",
+     "label": {
+      "en": "ISA-330.18: Irrespective of the assessed risks, design and perform substantive procedures for each material class of transactions, account balance and disclosure.",
+      "ar": "ISA-330.18: Irrespective of the assessed risks, design and perform substantive procedures for each material class of transactions, account balance and disclosure."
+     },
+     "type": "select",
+     "required": true,
+     "options": [
+      {
+       "value": "performed_no_exception",
+       "label": {
+        "en": "Performed, no exception",
+        "ar": "نُفذ دون استثناء"
+       }
+      },
+      {
+       "value": "performed_exception",
+       "label": {
+        "en": "Performed, exception noted",
+        "ar": "نُفذ مع ملاحظة استثناء"
+       }
+      },
+      {
+       "value": "not_applicable",
+       "label": {
+        "en": "Not applicable",
+        "ar": "لا ينطبق"
+       }
+      }
+     ],
+     "step": "ISA-330.18"
+    },
+    {
+     "id": "p_inv_007_s1_evidence",
+     "label": {
+      "en": "Evidence links citing step 1",
+      "ar": "روابط الأدلة التي تستشهد بالخطوة 1"
+     },
+     "type": "integer",
+     "required": false,
+     "autofill": "records.RK-EVIDENCE-LINK.for.P-INV-007.step.ISA-330.18",
+     "readonly": true
+    },
+    {
+     "id": "p_inv_007_s1_ticks",
+     "label": {
+      "en": "Tick marks on step 1",
+      "ar": "علامات التدقيق على الخطوة 1"
+     },
+     "type": "text",
+     "required": false,
+     "autofill": "records.RK-EVIDENCE-LINK.ticks.P-INV-007.ISA-330.18",
+     "readonly": true
+    },
+    {
+     "id": "p_inv_007_s1_citation",
+     "label": {
+      "en": "Record cited for the exception on step 1 (a misstatement, a review note or a communication)",
+      "ar": "السجل المستشهد به للاستثناء في الخطوة 1 (تحريف أو ملاحظة مراجعة أو مراسلة)"
+     },
+     "type": "text",
+     "required": false,
+     "required_if": {
+      "field": "p_inv_007_s1_conclusion",
+      "equals": "performed_exception",
+      "message": {
+       "en": "a step concluded with an exception cites the misstatement, review note or communication it raised",
+       "ar": "الخطوة التي خُلص فيها إلى استثناء تستشهد بالتحريف أو ملاحظة المراجعة أو المراسلة التي أثارتها"
+      }
+     },
+     "cites": [
+      "RK-MISSTATEMENT",
+      "RK-REVIEW-NOTE",
+      "RK-COMMUNICATION"
+     ]
+    },
+    {
+     "id": "p_inv_007_s2_conclusion",
+     "label": {
+      "en": "ISA-501.4: Where inventory is material, obtain evidence of its existence and condition by attending the physical count unless impracticable: evaluate management's count instructions, observe the count, inspect the inventory and perform test counts; and test the final inventory records against the count results.",
+      "ar": "ISA-501.4: Where inventory is material, obtain evidence of its existence and condition by attending the physical count unless impracticable: evaluate management's count instructions, observe the count, inspect the inventory and perform test counts; and test the final inventory records against the count results."
+     },
+     "type": "select",
+     "required": true,
+     "options": [
+      {
+       "value": "performed_no_exception",
+       "label": {
+        "en": "Performed, no exception",
+        "ar": "نُفذ دون استثناء"
+       }
+      },
+      {
+       "value": "performed_exception",
+       "label": {
+        "en": "Performed, exception noted",
+        "ar": "نُفذ مع ملاحظة استثناء"
+       }
+      },
+      {
+       "value": "not_applicable",
+       "label": {
+        "en": "Not applicable",
+        "ar": "لا ينطبق"
+       }
+      }
+     ],
+     "step": "ISA-501.4"
+    },
+    {
+     "id": "p_inv_007_s2_evidence",
+     "label": {
+      "en": "Evidence links citing step 2",
+      "ar": "روابط الأدلة التي تستشهد بالخطوة 2"
+     },
+     "type": "integer",
+     "required": false,
+     "autofill": "records.RK-EVIDENCE-LINK.for.P-INV-007.step.ISA-501.4",
+     "readonly": true
+    },
+    {
+     "id": "p_inv_007_s2_ticks",
+     "label": {
+      "en": "Tick marks on step 2",
+      "ar": "علامات التدقيق على الخطوة 2"
+     },
+     "type": "text",
+     "required": false,
+     "autofill": "records.RK-EVIDENCE-LINK.ticks.P-INV-007.ISA-501.4",
+     "readonly": true
+    },
+    {
+     "id": "p_inv_007_s2_citation",
+     "label": {
+      "en": "Record cited for the exception on step 2 (a misstatement, a review note or a communication)",
+      "ar": "السجل المستشهد به للاستثناء في الخطوة 2 (تحريف أو ملاحظة مراجعة أو مراسلة)"
+     },
+     "type": "text",
+     "required": false,
+     "required_if": {
+      "field": "p_inv_007_s2_conclusion",
+      "equals": "performed_exception",
+      "message": {
+       "en": "a step concluded with an exception cites the misstatement, review note or communication it raised",
+       "ar": "الخطوة التي خُلص فيها إلى استثناء تستشهد بالتحريف أو ملاحظة المراجعة أو المراسلة التي أثارتها"
+      }
+     },
+     "cites": [
+      "RK-MISSTATEMENT",
+      "RK-REVIEW-NOTE",
+      "RK-COMMUNICATION"
      ]
     }
    ],
@@ -600,6 +1293,160 @@
        }
       }
      ]
+    },
+    {
+     "id": "p_inv_008_s1_conclusion",
+     "label": {
+      "en": "ISA-520.5: When designing substantive analytical procedures, determine their suitability for the assertions given the assessed risks and any tests of details, evaluate the reliability of the data behind the expectation (source, comparability, nature, relevance and controls over preparation), develop an expectation precise enough to identify a material misstatement, and set the difference from the expectation that is acceptable without investigation.",
+      "ar": "ISA-520.5: When designing substantive analytical procedures, determine their suitability for the assertions given the assessed risks and any tests of details, evaluate the reliability of the data behind the expectation (source, comparability, nature, relevance and controls over preparation), develop an expectation precise enough to identify a material misstatement, and set the difference from the expectation that is acceptable without investigation."
+     },
+     "type": "select",
+     "required": true,
+     "options": [
+      {
+       "value": "performed_no_exception",
+       "label": {
+        "en": "Performed, no exception",
+        "ar": "نُفذ دون استثناء"
+       }
+      },
+      {
+       "value": "performed_exception",
+       "label": {
+        "en": "Performed, exception noted",
+        "ar": "نُفذ مع ملاحظة استثناء"
+       }
+      },
+      {
+       "value": "not_applicable",
+       "label": {
+        "en": "Not applicable",
+        "ar": "لا ينطبق"
+       }
+      }
+     ],
+     "step": "ISA-520.5"
+    },
+    {
+     "id": "p_inv_008_s1_evidence",
+     "label": {
+      "en": "Evidence links citing step 1",
+      "ar": "روابط الأدلة التي تستشهد بالخطوة 1"
+     },
+     "type": "integer",
+     "required": false,
+     "autofill": "records.RK-EVIDENCE-LINK.for.P-INV-008.step.ISA-520.5",
+     "readonly": true
+    },
+    {
+     "id": "p_inv_008_s1_ticks",
+     "label": {
+      "en": "Tick marks on step 1",
+      "ar": "علامات التدقيق على الخطوة 1"
+     },
+     "type": "text",
+     "required": false,
+     "autofill": "records.RK-EVIDENCE-LINK.ticks.P-INV-008.ISA-520.5",
+     "readonly": true
+    },
+    {
+     "id": "p_inv_008_s1_citation",
+     "label": {
+      "en": "Record cited for the exception on step 1 (a misstatement, a review note or a communication)",
+      "ar": "السجل المستشهد به للاستثناء في الخطوة 1 (تحريف أو ملاحظة مراجعة أو مراسلة)"
+     },
+     "type": "text",
+     "required": false,
+     "required_if": {
+      "field": "p_inv_008_s1_conclusion",
+      "equals": "performed_exception",
+      "message": {
+       "en": "a step concluded with an exception cites the misstatement, review note or communication it raised",
+       "ar": "الخطوة التي خُلص فيها إلى استثناء تستشهد بالتحريف أو ملاحظة المراجعة أو المراسلة التي أثارتها"
+      }
+     },
+     "cites": [
+      "RK-MISSTATEMENT",
+      "RK-REVIEW-NOTE",
+      "RK-COMMUNICATION"
+     ]
+    },
+    {
+     "id": "p_inv_008_s2_conclusion",
+     "label": {
+      "en": "ISA-520.7: Investigate significant differences or inconsistent relationships by inquiring of management and corroborating its responses, and by performing other procedures as necessary.",
+      "ar": "ISA-520.7: Investigate significant differences or inconsistent relationships by inquiring of management and corroborating its responses, and by performing other procedures as necessary."
+     },
+     "type": "select",
+     "required": true,
+     "options": [
+      {
+       "value": "performed_no_exception",
+       "label": {
+        "en": "Performed, no exception",
+        "ar": "نُفذ دون استثناء"
+       }
+      },
+      {
+       "value": "performed_exception",
+       "label": {
+        "en": "Performed, exception noted",
+        "ar": "نُفذ مع ملاحظة استثناء"
+       }
+      },
+      {
+       "value": "not_applicable",
+       "label": {
+        "en": "Not applicable",
+        "ar": "لا ينطبق"
+       }
+      }
+     ],
+     "step": "ISA-520.7"
+    },
+    {
+     "id": "p_inv_008_s2_evidence",
+     "label": {
+      "en": "Evidence links citing step 2",
+      "ar": "روابط الأدلة التي تستشهد بالخطوة 2"
+     },
+     "type": "integer",
+     "required": false,
+     "autofill": "records.RK-EVIDENCE-LINK.for.P-INV-008.step.ISA-520.7",
+     "readonly": true
+    },
+    {
+     "id": "p_inv_008_s2_ticks",
+     "label": {
+      "en": "Tick marks on step 2",
+      "ar": "علامات التدقيق على الخطوة 2"
+     },
+     "type": "text",
+     "required": false,
+     "autofill": "records.RK-EVIDENCE-LINK.ticks.P-INV-008.ISA-520.7",
+     "readonly": true
+    },
+    {
+     "id": "p_inv_008_s2_citation",
+     "label": {
+      "en": "Record cited for the exception on step 2 (a misstatement, a review note or a communication)",
+      "ar": "السجل المستشهد به للاستثناء في الخطوة 2 (تحريف أو ملاحظة مراجعة أو مراسلة)"
+     },
+     "type": "text",
+     "required": false,
+     "required_if": {
+      "field": "p_inv_008_s2_conclusion",
+      "equals": "performed_exception",
+      "message": {
+       "en": "a step concluded with an exception cites the misstatement, review note or communication it raised",
+       "ar": "الخطوة التي خُلص فيها إلى استثناء تستشهد بالتحريف أو ملاحظة المراجعة أو المراسلة التي أثارتها"
+      }
+     },
+     "cites": [
+      "RK-MISSTATEMENT",
+      "RK-REVIEW-NOTE",
+      "RK-COMMUNICATION"
+     ]
     }
    ],
    "note": {
@@ -684,6 +1531,83 @@
         "ar": "لا ينطبق، مع بيان السبب"
        }
       }
+     ]
+    },
+    {
+     "id": "p_inv_009_s1_conclusion",
+     "label": {
+      "en": "ISA-330.24: Perform procedures to evaluate whether the overall presentation of the financial statements accords with the framework, considering classification and description of the information and the presentation, structure and content of the statements.",
+      "ar": "ISA-330.24: Perform procedures to evaluate whether the overall presentation of the financial statements accords with the framework, considering classification and description of the information and the presentation, structure and content of the statements."
+     },
+     "type": "select",
+     "required": true,
+     "options": [
+      {
+       "value": "performed_no_exception",
+       "label": {
+        "en": "Performed, no exception",
+        "ar": "نُفذ دون استثناء"
+       }
+      },
+      {
+       "value": "performed_exception",
+       "label": {
+        "en": "Performed, exception noted",
+        "ar": "نُفذ مع ملاحظة استثناء"
+       }
+      },
+      {
+       "value": "not_applicable",
+       "label": {
+        "en": "Not applicable",
+        "ar": "لا ينطبق"
+       }
+      }
+     ],
+     "step": "ISA-330.24"
+    },
+    {
+     "id": "p_inv_009_s1_evidence",
+     "label": {
+      "en": "Evidence links citing step 1",
+      "ar": "روابط الأدلة التي تستشهد بالخطوة 1"
+     },
+     "type": "integer",
+     "required": false,
+     "autofill": "records.RK-EVIDENCE-LINK.for.P-INV-009.step.ISA-330.24",
+     "readonly": true
+    },
+    {
+     "id": "p_inv_009_s1_ticks",
+     "label": {
+      "en": "Tick marks on step 1",
+      "ar": "علامات التدقيق على الخطوة 1"
+     },
+     "type": "text",
+     "required": false,
+     "autofill": "records.RK-EVIDENCE-LINK.ticks.P-INV-009.ISA-330.24",
+     "readonly": true
+    },
+    {
+     "id": "p_inv_009_s1_citation",
+     "label": {
+      "en": "Record cited for the exception on step 1 (a misstatement, a review note or a communication)",
+      "ar": "السجل المستشهد به للاستثناء في الخطوة 1 (تحريف أو ملاحظة مراجعة أو مراسلة)"
+     },
+     "type": "text",
+     "required": false,
+     "required_if": {
+      "field": "p_inv_009_s1_conclusion",
+      "equals": "performed_exception",
+      "message": {
+       "en": "a step concluded with an exception cites the misstatement, review note or communication it raised",
+       "ar": "الخطوة التي خُلص فيها إلى استثناء تستشهد بالتحريف أو ملاحظة المراجعة أو المراسلة التي أثارتها"
+      }
+     },
+     "cites": [
+      "RK-MISSTATEMENT",
+      "RK-REVIEW-NOTE",
+      "RK-COMMUNICATION"
      ]
     }
    ],
@@ -868,6 +1792,6 @@
   ]
  },
  "computation": "rollforward",
- "version": 2,
+ "version": 3,
  "ar_status": "draft_pending_review"
 }

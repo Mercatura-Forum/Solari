@@ -18,6 +18,9 @@ import json, os, sys
 HERE = os.path.dirname(os.path.abspath(__file__))
 R = os.path.join(HERE, '..')
 STD = os.environ.get('AUDIT_STANDARDS', '../thebes-audit-standards')
+with open(os.path.join(STD, 'seed', 'tick_marks.json'), encoding='utf-8') as _fh:
+    TICKS = [t['id'] for t in json.load(_fh)][:2]
+assert len(TICKS) == 2, TICKS
 OUT = os.path.join(R, 'motoko', 'test', 'FormGraph.test.mo')
 
 
@@ -306,8 +309,15 @@ def main():
                     proc = e['via'].split('.')[-1]
                     add = f'ignore must("open a request", E.addRecord(s, staff, false, stamp, 1, {jl({"kind": "RK-REQUEST", "fields": {"procedure": proc, "addressee": "client", "requested": "Graph battery request", "requested_at": "2026-02-01T09:00", "state": "open"}})}));'
                 elif rk == 'RK-EVIDENCE-LINK':
-                    proc = e['via'].split('.')[-1]
-                    add = f'ignore must("link evidence", E.addRecord(s, staff, false, stamp, 1, j("{{\\"kind\\":\\"RK-EVIDENCE-LINK\\",\\"fields\\":{{\\"procedure\\":\\"{proc}\\",\\"evidence_item\\":\\"doc:1\\",\\"evidence_kind\\":\\"EK-INSPECTION\\",\\"linked_by\\":\\"staff\\",\\"linked_at\\":\\"2026-02-01T09:00\\"}}}}")));'
+                    vparts = e['via'].split('.')
+                    proc = vparts[3] if len(vparts) >= 5 else vparts[-1]
+                    # a requirement id carries dots (ISA-520.5): the step is the tail of the expression
+                    step = '.'.join(vparts[5:]) if len(vparts) >= 6 and vparts[4] == 'step' else ('.'.join(vparts[4:]) if len(vparts) >= 5 and vparts[2] == 'ticks' else None)
+                    # the link carries a tick mark of the model, so the step's tick marks move with its evidence
+                    # a tick-marks edge moves only if the link's tick mark is new to the step: the second mark of the model
+                    tick = TICKS[1] if len(vparts) >= 5 and vparts[2] == 'ticks' else TICKS[0]
+                    step_kv = (f'\\"step\\":\\"{step}\\",' if step else '') + f'\\"tick_mark\\":\\"{tick}\\",'
+                    add = f'ignore must("link evidence", E.addRecord(s, staff, false, stamp, 1, j("{{\\"kind\\":\\"RK-EVIDENCE-LINK\\",\\"fields\\":{{\\"procedure\\":\\"{proc}\\",{step_kv}\\"evidence_item\\":\\"doc:1\\",\\"evidence_kind\\":\\"EK-INSPECTION\\",\\"linked_by\\":\\"staff\\",\\"linked_at\\":\\"2026-02-01T09:00\\"}}}}")));'
                 else:
                     skipped.append(label + f': no mover for {rk}')
                     body.append(f'// no mover for record kind {rk}')

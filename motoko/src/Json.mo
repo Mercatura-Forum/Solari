@@ -11,10 +11,13 @@
 ///
 /// Attribution: Thebes Core Team. Licence: Apache 2.0.
 
+import Prim "mo:⛔";
 import Array "mo:core/Array";
+import Blob "mo:core/Blob";
 import Char "mo:core/Char";
 import Int "mo:core/Int";
 import Nat "mo:core/Nat";
+import Nat8 "mo:core/Nat8";
 import Nat32 "mo:core/Nat32";
 import Text "mo:core/Text";
 import Order "mo:core/Order";
@@ -34,52 +37,119 @@ module {
 
   let HEX : [Char] = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'];
 
-  func escape(s : Text) : Text {
-    var out = "";
+  /// A growable UTF-8 byte buffer. Text is assembled here and decoded once, flat: a text
+  /// built by appending one character at a time is a rope of one node per character, and a
+  /// form definition of a hundred thousand characters read many times a call would cost
+  /// megabytes at every read.
+  class Bytes() {
+    var buf : [var Nat8] = Prim.Array_init<Nat8>(64, 0);
+    var len = 0;
+
+    func grow(need : Nat) {
+      if (len + need <= buf.size()) return;
+      var cap = buf.size() * 2;
+      while (cap < len + need) cap *= 2;
+      let next = Prim.Array_init<Nat8>(cap, 0);
+      var i = 0;
+      while (i < len) { next[i] := buf[i]; i += 1 };
+      buf := next;
+    };
+
+    public func byte(b : Nat8) { grow(1); buf[len] := b; len += 1 };
+
+    func low(u : Nat32) : Nat8 { Nat8.fromNat(Nat32.toNat(u & 0xFF)) };
+
+    public func char(c : Char) {
+      let u = Char.toNat32(c);
+      if (u < 0x80) byte(low(u))
+      else if (u < 0x800) { grow(2); byte(low(0xC0 | (u >> 6))); byte(low(0x80 | (u & 0x3F))) }
+      else if (u < 0x10000) { grow(3); byte(low(0xE0 | (u >> 12))); byte(low(0x80 | ((u >> 6) & 0x3F))); byte(low(0x80 | (u & 0x3F))) }
+      else { grow(4); byte(low(0xF0 | (u >> 18))); byte(low(0x80 | ((u >> 12) & 0x3F))); byte(low(0x80 | ((u >> 6) & 0x3F))); byte(low(0x80 | (u & 0x3F))) };
+    };
+
+    public func text(t : Text) { for (b in Prim.encodeUtf8(t).vals()) byte(b) };
+
+    public func toText() : Text {
+      let exact = if (len == buf.size()) buf else { let e = Prim.Array_init<Nat8>(len, 0); var i = 0; while (i < len) { e[i] := buf[i]; i += 1 }; e };
+      switch (Prim.decodeUtf8(Blob.fromVarArray(exact))) { case (?t) t; case null "" }
+    };
+  };
+
+  func utf8Length(c : Char) : Nat {
+    let u = Char.toNat32(c);
+    if (u < 0x80) 1 else if (u < 0x800) 2 else if (u < 0x10000) 3 else 4
+  };
+
+  /// A run of characters as one flat text, allocated at its exact length.
+  func flat(cs : [Char], from : Nat, to : Nat) : Text {
+    var bytes = 0;
+    var k = from;
+    while (k < to) { bytes += utf8Length(cs[k]); k += 1 };
+    let out = Prim.Array_init<Nat8>(bytes, 0);
+    var o = 0;
+    func put(u : Nat32) { out[o] := Nat8.fromNat(Nat32.toNat(u & 0xFF)); o += 1 };
+    k := from;
+    while (k < to) {
+      let u = Char.toNat32(cs[k]);
+      if (u < 0x80) put(u)
+      else if (u < 0x800) { put(0xC0 | (u >> 6)); put(0x80 | (u & 0x3F)) }
+      else if (u < 0x10000) { put(0xE0 | (u >> 12)); put(0x80 | ((u >> 6) & 0x3F)); put(0x80 | (u & 0x3F)) }
+      else { put(0xF0 | (u >> 18)); put(0x80 | ((u >> 12) & 0x3F)); put(0x80 | ((u >> 6) & 0x3F)); put(0x80 | (u & 0x3F)) };
+      k += 1;
+    };
+    switch (Prim.decodeUtf8(Blob.fromVarArray(out))) { case (?t) t; case null "" }
+  };
+
+  func escapeInto(b : Bytes, s : Text) {
     for (c in s.chars()) {
       let n = Char.toNat32(c);
-      if (c == '\"') out #= "\\\""
-      else if (c == '\\') out #= "\\\\"
-      else if (n == 10) out #= "\\n"
-      else if (n == 13) out #= "\\r"
-      else if (n == 9) out #= "\\t"
-      else if (n == 8) out #= "\\b"
-      else if (n == 12) out #= "\\f"
+      if (c == '\"') b.text("\\\"")
+      else if (c == '\\') b.text("\\\\")
+      else if (n == 10) b.text("\\n")
+      else if (n == 13) b.text("\\r")
+      else if (n == 9) b.text("\\t")
+      else if (n == 8) b.text("\\b")
+      else if (n == 12) b.text("\\f")
       else if (n < 32) {
         let v = Nat32.toNat(n);
-        out #= "\\u00" # Char.toText(HEX[v / 16]) # Char.toText(HEX[v % 16]);
-      } else out #= Char.toText(c);
+        b.text("\\u00"); b.char(HEX[v / 16]); b.char(HEX[v % 16]);
+      } else b.char(c);
     };
-    out
   };
 
   func keyOrder(a : (Text, J), b : (Text, J)) : Order.Order { Text.compare(a.0, b.0) };
 
-  /// Canonical text: sorted keys, compact separators, Python escaping.
-  public func toText(j : J) : Text {
+  func writeInto(b : Bytes, j : J) {
     switch (j) {
-      case (#null_) "null";
-      case (#bool(b)) if (b) "true" else "false";
-      case (#num(n)) n;
-      case (#str(s)) "\"" # escape(s) # "\"";
+      case (#null_) b.text("null");
+      case (#bool(v)) b.text(if (v) "true" else "false");
+      case (#num(n)) b.text(n);
+      case (#str(s)) { b.byte(34); escapeInto(b, s); b.byte(34) };
       case (#arr(xs)) {
-        var out = "[";
+        b.byte(91);
         var first = true;
-        for (x in xs.vals()) { if (not first) out #= ","; out #= toText(x); first := false };
-        out # "]"
+        for (x in xs.vals()) { if (not first) b.byte(44); writeInto(b, x); first := false };
+        b.byte(93);
       };
       case (#obj(kvs)) {
         let sorted = Array.sort<(Text, J)>(kvs, keyOrder);
-        var out = "{";
+        b.byte(123);
         var first = true;
         for ((k, v) in sorted.vals()) {
-          if (not first) out #= ",";
-          out #= "\"" # escape(k) # "\":" # toText(v);
+          if (not first) b.byte(44);
+          b.byte(34); escapeInto(b, k); b.byte(34); b.byte(58); writeInto(b, v);
           first := false;
         };
-        out # "}"
+        b.byte(125);
       };
     }
+  };
+
+  /// Canonical text: sorted keys, compact separators, Python escaping.
+  public func toText(j : J) : Text {
+    let b = Bytes();
+    writeInto(b, j);
+    b.toText()
   };
 
   // ------------------------------------------------------------------ parser
@@ -127,23 +197,27 @@ module {
     func str() : ?Text {
       // cs[i] == '"'
       i += 1;
-      var out = "";
+      // a string without escapes, the common one, is taken in one exact allocation
+      var j = i;
+      while (j < n and cs[j] != '\"' and cs[j] != '\\' and Char.toNat32(cs[j]) >= 32) j += 1;
+      if (j < n and cs[j] == '\"') { let t = flat(cs, i, j); i := j + 1; return ?t };
+      let out = Bytes();
       while (i < n) {
         let c = cs[i];
-        if (c == '\"') { i += 1; return ?out };
+        if (c == '\"') { i += 1; return ?out.toText() };
         if (c == '\\') {
           i += 1;
           if (i >= n) return null;
           let e = cs[i];
           i += 1;
-          if (e == '\"') out #= "\""
-          else if (e == '\\') out #= "\\"
-          else if (e == '/') out #= "/"
-          else if (e == 'b') out #= Char.toText(Char.fromNat32(8))
-          else if (e == 'f') out #= Char.toText(Char.fromNat32(12))
-          else if (e == 'n') out #= "\n"
-          else if (e == 'r') out #= "\r"
-          else if (e == 't') out #= "\t"
+          if (e == '\"') out.byte(34)
+          else if (e == '\\') out.byte(92)
+          else if (e == '/') out.byte(47)
+          else if (e == 'b') out.byte(8)
+          else if (e == 'f') out.byte(12)
+          else if (e == 'n') out.byte(10)
+          else if (e == 'r') out.byte(13)
+          else if (e == 't') out.byte(9)
           else if (e == 'u') {
             let hi = switch (hex4()) { case (?v) v; case null return null };
             if (hi >= 0xD800 and hi <= 0xDBFF) {
@@ -151,15 +225,15 @@ module {
                 i += 2;
                 let lo = switch (hex4()) { case (?v) v; case null return null };
                 if (lo < 0xDC00 or lo > 0xDFFF) return null;
-                out #= Char.toText(Char.fromNat32(0x10000 + (hi - 0xD800) * 0x400 + (lo - 0xDC00)));
+                out.char(Char.fromNat32(0x10000 + (hi - 0xD800) * 0x400 + (lo - 0xDC00)));
               } else return null;
             } else if (hi >= 0xDC00 and hi <= 0xDFFF) {
               return null;
-            } else out #= Char.toText(Char.fromNat32(hi));
+            } else out.char(Char.fromNat32(hi));
           } else return null;
         } else {
           if (Char.toNat32(c) < 32) return null;
-          out #= Char.toText(c);
+          out.char(c);
           i += 1;
         };
       };

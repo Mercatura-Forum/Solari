@@ -141,9 +141,9 @@ except ValueError as e:
 
 # ---------------------------------------------------------------- the definitions (oracle 3)
 
-V2_TEXT = {f['id']: json.dumps(f, ensure_ascii=False, separators=(',', ':')) for f in FORMS.values() if f.get('version', 1) == 2}
+V2_TEXT = {f['id']: json.dumps(f, ensure_ascii=False, separators=(',', ':')) for f in FORMS.values() if f.get('version', 1) == 3}
 V2_SHA = {fid: hashlib.sha256(t.encode('utf-8')).hexdigest() for fid, t in V2_TEXT.items()}
-assert set(BY_FORM) <= set(V2_TEXT), (set(BY_FORM) - set(V2_TEXT))
+assert set(BY_FORM) <= set(V2_TEXT), (set(BY_FORM) - set(V2_TEXT))   # the six papers with schedules are the six at version 3
 PPE_FILL = required_values(FORMS['F35-PPE-INTANGIBLES'])
 PPE_FILL.update({key: rows for _sh, fid, key, rows, _i, _e in SCHEDULES if fid == 'F35-PPE-INTANGIBLES'})
 
@@ -211,17 +211,17 @@ check("the leadsheet the entry touched is adjusted", A.leadsheetFigure(s, 1, "LS
 
 // the definitions: version 2 carries the schedule, version 1 stays what it was
 let cat = Py.items(F.catalogue(ff));
-check("the fixed assets paper is catalogued at version 2", field(rowWhere(cat, "id", "F35-PPE-INTANGIBLES"), ["version"]) == #num("2"));
-check("the payroll paper, unrevised, stays at version 1", field(rowWhere(cat, "id", "F33-PAYROLL"), ["version"]) == #num("1"));
+check("the fixed assets paper is catalogued at version 3", field(rowWhere(cat, "id", "F35-PPE-INTANGIBLES"), ["version"]) == #num("3"));
+check("the payroll paper, revised once for its steps, is at version 2", field(rowWhere(cat, "id", "F33-PAYROLL"), ["version"]) == #num("2"));
 check("forty-eight forms are catalogued, each once", cat.size() == 48);
 switch (PF.versionText("F35-PPE-INTANGIBLES", 1), PF.versionText("F35-PPE-INTANGIBLES", 2)) {
   case (?v1, ?v2) {
     check("version 1 has no schedule and version 2 has it", not hasField(j(v1), "sch_ppe") and hasField(j(v2), "sch_ppe"));
-    check("the latest is version 2", PF.latest("F35-PPE-INTANGIBLES") == ?v2);
+    check("the latest is version 3, which still carries the schedule", PF.latest("F35-PPE-INTANGIBLES") != ?v2 and hasField(j(switch (PF.latest("F35-PPE-INTANGIBLES")) { case (?t) t; case null "{}" }), "sch_ppe"));
   };
   case _ check("both versions of the fixed assets paper exist", false);
 };
-check("an unknown version is null", PF.versionText("F35-PPE-INTANGIBLES", 3) == null);
+check("an unknown version is null", PF.versionText("F35-PPE-INTANGIBLES", 4) == null);
 check("the schedule paper belongs to the cycle paper that owns the schedule", F.scheduleOwner("SCH-PPE") == ?"F35-PPE-INTANGIBLES" and F.scheduleOwner("SCH-NOPE") == null);
 
 // every schedule shape reconciles the prior period to the adjusted leadsheet
@@ -246,7 +246,7 @@ ignore must("fill the fixed assets paper with its schedule", F.save(s, ff, staff
 ignore must("prepare the fixed assets paper", F.sign(s, ff, staff, 71, 1, "F35-PPE-INTANGIBLES", "prepare", "2026-02-04T09:00"));
 let prepared = view(manager, "F35-PPE-INTANGIBLES");
 check("the paper is prepared", field(prepared, ["status"]) == #str("prepared"));
-check("the stamp names the form, version 2 and the SHA-256 of the definition text", field(prepared, ["definition", "id"]) == #str("F35-PPE-INTANGIBLES") and field(prepared, ["definition", "version"]) == #num("2") and field(prepared, ["definition", "sha256"]) == #str(__PPE_SHA__));
+check("the stamp names the form, version 3 and the SHA-256 of the definition text", field(prepared, ["definition", "id"]) == #str("F35-PPE-INTANGIBLES") and field(prepared, ["definition", "version"]) == #num("3") and field(prepared, ["definition", "sha256"]) == #str(__PPE_SHA__));
 check("the schedule's difference is frozen with the paper", field(prepared, ["frozen", "sch_ppe_difference"]) == #str("0.00") and field(prepared, ["frozen", "ls_ppe"]) == #str(__PPE_ADJUSTED__));
 
 // the schedule's inputs are in the graph: a re-imported trial balance moves the leadsheet and the paper drifts
@@ -270,7 +270,7 @@ let asV1 = view(manager, "F35-PPE-INTANGIBLES");
 check("a paper stamped with version 1 renders under version 1, without the schedule", field(asV1, ["form", "version"]) == #num("1") and not hasField(field(asV1, ["form"]), "sch_ppe"));
 ignore must("the partner reopens the paper", F.reopen(s, partner, false, 90, 1, "F35-PPE-INTANGIBLES", "revised to the version with the schedule"));
 let reopened = view(manager, "F35-PPE-INTANGIBLES");
-check("a reopened paper is a draft under the latest definition", field(reopened, ["status"]) == #str("draft") and field(reopened, ["form", "version"]) == #num("2") and field(reopened, ["definition"]) == #null_ and hasField(field(reopened, ["form"]), "sch_ppe"));
+check("a reopened paper is a draft under the latest definition", field(reopened, ["status"]) == #str("draft") and field(reopened, ["form", "version"]) == #num("3") and field(reopened, ["definition"]) == #null_ and hasField(field(reopened, ["form"]), "sch_ppe"));
 check("its entered schedule rows are kept", Py.items(field(reopened, ["values", "sch_ppe"])).size() == __PPE_ROWS__);
 
 Debug.print("count: roll-forward checks = " # Nat.toText(checks));

@@ -632,6 +632,32 @@ def main():
         except Exception as e:
             shot(pg, 'd5-06-letter-failed')
             row('the letters workflow completes', False, e)
+
+        # ── programme steps: one per requirement of the model, a citation demanded on an exception ──
+        try:
+            with open(os.path.join(ROOT, 'forms', 'F31-REVENUE-RECEIVABLES.json'), encoding='utf-8') as fh:
+                f31 = json.load(fh)
+            expected = [fd for sec in f31['sections'] for fd in sec['fields'] if fd.get('step')]
+            first = expected[0]['id']
+            citation = first.replace('_conclusion', '_citation')
+            pg.goto(f'{URL}#/e/{eid}/f/F31-REVENUE-RECEIVABLES', wait_until='load')
+            pg.get_by_test_id('signoff-panel').wait_for(timeout=120000)
+            pg.locator('[data-step]').first.wait_for(timeout=60000)
+            row('every step of the revenue paper names the requirement it discharges', pg.locator('[data-step]').count() == len(expected))
+            row('the first step names the model\'s requirement', pg.locator('[data-step]').first.get_attribute('data-step') == expected[0]['step'])
+            if pg.get_by_role('button', name='Reopen with a reason').count():
+                pg.get_by_test_id('signoff-panel').get_by_label('Reason').fill('steps battery')
+                pg.get_by_role('button', name='Reopen with a reason').click()
+                pg.wait_for_timeout(2500)
+            pg.wait_for_function(f'() => {{ const e = document.getElementById("f-{first}"); return e && !e.disabled }}', timeout=180000)
+            row('the citation is not demanded while the step has no exception', pg.locator(f'[data-field={citation}] [data-required-if]').count() == 0)
+            pg.locator(f'#f-{first}').select_option('performed_exception')
+            row('a step concluded with an exception demands the record it cites', pg.locator(f'[data-field={citation}] [data-required-if]').count() == 1)
+            pg.locator(f'#f-{first}').select_option('performed_no_exception')
+            shot(pg, 'd5-07-steps')
+        except Exception as e:
+            shot(pg, 'd5-07-steps-failed')
+            row('the steps workflow completes', False, e)
         return finish(ctx)
 
 

@@ -107,6 +107,7 @@ def build_graph(forms):
         return nid
 
     edges = []
+    step_edges = set()
 
     def add(e):
         if any(x['from'] == e['from'] and x.get('from_field') == e.get('from_field') and x['to'] == e['to'] and x['to_field'] == e['to_field'] for x in edges):
@@ -139,6 +140,12 @@ def build_graph(forms):
                 elif not src:
                     add({'from': source(f'paper:{kind}', 'paper', f'Working paper: {kind}'), 'to': f['id'], 'to_field': fid, 'via': expr, 'kind': 'paper'})
             elif root == 'records':
+                if len(parts) >= 5 and parts[2] in ('for', 'ticks') and (parts[2] == 'ticks' or (len(parts) >= 6 and parts[4] == 'step')):
+                    # the steps of a procedure read the same records: one edge per procedure carries them all
+                    mark = (f['id'], parts[1], parts[3])
+                    if mark in step_edges:
+                        continue
+                    step_edges.add(mark)
                 add({'from': source(f'records:{parts[1]}', 'records', f'Records: {parts[1]}'), 'to': f['id'], 'to_field': fid, 'via': expr, 'kind': 'records'})
             elif root == 'form':
                 src, src_field = parts[1], parts[2]

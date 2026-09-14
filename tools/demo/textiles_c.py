@@ -355,4 +355,9 @@ def cycle_values(form):
         out[f'{key}_work'] = work
         out[f'{key}_result'] = result
         out[f'{key}_conclusion'] = conclusion
+    # every step of every procedure: performed without exception, the procedure's own conclusion standing
+    for sec in form['sections']:
+        for fd in sec['fields']:
+            if fd['id'].endswith('_conclusion') and fd.get('step'):
+                out[fd['id']] = 'performed_no_exception'
     return out

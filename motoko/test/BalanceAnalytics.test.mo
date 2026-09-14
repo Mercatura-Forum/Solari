@@ -56,16 +56,16 @@ func compute(form : Text, inp : Text) : E.R {
 // the engagement, its team, the trial balance and the materiality the papers read
 ignore must("open", E.createEngagement(s, partner, true, 1, j("{\"client\":\"Nile Trading SAE\",\"framework\":\"EAS\",\"audit_standard\":\"EAS\",\"currency\":\"EGP\",\"period_start\":\"2025-01-01\",\"period_end\":\"2025-12-31\"}")));
 for ((p, r) in [(manager, "manager"), (senior, "senior"), (staff, "staff")].vals()) ignore must("member " # r, E.setMember(s, partner, true, 2, 1, p, r));
-check("before a trial balance the paper has no instance", Py.items(field(must("statuses", F.statuses(s, ff, manager, false, 1)), [])).size() == 38);
+check("before a trial balance the paper has no instance", Py.items(field(must("statuses", F.statuses(s, ff, manager, false, 1)), [])).size() == 47);
 refused("no leadsheet is populated yet", F.save(s, ff, staff, false, 3, 1, "F40-BALANCE-ANALYTICS@LS-REV", j("{\"values\":{}}")), "not populated");
 ignore must("import the trial balance", E.importTrialBalance(s, staff, false, 3, 1, #obj([("profile_id", #str("spreadsheet-generic-csv")), ("source", #str("Account Code,Account Name,Debit,Credit,Prior Year Debit,Prior Year Credit\u{a}1000,Land and buildings,\"5,000,000.00\",0.00,\"4,800,000.00\",0.00\u{a}1002,Accumulated depreciation - buildings,0.00,\"1,200,000.00\",0.00,\"900,000.00\"\u{a}1350,Finished goods,\"820,000.00\",0.00,\"760,000.00\",0.00\u{a}1400,Trade receivables,\"1,450,000.00\",0.00,\"1,300,000.00\",0.00\u{a}1401,Loss allowance,0.00,\"65,000.00\",0.00,\"50,000.00\"\u{a}1500,Bank current account,\"310,500.25\",0.00,\"402,000.00\",0.00\u{a}1650,Accrued income,\"40,000.00\",0.00,0.00,0.00\u{a}2000,Share capital,0.00,\"2,000,000.00\",0.00,\"2,000,000.00\"\u{a}2200,Retained earnings,0.00,\"1,005,500.25\",0.00,\"912,000.00\"\u{a}3000,Term loan,0.00,\"1,500,000.00\",0.00,\"1,700,000.00\"\u{a}4100,Trade payables,0.00,\"780,000.00\",0.00,\"690,000.00\"\u{a}4800,VAT payable,0.00,\"120,000.00\",0.00,\"110,000.00\"\u{a}5000,Sales,0.00,\"10,450,000.00\",0.00,\"9,800,000.00\"\u{a}6000,Cost of sales,\"6,600,000.00\",0.00,\"6,150,000.00\",0.00\u{a}6300,Salaries,\"2,100,000.00\",0.00,\"1,950,000.00\",0.00\u{a}6700,Depreciation,\"300,000.00\",0.00,\"300,000.00\",0.00\u{a}6500,Interest expense,\"150,000.00\",0.00,\"160,000.00\",0.00\u{a}6600,Income tax expense,\"350,000.00\",0.00,\"340,000.00\",0.00\u{a}7100,Suspense - unmapped by design,0.00,0.00,0.00,0.00\u{a}Total,,\"17,120,500.25\",\"17,120,500.25\",\"16,162,000.00\",\"16,162,000.00\"\u{a}"))])));
 ignore must("compute materiality", E.compute(s, senior, false, 4, 1, #obj([("kind", #str("materiality")), ("procedure_id", #str("P-FSL-006")), ("input", j("{\"benchmark\":\"revenue\",\"benchmark_amount\":\"10450000.00\",\"percentage\":\"1\",\"pm_factor\":\"0.75\",\"trivial_factor\":\"0.05\"}"))])));
 
 // the definition and its instances
 let cat = Py.items(F.catalogue(ff));
-check("the paper is catalogued once, per leadsheet", field(rowWhere(cat, "id", "F40-BALANCE-ANALYTICS"), ["per"]) == #str("leadsheet") and cat.size() == 39);
+check("the paper is catalogued once, per leadsheet", field(rowWhere(cat, "id", "F40-BALANCE-ANALYTICS"), ["per"]) == #str("leadsheet") and cat.size() == 48);
 let statuses = Py.items(must("statuses", F.statuses(s, ff, manager, false, 1)));
-check("one instance per populated leadsheet, beside the other thirty-eight", statuses.size() == 38 + 16);
+check("one instance per populated leadsheet, beside the other thirty-eight", statuses.size() == 47 + 16);
 check("an instance names its definition, its leadsheet and its own title", (func() : Bool {
   let r = rowWhere(statuses, "form", "F40-BALANCE-ANALYTICS@LS-REV");
   field(r, ["base"]) == #str("F40-BALANCE-ANALYTICS") and field(r, ["leadsheet"]) == #str("LS-REV") and Text.contains(Py.textOr(field(r, ["title"]), "en", ""), #text "LS-REV") and Text.contains(Py.textOr(field(r, ["title"]), "en", ""), #text "Revenue")

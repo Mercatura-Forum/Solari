@@ -1,0 +1,767 @@
+{
+ "id": "F38-TAXES",
+ "number": 38,
+ "kind": "worksheet",
+ "phase": "fieldwork",
+ "title": {
+  "en": "Income and indirect taxes working paper",
+  "ar": "ورقة عمل ضرائب الدخل والضرائب غير المباشرة"
+ },
+ "purpose": {
+  "en": "Document every substantive procedure of the income and indirect taxes cycle: the work, the results, the evidence and the conclusion, against the balances the trial balance holds.",
+  "ar": "توثيق كل إجراء أساسي في دورة ضرائب الدخل والضرائب غير المباشرة: العمل والنتائج والأدلة والاستنتاج، مقابل الأرصدة الواردة في ميزان المراجعة."
+ },
+ "procedures": [
+  "P-TAX-001",
+  "P-TAX-002",
+  "P-TAX-003",
+  "P-TAX-004",
+  "P-TAX-005"
+ ],
+ "standards": [
+  "ISA-330",
+  "ISA-250",
+  "ISA-501",
+  "ISA-540"
+ ],
+ "sections": [
+  {
+   "id": "engagement",
+   "title": {
+    "en": "Engagement",
+    "ar": "الارتباط"
+   },
+   "fields": [
+    {
+     "id": "client",
+     "label": {
+      "en": "Entity audited",
+      "ar": "المنشأة محل المراجعة"
+     },
+     "type": "text",
+     "required": false,
+     "autofill": "engagement.client",
+     "readonly": true
+    },
+    {
+     "id": "period_start",
+     "label": {
+      "en": "Period from",
+      "ar": "الفترة من"
+     },
+     "type": "date",
+     "required": false,
+     "autofill": "engagement.period_start",
+     "readonly": true
+    },
+    {
+     "id": "period_end",
+     "label": {
+      "en": "Period to",
+      "ar": "الفترة إلى"
+     },
+     "type": "date",
+     "required": false,
+     "autofill": "engagement.period_end",
+     "readonly": true
+    },
+    {
+     "id": "framework",
+     "label": {
+      "en": "Financial reporting framework",
+      "ar": "إطار التقرير المالي"
+     },
+     "type": "text",
+     "required": false,
+     "autofill": "engagement.framework",
+     "readonly": true
+    }
+   ]
+  },
+  {
+   "id": "balances",
+   "title": {
+    "en": "Balances, materiality and risks",
+    "ar": "الأرصدة والأهمية النسبية والمخاطر"
+   },
+   "fields": [
+    {
+     "id": "performance_materiality",
+     "label": {
+      "en": "Performance materiality",
+      "ar": "مادية الأداء"
+     },
+     "type": "money",
+     "required": false,
+     "autofill": "paper.materiality.performance",
+     "readonly": true
+    },
+    {
+     "id": "clearly_trivial",
+     "label": {
+      "en": "Clearly trivial threshold",
+      "ar": "حد المبالغ التافهة بشكل واضح"
+     },
+     "type": "money",
+     "required": false,
+     "autofill": "paper.materiality.clearly_trivial",
+     "readonly": true
+    },
+    {
+     "id": "ls_dta",
+     "label": {
+      "en": "Deferred tax assets (LS-DTA)",
+      "ar": "Deferred tax assets (LS-DTA)"
+     },
+     "type": "money",
+     "required": false,
+     "autofill": "tb.leadsheet.LS-DTA",
+     "readonly": true
+    },
+    {
+     "id": "ls_dta_prior",
+     "label": {
+      "en": "Deferred tax assets, prior period",
+      "ar": "Deferred tax assets، الفترة السابقة"
+     },
+     "type": "money",
+     "required": false,
+     "autofill": "tb.leadsheet.LS-DTA.prior",
+     "readonly": true
+    },
+    {
+     "id": "ls_taxa",
+     "label": {
+      "en": "Current tax assets (LS-TAXA)",
+      "ar": "Current tax assets (LS-TAXA)"
+     },
+     "type": "money",
+     "required": false,
+     "autofill": "tb.leadsheet.LS-TAXA",
+     "readonly": true
+    },
+    {
+     "id": "ls_taxa_prior",
+     "label": {
+      "en": "Current tax assets, prior period",
+      "ar": "Current tax assets، الفترة السابقة"
+     },
+     "type": "money",
+     "required": false,
+     "autofill": "tb.leadsheet.LS-TAXA.prior",
+     "readonly": true
+    },
+    {
+     "id": "ls_dtl",
+     "label": {
+      "en": "Deferred tax liabilities (LS-DTL)",
+      "ar": "Deferred tax liabilities (LS-DTL)"
+     },
+     "type": "money",
+     "required": false,
+     "autofill": "tb.leadsheet.LS-DTL",
+     "readonly": true
+    },
+    {
+     "id": "ls_dtl_prior",
+     "label": {
+      "en": "Deferred tax liabilities, prior period",
+      "ar": "Deferred tax liabilities، الفترة السابقة"
+     },
+     "type": "money",
+     "required": false,
+     "autofill": "tb.leadsheet.LS-DTL.prior",
+     "readonly": true
+    },
+    {
+     "id": "ls_taxl",
+     "label": {
+      "en": "Current tax liabilities (LS-TAXL)",
+      "ar": "Current tax liabilities (LS-TAXL)"
+     },
+     "type": "money",
+     "required": false,
+     "autofill": "tb.leadsheet.LS-TAXL",
+     "readonly": true
+    },
+    {
+     "id": "ls_taxl_prior",
+     "label": {
+      "en": "Current tax liabilities, prior period",
+      "ar": "Current tax liabilities، الفترة السابقة"
+     },
+     "type": "money",
+     "required": false,
+     "autofill": "tb.leadsheet.LS-TAXL.prior",
+     "readonly": true
+    },
+    {
+     "id": "ls_vat",
+     "label": {
+      "en": "VAT and other indirect taxes (LS-VAT)",
+      "ar": "VAT and other indirect taxes (LS-VAT)"
+     },
+     "type": "money",
+     "required": false,
+     "autofill": "tb.leadsheet.LS-VAT",
+     "readonly": true
+    },
+    {
+     "id": "ls_vat_prior",
+     "label": {
+      "en": "VAT and other indirect taxes, prior period",
+      "ar": "VAT and other indirect taxes، الفترة السابقة"
+     },
+     "type": "money",
+     "required": false,
+     "autofill": "tb.leadsheet.LS-VAT.prior",
+     "readonly": true
+    },
+    {
+     "id": "ls_taxexp",
+     "label": {
+      "en": "Income tax expense (LS-TAXEXP)",
+      "ar": "Income tax expense (LS-TAXEXP)"
+     },
+     "type": "money",
+     "required": false,
+     "autofill": "tb.leadsheet.LS-TAXEXP",
+     "readonly": true
+    },
+    {
+     "id": "ls_taxexp_prior",
+     "label": {
+      "en": "Income tax expense, prior period",
+      "ar": "Income tax expense، الفترة السابقة"
+     },
+     "type": "money",
+     "required": false,
+     "autofill": "tb.leadsheet.LS-TAXEXP.prior",
+     "readonly": true
+    },
+    {
+     "id": "risks",
+     "label": {
+      "en": "Risks placed on this cycle by the risk register",
+      "ar": "المخاطر الموضوعة على هذه الدورة في سجل المخاطر"
+     },
+     "type": "table",
+     "required": false,
+     "autofill": "form.F04-RISK-REGISTER.risks",
+     "readonly": true,
+     "columns": [
+      {
+       "id": "risk",
+       "label": {
+        "en": "Risk",
+        "ar": "الخطر"
+       },
+       "type": "text",
+       "required": true
+      },
+      {
+       "id": "level",
+       "label": {
+        "en": "Level",
+        "ar": "المستوى"
+       },
+       "type": "text",
+       "required": false
+      },
+      {
+       "id": "assertions",
+       "label": {
+        "en": "Assertions affected",
+        "ar": "الإقرارات المتأثرة"
+       },
+       "type": "text",
+       "required": false
+      },
+      {
+       "id": "inherent_risk",
+       "label": {
+        "en": "Inherent risk",
+        "ar": "الخطر الملازم"
+       },
+       "type": "text",
+       "required": false
+      },
+      {
+       "id": "significant",
+       "label": {
+        "en": "Significant risk",
+        "ar": "خطر مهم"
+       },
+       "type": "text",
+       "required": false
+      },
+      {
+       "id": "control_risk",
+       "label": {
+        "en": "Control risk",
+        "ar": "خطر الرقابة"
+       },
+       "type": "text",
+       "required": false
+      },
+      {
+       "id": "response",
+       "label": {
+        "en": "Planned response",
+        "ar": "الاستجابة المخططة"
+       },
+       "type": "textarea",
+       "required": false
+      }
+     ]
+    }
+   ],
+   "note": {
+    "en": "Balances are read from the latest accepted trial balance and frozen when the paper is prepared; a later import marks them as drifted.",
+    "ar": "تُقرأ الأرصدة من أحدث ميزان مراجعة مقبول وتُثبت عند إعداد الورقة؛ ويؤدي استيراد لاحق إلى وسمها بأنها تغيرت."
+   }
+  },
+  {
+   "id": "p_tax_001",
+   "title": {
+    "en": "P-TAX-001 Current income tax computation",
+    "ar": "P-TAX-001 احتساب ضريبة الدخل الحالية"
+   },
+   "fields": [
+    {
+     "id": "p_tax_001_work",
+     "label": {
+      "en": "Work performed",
+      "ar": "العمل المنفذ"
+     },
+     "type": "textarea",
+     "required": true
+    },
+    {
+     "id": "p_tax_001_result",
+     "label": {
+      "en": "Results and exceptions",
+      "ar": "النتائج والاستثناءات"
+     },
+     "type": "textarea",
+     "required": true
+    },
+    {
+     "id": "p_tax_001_samples",
+     "label": {
+      "en": "Samples recorded for this procedure",
+      "ar": "العينات المسجلة لهذا الإجراء"
+     },
+     "type": "integer",
+     "required": false,
+     "autofill": "records.RK-SAMPLE.for.P-TAX-001",
+     "readonly": true
+    },
+    {
+     "id": "p_tax_001_evidence",
+     "label": {
+      "en": "Evidence links citing this procedure",
+      "ar": "روابط الأدلة التي تستشهد بهذا الإجراء"
+     },
+     "type": "integer",
+     "required": false,
+     "autofill": "records.RK-EVIDENCE-LINK.for.P-TAX-001",
+     "readonly": true
+    },
+    {
+     "id": "p_tax_001_conclusion",
+     "label": {
+      "en": "Conclusion",
+      "ar": "الاستنتاج"
+     },
+     "type": "select",
+     "required": true,
+     "options": [
+      {
+       "value": "performed_no_exception",
+       "label": {
+        "en": "Performed, no exception",
+        "ar": "نُفذ دون استثناء"
+       }
+      },
+      {
+       "value": "performed_exception",
+       "label": {
+        "en": "Performed, exception noted",
+        "ar": "نُفذ مع ملاحظة استثناء"
+       }
+      },
+      {
+       "value": "not_applicable",
+       "label": {
+        "en": "Not applicable, reason stated",
+        "ar": "لا ينطبق، مع بيان السبب"
+       }
+      }
+     ]
+    }
+   ],
+   "note": {
+    "en": "Obtain evidence over the current tax charge and liability.",
+    "ar": "Obtain evidence over the current tax charge and liability."
+   }
+  },
+  {
+   "id": "p_tax_002",
+   "title": {
+    "en": "P-TAX-002 Deferred tax proof",
+    "ar": "P-TAX-002 إثبات الضريبة المؤجلة"
+   },
+   "fields": [
+    {
+     "id": "p_tax_002_work",
+     "label": {
+      "en": "Work performed",
+      "ar": "العمل المنفذ"
+     },
+     "type": "textarea",
+     "required": true
+    },
+    {
+     "id": "p_tax_002_result",
+     "label": {
+      "en": "Results and exceptions",
+      "ar": "النتائج والاستثناءات"
+     },
+     "type": "textarea",
+     "required": true
+    },
+    {
+     "id": "p_tax_002_samples",
+     "label": {
+      "en": "Samples recorded for this procedure",
+      "ar": "العينات المسجلة لهذا الإجراء"
+     },
+     "type": "integer",
+     "required": false,
+     "autofill": "records.RK-SAMPLE.for.P-TAX-002",
+     "readonly": true
+    },
+    {
+     "id": "p_tax_002_evidence",
+     "label": {
+      "en": "Evidence links citing this procedure",
+      "ar": "روابط الأدلة التي تستشهد بهذا الإجراء"
+     },
+     "type": "integer",
+     "required": false,
+     "autofill": "records.RK-EVIDENCE-LINK.for.P-TAX-002",
+     "readonly": true
+    },
+    {
+     "id": "p_tax_002_conclusion",
+     "label": {
+      "en": "Conclusion",
+      "ar": "الاستنتاج"
+     },
+     "type": "select",
+     "required": true,
+     "options": [
+      {
+       "value": "performed_no_exception",
+       "label": {
+        "en": "Performed, no exception",
+        "ar": "نُفذ دون استثناء"
+       }
+      },
+      {
+       "value": "performed_exception",
+       "label": {
+        "en": "Performed, exception noted",
+        "ar": "نُفذ مع ملاحظة استثناء"
+       }
+      },
+      {
+       "value": "not_applicable",
+       "label": {
+        "en": "Not applicable, reason stated",
+        "ar": "لا ينطبق، مع بيان السبب"
+       }
+      }
+     ]
+    }
+   ],
+   "note": {
+    "en": "Obtain evidence over deferred tax balances and the effective rate reconciliation.",
+    "ar": "Obtain evidence over deferred tax balances and the effective rate reconciliation."
+   }
+  },
+  {
+   "id": "p_tax_003",
+   "title": {
+    "en": "P-TAX-003 Tax provisions and uncertain positions",
+    "ar": "P-TAX-003 المخصصات الضريبية والمواقف الضريبية غير المؤكدة"
+   },
+   "fields": [
+    {
+     "id": "p_tax_003_work",
+     "label": {
+      "en": "Work performed",
+      "ar": "العمل المنفذ"
+     },
+     "type": "textarea",
+     "required": true
+    },
+    {
+     "id": "p_tax_003_result",
+     "label": {
+      "en": "Results and exceptions",
+      "ar": "النتائج والاستثناءات"
+     },
+     "type": "textarea",
+     "required": true
+    },
+    {
+     "id": "p_tax_003_samples",
+     "label": {
+      "en": "Samples recorded for this procedure",
+      "ar": "العينات المسجلة لهذا الإجراء"
+     },
+     "type": "integer",
+     "required": false,
+     "autofill": "records.RK-SAMPLE.for.P-TAX-003",
+     "readonly": true
+    },
+    {
+     "id": "p_tax_003_evidence",
+     "label": {
+      "en": "Evidence links citing this procedure",
+      "ar": "روابط الأدلة التي تستشهد بهذا الإجراء"
+     },
+     "type": "integer",
+     "required": false,
+     "autofill": "records.RK-EVIDENCE-LINK.for.P-TAX-003",
+     "readonly": true
+    },
+    {
+     "id": "p_tax_003_conclusion",
+     "label": {
+      "en": "Conclusion",
+      "ar": "الاستنتاج"
+     },
+     "type": "select",
+     "required": true,
+     "options": [
+      {
+       "value": "performed_no_exception",
+       "label": {
+        "en": "Performed, no exception",
+        "ar": "نُفذ دون استثناء"
+       }
+      },
+      {
+       "value": "performed_exception",
+       "label": {
+        "en": "Performed, exception noted",
+        "ar": "نُفذ مع ملاحظة استثناء"
+       }
+      },
+      {
+       "value": "not_applicable",
+       "label": {
+        "en": "Not applicable, reason stated",
+        "ar": "لا ينطبق، مع بيان السبب"
+       }
+      }
+     ]
+    }
+   ],
+   "note": {
+    "en": "Evaluate provisions for open tax years and uncertain tax treatments.",
+    "ar": "Evaluate provisions for open tax years and uncertain tax treatments."
+   }
+  },
+  {
+   "id": "p_tax_004",
+   "title": {
+    "en": "P-TAX-004 VAT reconciliation to returns and e-invoicing",
+    "ar": "P-TAX-004 مطابقة ضريبة القيمة المضافة مع الإقرارات والفوترة الإلكترونية"
+   },
+   "fields": [
+    {
+     "id": "p_tax_004_work",
+     "label": {
+      "en": "Work performed",
+      "ar": "العمل المنفذ"
+     },
+     "type": "textarea",
+     "required": true
+    },
+    {
+     "id": "p_tax_004_result",
+     "label": {
+      "en": "Results and exceptions",
+      "ar": "النتائج والاستثناءات"
+     },
+     "type": "textarea",
+     "required": true
+    },
+    {
+     "id": "p_tax_004_samples",
+     "label": {
+      "en": "Samples recorded for this procedure",
+      "ar": "العينات المسجلة لهذا الإجراء"
+     },
+     "type": "integer",
+     "required": false,
+     "autofill": "records.RK-SAMPLE.for.P-TAX-004",
+     "readonly": true
+    },
+    {
+     "id": "p_tax_004_evidence",
+     "label": {
+      "en": "Evidence links citing this procedure",
+      "ar": "روابط الأدلة التي تستشهد بهذا الإجراء"
+     },
+     "type": "integer",
+     "required": false,
+     "autofill": "records.RK-EVIDENCE-LINK.for.P-TAX-004",
+     "readonly": true
+    },
+    {
+     "id": "p_tax_004_conclusion",
+     "label": {
+      "en": "Conclusion",
+      "ar": "الاستنتاج"
+     },
+     "type": "select",
+     "required": true,
+     "options": [
+      {
+       "value": "performed_no_exception",
+       "label": {
+        "en": "Performed, no exception",
+        "ar": "نُفذ دون استثناء"
+       }
+      },
+      {
+       "value": "performed_exception",
+       "label": {
+        "en": "Performed, exception noted",
+        "ar": "نُفذ مع ملاحظة استثناء"
+       }
+      },
+      {
+       "value": "not_applicable",
+       "label": {
+        "en": "Not applicable, reason stated",
+        "ar": "لا ينطبق، مع بيان السبب"
+       }
+      }
+     ]
+    }
+   ],
+   "note": {
+    "en": "Obtain evidence over VAT liabilities and their consistency with revenue and purchases.",
+    "ar": "Obtain evidence over VAT liabilities and their consistency with revenue and purchases."
+   }
+  },
+  {
+   "id": "p_tax_005",
+   "title": {
+    "en": "P-TAX-005 Withholding tax compliance",
+    "ar": "P-TAX-005 الالتزام بضريبة الخصم من المنبع"
+   },
+   "fields": [
+    {
+     "id": "p_tax_005_work",
+     "label": {
+      "en": "Work performed",
+      "ar": "العمل المنفذ"
+     },
+     "type": "textarea",
+     "required": true
+    },
+    {
+     "id": "p_tax_005_result",
+     "label": {
+      "en": "Results and exceptions",
+      "ar": "النتائج والاستثناءات"
+     },
+     "type": "textarea",
+     "required": true
+    },
+    {
+     "id": "p_tax_005_samples",
+     "label": {
+      "en": "Samples recorded for this procedure",
+      "ar": "العينات المسجلة لهذا الإجراء"
+     },
+     "type": "integer",
+     "required": false,
+     "autofill": "records.RK-SAMPLE.for.P-TAX-005",
+     "readonly": true
+    },
+    {
+     "id": "p_tax_005_evidence",
+     "label": {
+      "en": "Evidence links citing this procedure",
+      "ar": "روابط الأدلة التي تستشهد بهذا الإجراء"
+     },
+     "type": "integer",
+     "required": false,
+     "autofill": "records.RK-EVIDENCE-LINK.for.P-TAX-005",
+     "readonly": true
+    },
+    {
+     "id": "p_tax_005_conclusion",
+     "label": {
+      "en": "Conclusion",
+      "ar": "الاستنتاج"
+     },
+     "type": "select",
+     "required": true,
+     "options": [
+      {
+       "value": "performed_no_exception",
+       "label": {
+        "en": "Performed, no exception",
+        "ar": "نُفذ دون استثناء"
+       }
+      },
+      {
+       "value": "performed_exception",
+       "label": {
+        "en": "Performed, exception noted",
+        "ar": "نُفذ مع ملاحظة استثناء"
+       }
+      },
+      {
+       "value": "not_applicable",
+       "label": {
+        "en": "Not applicable, reason stated",
+        "ar": "لا ينطبق، مع بيان السبب"
+       }
+      }
+     ]
+    }
+   ],
+   "note": {
+    "en": "Obtain evidence that withholding tax is deducted, remitted and recorded.",
+    "ar": "Obtain evidence that withholding tax is deducted, remitted and recorded."
+   }
+  }
+ ],
+ "signoff": {
+  "prepare": [
+   "partner",
+   "manager",
+   "senior",
+   "staff"
+  ],
+  "review": [
+   "partner",
+   "manager"
+  ],
+  "approve": [
+   "partner"
+  ]
+ },
+ "version": 1,
+ "ar_status": "draft_pending_review"
+}

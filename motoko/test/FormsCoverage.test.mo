@@ -13,6 +13,7 @@ import List "mo:core/List";
 import Map "mo:core/Map";
 import Nat "mo:core/Nat";
 import Text "mo:core/Text";
+import Char "mo:core/Char";
 import Debug "mo:core/Debug";
 import Runtime "mo:core/Runtime";
 
@@ -130,6 +131,26 @@ while (List.size(queue) > 0) {
 };
 check("the form graph has no cycle", seen == forms);
 
+// the steps: every cycle paper's procedure section carries one step per requirement the procedure discharges
+var steps = 0;
+var stepsExpected = 0;
+let links = switch (Seed.table("procedure_requirements")) { case (?t) switch (Json.parse(t)) { case (#ok(#arr(xs))) xs; case _ [] }; case null [] };
+for ((id, t) in F.seeds().vals()) {
+  let sp = switch (Json.parse(t)) { case (#ok(v)) v; case (#err(_)) #null_ };
+  if (Text.startsWith(id, #text "F3") and Py.textOr(sp, "kind", "") == "worksheet" and Py.natOr(sp, "number", 0) >= 31 and Py.natOr(sp, "number", 0) <= 38) {
+    for (pid in Py.list(sp, "procedures").vals()) {
+      var linked = 0;
+      for (l in links.vals()) { if (Py.textOr(l, "procedure_id", "") == Py.scalar(pid)) linked += 1 };
+      var found = 0;
+      for (sec in Py.list(sp, "sections").vals()) { for (f in Py.list(sec, "fields").vals()) { if (Py.textOr(f, "step", "") != "" and Text.startsWith(Py.textOr(f, "id", ""), #text (Text.map(Py.scalar(pid), func(c) { if (c == '-') '_' else if (c >= 'A' and c <= 'Z') Char.fromNat32(Char.toNat32(c) + 32) else c }) # "_s"))) found += 1 } };
+      steps += found;
+      stepsExpected += linked;
+      check(id # " carries one step per requirement of " # Py.scalar(pid), found == linked);
+    };
+  };
+};
+check("the steps of the cycle papers are the procedure requirements of the model", steps == stepsExpected and steps > 0);
+Debug.print("count: steps at requirement granularity = " # Nat.toText(steps));
 Debug.print("count: forms catalogued = " # Nat.toText(forms));
 Debug.print("count: fields = " # Nat.toText(fields));
 Debug.print("count: procedures served by a form = " # Nat.toText(byForm));

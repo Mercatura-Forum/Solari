@@ -156,9 +156,41 @@ def schedule_section(sh, leadsheets):
     return section(key, f"Movement schedule: {sh['name']} ({sh['leadsheet_id']})", f"جدول الحركة: {sh['name']} ({sh['leadsheet_id']})", fields, note=L(note_en, note_ar))
 
 
-def cycle_forms(procedures, leadsheets, schedules=()):
-    """Build F31 to F38 from the model's procedures, leadsheets and movement schedules. A paper
-    that carries a schedule is version 2 of the paper; version 1 stays as it was signed."""
+STEP_CONCLUSIONS = [
+    opt('performed_no_exception', 'Performed, no exception', 'نُفذ دون استثناء'),
+    opt('performed_exception', 'Performed, exception noted', 'نُفذ مع ملاحظة استثناء'),
+    opt('not_applicable', 'Not applicable', 'لا ينطبق'),
+]
+CITES = ['RK-MISSTATEMENT', 'RK-REVIEW-NOTE', 'RK-COMMUNICATION']
+
+
+def step_fields(pid, key, links, requirements):
+    """The steps of a procedure: one per requirement it discharges (procedure_requirements), each
+    with its conclusion, the evidence links citing the step and their tick marks, and, when an
+    exception is noted, the misstatement, review note or communication it cites."""
+    out = []
+    reqs = [l['requirement_id'] for l in links if l['procedure_id'] == pid]
+    for n, rid in enumerate(reqs, 1):
+        r = requirements.get(rid)
+        if not r:
+            continue
+        stmt_en = f"{rid}: {r['statement']}"
+        stmt_ar = f"{rid}: {r['statement_ar'] or r['statement']}"
+        sk = f'{key}_s{n}'
+        out.append(field(f'{sk}_conclusion', stmt_en, stmt_ar, 'select', True, options=STEP_CONCLUSIONS, step=rid))
+        out.append(field(f'{sk}_evidence', f'Evidence links citing step {n}', f'روابط الأدلة التي تستشهد بالخطوة {n}', 'integer', autofill=f'records.RK-EVIDENCE-LINK.for.{pid}.step.{rid}', readonly=True))
+        out.append(field(f'{sk}_ticks', f'Tick marks on step {n}', f'علامات التدقيق على الخطوة {n}', 'text', autofill=f'records.RK-EVIDENCE-LINK.ticks.{pid}.{rid}', readonly=True))
+        out.append(field(f'{sk}_citation', f'Record cited for the exception on step {n} (a misstatement, a review note or a communication)', f'السجل المستشهد به للاستثناء في الخطوة {n} (تحريف أو ملاحظة مراجعة أو مراسلة)', 'text',
+                         required_if={'field': f'{sk}_conclusion', 'equals': 'performed_exception', 'message': L('a step concluded with an exception cites the misstatement, review note or communication it raised', 'الخطوة التي خُلص فيها إلى استثناء تستشهد بالتحريف أو ملاحظة المراجعة أو المراسلة التي أثارتها')},
+                         cites=CITES))
+    return out
+
+
+def cycle_forms(procedures, leadsheets, schedules=(), procedure_requirements=(), requirements=()):
+    """Build F31 to F38 from the model's procedures, leadsheets, movement schedules and the
+    requirement links of every procedure. A paper is revised as a new version: version 2 carries
+    the schedules, version 3 the steps; earlier versions stay as they were signed."""
+    reqs_by_id = {r['id']: r for r in requirements}
     out = []
     for cycle, fid, number, en, ar in CYCLE_FORMS:
         procs = [p for p in procedures if p['cycle_id'] == cycle and p['id'] not in OWNED_ELSEWHERE]
@@ -190,6 +222,7 @@ def cycle_forms(procedures, leadsheets, schedules=()):
             if p['computation_id'] == 'CALC-ANALYTICS':
                 fields.append(field(f'{key}_flagged', 'Lines flagged by the analytical review paper', 'البنود المعلَّمة في ورقة الفحص التحليلي', 'integer', autofill='paper.analytical_review.lines_flagged', readonly=True))
             fields.append(field(f'{key}_conclusion', 'Conclusion', 'الاستنتاج', 'select', True, options=CONCLUSIONS))
+            fields += step_fields(pid, key, procedure_requirements, reqs_by_id)
             sections.append(section(key, f"{pid} {p['name']}", f"{pid} {PROCEDURE_AR.get(pid, p['name'])}", fields, note=L(p['objective'], p['objective'])))
         owned = [sh for sh in sorted(schedules, key=lambda x: x['sort_order']) if sh['form_id'] == fid]
         for sh in owned:
@@ -202,6 +235,7 @@ def cycle_forms(procedures, leadsheets, schedules=()):
             'procedures': [p['id'] for p in procs], 'standards': CYCLE_STANDARDS[cycle],
             'sections': sections,
             'signoff': signoff(),
-            **({'computation': 'rollforward', 'version': 2} if owned else {}),
+            **({'computation': 'rollforward'} if owned else {}),
+            'version': 3 if owned else 2,
         })
     return out

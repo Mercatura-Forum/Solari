@@ -12,15 +12,17 @@ import FormsSeed "FormsSeed";
 import FormsSeedExt "FormsSeedExt";
 import FormsSeedMore "FormsSeedMore";
 import FormsSeedV2 "FormsSeedV2";
+import FormsSeedV3 "FormsSeedV3";
 import Json "Json";
 import Py "Py";
 import Seed "Seed";
 import Array "mo:core/Array";
 import Text "mo:core/Text";
+import FormGraph "FormGraph";
 
 module {
   /// The modules by the version they hold: a module holds one version of every form in it.
-  public let MODULES : [(Nat, [(Text, Text)])] = [(1, FormsSeed.FORMS), (1, FormsSeedExt.FORMS), (1, FormsSeedMore.FORMS), (2, FormsSeedV2.FORMS)];
+  public let MODULES : [(Nat, [(Text, Text)])] = [(1, FormsSeed.FORMS), (1, FormsSeedExt.FORMS), (1, FormsSeedMore.FORMS), (2, FormsSeedV2.FORMS), (3, FormsSeedV3.FORMS)];
 
   func parse(t : Text) : Json.J { switch (Json.parse(t)) { case (#ok(j)) j; case (#err(_)) #null_ } };
   public func versionOf(t : Text) : Nat { Py.natOr(parse(t), "version", 1) };
@@ -38,7 +40,13 @@ module {
     }
   };
 
-  public func isPer(t : Text) : Bool { Py.textOr(parse(t), "per", "") == "leadsheet" };
+  /// Whether a definition is instantiated per leadsheet: read from the generated graph by
+  /// id, so that no definition is parsed (or scanned) to answer it.
+  public func isPer(id : Text) : Bool {
+    let (base, _) = split(id);
+    for (p in FormGraph.PER.vals()) { if (p == base) return true };
+    false
+  };
 
   func leadsheetName(id : Text) : Text {
     switch (Seed.table("leadsheets")) {
@@ -67,7 +75,7 @@ module {
     var best : ?Text = null;
     for ((_, forms) in MODULES.vals()) { switch (find(forms, base)) { case (?t) best := ?t; case null {} } };
     switch (best, param) {
-      case (?t, ?ls) { if (isPer(t)) ?instantiate(base, t, ls) else null };
+      case (?t, ?ls) { if (isPer(base)) ?instantiate(base, t, ls) else null };
       case (b, _) b;
     }
   };
@@ -86,7 +94,7 @@ module {
     for ((mv, forms) in MODULES.vals()) {
       if (mv == version) {
         switch (find(forms, base)) {
-          case (?t) return (switch (param) { case (?ls) { if (isPer(t)) ?instantiate(base, t, ls) else null }; case null ?t });
+          case (?t) return (switch (param) { case (?ls) { if (isPer(base)) ?instantiate(base, t, ls) else null }; case null ?t });
           case null {};
         };
       };

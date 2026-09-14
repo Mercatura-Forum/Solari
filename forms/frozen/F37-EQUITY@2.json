@@ -1,0 +1,885 @@
+{
+ "id": "F37-EQUITY",
+ "number": 37,
+ "kind": "worksheet",
+ "phase": "fieldwork",
+ "title": {
+  "en": "Equity working paper",
+  "ar": "ورقة عمل حقوق الملكية"
+ },
+ "purpose": {
+  "en": "Document every substantive procedure of the equity cycle: the work, the results, the evidence and the conclusion, against the balances the trial balance holds.",
+  "ar": "توثيق كل إجراء أساسي في دورة حقوق الملكية: العمل والنتائج والأدلة والاستنتاج، مقابل الأرصدة الواردة في ميزان المراجعة."
+ },
+ "procedures": [
+  "P-EQY-001",
+  "P-EQY-002",
+  "P-EQY-003",
+  "P-EQY-004",
+  "P-EQY-005"
+ ],
+ "standards": [
+  "ISA-330",
+  "ISA-500",
+  "ISA-560",
+  "ISA-600",
+  "ISA-700"
+ ],
+ "sections": [
+  {
+   "id": "engagement",
+   "title": {
+    "en": "Engagement",
+    "ar": "الارتباط"
+   },
+   "fields": [
+    {
+     "id": "client",
+     "label": {
+      "en": "Entity audited",
+      "ar": "المنشأة محل المراجعة"
+     },
+     "type": "text",
+     "required": false,
+     "autofill": "engagement.client",
+     "readonly": true
+    },
+    {
+     "id": "period_start",
+     "label": {
+      "en": "Period from",
+      "ar": "الفترة من"
+     },
+     "type": "date",
+     "required": false,
+     "autofill": "engagement.period_start",
+     "readonly": true
+    },
+    {
+     "id": "period_end",
+     "label": {
+      "en": "Period to",
+      "ar": "الفترة إلى"
+     },
+     "type": "date",
+     "required": false,
+     "autofill": "engagement.period_end",
+     "readonly": true
+    },
+    {
+     "id": "framework",
+     "label": {
+      "en": "Financial reporting framework",
+      "ar": "إطار التقرير المالي"
+     },
+     "type": "text",
+     "required": false,
+     "autofill": "engagement.framework",
+     "readonly": true
+    }
+   ]
+  },
+  {
+   "id": "balances",
+   "title": {
+    "en": "Balances, materiality and risks",
+    "ar": "الأرصدة والأهمية النسبية والمخاطر"
+   },
+   "fields": [
+    {
+     "id": "performance_materiality",
+     "label": {
+      "en": "Performance materiality",
+      "ar": "مادية الأداء"
+     },
+     "type": "money",
+     "required": false,
+     "autofill": "paper.materiality.performance",
+     "readonly": true
+    },
+    {
+     "id": "clearly_trivial",
+     "label": {
+      "en": "Clearly trivial threshold",
+      "ar": "حد المبالغ التافهة بشكل واضح"
+     },
+     "type": "money",
+     "required": false,
+     "autofill": "paper.materiality.clearly_trivial",
+     "readonly": true
+    },
+    {
+     "id": "ls_scap",
+     "label": {
+      "en": "Share capital and premium (LS-SCAP)",
+      "ar": "Share capital and premium (LS-SCAP)"
+     },
+     "type": "money",
+     "required": false,
+     "autofill": "tb.leadsheet.LS-SCAP",
+     "readonly": true
+    },
+    {
+     "id": "ls_scap_prior",
+     "label": {
+      "en": "Share capital and premium, prior period",
+      "ar": "Share capital and premium، الفترة السابقة"
+     },
+     "type": "money",
+     "required": false,
+     "autofill": "tb.leadsheet.LS-SCAP.prior",
+     "readonly": true
+    },
+    {
+     "id": "ls_res",
+     "label": {
+      "en": "Reserves (LS-RES)",
+      "ar": "Reserves (LS-RES)"
+     },
+     "type": "money",
+     "required": false,
+     "autofill": "tb.leadsheet.LS-RES",
+     "readonly": true
+    },
+    {
+     "id": "ls_res_prior",
+     "label": {
+      "en": "Reserves, prior period",
+      "ar": "Reserves، الفترة السابقة"
+     },
+     "type": "money",
+     "required": false,
+     "autofill": "tb.leadsheet.LS-RES.prior",
+     "readonly": true
+    },
+    {
+     "id": "ls_re",
+     "label": {
+      "en": "Retained earnings (LS-RE)",
+      "ar": "Retained earnings (LS-RE)"
+     },
+     "type": "money",
+     "required": false,
+     "autofill": "tb.leadsheet.LS-RE",
+     "readonly": true
+    },
+    {
+     "id": "ls_re_prior",
+     "label": {
+      "en": "Retained earnings, prior period",
+      "ar": "Retained earnings، الفترة السابقة"
+     },
+     "type": "money",
+     "required": false,
+     "autofill": "tb.leadsheet.LS-RE.prior",
+     "readonly": true
+    },
+    {
+     "id": "ls_nci",
+     "label": {
+      "en": "Non-controlling interests (LS-NCI)",
+      "ar": "Non-controlling interests (LS-NCI)"
+     },
+     "type": "money",
+     "required": false,
+     "autofill": "tb.leadsheet.LS-NCI",
+     "readonly": true
+    },
+    {
+     "id": "ls_nci_prior",
+     "label": {
+      "en": "Non-controlling interests, prior period",
+      "ar": "Non-controlling interests، الفترة السابقة"
+     },
+     "type": "money",
+     "required": false,
+     "autofill": "tb.leadsheet.LS-NCI.prior",
+     "readonly": true
+    },
+    {
+     "id": "ls_oeq",
+     "label": {
+      "en": "Other equity (LS-OEQ)",
+      "ar": "Other equity (LS-OEQ)"
+     },
+     "type": "money",
+     "required": false,
+     "autofill": "tb.leadsheet.LS-OEQ",
+     "readonly": true
+    },
+    {
+     "id": "ls_oeq_prior",
+     "label": {
+      "en": "Other equity, prior period",
+      "ar": "Other equity، الفترة السابقة"
+     },
+     "type": "money",
+     "required": false,
+     "autofill": "tb.leadsheet.LS-OEQ.prior",
+     "readonly": true
+    },
+    {
+     "id": "risks",
+     "label": {
+      "en": "Risks placed on this cycle by the risk register",
+      "ar": "المخاطر الموضوعة على هذه الدورة في سجل المخاطر"
+     },
+     "type": "table",
+     "required": false,
+     "autofill": "form.F04-RISK-REGISTER.risks",
+     "readonly": true,
+     "columns": [
+      {
+       "id": "risk",
+       "label": {
+        "en": "Risk",
+        "ar": "الخطر"
+       },
+       "type": "text",
+       "required": true
+      },
+      {
+       "id": "level",
+       "label": {
+        "en": "Level",
+        "ar": "المستوى"
+       },
+       "type": "text",
+       "required": false
+      },
+      {
+       "id": "assertions",
+       "label": {
+        "en": "Assertions affected",
+        "ar": "الإقرارات المتأثرة"
+       },
+       "type": "text",
+       "required": false
+      },
+      {
+       "id": "inherent_risk",
+       "label": {
+        "en": "Inherent risk",
+        "ar": "الخطر الملازم"
+       },
+       "type": "text",
+       "required": false
+      },
+      {
+       "id": "significant",
+       "label": {
+        "en": "Significant risk",
+        "ar": "خطر مهم"
+       },
+       "type": "text",
+       "required": false
+      },
+      {
+       "id": "control_risk",
+       "label": {
+        "en": "Control risk",
+        "ar": "خطر الرقابة"
+       },
+       "type": "text",
+       "required": false
+      },
+      {
+       "id": "response",
+       "label": {
+        "en": "Planned response",
+        "ar": "الاستجابة المخططة"
+       },
+       "type": "textarea",
+       "required": false
+      }
+     ]
+    }
+   ],
+   "note": {
+    "en": "Balances are read from the latest accepted trial balance and frozen when the paper is prepared; a later import marks them as drifted.",
+    "ar": "تُقرأ الأرصدة من أحدث ميزان مراجعة مقبول وتُثبت عند إعداد الورقة؛ ويؤدي استيراد لاحق إلى وسمها بأنها تغيرت."
+   }
+  },
+  {
+   "id": "p_eqy_001",
+   "title": {
+    "en": "P-EQY-001 Share capital agreement to statutory records",
+    "ar": "P-EQY-001 مطابقة رأس المال مع السجلات القانونية"
+   },
+   "fields": [
+    {
+     "id": "p_eqy_001_work",
+     "label": {
+      "en": "Work performed",
+      "ar": "العمل المنفذ"
+     },
+     "type": "textarea",
+     "required": true
+    },
+    {
+     "id": "p_eqy_001_result",
+     "label": {
+      "en": "Results and exceptions",
+      "ar": "النتائج والاستثناءات"
+     },
+     "type": "textarea",
+     "required": true
+    },
+    {
+     "id": "p_eqy_001_samples",
+     "label": {
+      "en": "Samples recorded for this procedure",
+      "ar": "العينات المسجلة لهذا الإجراء"
+     },
+     "type": "integer",
+     "required": false,
+     "autofill": "records.RK-SAMPLE.for.P-EQY-001",
+     "readonly": true
+    },
+    {
+     "id": "p_eqy_001_evidence",
+     "label": {
+      "en": "Evidence links citing this procedure",
+      "ar": "روابط الأدلة التي تستشهد بهذا الإجراء"
+     },
+     "type": "integer",
+     "required": false,
+     "autofill": "records.RK-EVIDENCE-LINK.for.P-EQY-001",
+     "readonly": true
+    },
+    {
+     "id": "p_eqy_001_conclusion",
+     "label": {
+      "en": "Conclusion",
+      "ar": "الاستنتاج"
+     },
+     "type": "select",
+     "required": true,
+     "options": [
+      {
+       "value": "performed_no_exception",
+       "label": {
+        "en": "Performed, no exception",
+        "ar": "نُفذ دون استثناء"
+       }
+      },
+      {
+       "value": "performed_exception",
+       "label": {
+        "en": "Performed, exception noted",
+        "ar": "نُفذ مع ملاحظة استثناء"
+       }
+      },
+      {
+       "value": "not_applicable",
+       "label": {
+        "en": "Not applicable, reason stated",
+        "ar": "لا ينطبق، مع بيان السبب"
+       }
+      }
+     ]
+    }
+   ],
+   "note": {
+    "en": "Obtain evidence over issued capital and its changes.",
+    "ar": "Obtain evidence over issued capital and its changes."
+   }
+  },
+  {
+   "id": "p_eqy_002",
+   "title": {
+    "en": "P-EQY-002 Reserves and legal reserve movements",
+    "ar": "P-EQY-002 حركة الاحتياطيات والاحتياطي القانوني"
+   },
+   "fields": [
+    {
+     "id": "p_eqy_002_work",
+     "label": {
+      "en": "Work performed",
+      "ar": "العمل المنفذ"
+     },
+     "type": "textarea",
+     "required": true
+    },
+    {
+     "id": "p_eqy_002_result",
+     "label": {
+      "en": "Results and exceptions",
+      "ar": "النتائج والاستثناءات"
+     },
+     "type": "textarea",
+     "required": true
+    },
+    {
+     "id": "p_eqy_002_samples",
+     "label": {
+      "en": "Samples recorded for this procedure",
+      "ar": "العينات المسجلة لهذا الإجراء"
+     },
+     "type": "integer",
+     "required": false,
+     "autofill": "records.RK-SAMPLE.for.P-EQY-002",
+     "readonly": true
+    },
+    {
+     "id": "p_eqy_002_evidence",
+     "label": {
+      "en": "Evidence links citing this procedure",
+      "ar": "روابط الأدلة التي تستشهد بهذا الإجراء"
+     },
+     "type": "integer",
+     "required": false,
+     "autofill": "records.RK-EVIDENCE-LINK.for.P-EQY-002",
+     "readonly": true
+    },
+    {
+     "id": "p_eqy_002_conclusion",
+     "label": {
+      "en": "Conclusion",
+      "ar": "الاستنتاج"
+     },
+     "type": "select",
+     "required": true,
+     "options": [
+      {
+       "value": "performed_no_exception",
+       "label": {
+        "en": "Performed, no exception",
+        "ar": "نُفذ دون استثناء"
+       }
+      },
+      {
+       "value": "performed_exception",
+       "label": {
+        "en": "Performed, exception noted",
+        "ar": "نُفذ مع ملاحظة استثناء"
+       }
+      },
+      {
+       "value": "not_applicable",
+       "label": {
+        "en": "Not applicable, reason stated",
+        "ar": "لا ينطبق، مع بيان السبب"
+       }
+      }
+     ]
+    }
+   ],
+   "note": {
+    "en": "Obtain evidence that reserve movements comply with law, the articles and the framework.",
+    "ar": "Obtain evidence that reserve movements comply with law, the articles and the framework."
+   }
+  },
+  {
+   "id": "p_eqy_003",
+   "title": {
+    "en": "P-EQY-003 Dividends and retained earnings",
+    "ar": "P-EQY-003 توزيعات الأرباح والأرباح المحتجزة"
+   },
+   "fields": [
+    {
+     "id": "p_eqy_003_work",
+     "label": {
+      "en": "Work performed",
+      "ar": "العمل المنفذ"
+     },
+     "type": "textarea",
+     "required": true
+    },
+    {
+     "id": "p_eqy_003_result",
+     "label": {
+      "en": "Results and exceptions",
+      "ar": "النتائج والاستثناءات"
+     },
+     "type": "textarea",
+     "required": true
+    },
+    {
+     "id": "p_eqy_003_samples",
+     "label": {
+      "en": "Samples recorded for this procedure",
+      "ar": "العينات المسجلة لهذا الإجراء"
+     },
+     "type": "integer",
+     "required": false,
+     "autofill": "records.RK-SAMPLE.for.P-EQY-003",
+     "readonly": true
+    },
+    {
+     "id": "p_eqy_003_evidence",
+     "label": {
+      "en": "Evidence links citing this procedure",
+      "ar": "روابط الأدلة التي تستشهد بهذا الإجراء"
+     },
+     "type": "integer",
+     "required": false,
+     "autofill": "records.RK-EVIDENCE-LINK.for.P-EQY-003",
+     "readonly": true
+    },
+    {
+     "id": "p_eqy_003_conclusion",
+     "label": {
+      "en": "Conclusion",
+      "ar": "الاستنتاج"
+     },
+     "type": "select",
+     "required": true,
+     "options": [
+      {
+       "value": "performed_no_exception",
+       "label": {
+        "en": "Performed, no exception",
+        "ar": "نُفذ دون استثناء"
+       }
+      },
+      {
+       "value": "performed_exception",
+       "label": {
+        "en": "Performed, exception noted",
+        "ar": "نُفذ مع ملاحظة استثناء"
+       }
+      },
+      {
+       "value": "not_applicable",
+       "label": {
+        "en": "Not applicable, reason stated",
+        "ar": "لا ينطبق، مع بيان السبب"
+       }
+      }
+     ]
+    }
+   ],
+   "note": {
+    "en": "Obtain evidence over dividends declared and paid and the reconciliation of retained earnings.",
+    "ar": "Obtain evidence over dividends declared and paid and the reconciliation of retained earnings."
+   }
+  },
+  {
+   "id": "p_eqy_004",
+   "title": {
+    "en": "P-EQY-004 Non-controlling interests and other equity",
+    "ar": "P-EQY-004 الحصص غير المسيطرة وبنود حقوق الملكية الأخرى"
+   },
+   "fields": [
+    {
+     "id": "p_eqy_004_work",
+     "label": {
+      "en": "Work performed",
+      "ar": "العمل المنفذ"
+     },
+     "type": "textarea",
+     "required": true
+    },
+    {
+     "id": "p_eqy_004_result",
+     "label": {
+      "en": "Results and exceptions",
+      "ar": "النتائج والاستثناءات"
+     },
+     "type": "textarea",
+     "required": true
+    },
+    {
+     "id": "p_eqy_004_samples",
+     "label": {
+      "en": "Samples recorded for this procedure",
+      "ar": "العينات المسجلة لهذا الإجراء"
+     },
+     "type": "integer",
+     "required": false,
+     "autofill": "records.RK-SAMPLE.for.P-EQY-004",
+     "readonly": true
+    },
+    {
+     "id": "p_eqy_004_evidence",
+     "label": {
+      "en": "Evidence links citing this procedure",
+      "ar": "روابط الأدلة التي تستشهد بهذا الإجراء"
+     },
+     "type": "integer",
+     "required": false,
+     "autofill": "records.RK-EVIDENCE-LINK.for.P-EQY-004",
+     "readonly": true
+    },
+    {
+     "id": "p_eqy_004_conclusion",
+     "label": {
+      "en": "Conclusion",
+      "ar": "الاستنتاج"
+     },
+     "type": "select",
+     "required": true,
+     "options": [
+      {
+       "value": "performed_no_exception",
+       "label": {
+        "en": "Performed, no exception",
+        "ar": "نُفذ دون استثناء"
+       }
+      },
+      {
+       "value": "performed_exception",
+       "label": {
+        "en": "Performed, exception noted",
+        "ar": "نُفذ مع ملاحظة استثناء"
+       }
+      },
+      {
+       "value": "not_applicable",
+       "label": {
+        "en": "Not applicable, reason stated",
+        "ar": "لا ينطبق، مع بيان السبب"
+       }
+      }
+     ]
+    }
+   ],
+   "note": {
+    "en": "Obtain evidence over non-controlling interests and other components of equity.",
+    "ar": "Obtain evidence over non-controlling interests and other components of equity."
+   }
+  },
+  {
+   "id": "p_eqy_005",
+   "title": {
+    "en": "P-EQY-005 Statement of changes in equity and disclosures",
+    "ar": "P-EQY-005 قائمة التغيرات في حقوق الملكية والإفصاحات"
+   },
+   "fields": [
+    {
+     "id": "p_eqy_005_work",
+     "label": {
+      "en": "Work performed",
+      "ar": "العمل المنفذ"
+     },
+     "type": "textarea",
+     "required": true
+    },
+    {
+     "id": "p_eqy_005_result",
+     "label": {
+      "en": "Results and exceptions",
+      "ar": "النتائج والاستثناءات"
+     },
+     "type": "textarea",
+     "required": true
+    },
+    {
+     "id": "p_eqy_005_samples",
+     "label": {
+      "en": "Samples recorded for this procedure",
+      "ar": "العينات المسجلة لهذا الإجراء"
+     },
+     "type": "integer",
+     "required": false,
+     "autofill": "records.RK-SAMPLE.for.P-EQY-005",
+     "readonly": true
+    },
+    {
+     "id": "p_eqy_005_evidence",
+     "label": {
+      "en": "Evidence links citing this procedure",
+      "ar": "روابط الأدلة التي تستشهد بهذا الإجراء"
+     },
+     "type": "integer",
+     "required": false,
+     "autofill": "records.RK-EVIDENCE-LINK.for.P-EQY-005",
+     "readonly": true
+    },
+    {
+     "id": "p_eqy_005_conclusion",
+     "label": {
+      "en": "Conclusion",
+      "ar": "الاستنتاج"
+     },
+     "type": "select",
+     "required": true,
+     "options": [
+      {
+       "value": "performed_no_exception",
+       "label": {
+        "en": "Performed, no exception",
+        "ar": "نُفذ دون استثناء"
+       }
+      },
+      {
+       "value": "performed_exception",
+       "label": {
+        "en": "Performed, exception noted",
+        "ar": "نُفذ مع ملاحظة استثناء"
+       }
+      },
+      {
+       "value": "not_applicable",
+       "label": {
+        "en": "Not applicable, reason stated",
+        "ar": "لا ينطبق، مع بيان السبب"
+       }
+      }
+     ]
+    }
+   ],
+   "note": {
+    "en": "Ensure the statement of changes in equity and capital disclosures are complete and accurate.",
+    "ar": "Ensure the statement of changes in equity and capital disclosures are complete and accurate."
+   }
+  },
+  {
+   "id": "sch_re",
+   "title": {
+    "en": "Movement schedule: Retained earnings (LS-RE)",
+    "ar": "جدول الحركة: Retained earnings (LS-RE)"
+   },
+   "fields": [
+    {
+     "id": "sch_re",
+     "label": {
+      "en": "Retained earnings movement schedule",
+      "ar": "جدول حركة Retained earnings"
+     },
+     "type": "table",
+     "required": false,
+     "columns": [
+      {
+       "id": "component",
+       "label": {
+        "en": "Component",
+        "ar": "المكوّن"
+       },
+       "type": "select",
+       "required": true,
+       "options": [
+        {
+         "value": "retained_earnings",
+         "label": {
+          "en": "Retained earnings",
+          "ar": "الأرباح المحتجزة"
+         }
+        }
+       ]
+      },
+      {
+       "id": "opening",
+       "label": {
+        "en": "Opening balance",
+        "ar": "الرصيد الافتتاحي"
+       },
+       "type": "money",
+       "required": true
+      },
+      {
+       "id": "additions",
+       "label": {
+        "en": "Profit for the year",
+        "ar": "ربح السنة"
+       },
+       "type": "money",
+       "required": false
+      },
+      {
+       "id": "disposals",
+       "label": {
+        "en": "Dividends",
+        "ar": "توزيعات الأرباح"
+       },
+       "type": "money",
+       "required": false
+      },
+      {
+       "id": "transfers",
+       "label": {
+        "en": "Transfers to and from reserves",
+        "ar": "التحويلات من الاحتياطيات وإليها"
+       },
+       "type": "money",
+       "required": false
+      },
+      {
+       "id": "revaluation",
+       "label": {
+        "en": "Remeasurements recognised directly",
+        "ar": "إعادة القياس المعترف بها مباشرة"
+       },
+       "type": "money",
+       "required": false
+      },
+      {
+       "id": "other",
+       "label": {
+        "en": "Other movements",
+        "ar": "حركات أخرى"
+       },
+       "type": "money",
+       "required": false
+      },
+      {
+       "id": "closing",
+       "label": {
+        "en": "Closing balance",
+        "ar": "الرصيد الختامي"
+       },
+       "type": "money",
+       "required": true
+      }
+     ]
+    },
+    {
+     "id": "sch_re_difference",
+     "label": {
+      "en": "Difference between the closing total and the leadsheet",
+      "ar": "الفرق بين الإجمالي الختامي والورقة الرئيسية"
+     },
+     "type": "money",
+     "required": false,
+     "autofill": "paper.rollforward.schedules.SCH-RE.difference",
+     "readonly": true
+    },
+    {
+     "id": "sch_re_agrees",
+     "label": {
+      "en": "Schedule agrees to the leadsheet",
+      "ar": "الجدول يتفق مع الورقة الرئيسية"
+     },
+     "type": "text",
+     "required": false,
+     "autofill": "paper.rollforward.schedules.SCH-RE.agrees",
+     "readonly": true
+    },
+    {
+     "id": "sch_re_opening_difference",
+     "label": {
+      "en": "Difference between the opening total and the prior period",
+      "ar": "الفرق بين الإجمالي الافتتاحي والفترة السابقة"
+     },
+     "type": "money",
+     "required": false,
+     "autofill": "paper.rollforward.schedules.SCH-RE.opening_difference",
+     "readonly": true
+    }
+   ],
+   "note": {
+    "en": "Retained earnings reconciled from the opening to the closing balance, one component of the statement of changes in equity. Required by IAS 1.106. Closing balance = opening + additions - disposals + transfers + revaluation + other for every component. The closing total must equal the adjusted balance of Retained earnings (LS-RE) read above; the paper computes the schedule and shows the difference.",
+    "ar": "يشترطه IAS 1.106. الرصيد الختامي = الافتتاحي + الإضافات - الاستبعادات + التحويلات + إعادة التقييم + أخرى لكل مكوّن. يجب أن يساوي الإجمالي الختامي الرصيد المعدّل لـ Retained earnings (LS-RE) المقروء أعلاه؛ وتحسب الورقة الجدول وتعرض الفرق."
+   }
+  }
+ ],
+ "signoff": {
+  "prepare": [
+   "partner",
+   "manager",
+   "senior",
+   "staff"
+  ],
+  "review": [
+   "partner",
+   "manager"
+  ],
+  "approve": [
+   "partner"
+  ]
+ },
+ "computation": "rollforward",
+ "version": 2,
+ "ar_status": "draft_pending_review"
+}

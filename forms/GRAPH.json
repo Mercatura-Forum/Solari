@@ -1010,6 +1010,13 @@
    "kind": "computed"
   },
   {
+   "from": "records:RK-EVIDENCE-LINK",
+   "to": "F31-REVENUE-RECEIVABLES",
+   "to_field": "p_rev_004_s1_evidence",
+   "via": "records.RK-EVIDENCE-LINK.for.P-REV-004.step.ISA-520.5",
+   "kind": "records"
+  },
+  {
    "from": "records:RK-SAMPLE",
    "to": "F31-REVENUE-RECEIVABLES",
    "to_field": "p_rev_005_samples",
@@ -1021,6 +1028,13 @@
    "to": "F31-REVENUE-RECEIVABLES",
    "to_field": "p_rev_005_evidence",
    "via": "records.RK-EVIDENCE-LINK.for.P-REV-005",
+   "kind": "records"
+  },
+  {
+   "from": "records:RK-EVIDENCE-LINK",
+   "to": "F31-REVENUE-RECEIVABLES",
+   "to_field": "p_rev_005_s1_evidence",
+   "via": "records.RK-EVIDENCE-LINK.for.P-REV-005.step.ISA-330.18",
    "kind": "records"
   },
   {
@@ -1038,6 +1052,13 @@
    "kind": "records"
   },
   {
+   "from": "records:RK-EVIDENCE-LINK",
+   "to": "F31-REVENUE-RECEIVABLES",
+   "to_field": "p_rev_006_s1_evidence",
+   "via": "records.RK-EVIDENCE-LINK.for.P-REV-006.step.ISA-330.18",
+   "kind": "records"
+  },
+  {
    "from": "records:RK-SAMPLE",
    "to": "F31-REVENUE-RECEIVABLES",
    "to_field": "p_rev_007_samples",
@@ -1049,6 +1070,13 @@
    "to": "F31-REVENUE-RECEIVABLES",
    "to_field": "p_rev_007_evidence",
    "via": "records.RK-EVIDENCE-LINK.for.P-REV-007",
+   "kind": "records"
+  },
+  {
+   "from": "records:RK-EVIDENCE-LINK",
+   "to": "F31-REVENUE-RECEIVABLES",
+   "to_field": "p_rev_007_s1_evidence",
+   "via": "records.RK-EVIDENCE-LINK.for.P-REV-007.step.ISA-240.27",
    "kind": "records"
   },
   {
@@ -1082,6 +1110,13 @@
    "kind": "computed"
   },
   {
+   "from": "records:RK-EVIDENCE-LINK",
+   "to": "F31-REVENUE-RECEIVABLES",
+   "to_field": "p_rev_008_s1_evidence",
+   "via": "records.RK-EVIDENCE-LINK.for.P-REV-008.step.ISA-505.7",
+   "kind": "records"
+  },
+  {
    "from": "records:RK-SAMPLE",
    "to": "F31-REVENUE-RECEIVABLES",
    "to_field": "p_rev_009_samples",
@@ -1093,6 +1128,13 @@
    "to": "F31-REVENUE-RECEIVABLES",
    "to_field": "p_rev_009_evidence",
    "via": "records.RK-EVIDENCE-LINK.for.P-REV-009",
+   "kind": "records"
+  },
+  {
+   "from": "records:RK-EVIDENCE-LINK",
+   "to": "F31-REVENUE-RECEIVABLES",
+   "to_field": "p_rev_009_s1_evidence",
+   "via": "records.RK-EVIDENCE-LINK.for.P-REV-009.step.ISA-505.12",
    "kind": "records"
   },
   {
@@ -1110,6 +1152,13 @@
    "kind": "records"
   },
   {
+   "from": "records:RK-EVIDENCE-LINK",
+   "to": "F31-REVENUE-RECEIVABLES",
+   "to_field": "p_rev_010_s1_evidence",
+   "via": "records.RK-EVIDENCE-LINK.for.P-REV-010.step.ISA-540.18",
+   "kind": "records"
+  },
+  {
    "from": "records:RK-SAMPLE",
    "to": "F31-REVENUE-RECEIVABLES",
    "to_field": "p_rev_011_samples",
@@ -1121,6 +1170,13 @@
    "to": "F31-REVENUE-RECEIVABLES",
    "to_field": "p_rev_011_evidence",
    "via": "records.RK-EVIDENCE-LINK.for.P-REV-011",
+   "kind": "records"
+  },
+  {
+   "from": "records:RK-EVIDENCE-LINK",
+   "to": "F31-REVENUE-RECEIVABLES",
+   "to_field": "p_rev_011_s1_evidence",
+   "via": "records.RK-EVIDENCE-LINK.for.P-REV-011.step.ISA-330.18",
    "kind": "records"
   },
   {
@@ -1138,6 +1194,13 @@
    "kind": "records"
   },
   {
+   "from": "records:RK-EVIDENCE-LINK",
+   "to": "F31-REVENUE-RECEIVABLES",
+   "to_field": "p_rev_012_s1_evidence",
+   "via": "records.RK-EVIDENCE-LINK.for.P-REV-012.step.ISA-330.18",
+   "kind": "records"
+  },
+  {
    "from": "records:RK-SAMPLE",
    "to": "F31-REVENUE-RECEIVABLES",
    "to_field": "p_rev_013_samples",
@@ -1149,6 +1212,13 @@
    "to": "F31-REVENUE-RECEIVABLES",
    "to_field": "p_rev_013_evidence",
    "via": "records.RK-EVIDENCE-LINK.for.P-REV-013",
+   "kind": "records"
+  },
+  {
+   "from": "records:RK-EVIDENCE-LINK",
+   "to": "F31-REVENUE-RECEIVABLES",
+   "to_field": "p_rev_013_s1_evidence",
+   "via": "records.RK-EVIDENCE-LINK.for.P-REV-013.step.ISA-330.18",
    "kind": "records"
   },
   {
@@ -1288,6 +1358,13 @@
    "kind": "records"
   },
   {
+   "from": "records:RK-EVIDENCE-LINK",
+   "to": "F32-PURCHASES-PAYABLES",
+   "to_field": "p_pur_003_s1_evidence",
+   "via": "records.RK-EVIDENCE-LINK.for.P-PUR-003.step.ISA-330.18",
+   "kind": "records"
+  },
+  {
    "from": "records:RK-SAMPLE",
    "to": "F32-PURCHASES-PAYABLES",
    "to_field": "p_pur_004_samples",
@@ -1302,6 +1379,13 @@
    "kind": "records"
   },
   {
+   "from": "records:RK-EVIDENCE-LINK",
+   "to": "F32-PURCHASES-PAYABLES",
+   "to_field": "p_pur_004_s1_evidence",
+   "via": "records.RK-EVIDENCE-LINK.for.P-PUR-004.step.ISA-330.18",
+   "kind": "records"
+  },
+  {
    "from": "records:RK-SAMPLE",
    "to": "F32-PURCHASES-PAYABLES",
    "to_field": "p_pur_005_samples",
@@ -1313,6 +1397,13 @@
    "to": "F32-PURCHASES-PAYABLES",
    "to_field": "p_pur_005_evidence",
    "via": "records.RK-EVIDENCE-LINK.for.P-PUR-005",
+   "kind": "records"
+  },
+  {
+   "from": "records:RK-EVIDENCE-LINK",
+   "to": "F32-PURCHASES-PAYABLES",
+   "to_field": "p_pur_005_s1_evidence",
+   "via": "records.RK-EVIDENCE-LINK.for.P-PUR-005.step.ISA-330.18",
    "kind": "records"
   },
   {
@@ -1336,6 +1427,13 @@
    "to_field": "p_pur_006_flagged",
    "via": "paper.analytical_review.lines_flagged",
    "kind": "computed"
+  },
+  {
+   "from": "records:RK-EVIDENCE-LINK",
+   "to": "F32-PURCHASES-PAYABLES",
+   "to_field": "p_pur_006_s1_evidence",
+   "via": "records.RK-EVIDENCE-LINK.for.P-PUR-006.step.ISA-520.5",
+   "kind": "records"
   },
   {
    "from": "records:RK-SAMPLE",
@@ -1368,6 +1466,13 @@
    "kind": "computed"
   },
   {
+   "from": "records:RK-EVIDENCE-LINK",
+   "to": "F32-PURCHASES-PAYABLES",
+   "to_field": "p_pur_007_s1_evidence",
+   "via": "records.RK-EVIDENCE-LINK.for.P-PUR-007.step.ISA-330.18",
+   "kind": "records"
+  },
+  {
    "from": "records:RK-SAMPLE",
    "to": "F32-PURCHASES-PAYABLES",
    "to_field": "p_pur_008_samples",
@@ -1379,6 +1484,13 @@
    "to": "F32-PURCHASES-PAYABLES",
    "to_field": "p_pur_008_evidence",
    "via": "records.RK-EVIDENCE-LINK.for.P-PUR-008",
+   "kind": "records"
+  },
+  {
+   "from": "records:RK-EVIDENCE-LINK",
+   "to": "F32-PURCHASES-PAYABLES",
+   "to_field": "p_pur_008_s1_evidence",
+   "via": "records.RK-EVIDENCE-LINK.for.P-PUR-008.step.ISA-330.18",
    "kind": "records"
   },
   {
@@ -1396,6 +1508,13 @@
    "kind": "records"
   },
   {
+   "from": "records:RK-EVIDENCE-LINK",
+   "to": "F32-PURCHASES-PAYABLES",
+   "to_field": "p_pur_010_s1_evidence",
+   "via": "records.RK-EVIDENCE-LINK.for.P-PUR-010.step.ISA-330.18",
+   "kind": "records"
+  },
+  {
    "from": "records:RK-SAMPLE",
    "to": "F32-PURCHASES-PAYABLES",
    "to_field": "p_pur_011_samples",
@@ -1410,6 +1529,13 @@
    "kind": "records"
   },
   {
+   "from": "records:RK-EVIDENCE-LINK",
+   "to": "F32-PURCHASES-PAYABLES",
+   "to_field": "p_pur_011_s1_evidence",
+   "via": "records.RK-EVIDENCE-LINK.for.P-PUR-011.step.ISA-330.24",
+   "kind": "records"
+  },
+  {
    "from": "records:RK-SAMPLE",
    "to": "F32-PURCHASES-PAYABLES",
    "to_field": "p_pur_012_samples",
@@ -1421,6 +1547,13 @@
    "to": "F32-PURCHASES-PAYABLES",
    "to_field": "p_pur_012_evidence",
    "via": "records.RK-EVIDENCE-LINK.for.P-PUR-012",
+   "kind": "records"
+  },
+  {
+   "from": "records:RK-EVIDENCE-LINK",
+   "to": "F32-PURCHASES-PAYABLES",
+   "to_field": "p_pur_012_s1_evidence",
+   "via": "records.RK-EVIDENCE-LINK.for.P-PUR-012.step.ISA-330.18",
    "kind": "records"
   },
   {
@@ -1512,6 +1645,13 @@
    "kind": "computed"
   },
   {
+   "from": "records:RK-EVIDENCE-LINK",
+   "to": "F33-PAYROLL",
+   "to_field": "p_pay_003_s1_evidence",
+   "via": "records.RK-EVIDENCE-LINK.for.P-PAY-003.step.ISA-520.5",
+   "kind": "records"
+  },
+  {
    "from": "records:RK-SAMPLE",
    "to": "F33-PAYROLL",
    "to_field": "p_pay_004_samples",
@@ -1542,6 +1682,13 @@
    "kind": "computed"
   },
   {
+   "from": "records:RK-EVIDENCE-LINK",
+   "to": "F33-PAYROLL",
+   "to_field": "p_pay_004_s1_evidence",
+   "via": "records.RK-EVIDENCE-LINK.for.P-PAY-004.step.ISA-330.18",
+   "kind": "records"
+  },
+  {
    "from": "records:RK-SAMPLE",
    "to": "F33-PAYROLL",
    "to_field": "p_pay_005_samples",
@@ -1556,6 +1703,13 @@
    "kind": "records"
   },
   {
+   "from": "records:RK-EVIDENCE-LINK",
+   "to": "F33-PAYROLL",
+   "to_field": "p_pay_005_s1_evidence",
+   "via": "records.RK-EVIDENCE-LINK.for.P-PAY-005.step.ISA-250.14",
+   "kind": "records"
+  },
+  {
    "from": "records:RK-SAMPLE",
    "to": "F33-PAYROLL",
    "to_field": "p_pay_006_samples",
@@ -1567,6 +1721,13 @@
    "to": "F33-PAYROLL",
    "to_field": "p_pay_006_evidence",
    "via": "records.RK-EVIDENCE-LINK.for.P-PAY-006",
+   "kind": "records"
+  },
+  {
+   "from": "records:RK-EVIDENCE-LINK",
+   "to": "F33-PAYROLL",
+   "to_field": "p_pay_006_s1_evidence",
+   "via": "records.RK-EVIDENCE-LINK.for.P-PAY-006.step.ISA-540.22",
    "kind": "records"
   },
   {
@@ -1652,6 +1813,13 @@
    "kind": "computed"
   },
   {
+   "from": "records:RK-EVIDENCE-LINK",
+   "to": "F34-INVENTORY-COST",
+   "to_field": "p_inv_005_s1_evidence",
+   "via": "records.RK-EVIDENCE-LINK.for.P-INV-005.step.ISA-330.18",
+   "kind": "records"
+  },
+  {
    "from": "records:RK-SAMPLE",
    "to": "F34-INVENTORY-COST",
    "to_field": "p_inv_006_samples",
@@ -1666,6 +1834,13 @@
    "kind": "records"
   },
   {
+   "from": "records:RK-EVIDENCE-LINK",
+   "to": "F34-INVENTORY-COST",
+   "to_field": "p_inv_006_s1_evidence",
+   "via": "records.RK-EVIDENCE-LINK.for.P-INV-006.step.ISA-540.18",
+   "kind": "records"
+  },
+  {
    "from": "records:RK-SAMPLE",
    "to": "F34-INVENTORY-COST",
    "to_field": "p_inv_007_samples",
@@ -1677,6 +1852,13 @@
    "to": "F34-INVENTORY-COST",
    "to_field": "p_inv_007_evidence",
    "via": "records.RK-EVIDENCE-LINK.for.P-INV-007",
+   "kind": "records"
+  },
+  {
+   "from": "records:RK-EVIDENCE-LINK",
+   "to": "F34-INVENTORY-COST",
+   "to_field": "p_inv_007_s1_evidence",
+   "via": "records.RK-EVIDENCE-LINK.for.P-INV-007.step.ISA-330.18",
    "kind": "records"
   },
   {
@@ -1702,6 +1884,13 @@
    "kind": "computed"
   },
   {
+   "from": "records:RK-EVIDENCE-LINK",
+   "to": "F34-INVENTORY-COST",
+   "to_field": "p_inv_008_s1_evidence",
+   "via": "records.RK-EVIDENCE-LINK.for.P-INV-008.step.ISA-520.5",
+   "kind": "records"
+  },
+  {
    "from": "records:RK-SAMPLE",
    "to": "F34-INVENTORY-COST",
    "to_field": "p_inv_009_samples",
@@ -1713,6 +1902,13 @@
    "to": "F34-INVENTORY-COST",
    "to_field": "p_inv_009_evidence",
    "via": "records.RK-EVIDENCE-LINK.for.P-INV-009",
+   "kind": "records"
+  },
+  {
+   "from": "records:RK-EVIDENCE-LINK",
+   "to": "F34-INVENTORY-COST",
+   "to_field": "p_inv_009_s1_evidence",
+   "via": "records.RK-EVIDENCE-LINK.for.P-INV-009.step.ISA-330.24",
    "kind": "records"
   },
   {
@@ -1838,6 +2034,13 @@
    "kind": "records"
   },
   {
+   "from": "records:RK-EVIDENCE-LINK",
+   "to": "F35-PPE-INTANGIBLES",
+   "to_field": "p_ppe_001_s1_evidence",
+   "via": "records.RK-EVIDENCE-LINK.for.P-PPE-001.step.ISA-330.18",
+   "kind": "records"
+  },
+  {
    "from": "records:RK-SAMPLE",
    "to": "F35-PPE-INTANGIBLES",
    "to_field": "p_ppe_002_samples",
@@ -1868,6 +2071,13 @@
    "kind": "computed"
   },
   {
+   "from": "records:RK-EVIDENCE-LINK",
+   "to": "F35-PPE-INTANGIBLES",
+   "to_field": "p_ppe_002_s1_evidence",
+   "via": "records.RK-EVIDENCE-LINK.for.P-PPE-002.step.ISA-330.18",
+   "kind": "records"
+  },
+  {
    "from": "records:RK-SAMPLE",
    "to": "F35-PPE-INTANGIBLES",
    "to_field": "p_ppe_003_samples",
@@ -1879,6 +2089,13 @@
    "to": "F35-PPE-INTANGIBLES",
    "to_field": "p_ppe_003_evidence",
    "via": "records.RK-EVIDENCE-LINK.for.P-PPE-003",
+   "kind": "records"
+  },
+  {
+   "from": "records:RK-EVIDENCE-LINK",
+   "to": "F35-PPE-INTANGIBLES",
+   "to_field": "p_ppe_003_s1_evidence",
+   "via": "records.RK-EVIDENCE-LINK.for.P-PPE-003.step.ISA-330.18",
    "kind": "records"
   },
   {
@@ -1896,6 +2113,13 @@
    "kind": "records"
   },
   {
+   "from": "records:RK-EVIDENCE-LINK",
+   "to": "F35-PPE-INTANGIBLES",
+   "to_field": "p_ppe_004_s1_evidence",
+   "via": "records.RK-EVIDENCE-LINK.for.P-PPE-004.step.ISA-330.18",
+   "kind": "records"
+  },
+  {
    "from": "records:RK-SAMPLE",
    "to": "F35-PPE-INTANGIBLES",
    "to_field": "p_ppe_005_samples",
@@ -1907,6 +2131,13 @@
    "to": "F35-PPE-INTANGIBLES",
    "to_field": "p_ppe_005_evidence",
    "via": "records.RK-EVIDENCE-LINK.for.P-PPE-005",
+   "kind": "records"
+  },
+  {
+   "from": "records:RK-EVIDENCE-LINK",
+   "to": "F35-PPE-INTANGIBLES",
+   "to_field": "p_ppe_005_s1_evidence",
+   "via": "records.RK-EVIDENCE-LINK.for.P-PPE-005.step.ISA-330.18",
    "kind": "records"
   },
   {
@@ -1924,6 +2155,13 @@
    "kind": "records"
   },
   {
+   "from": "records:RK-EVIDENCE-LINK",
+   "to": "F35-PPE-INTANGIBLES",
+   "to_field": "p_ppe_006_s1_evidence",
+   "via": "records.RK-EVIDENCE-LINK.for.P-PPE-006.step.ISA-540.18",
+   "kind": "records"
+  },
+  {
    "from": "records:RK-SAMPLE",
    "to": "F35-PPE-INTANGIBLES",
    "to_field": "p_ppe_007_samples",
@@ -1935,6 +2173,13 @@
    "to": "F35-PPE-INTANGIBLES",
    "to_field": "p_ppe_007_evidence",
    "via": "records.RK-EVIDENCE-LINK.for.P-PPE-007",
+   "kind": "records"
+  },
+  {
+   "from": "records:RK-EVIDENCE-LINK",
+   "to": "F35-PPE-INTANGIBLES",
+   "to_field": "p_ppe_007_s1_evidence",
+   "via": "records.RK-EVIDENCE-LINK.for.P-PPE-007.step.ISA-330.18",
    "kind": "records"
   },
   {
@@ -1952,6 +2197,13 @@
    "kind": "records"
   },
   {
+   "from": "records:RK-EVIDENCE-LINK",
+   "to": "F35-PPE-INTANGIBLES",
+   "to_field": "p_ppe_008_s1_evidence",
+   "via": "records.RK-EVIDENCE-LINK.for.P-PPE-008.step.ISA-330.18",
+   "kind": "records"
+  },
+  {
    "from": "records:RK-SAMPLE",
    "to": "F35-PPE-INTANGIBLES",
    "to_field": "p_ppe_009_samples",
@@ -1966,6 +2218,13 @@
    "kind": "records"
   },
   {
+   "from": "records:RK-EVIDENCE-LINK",
+   "to": "F35-PPE-INTANGIBLES",
+   "to_field": "p_ppe_009_s1_evidence",
+   "via": "records.RK-EVIDENCE-LINK.for.P-PPE-009.step.ISA-540.22",
+   "kind": "records"
+  },
+  {
    "from": "records:RK-SAMPLE",
    "to": "F35-PPE-INTANGIBLES",
    "to_field": "p_ppe_010_samples",
@@ -1977,6 +2236,13 @@
    "to": "F35-PPE-INTANGIBLES",
    "to_field": "p_ppe_010_evidence",
    "via": "records.RK-EVIDENCE-LINK.for.P-PPE-010",
+   "kind": "records"
+  },
+  {
+   "from": "records:RK-EVIDENCE-LINK",
+   "to": "F35-PPE-INTANGIBLES",
+   "to_field": "p_ppe_010_s1_evidence",
+   "via": "records.RK-EVIDENCE-LINK.for.P-PPE-010.step.ISA-330.24",
    "kind": "records"
   },
   {
@@ -2144,6 +2410,13 @@
    "kind": "records"
   },
   {
+   "from": "records:RK-EVIDENCE-LINK",
+   "to": "F36-TREASURY",
+   "to_field": "p_tre_002_s1_evidence",
+   "via": "records.RK-EVIDENCE-LINK.for.P-TRE-002.step.ISA-330.18",
+   "kind": "records"
+  },
+  {
    "from": "records:RK-SAMPLE",
    "to": "F36-TREASURY",
    "to_field": "p_tre_003_samples",
@@ -2155,6 +2428,13 @@
    "to": "F36-TREASURY",
    "to_field": "p_tre_003_evidence",
    "via": "records.RK-EVIDENCE-LINK.for.P-TRE-003",
+   "kind": "records"
+  },
+  {
+   "from": "records:RK-EVIDENCE-LINK",
+   "to": "F36-TREASURY",
+   "to_field": "p_tre_003_s1_evidence",
+   "via": "records.RK-EVIDENCE-LINK.for.P-TRE-003.step.ISA-330.18",
    "kind": "records"
   },
   {
@@ -2172,6 +2452,13 @@
    "kind": "records"
   },
   {
+   "from": "records:RK-EVIDENCE-LINK",
+   "to": "F36-TREASURY",
+   "to_field": "p_tre_004_s1_evidence",
+   "via": "records.RK-EVIDENCE-LINK.for.P-TRE-004.step.ISA-330.18",
+   "kind": "records"
+  },
+  {
    "from": "records:RK-SAMPLE",
    "to": "F36-TREASURY",
    "to_field": "p_tre_005_samples",
@@ -2183,6 +2470,13 @@
    "to": "F36-TREASURY",
    "to_field": "p_tre_005_evidence",
    "via": "records.RK-EVIDENCE-LINK.for.P-TRE-005",
+   "kind": "records"
+  },
+  {
+   "from": "records:RK-EVIDENCE-LINK",
+   "to": "F36-TREASURY",
+   "to_field": "p_tre_005_s1_evidence",
+   "via": "records.RK-EVIDENCE-LINK.for.P-TRE-005.step.ISA-505.7",
    "kind": "records"
   },
   {
@@ -2208,6 +2502,13 @@
    "kind": "computed"
   },
   {
+   "from": "records:RK-EVIDENCE-LINK",
+   "to": "F36-TREASURY",
+   "to_field": "p_tre_006_s1_evidence",
+   "via": "records.RK-EVIDENCE-LINK.for.P-TRE-006.step.ISA-520.5",
+   "kind": "records"
+  },
+  {
    "from": "records:RK-SAMPLE",
    "to": "F36-TREASURY",
    "to_field": "p_tre_007_samples",
@@ -2219,6 +2520,13 @@
    "to": "F36-TREASURY",
    "to_field": "p_tre_007_evidence",
    "via": "records.RK-EVIDENCE-LINK.for.P-TRE-007",
+   "kind": "records"
+  },
+  {
+   "from": "records:RK-EVIDENCE-LINK",
+   "to": "F36-TREASURY",
+   "to_field": "p_tre_007_s1_evidence",
+   "via": "records.RK-EVIDENCE-LINK.for.P-TRE-007.step.ISA-330.18",
    "kind": "records"
   },
   {
@@ -2236,6 +2544,13 @@
    "kind": "records"
   },
   {
+   "from": "records:RK-EVIDENCE-LINK",
+   "to": "F36-TREASURY",
+   "to_field": "p_tre_008_s1_evidence",
+   "via": "records.RK-EVIDENCE-LINK.for.P-TRE-008.step.ISA-505.7",
+   "kind": "records"
+  },
+  {
    "from": "records:RK-SAMPLE",
    "to": "F36-TREASURY",
    "to_field": "p_tre_009_samples",
@@ -2250,6 +2565,13 @@
    "kind": "records"
   },
   {
+   "from": "records:RK-EVIDENCE-LINK",
+   "to": "F36-TREASURY",
+   "to_field": "p_tre_009_s1_evidence",
+   "via": "records.RK-EVIDENCE-LINK.for.P-TRE-009.step.ISA-330.18",
+   "kind": "records"
+  },
+  {
    "from": "records:RK-SAMPLE",
    "to": "F36-TREASURY",
    "to_field": "p_tre_010_samples",
@@ -2261,6 +2583,13 @@
    "to": "F36-TREASURY",
    "to_field": "p_tre_010_evidence",
    "via": "records.RK-EVIDENCE-LINK.for.P-TRE-010",
+   "kind": "records"
+  },
+  {
+   "from": "records:RK-EVIDENCE-LINK",
+   "to": "F36-TREASURY",
+   "to_field": "p_tre_010_s1_evidence",
+   "via": "records.RK-EVIDENCE-LINK.for.P-TRE-010.step.ISA-330.24",
    "kind": "records"
   },
   {
@@ -2372,6 +2701,13 @@
    "kind": "records"
   },
   {
+   "from": "records:RK-EVIDENCE-LINK",
+   "to": "F37-EQUITY",
+   "to_field": "p_eqy_001_s1_evidence",
+   "via": "records.RK-EVIDENCE-LINK.for.P-EQY-001.step.ISA-330.18",
+   "kind": "records"
+  },
+  {
    "from": "records:RK-SAMPLE",
    "to": "F37-EQUITY",
    "to_field": "p_eqy_002_samples",
@@ -2383,6 +2719,13 @@
    "to": "F37-EQUITY",
    "to_field": "p_eqy_002_evidence",
    "via": "records.RK-EVIDENCE-LINK.for.P-EQY-002",
+   "kind": "records"
+  },
+  {
+   "from": "records:RK-EVIDENCE-LINK",
+   "to": "F37-EQUITY",
+   "to_field": "p_eqy_002_s1_evidence",
+   "via": "records.RK-EVIDENCE-LINK.for.P-EQY-002.step.ISA-330.18",
    "kind": "records"
   },
   {
@@ -2400,6 +2743,13 @@
    "kind": "records"
   },
   {
+   "from": "records:RK-EVIDENCE-LINK",
+   "to": "F37-EQUITY",
+   "to_field": "p_eqy_003_s1_evidence",
+   "via": "records.RK-EVIDENCE-LINK.for.P-EQY-003.step.ISA-330.18",
+   "kind": "records"
+  },
+  {
    "from": "records:RK-SAMPLE",
    "to": "F37-EQUITY",
    "to_field": "p_eqy_004_samples",
@@ -2414,6 +2764,13 @@
    "kind": "records"
   },
   {
+   "from": "records:RK-EVIDENCE-LINK",
+   "to": "F37-EQUITY",
+   "to_field": "p_eqy_004_s1_evidence",
+   "via": "records.RK-EVIDENCE-LINK.for.P-EQY-004.step.ISA-330.18",
+   "kind": "records"
+  },
+  {
    "from": "records:RK-SAMPLE",
    "to": "F37-EQUITY",
    "to_field": "p_eqy_005_samples",
@@ -2425,6 +2782,13 @@
    "to": "F37-EQUITY",
    "to_field": "p_eqy_005_evidence",
    "via": "records.RK-EVIDENCE-LINK.for.P-EQY-005",
+   "kind": "records"
+  },
+  {
+   "from": "records:RK-EVIDENCE-LINK",
+   "to": "F37-EQUITY",
+   "to_field": "p_eqy_005_s1_evidence",
+   "via": "records.RK-EVIDENCE-LINK.for.P-EQY-005.step.ISA-330.24",
    "kind": "records"
   },
   {
@@ -2550,6 +2914,13 @@
    "kind": "records"
   },
   {
+   "from": "records:RK-EVIDENCE-LINK",
+   "to": "F38-TAXES",
+   "to_field": "p_tax_001_s1_evidence",
+   "via": "records.RK-EVIDENCE-LINK.for.P-TAX-001.step.ISA-250.14",
+   "kind": "records"
+  },
+  {
    "from": "records:RK-SAMPLE",
    "to": "F38-TAXES",
    "to_field": "p_tax_002_samples",
@@ -2561,6 +2932,13 @@
    "to": "F38-TAXES",
    "to_field": "p_tax_002_evidence",
    "via": "records.RK-EVIDENCE-LINK.for.P-TAX-002",
+   "kind": "records"
+  },
+  {
+   "from": "records:RK-EVIDENCE-LINK",
+   "to": "F38-TAXES",
+   "to_field": "p_tax_002_s1_evidence",
+   "via": "records.RK-EVIDENCE-LINK.for.P-TAX-002.step.ISA-540.22",
    "kind": "records"
   },
   {
@@ -2578,6 +2956,13 @@
    "kind": "records"
   },
   {
+   "from": "records:RK-EVIDENCE-LINK",
+   "to": "F38-TAXES",
+   "to_field": "p_tax_003_s1_evidence",
+   "via": "records.RK-EVIDENCE-LINK.for.P-TAX-003.step.ISA-540.22",
+   "kind": "records"
+  },
+  {
    "from": "records:RK-SAMPLE",
    "to": "F38-TAXES",
    "to_field": "p_tax_004_samples",
@@ -2592,6 +2977,13 @@
    "kind": "records"
   },
   {
+   "from": "records:RK-EVIDENCE-LINK",
+   "to": "F38-TAXES",
+   "to_field": "p_tax_004_s1_evidence",
+   "via": "records.RK-EVIDENCE-LINK.for.P-TAX-004.step.ISA-250.14",
+   "kind": "records"
+  },
+  {
    "from": "records:RK-SAMPLE",
    "to": "F38-TAXES",
    "to_field": "p_tax_005_samples",
@@ -2603,6 +2995,13 @@
    "to": "F38-TAXES",
    "to_field": "p_tax_005_evidence",
    "via": "records.RK-EVIDENCE-LINK.for.P-TAX-005",
+   "kind": "records"
+  },
+  {
+   "from": "records:RK-EVIDENCE-LINK",
+   "to": "F38-TAXES",
+   "to_field": "p_tax_005_s1_evidence",
+   "via": "records.RK-EVIDENCE-LINK.for.P-TAX-005.step.ISA-250.14",
    "kind": "records"
   },
   {

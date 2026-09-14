@@ -378,6 +378,160 @@
        }
       }
      ]
+    },
+    {
+     "id": "p_eqy_001_s1_conclusion",
+     "label": {
+      "en": "ISA-330.18: Irrespective of the assessed risks, design and perform substantive procedures for each material class of transactions, account balance and disclosure.",
+      "ar": "ISA-330.18: Irrespective of the assessed risks, design and perform substantive procedures for each material class of transactions, account balance and disclosure."
+     },
+     "type": "select",
+     "required": true,
+     "options": [
+      {
+       "value": "performed_no_exception",
+       "label": {
+        "en": "Performed, no exception",
+        "ar": "نُفذ دون استثناء"
+       }
+      },
+      {
+       "value": "performed_exception",
+       "label": {
+        "en": "Performed, exception noted",
+        "ar": "نُفذ مع ملاحظة استثناء"
+       }
+      },
+      {
+       "value": "not_applicable",
+       "label": {
+        "en": "Not applicable",
+        "ar": "لا ينطبق"
+       }
+      }
+     ],
+     "step": "ISA-330.18"
+    },
+    {
+     "id": "p_eqy_001_s1_evidence",
+     "label": {
+      "en": "Evidence links citing step 1",
+      "ar": "روابط الأدلة التي تستشهد بالخطوة 1"
+     },
+     "type": "integer",
+     "required": false,
+     "autofill": "records.RK-EVIDENCE-LINK.for.P-EQY-001.step.ISA-330.18",
+     "readonly": true
+    },
+    {
+     "id": "p_eqy_001_s1_ticks",
+     "label": {
+      "en": "Tick marks on step 1",
+      "ar": "علامات التدقيق على الخطوة 1"
+     },
+     "type": "text",
+     "required": false,
+     "autofill": "records.RK-EVIDENCE-LINK.ticks.P-EQY-001.ISA-330.18",
+     "readonly": true
+    },
+    {
+     "id": "p_eqy_001_s1_citation",
+     "label": {
+      "en": "Record cited for the exception on step 1 (a misstatement, a review note or a communication)",
+      "ar": "السجل المستشهد به للاستثناء في الخطوة 1 (تحريف أو ملاحظة مراجعة أو مراسلة)"
+     },
+     "type": "text",
+     "required": false,
+     "required_if": {
+      "field": "p_eqy_001_s1_conclusion",
+      "equals": "performed_exception",
+      "message": {
+       "en": "a step concluded with an exception cites the misstatement, review note or communication it raised",
+       "ar": "الخطوة التي خُلص فيها إلى استثناء تستشهد بالتحريف أو ملاحظة المراجعة أو المراسلة التي أثارتها"
+      }
+     },
+     "cites": [
+      "RK-MISSTATEMENT",
+      "RK-REVIEW-NOTE",
+      "RK-COMMUNICATION"
+     ]
+    },
+    {
+     "id": "p_eqy_001_s2_conclusion",
+     "label": {
+      "en": "ISA-500.7: When designing and performing procedures, consider the relevance and reliability of the information to be used as evidence, including information from external information sources.",
+      "ar": "ISA-500.7: When designing and performing procedures, consider the relevance and reliability of the information to be used as evidence, including information from external information sources."
+     },
+     "type": "select",
+     "required": true,
+     "options": [
+      {
+       "value": "performed_no_exception",
+       "label": {
+        "en": "Performed, no exception",
+        "ar": "نُفذ دون استثناء"
+       }
+      },
+      {
+       "value": "performed_exception",
+       "label": {
+        "en": "Performed, exception noted",
+        "ar": "نُفذ مع ملاحظة استثناء"
+       }
+      },
+      {
+       "value": "not_applicable",
+       "label": {
+        "en": "Not applicable",
+        "ar": "لا ينطبق"
+       }
+      }
+     ],
+     "step": "ISA-500.7"
+    },
+    {
+     "id": "p_eqy_001_s2_evidence",
+     "label": {
+      "en": "Evidence links citing step 2",
+      "ar": "روابط الأدلة التي تستشهد بالخطوة 2"
+     },
+     "type": "integer",
+     "required": false,
+     "autofill": "records.RK-EVIDENCE-LINK.for.P-EQY-001.step.ISA-500.7",
+     "readonly": true
+    },
+    {
+     "id": "p_eqy_001_s2_ticks",
+     "label": {
+      "en": "Tick marks on step 2",
+      "ar": "علامات التدقيق على الخطوة 2"
+     },
+     "type": "text",
+     "required": false,
+     "autofill": "records.RK-EVIDENCE-LINK.ticks.P-EQY-001.ISA-500.7",
+     "readonly": true
+    },
+    {
+     "id": "p_eqy_001_s2_citation",
+     "label": {
+      "en": "Record cited for the exception on step 2 (a misstatement, a review note or a communication)",
+      "ar": "السجل المستشهد به للاستثناء في الخطوة 2 (تحريف أو ملاحظة مراجعة أو مراسلة)"
+     },
+     "type": "text",
+     "required": false,
+     "required_if": {
+      "field": "p_eqy_001_s2_conclusion",
+      "equals": "performed_exception",
+      "message": {
+       "en": "a step concluded with an exception cites the misstatement, review note or communication it raised",
+       "ar": "الخطوة التي خُلص فيها إلى استثناء تستشهد بالتحريف أو ملاحظة المراجعة أو المراسلة التي أثارتها"
+      }
+     },
+     "cites": [
+      "RK-MISSTATEMENT",
+      "RK-REVIEW-NOTE",
+      "RK-COMMUNICATION"
+     ]
     }
    ],
    "note": {
@@ -462,6 +616,160 @@
         "ar": "لا ينطبق، مع بيان السبب"
        }
       }
+     ]
+    },
+    {
+     "id": "p_eqy_002_s1_conclusion",
+     "label": {
+      "en": "ISA-330.18: Irrespective of the assessed risks, design and perform substantive procedures for each material class of transactions, account balance and disclosure.",
+      "ar": "ISA-330.18: Irrespective of the assessed risks, design and perform substantive procedures for each material class of transactions, account balance and disclosure."
+     },
+     "type": "select",
+     "required": true,
+     "options": [
+      {
+       "value": "performed_no_exception",
+       "label": {
+        "en": "Performed, no exception",
+        "ar": "نُفذ دون استثناء"
+       }
+      },
+      {
+       "value": "performed_exception",
+       "label": {
+        "en": "Performed, exception noted",
+        "ar": "نُفذ مع ملاحظة استثناء"
+       }
+      },
+      {
+       "value": "not_applicable",
+       "label": {
+        "en": "Not applicable",
+        "ar": "لا ينطبق"
+       }
+      }
+     ],
+     "step": "ISA-330.18"
+    },
+    {
+     "id": "p_eqy_002_s1_evidence",
+     "label": {
+      "en": "Evidence links citing step 1",
+      "ar": "روابط الأدلة التي تستشهد بالخطوة 1"
+     },
+     "type": "integer",
+     "required": false,
+     "autofill": "records.RK-EVIDENCE-LINK.for.P-EQY-002.step.ISA-330.18",
+     "readonly": true
+    },
+    {
+     "id": "p_eqy_002_s1_ticks",
+     "label": {
+      "en": "Tick marks on step 1",
+      "ar": "علامات التدقيق على الخطوة 1"
+     },
+     "type": "text",
+     "required": false,
+     "autofill": "records.RK-EVIDENCE-LINK.ticks.P-EQY-002.ISA-330.18",
+     "readonly": true
+    },
+    {
+     "id": "p_eqy_002_s1_citation",
+     "label": {
+      "en": "Record cited for the exception on step 1 (a misstatement, a review note or a communication)",
+      "ar": "السجل المستشهد به للاستثناء في الخطوة 1 (تحريف أو ملاحظة مراجعة أو مراسلة)"
+     },
+     "type": "text",
+     "required": false,
+     "required_if": {
+      "field": "p_eqy_002_s1_conclusion",
+      "equals": "performed_exception",
+      "message": {
+       "en": "a step concluded with an exception cites the misstatement, review note or communication it raised",
+       "ar": "الخطوة التي خُلص فيها إلى استثناء تستشهد بالتحريف أو ملاحظة المراجعة أو المراسلة التي أثارتها"
+      }
+     },
+     "cites": [
+      "RK-MISSTATEMENT",
+      "RK-REVIEW-NOTE",
+      "RK-COMMUNICATION"
+     ]
+    },
+    {
+     "id": "p_eqy_002_s2_conclusion",
+     "label": {
+      "en": "ISA-250.14: Obtain sufficient appropriate evidence about compliance with those laws and regulations generally recognised to have a direct effect on material amounts and disclosures in the financial statements.",
+      "ar": "ISA-250.14: Obtain sufficient appropriate evidence about compliance with those laws and regulations generally recognised to have a direct effect on material amounts and disclosures in the financial statements."
+     },
+     "type": "select",
+     "required": true,
+     "options": [
+      {
+       "value": "performed_no_exception",
+       "label": {
+        "en": "Performed, no exception",
+        "ar": "نُفذ دون استثناء"
+       }
+      },
+      {
+       "value": "performed_exception",
+       "label": {
+        "en": "Performed, exception noted",
+        "ar": "نُفذ مع ملاحظة استثناء"
+       }
+      },
+      {
+       "value": "not_applicable",
+       "label": {
+        "en": "Not applicable",
+        "ar": "لا ينطبق"
+       }
+      }
+     ],
+     "step": "ISA-250.14"
+    },
+    {
+     "id": "p_eqy_002_s2_evidence",
+     "label": {
+      "en": "Evidence links citing step 2",
+      "ar": "روابط الأدلة التي تستشهد بالخطوة 2"
+     },
+     "type": "integer",
+     "required": false,
+     "autofill": "records.RK-EVIDENCE-LINK.for.P-EQY-002.step.ISA-250.14",
+     "readonly": true
+    },
+    {
+     "id": "p_eqy_002_s2_ticks",
+     "label": {
+      "en": "Tick marks on step 2",
+      "ar": "علامات التدقيق على الخطوة 2"
+     },
+     "type": "text",
+     "required": false,
+     "autofill": "records.RK-EVIDENCE-LINK.ticks.P-EQY-002.ISA-250.14",
+     "readonly": true
+    },
+    {
+     "id": "p_eqy_002_s2_citation",
+     "label": {
+      "en": "Record cited for the exception on step 2 (a misstatement, a review note or a communication)",
+      "ar": "السجل المستشهد به للاستثناء في الخطوة 2 (تحريف أو ملاحظة مراجعة أو مراسلة)"
+     },
+     "type": "text",
+     "required": false,
+     "required_if": {
+      "field": "p_eqy_002_s2_conclusion",
+      "equals": "performed_exception",
+      "message": {
+       "en": "a step concluded with an exception cites the misstatement, review note or communication it raised",
+       "ar": "الخطوة التي خُلص فيها إلى استثناء تستشهد بالتحريف أو ملاحظة المراجعة أو المراسلة التي أثارتها"
+      }
+     },
+     "cites": [
+      "RK-MISSTATEMENT",
+      "RK-REVIEW-NOTE",
+      "RK-COMMUNICATION"
      ]
     }
    ],
@@ -548,6 +856,160 @@
        }
       }
      ]
+    },
+    {
+     "id": "p_eqy_003_s1_conclusion",
+     "label": {
+      "en": "ISA-330.18: Irrespective of the assessed risks, design and perform substantive procedures for each material class of transactions, account balance and disclosure.",
+      "ar": "ISA-330.18: Irrespective of the assessed risks, design and perform substantive procedures for each material class of transactions, account balance and disclosure."
+     },
+     "type": "select",
+     "required": true,
+     "options": [
+      {
+       "value": "performed_no_exception",
+       "label": {
+        "en": "Performed, no exception",
+        "ar": "نُفذ دون استثناء"
+       }
+      },
+      {
+       "value": "performed_exception",
+       "label": {
+        "en": "Performed, exception noted",
+        "ar": "نُفذ مع ملاحظة استثناء"
+       }
+      },
+      {
+       "value": "not_applicable",
+       "label": {
+        "en": "Not applicable",
+        "ar": "لا ينطبق"
+       }
+      }
+     ],
+     "step": "ISA-330.18"
+    },
+    {
+     "id": "p_eqy_003_s1_evidence",
+     "label": {
+      "en": "Evidence links citing step 1",
+      "ar": "روابط الأدلة التي تستشهد بالخطوة 1"
+     },
+     "type": "integer",
+     "required": false,
+     "autofill": "records.RK-EVIDENCE-LINK.for.P-EQY-003.step.ISA-330.18",
+     "readonly": true
+    },
+    {
+     "id": "p_eqy_003_s1_ticks",
+     "label": {
+      "en": "Tick marks on step 1",
+      "ar": "علامات التدقيق على الخطوة 1"
+     },
+     "type": "text",
+     "required": false,
+     "autofill": "records.RK-EVIDENCE-LINK.ticks.P-EQY-003.ISA-330.18",
+     "readonly": true
+    },
+    {
+     "id": "p_eqy_003_s1_citation",
+     "label": {
+      "en": "Record cited for the exception on step 1 (a misstatement, a review note or a communication)",
+      "ar": "السجل المستشهد به للاستثناء في الخطوة 1 (تحريف أو ملاحظة مراجعة أو مراسلة)"
+     },
+     "type": "text",
+     "required": false,
+     "required_if": {
+      "field": "p_eqy_003_s1_conclusion",
+      "equals": "performed_exception",
+      "message": {
+       "en": "a step concluded with an exception cites the misstatement, review note or communication it raised",
+       "ar": "الخطوة التي خُلص فيها إلى استثناء تستشهد بالتحريف أو ملاحظة المراجعة أو المراسلة التي أثارتها"
+      }
+     },
+     "cites": [
+      "RK-MISSTATEMENT",
+      "RK-REVIEW-NOTE",
+      "RK-COMMUNICATION"
+     ]
+    },
+    {
+     "id": "p_eqy_003_s2_conclusion",
+     "label": {
+      "en": "ISA-560.8: Where events requiring adjustment or disclosure are identified, determine whether each is appropriately reflected in the financial statements under the framework.",
+      "ar": "ISA-560.8: Where events requiring adjustment or disclosure are identified, determine whether each is appropriately reflected in the financial statements under the framework."
+     },
+     "type": "select",
+     "required": true,
+     "options": [
+      {
+       "value": "performed_no_exception",
+       "label": {
+        "en": "Performed, no exception",
+        "ar": "نُفذ دون استثناء"
+       }
+      },
+      {
+       "value": "performed_exception",
+       "label": {
+        "en": "Performed, exception noted",
+        "ar": "نُفذ مع ملاحظة استثناء"
+       }
+      },
+      {
+       "value": "not_applicable",
+       "label": {
+        "en": "Not applicable",
+        "ar": "لا ينطبق"
+       }
+      }
+     ],
+     "step": "ISA-560.8"
+    },
+    {
+     "id": "p_eqy_003_s2_evidence",
+     "label": {
+      "en": "Evidence links citing step 2",
+      "ar": "روابط الأدلة التي تستشهد بالخطوة 2"
+     },
+     "type": "integer",
+     "required": false,
+     "autofill": "records.RK-EVIDENCE-LINK.for.P-EQY-003.step.ISA-560.8",
+     "readonly": true
+    },
+    {
+     "id": "p_eqy_003_s2_ticks",
+     "label": {
+      "en": "Tick marks on step 2",
+      "ar": "علامات التدقيق على الخطوة 2"
+     },
+     "type": "text",
+     "required": false,
+     "autofill": "records.RK-EVIDENCE-LINK.ticks.P-EQY-003.ISA-560.8",
+     "readonly": true
+    },
+    {
+     "id": "p_eqy_003_s2_citation",
+     "label": {
+      "en": "Record cited for the exception on step 2 (a misstatement, a review note or a communication)",
+      "ar": "السجل المستشهد به للاستثناء في الخطوة 2 (تحريف أو ملاحظة مراجعة أو مراسلة)"
+     },
+     "type": "text",
+     "required": false,
+     "required_if": {
+      "field": "p_eqy_003_s2_conclusion",
+      "equals": "performed_exception",
+      "message": {
+       "en": "a step concluded with an exception cites the misstatement, review note or communication it raised",
+       "ar": "الخطوة التي خُلص فيها إلى استثناء تستشهد بالتحريف أو ملاحظة المراجعة أو المراسلة التي أثارتها"
+      }
+     },
+     "cites": [
+      "RK-MISSTATEMENT",
+      "RK-REVIEW-NOTE",
+      "RK-COMMUNICATION"
+     ]
     }
    ],
    "note": {
@@ -633,6 +1095,160 @@
        }
       }
      ]
+    },
+    {
+     "id": "p_eqy_004_s1_conclusion",
+     "label": {
+      "en": "ISA-330.18: Irrespective of the assessed risks, design and perform substantive procedures for each material class of transactions, account balance and disclosure.",
+      "ar": "ISA-330.18: Irrespective of the assessed risks, design and perform substantive procedures for each material class of transactions, account balance and disclosure."
+     },
+     "type": "select",
+     "required": true,
+     "options": [
+      {
+       "value": "performed_no_exception",
+       "label": {
+        "en": "Performed, no exception",
+        "ar": "نُفذ دون استثناء"
+       }
+      },
+      {
+       "value": "performed_exception",
+       "label": {
+        "en": "Performed, exception noted",
+        "ar": "نُفذ مع ملاحظة استثناء"
+       }
+      },
+      {
+       "value": "not_applicable",
+       "label": {
+        "en": "Not applicable",
+        "ar": "لا ينطبق"
+       }
+      }
+     ],
+     "step": "ISA-330.18"
+    },
+    {
+     "id": "p_eqy_004_s1_evidence",
+     "label": {
+      "en": "Evidence links citing step 1",
+      "ar": "روابط الأدلة التي تستشهد بالخطوة 1"
+     },
+     "type": "integer",
+     "required": false,
+     "autofill": "records.RK-EVIDENCE-LINK.for.P-EQY-004.step.ISA-330.18",
+     "readonly": true
+    },
+    {
+     "id": "p_eqy_004_s1_ticks",
+     "label": {
+      "en": "Tick marks on step 1",
+      "ar": "علامات التدقيق على الخطوة 1"
+     },
+     "type": "text",
+     "required": false,
+     "autofill": "records.RK-EVIDENCE-LINK.ticks.P-EQY-004.ISA-330.18",
+     "readonly": true
+    },
+    {
+     "id": "p_eqy_004_s1_citation",
+     "label": {
+      "en": "Record cited for the exception on step 1 (a misstatement, a review note or a communication)",
+      "ar": "السجل المستشهد به للاستثناء في الخطوة 1 (تحريف أو ملاحظة مراجعة أو مراسلة)"
+     },
+     "type": "text",
+     "required": false,
+     "required_if": {
+      "field": "p_eqy_004_s1_conclusion",
+      "equals": "performed_exception",
+      "message": {
+       "en": "a step concluded with an exception cites the misstatement, review note or communication it raised",
+       "ar": "الخطوة التي خُلص فيها إلى استثناء تستشهد بالتحريف أو ملاحظة المراجعة أو المراسلة التي أثارتها"
+      }
+     },
+     "cites": [
+      "RK-MISSTATEMENT",
+      "RK-REVIEW-NOTE",
+      "RK-COMMUNICATION"
+     ]
+    },
+    {
+     "id": "p_eqy_004_s2_conclusion",
+     "label": {
+      "en": "ISA-600.38: Design and perform further procedures on the consolidation process: evaluate whether all entities and business units are included and address sub-consolidations, evaluate consolidation adjustments and reclassifications for appropriateness, completeness and accuracy, evaluate whether consolidation judgments indicate bias, and respond to fraud risks in consolidation.",
+      "ar": "ISA-600.38: Design and perform further procedures on the consolidation process: evaluate whether all entities and business units are included and address sub-consolidations, evaluate consolidation adjustments and reclassifications for appropriateness, completeness and accuracy, evaluate whether consolidation judgments indicate bias, and respond to fraud risks in consolidation."
+     },
+     "type": "select",
+     "required": true,
+     "options": [
+      {
+       "value": "performed_no_exception",
+       "label": {
+        "en": "Performed, no exception",
+        "ar": "نُفذ دون استثناء"
+       }
+      },
+      {
+       "value": "performed_exception",
+       "label": {
+        "en": "Performed, exception noted",
+        "ar": "نُفذ مع ملاحظة استثناء"
+       }
+      },
+      {
+       "value": "not_applicable",
+       "label": {
+        "en": "Not applicable",
+        "ar": "لا ينطبق"
+       }
+      }
+     ],
+     "step": "ISA-600.38"
+    },
+    {
+     "id": "p_eqy_004_s2_evidence",
+     "label": {
+      "en": "Evidence links citing step 2",
+      "ar": "روابط الأدلة التي تستشهد بالخطوة 2"
+     },
+     "type": "integer",
+     "required": false,
+     "autofill": "records.RK-EVIDENCE-LINK.for.P-EQY-004.step.ISA-600.38",
+     "readonly": true
+    },
+    {
+     "id": "p_eqy_004_s2_ticks",
+     "label": {
+      "en": "Tick marks on step 2",
+      "ar": "علامات التدقيق على الخطوة 2"
+     },
+     "type": "text",
+     "required": false,
+     "autofill": "records.RK-EVIDENCE-LINK.ticks.P-EQY-004.ISA-600.38",
+     "readonly": true
+    },
+    {
+     "id": "p_eqy_004_s2_citation",
+     "label": {
+      "en": "Record cited for the exception on step 2 (a misstatement, a review note or a communication)",
+      "ar": "السجل المستشهد به للاستثناء في الخطوة 2 (تحريف أو ملاحظة مراجعة أو مراسلة)"
+     },
+     "type": "text",
+     "required": false,
+     "required_if": {
+      "field": "p_eqy_004_s2_conclusion",
+      "equals": "performed_exception",
+      "message": {
+       "en": "a step concluded with an exception cites the misstatement, review note or communication it raised",
+       "ar": "الخطوة التي خُلص فيها إلى استثناء تستشهد بالتحريف أو ملاحظة المراجعة أو المراسلة التي أثارتها"
+      }
+     },
+     "cites": [
+      "RK-MISSTATEMENT",
+      "RK-REVIEW-NOTE",
+      "RK-COMMUNICATION"
+     ]
     }
    ],
    "note": {
@@ -717,6 +1333,160 @@
         "ar": "لا ينطبق، مع بيان السبب"
        }
       }
+     ]
+    },
+    {
+     "id": "p_eqy_005_s1_conclusion",
+     "label": {
+      "en": "ISA-330.24: Perform procedures to evaluate whether the overall presentation of the financial statements accords with the framework, considering classification and description of the information and the presentation, structure and content of the statements.",
+      "ar": "ISA-330.24: Perform procedures to evaluate whether the overall presentation of the financial statements accords with the framework, considering classification and description of the information and the presentation, structure and content of the statements."
+     },
+     "type": "select",
+     "required": true,
+     "options": [
+      {
+       "value": "performed_no_exception",
+       "label": {
+        "en": "Performed, no exception",
+        "ar": "نُفذ دون استثناء"
+       }
+      },
+      {
+       "value": "performed_exception",
+       "label": {
+        "en": "Performed, exception noted",
+        "ar": "نُفذ مع ملاحظة استثناء"
+       }
+      },
+      {
+       "value": "not_applicable",
+       "label": {
+        "en": "Not applicable",
+        "ar": "لا ينطبق"
+       }
+      }
+     ],
+     "step": "ISA-330.24"
+    },
+    {
+     "id": "p_eqy_005_s1_evidence",
+     "label": {
+      "en": "Evidence links citing step 1",
+      "ar": "روابط الأدلة التي تستشهد بالخطوة 1"
+     },
+     "type": "integer",
+     "required": false,
+     "autofill": "records.RK-EVIDENCE-LINK.for.P-EQY-005.step.ISA-330.24",
+     "readonly": true
+    },
+    {
+     "id": "p_eqy_005_s1_ticks",
+     "label": {
+      "en": "Tick marks on step 1",
+      "ar": "علامات التدقيق على الخطوة 1"
+     },
+     "type": "text",
+     "required": false,
+     "autofill": "records.RK-EVIDENCE-LINK.ticks.P-EQY-005.ISA-330.24",
+     "readonly": true
+    },
+    {
+     "id": "p_eqy_005_s1_citation",
+     "label": {
+      "en": "Record cited for the exception on step 1 (a misstatement, a review note or a communication)",
+      "ar": "السجل المستشهد به للاستثناء في الخطوة 1 (تحريف أو ملاحظة مراجعة أو مراسلة)"
+     },
+     "type": "text",
+     "required": false,
+     "required_if": {
+      "field": "p_eqy_005_s1_conclusion",
+      "equals": "performed_exception",
+      "message": {
+       "en": "a step concluded with an exception cites the misstatement, review note or communication it raised",
+       "ar": "الخطوة التي خُلص فيها إلى استثناء تستشهد بالتحريف أو ملاحظة المراجعة أو المراسلة التي أثارتها"
+      }
+     },
+     "cites": [
+      "RK-MISSTATEMENT",
+      "RK-REVIEW-NOTE",
+      "RK-COMMUNICATION"
+     ]
+    },
+    {
+     "id": "p_eqy_005_s2_conclusion",
+     "label": {
+      "en": "ISA-700.13: Evaluate whether the significant accounting policies are appropriately disclosed and understandable, whether the policies are consistent with the framework and appropriate, whether estimates and disclosures are reasonable, whether the information is relevant, reliable, comparable and understandable and not obscured by irrelevant material, whether disclosures are adequate to understand material transactions and events, and whether terminology including statement titles is appropriate.",
+      "ar": "ISA-700.13: Evaluate whether the significant accounting policies are appropriately disclosed and understandable, whether the policies are consistent with the framework and appropriate, whether estimates and disclosures are reasonable, whether the information is relevant, reliable, comparable and understandable and not obscured by irrelevant material, whether disclosures are adequate to understand material transactions and events, and whether terminology including statement titles is appropriate."
+     },
+     "type": "select",
+     "required": true,
+     "options": [
+      {
+       "value": "performed_no_exception",
+       "label": {
+        "en": "Performed, no exception",
+        "ar": "نُفذ دون استثناء"
+       }
+      },
+      {
+       "value": "performed_exception",
+       "label": {
+        "en": "Performed, exception noted",
+        "ar": "نُفذ مع ملاحظة استثناء"
+       }
+      },
+      {
+       "value": "not_applicable",
+       "label": {
+        "en": "Not applicable",
+        "ar": "لا ينطبق"
+       }
+      }
+     ],
+     "step": "ISA-700.13"
+    },
+    {
+     "id": "p_eqy_005_s2_evidence",
+     "label": {
+      "en": "Evidence links citing step 2",
+      "ar": "روابط الأدلة التي تستشهد بالخطوة 2"
+     },
+     "type": "integer",
+     "required": false,
+     "autofill": "records.RK-EVIDENCE-LINK.for.P-EQY-005.step.ISA-700.13",
+     "readonly": true
+    },
+    {
+     "id": "p_eqy_005_s2_ticks",
+     "label": {
+      "en": "Tick marks on step 2",
+      "ar": "علامات التدقيق على الخطوة 2"
+     },
+     "type": "text",
+     "required": false,
+     "autofill": "records.RK-EVIDENCE-LINK.ticks.P-EQY-005.ISA-700.13",
+     "readonly": true
+    },
+    {
+     "id": "p_eqy_005_s2_citation",
+     "label": {
+      "en": "Record cited for the exception on step 2 (a misstatement, a review note or a communication)",
+      "ar": "السجل المستشهد به للاستثناء في الخطوة 2 (تحريف أو ملاحظة مراجعة أو مراسلة)"
+     },
+     "type": "text",
+     "required": false,
+     "required_if": {
+      "field": "p_eqy_005_s2_conclusion",
+      "equals": "performed_exception",
+      "message": {
+       "en": "a step concluded with an exception cites the misstatement, review note or communication it raised",
+       "ar": "الخطوة التي خُلص فيها إلى استثناء تستشهد بالتحريف أو ملاحظة المراجعة أو المراسلة التي أثارتها"
+      }
+     },
+     "cites": [
+      "RK-MISSTATEMENT",
+      "RK-REVIEW-NOTE",
+      "RK-COMMUNICATION"
      ]
     }
    ],
@@ -880,6 +1650,6 @@
   ]
  },
  "computation": "rollforward",
- "version": 2,
+ "version": 3,
  "ar_status": "draft_pending_review"
 }

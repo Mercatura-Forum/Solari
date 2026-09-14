@@ -54,6 +54,8 @@ OUT = os.path.join(HERE, '..', 'motoko', 'src', 'FormsSeed.mo')
 OUT_EXT = os.path.join(HERE, '..', 'motoko', 'src', 'FormsSeedExt.mo')
 OUT_MORE = os.path.join(HERE, '..', 'motoko', 'src', 'FormsSeedMore.mo')
 OUT_V2 = os.path.join(HERE, '..', 'motoko', 'src', 'FormsSeedV2.mo')
+OUT_V3 = os.path.join(HERE, '..', 'motoko', 'src', 'FormsSeedV3.mo')
+MAX_VERSION = 3   # a further version needs a module here and in ProductForms.MODULES
 FROZEN_DIR = os.path.join(HERE, '..', 'forms', 'frozen')
 OUT_GRAPH = os.path.join(HERE, '..', 'motoko', 'src', 'FormGraph.mo')
 STD = os.environ.get('AUDIT_STANDARDS', '../thebes-audit-standards')
@@ -753,8 +755,8 @@ def freeze_earlier_versions(catalogue):
     os.makedirs(FROZEN_DIR, exist_ok=True)
     frozen = 0
     for f in catalogue:
-        if f['version'] > 2:
-            raise SystemExit(f'{f["id"]} is version {f["version"]}: add a module for that version to the generator and to Forms.mo first')
+        if f['version'] > MAX_VERSION:
+            raise SystemExit(f'{f["id"]} is version {f["version"]}: add a module for that version to the generator and to ProductForms.mo first')
         for pv in range(1, f['version']):
             path = frozen_path(f['id'], pv)
             if os.path.exists(path):
@@ -812,7 +814,7 @@ def main():
     procedures = seed('procedures')
     leadsheets = seed('leadsheets')
     standards = seed('standards')
-    catalogue = FORMS + forms_families_a.FORMS + forms_families_b.FORMS + cycle_forms(procedures, leadsheets, seed('movement_schedules')) + forms_families_c.FORMS + forms_letters.FORMS
+    catalogue = FORMS + forms_families_a.FORMS + forms_families_b.FORMS + cycle_forms(procedures, leadsheets, seed('movement_schedules'), seed('procedure_requirements'), seed('requirements')) + forms_families_c.FORMS + forms_letters.FORMS
     catalogue.sort(key=lambda f: f['number'])
     controls_register(catalogue, seed('cycles'))
     for f in catalogue:
@@ -832,11 +834,13 @@ def main():
     product = [at_version(f, 1) for f in catalogue if f['number'] <= PRODUCT_FORMS]
     ext = [at_version(f, 1) for f in catalogue if PRODUCT_FORMS < f['number'] <= EXT_FORMS]
     more = [at_version(f, 1) for f in catalogue if f['number'] > EXT_FORMS]
-    v2 = [f for f in catalogue if f['version'] >= 2]
+    v2 = [at_version(f, 2) for f in catalogue if f['version'] >= 2]
+    v3 = [at_version(f, 3) for f in catalogue if f['version'] >= 3]
     write_module(OUT, product, '(form id, form definition as JSON), in catalogue order.')
     write_module(OUT_EXT, ext, '(form id, form definition as JSON), forms 15 onwards, in catalogue order.')
     write_module(OUT_MORE, more, '(form id, form definition as JSON), forms 39 onwards at version 1, in catalogue order.')
     write_module(OUT_V2, v2, '(form id, form definition as JSON): version 2 of every form revised since its first module, in catalogue order.')
+    write_module(OUT_V3, v3, '(form id, form definition as JSON): version 3 of every form revised twice, in catalogue order.')
     with open(os.path.join(FORMS_DIR, 'GRAPH.json'), 'w', encoding='utf-8') as fh:
         json.dump(graph, fh, ensure_ascii=False, indent=1)
     with open(OUT_GRAPH, 'w', encoding='utf-8') as fh:
@@ -844,12 +848,19 @@ def main():
                  '// Attribution: Thebes Core Team. Licence: Apache 2.0.\n\n'
                  'module {\n  /// The dependency graph between forms, as canonical JSON: nodes and edges\n'
                  '  /// (from, from_field, to, to_field, via, kind), derived from the definitions.\n'
-                 f'  public let GRAPH : Text = {mo(json.dumps(graph, ensure_ascii=False, separators=(",", ":")))};\n'
+                 f'  public let GRAPH : Text = {mo(json.dumps(graph, ensure_ascii=False, separators=(",", ":")))};\n\n'
+                 '  /// The definitions instantiated per leadsheet, by id: read without parsing a definition.\n'
+                 f'  public let PER : [Text] = [{", ".join(mo(f["id"]) for f in catalogue if f.get("per") == "leadsheet")}];\n\n'
+                 '  /// The edges into each form, as canonical JSON per target: a read of one form parses\n'
+                 '  /// its own edges and no other.\n'
+                 '  public let INTO : [(Text, Text)] = [\n'
+                 + ''.join(f'    ({mo(f["id"])}, {mo(json.dumps([e for e in graph["edges"] if e["to"] == f["id"]], ensure_ascii=False, separators=(",", ":")))}),\n' for f in catalogue)
+                 + '  ];\n'
                  '};\n')
     nfields = sum(len(s_['fields']) for f in catalogue for s_ in f['sections'])
     served = {pid for f in catalogue for pid in f['procedures']}
     print(f'wrote {len(catalogue)} forms ({nfields} fields, {sum(1 for f in catalogue if f["kind"] == "letter")} letters) to forms/, '
-          f'{len(product)} to {os.path.relpath(OUT)} (unchanged), {len(ext)} to {os.path.relpath(OUT_EXT)} (unchanged), {len(more)} to {os.path.relpath(OUT_MORE)} and {len(v2)} at version 2 to {os.path.relpath(OUT_V2)} ({frozen} newly frozen); '
+          f'{len(product)} to {os.path.relpath(OUT)} (unchanged), {len(ext)} to {os.path.relpath(OUT_EXT)} (unchanged), {len(more)} to {os.path.relpath(OUT_MORE)} {len(v2)} at version 2 to {os.path.relpath(OUT_V2)} and {len(v3)} at version 3 to {os.path.relpath(OUT_V3)} ({frozen} newly frozen); '
           f'{len(served)} of {len(procedures)} procedures served by a form, {len(graph["edges"])} graph edges')
 
 

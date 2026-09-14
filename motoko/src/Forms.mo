@@ -116,7 +116,7 @@ module {
     let out = List.empty<Text>();
     var pop : ?[Text] = null;
     for ((id, t) in all(ff).vals()) {
-      if (ProductForms.isPer(t)) {
+      if (ProductForms.isPer(id)) {
         let ls = switch (pop) { case (?p) p; case null { let p = populated(s, eng); pop := ?p; p } };
         for (l in ls.vals()) List.add(out, id # Text.fromChar(ProductForms.SEP) # l);
       } else List.add(out, id);
@@ -256,7 +256,18 @@ module {
   };
 
   /// Resolve one autofill expression against the engagement's current data.
-  func resolve(s : Engine.State, ff : FirmForms.State, e : Engine.Engagement, sp : J, expr : Text, values : J) : J {
+  /// The records of a kind, parsed once per read of a form: a cycle paper's steps read the
+  /// evidence links hundreds of times, and the file's records do not change while it is read.
+  type RecordCache = Map.Map<Text, [J]>;
+
+  func cachedRecords(cache : RecordCache, s : Engine.State, eng : Nat, kind : Text) : [J] {
+    switch (Map.get(cache, Text.compare, kind)) {
+      case (?rows) rows;
+      case null { let rows = recordsOf(s, eng, kind); Map.add(cache, Text.compare, kind, rows); rows };
+    }
+  };
+
+  func resolve(s : Engine.State, ff : FirmForms.State, e : Engine.Engagement, sp : J, expr : Text, values : J, cache : RecordCache) : J {
     let parts = Iter_toArray(Text.split(expr, #char '.'));
     if (parts.size() < 2) return #null_;
     switch (parts[0]) {
@@ -320,7 +331,26 @@ module {
         }
       };
       case "records" {
-        let rows = recordsOf(s, e.id, parts[1]);
+        let rows = cachedRecords(cache, s, e.id, parts[1]);
+        // records.<kind>.for.<procedure>.step.<requirement>: the records citing a step of a procedure
+        // (a requirement id carries dots, ISA-520.5: the tail of the expression is the id)
+        let tail = func(from : Nat) : Text { Text.join(Array.tabulate<Text>(if (parts.size() > from) parts.size() - from else 0, func(i) { parts[from + i] }).vals(), ".") };
+        if (parts.size() >= 6 and parts[2] == "for" and parts[4] == "step") {
+          var n = 0;
+          for (r in rows.vals()) { if (Py.textOr(r, "procedure", "") == parts[3] and Py.textOr(r, "step", "") == tail(5)) n += 1 };
+          return Json.nat(n);
+        };
+        // records.<kind>.ticks.<procedure>.<requirement>: the tick marks on the records citing a step
+        if (parts.size() >= 5 and parts[2] == "ticks") {
+          let ticks = List.empty<Text>();
+          for (r in rows.vals()) {
+            if (Py.textOr(r, "procedure", "") == parts[3] and Py.textOr(r, "step", "") == tail(4)) {
+              let tm = Py.textOr(r, "tick_mark", "");
+              if (tm != "" and tm != "None") { var seen = false; for (x in List.values(ticks)) { if (x == tm) seen := true }; if (not seen) List.add(ticks, tm) };
+            };
+          };
+          return #str(Text.join(List.toArray(ticks).vals(), ", "));
+        };
         if (parts.size() == 4 and parts[2] == "for") {
           var n = 0;
           for (r in rows.vals()) { if (Py.textOr(r, "procedure", "") == parts[3]) n += 1 };
@@ -388,9 +418,10 @@ module {
   /// Every autofill field's live value.
   func liveValues(s : Engine.State, ff : FirmForms.State, e : Engine.Engagement, sp : J, values : J) : [(Text, J)] {
     let out = List.empty<(Text, J)>();
+    let cache : RecordCache = Map.empty<Text, [J]>();
     for (f in fieldsOf(sp).vals()) {
       switch (Json.get(f, "autofill"), Json.get(f, "default")) {
-        case (?#str(expr), _) List.add(out, (Py.textOr(f, "id", ""), resolve(s, ff, e, sp, expr, values)));
+        case (?#str(expr), _) List.add(out, (Py.textOr(f, "id", ""), resolve(s, ff, e, sp, expr, values, cache)));
         // A field's stated default is its live value: shown until someone enters one, and
         // what preparing freezes if nobody does (a read-only default can be entered by no one).
         case (_, ?d) { if (d != #null_) List.add(out, (Py.textOr(f, "id", ""), d)) };
@@ -508,7 +539,19 @@ module {
       var via = "";
       for (f in fieldsOf(sp).vals()) { if (Py.textOr(f, "id", "") == k) via := Py.textOr(f, "autofill", "") };
       for (ed in edges.vals()) { if (Py.textOr(ed, "to_field", "") == k and Py.textOr(ed, "kind", "") != "declared" and src == #null_) src := #obj([("node", get(ed, "from")), ("field", get(ed, "from_field")), ("kind", get(ed, "kind"))]) };
-      if (src == #null_) { let root = switch (Text.split(via, #char '.').next()) { case (?r) r; case null "" }; src := #obj([("node", #str(root)), ("field", #null_), ("kind", #str(root))]) };
+      if (src == #null_) {
+        // a source outside the graph's edges (the steps of a procedure read the records their
+        // procedure's edge carries) is named the way the graph names its nodes
+        let vp = Iter_toArray(Text.split(via, #char '.'));
+        let root = if (vp.size() > 0) vp[0] else "";
+        let node = switch (root) {
+          case "records" if (vp.size() > 1) "records:" # vp[1] else root;
+          case "controls" "records:RK-CONTROL";
+          case "paper" if (vp.size() > 1) "paper:" # vp[1] else root;
+          case _ root;
+        };
+        src := #obj([("node", #str(node)), ("field", #null_), ("kind", #str(root))]);
+      };
       var fv : J = #null_;
       var lv : J = #null_;
       for ((lk, x) in live.vals()) { if (lk == k) lv := x };
@@ -521,19 +564,22 @@ module {
     for (ed in edges.vals()) {
       let from = Py.textOr(ed, "from", "");
       if (Map.get(seenUp, Text.compare, from) == null) {
-        switch (spec(ff, from)) {
-          case (?fsp) {
+        // the upstream form is never parsed here: it exists as a product or firm form, and
+        // whether it is per leadsheet is read by id
+        let known = ProductForms.latest(from) != null or FirmForms.latest(ff, from) != null;
+        switch (known) {
+          case true {
             Map.add(seenUp, Text.compare, from, true);
             var moved = false;
             for (k in stale.vals()) { if (Py.textOr(ed, "to_field", "") == k) moved := true };
             // a per-leadsheet paper upstream is every one of its instances
-            let sources : [Text] = if (perLeadsheet(fsp)) instancesOfBase(s, ff, eng, from) else [from];
+            let sources : [Text] = if (ProductForms.isPer(from)) instancesOfBase(s, ff, eng, from) else [from];
             for (src in sources.vals()) {
               let (st, ver) = switch (instance(s, eng, src)) { case (?i) (i.status, i.version); case null ("not_started", 0) };
               List.add(upstream, #obj([("form", #str(src)), ("field", get(ed, "from_field")), ("status", #str(st)), ("version", Json.nat(ver)), ("kind", get(ed, "kind")), ("drifted", #bool(moved))]));
             };
           };
-          case null {};
+          case false {};
         };
       };
     };
@@ -608,8 +654,12 @@ module {
 
   func allEdges(ff : FirmForms.State) : [J] { Array.concat(Py.list(graph(), "edges"), firmEdges(ff)) };
 
+  /// The edges into one form: the generated graph keeps them per target, so a read of a form
+  /// parses its own edges and not the whole graph; a firm's edges are derived and filtered.
   func edgesInto(ff : FirmForms.State, formId : Text) : [J] {
-    Array.filter<J>(allEdges(ff), func(ed) { Py.textOr(ed, "to", "") == formId })
+    var own : [J] = [];
+    for ((id, t) in FormGraph.INTO.vals()) { if (id == formId) own := Py.items(parse(t)) };
+    Array.concat(own, Array.filter<J>(firmEdges(ff), func(ed) { Py.textOr(ed, "to", "") == formId }))
   };
 
   /// Whether a form applies on the engagement: it does unless it serves at least one procedure
@@ -852,6 +902,20 @@ module {
           if (isBlank(v)) { for ((k, lv) in live.vals()) { if (k == id) v := lv } };
           let effective = func(k : Text) : J { let ev = get(values, k); if (isBlank(ev)) { for ((lk, lv) in live.vals()) { if (lk == k) return lv }; #null_ } else ev };
           switch (requiredProblem(f, v, effective)) { case (?p) return #err("cannot prepare: " # p); case null {} };
+          // cites: a value names a record of one of the listed kinds on this engagement
+          switch (Json.get(f, "cites")) {
+            case (?#arr(kinds)) {
+              if (not isBlank(v)) {
+                let wanted = Py.scalar(v);
+                var found = false;
+                for (r in List.values(s.records)) {
+                  if (r.engagementId == eng and Nat.toText(r.id) == wanted) { for (k in kinds.vals()) { if (Py.scalar(k) == r.kind) found := true } };
+                };
+                if (not found) return #err("cannot prepare: " # id # " cites no " # Text.join(Array.map<J, Text>(kinds, Py.scalar).vals(), ", ") # " record of this file (" # wanted # ")");
+              };
+            };
+            case _ {};
+          };
         };
         let kvs = switch (values) { case (#obj(kvs)) kvs; case _ [] };
         // the form is stamped with the exact definition it is prepared under (id, version, SHA-256):

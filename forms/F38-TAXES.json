@@ -399,6 +399,237 @@
        }
       }
      ]
+    },
+    {
+     "id": "p_tax_001_s1_conclusion",
+     "label": {
+      "en": "ISA-250.14: Obtain sufficient appropriate evidence about compliance with those laws and regulations generally recognised to have a direct effect on material amounts and disclosures in the financial statements.",
+      "ar": "ISA-250.14: Obtain sufficient appropriate evidence about compliance with those laws and regulations generally recognised to have a direct effect on material amounts and disclosures in the financial statements."
+     },
+     "type": "select",
+     "required": true,
+     "options": [
+      {
+       "value": "performed_no_exception",
+       "label": {
+        "en": "Performed, no exception",
+        "ar": "نُفذ دون استثناء"
+       }
+      },
+      {
+       "value": "performed_exception",
+       "label": {
+        "en": "Performed, exception noted",
+        "ar": "نُفذ مع ملاحظة استثناء"
+       }
+      },
+      {
+       "value": "not_applicable",
+       "label": {
+        "en": "Not applicable",
+        "ar": "لا ينطبق"
+       }
+      }
+     ],
+     "step": "ISA-250.14"
+    },
+    {
+     "id": "p_tax_001_s1_evidence",
+     "label": {
+      "en": "Evidence links citing step 1",
+      "ar": "روابط الأدلة التي تستشهد بالخطوة 1"
+     },
+     "type": "integer",
+     "required": false,
+     "autofill": "records.RK-EVIDENCE-LINK.for.P-TAX-001.step.ISA-250.14",
+     "readonly": true
+    },
+    {
+     "id": "p_tax_001_s1_ticks",
+     "label": {
+      "en": "Tick marks on step 1",
+      "ar": "علامات التدقيق على الخطوة 1"
+     },
+     "type": "text",
+     "required": false,
+     "autofill": "records.RK-EVIDENCE-LINK.ticks.P-TAX-001.ISA-250.14",
+     "readonly": true
+    },
+    {
+     "id": "p_tax_001_s1_citation",
+     "label": {
+      "en": "Record cited for the exception on step 1 (a misstatement, a review note or a communication)",
+      "ar": "السجل المستشهد به للاستثناء في الخطوة 1 (تحريف أو ملاحظة مراجعة أو مراسلة)"
+     },
+     "type": "text",
+     "required": false,
+     "required_if": {
+      "field": "p_tax_001_s1_conclusion",
+      "equals": "performed_exception",
+      "message": {
+       "en": "a step concluded with an exception cites the misstatement, review note or communication it raised",
+       "ar": "الخطوة التي خُلص فيها إلى استثناء تستشهد بالتحريف أو ملاحظة المراجعة أو المراسلة التي أثارتها"
+      }
+     },
+     "cites": [
+      "RK-MISSTATEMENT",
+      "RK-REVIEW-NOTE",
+      "RK-COMMUNICATION"
+     ]
+    },
+    {
+     "id": "p_tax_001_s2_conclusion",
+     "label": {
+      "en": "ISA-330.18: Irrespective of the assessed risks, design and perform substantive procedures for each material class of transactions, account balance and disclosure.",
+      "ar": "ISA-330.18: Irrespective of the assessed risks, design and perform substantive procedures for each material class of transactions, account balance and disclosure."
+     },
+     "type": "select",
+     "required": true,
+     "options": [
+      {
+       "value": "performed_no_exception",
+       "label": {
+        "en": "Performed, no exception",
+        "ar": "نُفذ دون استثناء"
+       }
+      },
+      {
+       "value": "performed_exception",
+       "label": {
+        "en": "Performed, exception noted",
+        "ar": "نُفذ مع ملاحظة استثناء"
+       }
+      },
+      {
+       "value": "not_applicable",
+       "label": {
+        "en": "Not applicable",
+        "ar": "لا ينطبق"
+       }
+      }
+     ],
+     "step": "ISA-330.18"
+    },
+    {
+     "id": "p_tax_001_s2_evidence",
+     "label": {
+      "en": "Evidence links citing step 2",
+      "ar": "روابط الأدلة التي تستشهد بالخطوة 2"
+     },
+     "type": "integer",
+     "required": false,
+     "autofill": "records.RK-EVIDENCE-LINK.for.P-TAX-001.step.ISA-330.18",
+     "readonly": true
+    },
+    {
+     "id": "p_tax_001_s2_ticks",
+     "label": {
+      "en": "Tick marks on step 2",
+      "ar": "علامات التدقيق على الخطوة 2"
+     },
+     "type": "text",
+     "required": false,
+     "autofill": "records.RK-EVIDENCE-LINK.ticks.P-TAX-001.ISA-330.18",
+     "readonly": true
+    },
+    {
+     "id": "p_tax_001_s2_citation",
+     "label": {
+      "en": "Record cited for the exception on step 2 (a misstatement, a review note or a communication)",
+      "ar": "السجل المستشهد به للاستثناء في الخطوة 2 (تحريف أو ملاحظة مراجعة أو مراسلة)"
+     },
+     "type": "text",
+     "required": false,
+     "required_if": {
+      "field": "p_tax_001_s2_conclusion",
+      "equals": "performed_exception",
+      "message": {
+       "en": "a step concluded with an exception cites the misstatement, review note or communication it raised",
+       "ar": "الخطوة التي خُلص فيها إلى استثناء تستشهد بالتحريف أو ملاحظة المراجعة أو المراسلة التي أثارتها"
+      }
+     },
+     "cites": [
+      "RK-MISSTATEMENT",
+      "RK-REVIEW-NOTE",
+      "RK-COMMUNICATION"
+     ]
+    },
+    {
+     "id": "p_tax_001_s3_conclusion",
+     "label": {
+      "en": "ISA-540.22: Where management's process is tested, obtain sufficient appropriate evidence on the selection and application of methods, significant assumptions and data, and on how management selected the point estimate and developed the estimation-uncertainty disclosures.",
+      "ar": "ISA-540.22: Where management's process is tested, obtain sufficient appropriate evidence on the selection and application of methods, significant assumptions and data, and on how management selected the point estimate and developed the estimation-uncertainty disclosures."
+     },
+     "type": "select",
+     "required": true,
+     "options": [
+      {
+       "value": "performed_no_exception",
+       "label": {
+        "en": "Performed, no exception",
+        "ar": "نُفذ دون استثناء"
+       }
+      },
+      {
+       "value": "performed_exception",
+       "label": {
+        "en": "Performed, exception noted",
+        "ar": "نُفذ مع ملاحظة استثناء"
+       }
+      },
+      {
+       "value": "not_applicable",
+       "label": {
+        "en": "Not applicable",
+        "ar": "لا ينطبق"
+       }
+      }
+     ],
+     "step": "ISA-540.22"
+    },
+    {
+     "id": "p_tax_001_s3_evidence",
+     "label": {
+      "en": "Evidence links citing step 3",
+      "ar": "روابط الأدلة التي تستشهد بالخطوة 3"
+     },
+     "type": "integer",
+     "required": false,
+     "autofill": "records.RK-EVIDENCE-LINK.for.P-TAX-001.step.ISA-540.22",
+     "readonly": true
+    },
+    {
+     "id": "p_tax_001_s3_ticks",
+     "label": {
+      "en": "Tick marks on step 3",
+      "ar": "علامات التدقيق على الخطوة 3"
+     },
+     "type": "text",
+     "required": false,
+     "autofill": "records.RK-EVIDENCE-LINK.ticks.P-TAX-001.ISA-540.22",
+     "readonly": true
+    },
+    {
+     "id": "p_tax_001_s3_citation",
+     "label": {
+      "en": "Record cited for the exception on step 3 (a misstatement, a review note or a communication)",
+      "ar": "السجل المستشهد به للاستثناء في الخطوة 3 (تحريف أو ملاحظة مراجعة أو مراسلة)"
+     },
+     "type": "text",
+     "required": false,
+     "required_if": {
+      "field": "p_tax_001_s3_conclusion",
+      "equals": "performed_exception",
+      "message": {
+       "en": "a step concluded with an exception cites the misstatement, review note or communication it raised",
+       "ar": "الخطوة التي خُلص فيها إلى استثناء تستشهد بالتحريف أو ملاحظة المراجعة أو المراسلة التي أثارتها"
+      }
+     },
+     "cites": [
+      "RK-MISSTATEMENT",
+      "RK-REVIEW-NOTE",
+      "RK-COMMUNICATION"
+     ]
     }
    ],
    "note": {
@@ -483,6 +714,237 @@
         "ar": "لا ينطبق، مع بيان السبب"
        }
       }
+     ]
+    },
+    {
+     "id": "p_tax_002_s1_conclusion",
+     "label": {
+      "en": "ISA-540.22: Where management's process is tested, obtain sufficient appropriate evidence on the selection and application of methods, significant assumptions and data, and on how management selected the point estimate and developed the estimation-uncertainty disclosures.",
+      "ar": "ISA-540.22: Where management's process is tested, obtain sufficient appropriate evidence on the selection and application of methods, significant assumptions and data, and on how management selected the point estimate and developed the estimation-uncertainty disclosures."
+     },
+     "type": "select",
+     "required": true,
+     "options": [
+      {
+       "value": "performed_no_exception",
+       "label": {
+        "en": "Performed, no exception",
+        "ar": "نُفذ دون استثناء"
+       }
+      },
+      {
+       "value": "performed_exception",
+       "label": {
+        "en": "Performed, exception noted",
+        "ar": "نُفذ مع ملاحظة استثناء"
+       }
+      },
+      {
+       "value": "not_applicable",
+       "label": {
+        "en": "Not applicable",
+        "ar": "لا ينطبق"
+       }
+      }
+     ],
+     "step": "ISA-540.22"
+    },
+    {
+     "id": "p_tax_002_s1_evidence",
+     "label": {
+      "en": "Evidence links citing step 1",
+      "ar": "روابط الأدلة التي تستشهد بالخطوة 1"
+     },
+     "type": "integer",
+     "required": false,
+     "autofill": "records.RK-EVIDENCE-LINK.for.P-TAX-002.step.ISA-540.22",
+     "readonly": true
+    },
+    {
+     "id": "p_tax_002_s1_ticks",
+     "label": {
+      "en": "Tick marks on step 1",
+      "ar": "علامات التدقيق على الخطوة 1"
+     },
+     "type": "text",
+     "required": false,
+     "autofill": "records.RK-EVIDENCE-LINK.ticks.P-TAX-002.ISA-540.22",
+     "readonly": true
+    },
+    {
+     "id": "p_tax_002_s1_citation",
+     "label": {
+      "en": "Record cited for the exception on step 1 (a misstatement, a review note or a communication)",
+      "ar": "السجل المستشهد به للاستثناء في الخطوة 1 (تحريف أو ملاحظة مراجعة أو مراسلة)"
+     },
+     "type": "text",
+     "required": false,
+     "required_if": {
+      "field": "p_tax_002_s1_conclusion",
+      "equals": "performed_exception",
+      "message": {
+       "en": "a step concluded with an exception cites the misstatement, review note or communication it raised",
+       "ar": "الخطوة التي خُلص فيها إلى استثناء تستشهد بالتحريف أو ملاحظة المراجعة أو المراسلة التي أثارتها"
+      }
+     },
+     "cites": [
+      "RK-MISSTATEMENT",
+      "RK-REVIEW-NOTE",
+      "RK-COMMUNICATION"
+     ]
+    },
+    {
+     "id": "p_tax_002_s2_conclusion",
+     "label": {
+      "en": "ISA-540.24: Address whether significant assumptions are appropriate under the framework and any changes are appropriate, whether their selection indicates possible bias, whether they are consistent with each other, with other estimates and with other areas of the business, and where applicable whether management has the intent and ability to carry out specific actions.",
+      "ar": "ISA-540.24: Address whether significant assumptions are appropriate under the framework and any changes are appropriate, whether their selection indicates possible bias, whether they are consistent with each other, with other estimates and with other areas of the business, and where applicable whether management has the intent and ability to carry out specific actions."
+     },
+     "type": "select",
+     "required": true,
+     "options": [
+      {
+       "value": "performed_no_exception",
+       "label": {
+        "en": "Performed, no exception",
+        "ar": "نُفذ دون استثناء"
+       }
+      },
+      {
+       "value": "performed_exception",
+       "label": {
+        "en": "Performed, exception noted",
+        "ar": "نُفذ مع ملاحظة استثناء"
+       }
+      },
+      {
+       "value": "not_applicable",
+       "label": {
+        "en": "Not applicable",
+        "ar": "لا ينطبق"
+       }
+      }
+     ],
+     "step": "ISA-540.24"
+    },
+    {
+     "id": "p_tax_002_s2_evidence",
+     "label": {
+      "en": "Evidence links citing step 2",
+      "ar": "روابط الأدلة التي تستشهد بالخطوة 2"
+     },
+     "type": "integer",
+     "required": false,
+     "autofill": "records.RK-EVIDENCE-LINK.for.P-TAX-002.step.ISA-540.24",
+     "readonly": true
+    },
+    {
+     "id": "p_tax_002_s2_ticks",
+     "label": {
+      "en": "Tick marks on step 2",
+      "ar": "علامات التدقيق على الخطوة 2"
+     },
+     "type": "text",
+     "required": false,
+     "autofill": "records.RK-EVIDENCE-LINK.ticks.P-TAX-002.ISA-540.24",
+     "readonly": true
+    },
+    {
+     "id": "p_tax_002_s2_citation",
+     "label": {
+      "en": "Record cited for the exception on step 2 (a misstatement, a review note or a communication)",
+      "ar": "السجل المستشهد به للاستثناء في الخطوة 2 (تحريف أو ملاحظة مراجعة أو مراسلة)"
+     },
+     "type": "text",
+     "required": false,
+     "required_if": {
+      "field": "p_tax_002_s2_conclusion",
+      "equals": "performed_exception",
+      "message": {
+       "en": "a step concluded with an exception cites the misstatement, review note or communication it raised",
+       "ar": "الخطوة التي خُلص فيها إلى استثناء تستشهد بالتحريف أو ملاحظة المراجعة أو المراسلة التي أثارتها"
+      }
+     },
+     "cites": [
+      "RK-MISSTATEMENT",
+      "RK-REVIEW-NOTE",
+      "RK-COMMUNICATION"
+     ]
+    },
+    {
+     "id": "p_tax_002_s3_conclusion",
+     "label": {
+      "en": "ISA-330.18: Irrespective of the assessed risks, design and perform substantive procedures for each material class of transactions, account balance and disclosure.",
+      "ar": "ISA-330.18: Irrespective of the assessed risks, design and perform substantive procedures for each material class of transactions, account balance and disclosure."
+     },
+     "type": "select",
+     "required": true,
+     "options": [
+      {
+       "value": "performed_no_exception",
+       "label": {
+        "en": "Performed, no exception",
+        "ar": "نُفذ دون استثناء"
+       }
+      },
+      {
+       "value": "performed_exception",
+       "label": {
+        "en": "Performed, exception noted",
+        "ar": "نُفذ مع ملاحظة استثناء"
+       }
+      },
+      {
+       "value": "not_applicable",
+       "label": {
+        "en": "Not applicable",
+        "ar": "لا ينطبق"
+       }
+      }
+     ],
+     "step": "ISA-330.18"
+    },
+    {
+     "id": "p_tax_002_s3_evidence",
+     "label": {
+      "en": "Evidence links citing step 3",
+      "ar": "روابط الأدلة التي تستشهد بالخطوة 3"
+     },
+     "type": "integer",
+     "required": false,
+     "autofill": "records.RK-EVIDENCE-LINK.for.P-TAX-002.step.ISA-330.18",
+     "readonly": true
+    },
+    {
+     "id": "p_tax_002_s3_ticks",
+     "label": {
+      "en": "Tick marks on step 3",
+      "ar": "علامات التدقيق على الخطوة 3"
+     },
+     "type": "text",
+     "required": false,
+     "autofill": "records.RK-EVIDENCE-LINK.ticks.P-TAX-002.ISA-330.18",
+     "readonly": true
+    },
+    {
+     "id": "p_tax_002_s3_citation",
+     "label": {
+      "en": "Record cited for the exception on step 3 (a misstatement, a review note or a communication)",
+      "ar": "السجل المستشهد به للاستثناء في الخطوة 3 (تحريف أو ملاحظة مراجعة أو مراسلة)"
+     },
+     "type": "text",
+     "required": false,
+     "required_if": {
+      "field": "p_tax_002_s3_conclusion",
+      "equals": "performed_exception",
+      "message": {
+       "en": "a step concluded with an exception cites the misstatement, review note or communication it raised",
+       "ar": "الخطوة التي خُلص فيها إلى استثناء تستشهد بالتحريف أو ملاحظة المراجعة أو المراسلة التي أثارتها"
+      }
+     },
+     "cites": [
+      "RK-MISSTATEMENT",
+      "RK-REVIEW-NOTE",
+      "RK-COMMUNICATION"
      ]
     }
    ],
@@ -569,6 +1031,237 @@
        }
       }
      ]
+    },
+    {
+     "id": "p_tax_003_s1_conclusion",
+     "label": {
+      "en": "ISA-540.22: Where management's process is tested, obtain sufficient appropriate evidence on the selection and application of methods, significant assumptions and data, and on how management selected the point estimate and developed the estimation-uncertainty disclosures.",
+      "ar": "ISA-540.22: Where management's process is tested, obtain sufficient appropriate evidence on the selection and application of methods, significant assumptions and data, and on how management selected the point estimate and developed the estimation-uncertainty disclosures."
+     },
+     "type": "select",
+     "required": true,
+     "options": [
+      {
+       "value": "performed_no_exception",
+       "label": {
+        "en": "Performed, no exception",
+        "ar": "نُفذ دون استثناء"
+       }
+      },
+      {
+       "value": "performed_exception",
+       "label": {
+        "en": "Performed, exception noted",
+        "ar": "نُفذ مع ملاحظة استثناء"
+       }
+      },
+      {
+       "value": "not_applicable",
+       "label": {
+        "en": "Not applicable",
+        "ar": "لا ينطبق"
+       }
+      }
+     ],
+     "step": "ISA-540.22"
+    },
+    {
+     "id": "p_tax_003_s1_evidence",
+     "label": {
+      "en": "Evidence links citing step 1",
+      "ar": "روابط الأدلة التي تستشهد بالخطوة 1"
+     },
+     "type": "integer",
+     "required": false,
+     "autofill": "records.RK-EVIDENCE-LINK.for.P-TAX-003.step.ISA-540.22",
+     "readonly": true
+    },
+    {
+     "id": "p_tax_003_s1_ticks",
+     "label": {
+      "en": "Tick marks on step 1",
+      "ar": "علامات التدقيق على الخطوة 1"
+     },
+     "type": "text",
+     "required": false,
+     "autofill": "records.RK-EVIDENCE-LINK.ticks.P-TAX-003.ISA-540.22",
+     "readonly": true
+    },
+    {
+     "id": "p_tax_003_s1_citation",
+     "label": {
+      "en": "Record cited for the exception on step 1 (a misstatement, a review note or a communication)",
+      "ar": "السجل المستشهد به للاستثناء في الخطوة 1 (تحريف أو ملاحظة مراجعة أو مراسلة)"
+     },
+     "type": "text",
+     "required": false,
+     "required_if": {
+      "field": "p_tax_003_s1_conclusion",
+      "equals": "performed_exception",
+      "message": {
+       "en": "a step concluded with an exception cites the misstatement, review note or communication it raised",
+       "ar": "الخطوة التي خُلص فيها إلى استثناء تستشهد بالتحريف أو ملاحظة المراجعة أو المراسلة التي أثارتها"
+      }
+     },
+     "cites": [
+      "RK-MISSTATEMENT",
+      "RK-REVIEW-NOTE",
+      "RK-COMMUNICATION"
+     ]
+    },
+    {
+     "id": "p_tax_003_s2_conclusion",
+     "label": {
+      "en": "ISA-501.9: Design and perform procedures to identify litigation and claims that may give rise to a risk of material misstatement: inquire of management and others including in-house counsel, review governance minutes and correspondence with external counsel, and review legal expense accounts.",
+      "ar": "ISA-501.9: Design and perform procedures to identify litigation and claims that may give rise to a risk of material misstatement: inquire of management and others including in-house counsel, review governance minutes and correspondence with external counsel, and review legal expense accounts."
+     },
+     "type": "select",
+     "required": true,
+     "options": [
+      {
+       "value": "performed_no_exception",
+       "label": {
+        "en": "Performed, no exception",
+        "ar": "نُفذ دون استثناء"
+       }
+      },
+      {
+       "value": "performed_exception",
+       "label": {
+        "en": "Performed, exception noted",
+        "ar": "نُفذ مع ملاحظة استثناء"
+       }
+      },
+      {
+       "value": "not_applicable",
+       "label": {
+        "en": "Not applicable",
+        "ar": "لا ينطبق"
+       }
+      }
+     ],
+     "step": "ISA-501.9"
+    },
+    {
+     "id": "p_tax_003_s2_evidence",
+     "label": {
+      "en": "Evidence links citing step 2",
+      "ar": "روابط الأدلة التي تستشهد بالخطوة 2"
+     },
+     "type": "integer",
+     "required": false,
+     "autofill": "records.RK-EVIDENCE-LINK.for.P-TAX-003.step.ISA-501.9",
+     "readonly": true
+    },
+    {
+     "id": "p_tax_003_s2_ticks",
+     "label": {
+      "en": "Tick marks on step 2",
+      "ar": "علامات التدقيق على الخطوة 2"
+     },
+     "type": "text",
+     "required": false,
+     "autofill": "records.RK-EVIDENCE-LINK.ticks.P-TAX-003.ISA-501.9",
+     "readonly": true
+    },
+    {
+     "id": "p_tax_003_s2_citation",
+     "label": {
+      "en": "Record cited for the exception on step 2 (a misstatement, a review note or a communication)",
+      "ar": "السجل المستشهد به للاستثناء في الخطوة 2 (تحريف أو ملاحظة مراجعة أو مراسلة)"
+     },
+     "type": "text",
+     "required": false,
+     "required_if": {
+      "field": "p_tax_003_s2_conclusion",
+      "equals": "performed_exception",
+      "message": {
+       "en": "a step concluded with an exception cites the misstatement, review note or communication it raised",
+       "ar": "الخطوة التي خُلص فيها إلى استثناء تستشهد بالتحريف أو ملاحظة المراجعة أو المراسلة التي أثارتها"
+      }
+     },
+     "cites": [
+      "RK-MISSTATEMENT",
+      "RK-REVIEW-NOTE",
+      "RK-COMMUNICATION"
+     ]
+    },
+    {
+     "id": "p_tax_003_s3_conclusion",
+     "label": {
+      "en": "ISA-250.19: On becoming aware of non-compliance or suspected non-compliance, obtain an understanding of the nature of the act and its circumstances and further information to evaluate the possible effect on the financial statements.",
+      "ar": "ISA-250.19: On becoming aware of non-compliance or suspected non-compliance, obtain an understanding of the nature of the act and its circumstances and further information to evaluate the possible effect on the financial statements."
+     },
+     "type": "select",
+     "required": true,
+     "options": [
+      {
+       "value": "performed_no_exception",
+       "label": {
+        "en": "Performed, no exception",
+        "ar": "نُفذ دون استثناء"
+       }
+      },
+      {
+       "value": "performed_exception",
+       "label": {
+        "en": "Performed, exception noted",
+        "ar": "نُفذ مع ملاحظة استثناء"
+       }
+      },
+      {
+       "value": "not_applicable",
+       "label": {
+        "en": "Not applicable",
+        "ar": "لا ينطبق"
+       }
+      }
+     ],
+     "step": "ISA-250.19"
+    },
+    {
+     "id": "p_tax_003_s3_evidence",
+     "label": {
+      "en": "Evidence links citing step 3",
+      "ar": "روابط الأدلة التي تستشهد بالخطوة 3"
+     },
+     "type": "integer",
+     "required": false,
+     "autofill": "records.RK-EVIDENCE-LINK.for.P-TAX-003.step.ISA-250.19",
+     "readonly": true
+    },
+    {
+     "id": "p_tax_003_s3_ticks",
+     "label": {
+      "en": "Tick marks on step 3",
+      "ar": "علامات التدقيق على الخطوة 3"
+     },
+     "type": "text",
+     "required": false,
+     "autofill": "records.RK-EVIDENCE-LINK.ticks.P-TAX-003.ISA-250.19",
+     "readonly": true
+    },
+    {
+     "id": "p_tax_003_s3_citation",
+     "label": {
+      "en": "Record cited for the exception on step 3 (a misstatement, a review note or a communication)",
+      "ar": "السجل المستشهد به للاستثناء في الخطوة 3 (تحريف أو ملاحظة مراجعة أو مراسلة)"
+     },
+     "type": "text",
+     "required": false,
+     "required_if": {
+      "field": "p_tax_003_s3_conclusion",
+      "equals": "performed_exception",
+      "message": {
+       "en": "a step concluded with an exception cites the misstatement, review note or communication it raised",
+       "ar": "الخطوة التي خُلص فيها إلى استثناء تستشهد بالتحريف أو ملاحظة المراجعة أو المراسلة التي أثارتها"
+      }
+     },
+     "cites": [
+      "RK-MISSTATEMENT",
+      "RK-REVIEW-NOTE",
+      "RK-COMMUNICATION"
+     ]
     }
    ],
    "note": {
@@ -653,6 +1346,160 @@
         "ar": "لا ينطبق، مع بيان السبب"
        }
       }
+     ]
+    },
+    {
+     "id": "p_tax_004_s1_conclusion",
+     "label": {
+      "en": "ISA-250.14: Obtain sufficient appropriate evidence about compliance with those laws and regulations generally recognised to have a direct effect on material amounts and disclosures in the financial statements.",
+      "ar": "ISA-250.14: Obtain sufficient appropriate evidence about compliance with those laws and regulations generally recognised to have a direct effect on material amounts and disclosures in the financial statements."
+     },
+     "type": "select",
+     "required": true,
+     "options": [
+      {
+       "value": "performed_no_exception",
+       "label": {
+        "en": "Performed, no exception",
+        "ar": "نُفذ دون استثناء"
+       }
+      },
+      {
+       "value": "performed_exception",
+       "label": {
+        "en": "Performed, exception noted",
+        "ar": "نُفذ مع ملاحظة استثناء"
+       }
+      },
+      {
+       "value": "not_applicable",
+       "label": {
+        "en": "Not applicable",
+        "ar": "لا ينطبق"
+       }
+      }
+     ],
+     "step": "ISA-250.14"
+    },
+    {
+     "id": "p_tax_004_s1_evidence",
+     "label": {
+      "en": "Evidence links citing step 1",
+      "ar": "روابط الأدلة التي تستشهد بالخطوة 1"
+     },
+     "type": "integer",
+     "required": false,
+     "autofill": "records.RK-EVIDENCE-LINK.for.P-TAX-004.step.ISA-250.14",
+     "readonly": true
+    },
+    {
+     "id": "p_tax_004_s1_ticks",
+     "label": {
+      "en": "Tick marks on step 1",
+      "ar": "علامات التدقيق على الخطوة 1"
+     },
+     "type": "text",
+     "required": false,
+     "autofill": "records.RK-EVIDENCE-LINK.ticks.P-TAX-004.ISA-250.14",
+     "readonly": true
+    },
+    {
+     "id": "p_tax_004_s1_citation",
+     "label": {
+      "en": "Record cited for the exception on step 1 (a misstatement, a review note or a communication)",
+      "ar": "السجل المستشهد به للاستثناء في الخطوة 1 (تحريف أو ملاحظة مراجعة أو مراسلة)"
+     },
+     "type": "text",
+     "required": false,
+     "required_if": {
+      "field": "p_tax_004_s1_conclusion",
+      "equals": "performed_exception",
+      "message": {
+       "en": "a step concluded with an exception cites the misstatement, review note or communication it raised",
+       "ar": "الخطوة التي خُلص فيها إلى استثناء تستشهد بالتحريف أو ملاحظة المراجعة أو المراسلة التي أثارتها"
+      }
+     },
+     "cites": [
+      "RK-MISSTATEMENT",
+      "RK-REVIEW-NOTE",
+      "RK-COMMUNICATION"
+     ]
+    },
+    {
+     "id": "p_tax_004_s2_conclusion",
+     "label": {
+      "en": "ISA-330.18: Irrespective of the assessed risks, design and perform substantive procedures for each material class of transactions, account balance and disclosure.",
+      "ar": "ISA-330.18: Irrespective of the assessed risks, design and perform substantive procedures for each material class of transactions, account balance and disclosure."
+     },
+     "type": "select",
+     "required": true,
+     "options": [
+      {
+       "value": "performed_no_exception",
+       "label": {
+        "en": "Performed, no exception",
+        "ar": "نُفذ دون استثناء"
+       }
+      },
+      {
+       "value": "performed_exception",
+       "label": {
+        "en": "Performed, exception noted",
+        "ar": "نُفذ مع ملاحظة استثناء"
+       }
+      },
+      {
+       "value": "not_applicable",
+       "label": {
+        "en": "Not applicable",
+        "ar": "لا ينطبق"
+       }
+      }
+     ],
+     "step": "ISA-330.18"
+    },
+    {
+     "id": "p_tax_004_s2_evidence",
+     "label": {
+      "en": "Evidence links citing step 2",
+      "ar": "روابط الأدلة التي تستشهد بالخطوة 2"
+     },
+     "type": "integer",
+     "required": false,
+     "autofill": "records.RK-EVIDENCE-LINK.for.P-TAX-004.step.ISA-330.18",
+     "readonly": true
+    },
+    {
+     "id": "p_tax_004_s2_ticks",
+     "label": {
+      "en": "Tick marks on step 2",
+      "ar": "علامات التدقيق على الخطوة 2"
+     },
+     "type": "text",
+     "required": false,
+     "autofill": "records.RK-EVIDENCE-LINK.ticks.P-TAX-004.ISA-330.18",
+     "readonly": true
+    },
+    {
+     "id": "p_tax_004_s2_citation",
+     "label": {
+      "en": "Record cited for the exception on step 2 (a misstatement, a review note or a communication)",
+      "ar": "السجل المستشهد به للاستثناء في الخطوة 2 (تحريف أو ملاحظة مراجعة أو مراسلة)"
+     },
+     "type": "text",
+     "required": false,
+     "required_if": {
+      "field": "p_tax_004_s2_conclusion",
+      "equals": "performed_exception",
+      "message": {
+       "en": "a step concluded with an exception cites the misstatement, review note or communication it raised",
+       "ar": "الخطوة التي خُلص فيها إلى استثناء تستشهد بالتحريف أو ملاحظة المراجعة أو المراسلة التي أثارتها"
+      }
+     },
+     "cites": [
+      "RK-MISSTATEMENT",
+      "RK-REVIEW-NOTE",
+      "RK-COMMUNICATION"
      ]
     }
    ],
@@ -739,6 +1586,160 @@
        }
       }
      ]
+    },
+    {
+     "id": "p_tax_005_s1_conclusion",
+     "label": {
+      "en": "ISA-250.14: Obtain sufficient appropriate evidence about compliance with those laws and regulations generally recognised to have a direct effect on material amounts and disclosures in the financial statements.",
+      "ar": "ISA-250.14: Obtain sufficient appropriate evidence about compliance with those laws and regulations generally recognised to have a direct effect on material amounts and disclosures in the financial statements."
+     },
+     "type": "select",
+     "required": true,
+     "options": [
+      {
+       "value": "performed_no_exception",
+       "label": {
+        "en": "Performed, no exception",
+        "ar": "نُفذ دون استثناء"
+       }
+      },
+      {
+       "value": "performed_exception",
+       "label": {
+        "en": "Performed, exception noted",
+        "ar": "نُفذ مع ملاحظة استثناء"
+       }
+      },
+      {
+       "value": "not_applicable",
+       "label": {
+        "en": "Not applicable",
+        "ar": "لا ينطبق"
+       }
+      }
+     ],
+     "step": "ISA-250.14"
+    },
+    {
+     "id": "p_tax_005_s1_evidence",
+     "label": {
+      "en": "Evidence links citing step 1",
+      "ar": "روابط الأدلة التي تستشهد بالخطوة 1"
+     },
+     "type": "integer",
+     "required": false,
+     "autofill": "records.RK-EVIDENCE-LINK.for.P-TAX-005.step.ISA-250.14",
+     "readonly": true
+    },
+    {
+     "id": "p_tax_005_s1_ticks",
+     "label": {
+      "en": "Tick marks on step 1",
+      "ar": "علامات التدقيق على الخطوة 1"
+     },
+     "type": "text",
+     "required": false,
+     "autofill": "records.RK-EVIDENCE-LINK.ticks.P-TAX-005.ISA-250.14",
+     "readonly": true
+    },
+    {
+     "id": "p_tax_005_s1_citation",
+     "label": {
+      "en": "Record cited for the exception on step 1 (a misstatement, a review note or a communication)",
+      "ar": "السجل المستشهد به للاستثناء في الخطوة 1 (تحريف أو ملاحظة مراجعة أو مراسلة)"
+     },
+     "type": "text",
+     "required": false,
+     "required_if": {
+      "field": "p_tax_005_s1_conclusion",
+      "equals": "performed_exception",
+      "message": {
+       "en": "a step concluded with an exception cites the misstatement, review note or communication it raised",
+       "ar": "الخطوة التي خُلص فيها إلى استثناء تستشهد بالتحريف أو ملاحظة المراجعة أو المراسلة التي أثارتها"
+      }
+     },
+     "cites": [
+      "RK-MISSTATEMENT",
+      "RK-REVIEW-NOTE",
+      "RK-COMMUNICATION"
+     ]
+    },
+    {
+     "id": "p_tax_005_s2_conclusion",
+     "label": {
+      "en": "ISA-330.18: Irrespective of the assessed risks, design and perform substantive procedures for each material class of transactions, account balance and disclosure.",
+      "ar": "ISA-330.18: Irrespective of the assessed risks, design and perform substantive procedures for each material class of transactions, account balance and disclosure."
+     },
+     "type": "select",
+     "required": true,
+     "options": [
+      {
+       "value": "performed_no_exception",
+       "label": {
+        "en": "Performed, no exception",
+        "ar": "نُفذ دون استثناء"
+       }
+      },
+      {
+       "value": "performed_exception",
+       "label": {
+        "en": "Performed, exception noted",
+        "ar": "نُفذ مع ملاحظة استثناء"
+       }
+      },
+      {
+       "value": "not_applicable",
+       "label": {
+        "en": "Not applicable",
+        "ar": "لا ينطبق"
+       }
+      }
+     ],
+     "step": "ISA-330.18"
+    },
+    {
+     "id": "p_tax_005_s2_evidence",
+     "label": {
+      "en": "Evidence links citing step 2",
+      "ar": "روابط الأدلة التي تستشهد بالخطوة 2"
+     },
+     "type": "integer",
+     "required": false,
+     "autofill": "records.RK-EVIDENCE-LINK.for.P-TAX-005.step.ISA-330.18",
+     "readonly": true
+    },
+    {
+     "id": "p_tax_005_s2_ticks",
+     "label": {
+      "en": "Tick marks on step 2",
+      "ar": "علامات التدقيق على الخطوة 2"
+     },
+     "type": "text",
+     "required": false,
+     "autofill": "records.RK-EVIDENCE-LINK.ticks.P-TAX-005.ISA-330.18",
+     "readonly": true
+    },
+    {
+     "id": "p_tax_005_s2_citation",
+     "label": {
+      "en": "Record cited for the exception on step 2 (a misstatement, a review note or a communication)",
+      "ar": "السجل المستشهد به للاستثناء في الخطوة 2 (تحريف أو ملاحظة مراجعة أو مراسلة)"
+     },
+     "type": "text",
+     "required": false,
+     "required_if": {
+      "field": "p_tax_005_s2_conclusion",
+      "equals": "performed_exception",
+      "message": {
+       "en": "a step concluded with an exception cites the misstatement, review note or communication it raised",
+       "ar": "الخطوة التي خُلص فيها إلى استثناء تستشهد بالتحريف أو ملاحظة المراجعة أو المراسلة التي أثارتها"
+      }
+     },
+     "cites": [
+      "RK-MISSTATEMENT",
+      "RK-REVIEW-NOTE",
+      "RK-COMMUNICATION"
+     ]
     }
    ],
    "note": {
@@ -762,6 +1763,6 @@
    "partner"
   ]
  },
- "version": 1,
+ "version": 2,
  "ar_status": "draft_pending_review"
 }

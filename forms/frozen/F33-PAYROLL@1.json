@@ -1,0 +1,649 @@
+{
+ "id": "F33-PAYROLL",
+ "number": 33,
+ "kind": "worksheet",
+ "phase": "fieldwork",
+ "title": {
+  "en": "Payroll working paper",
+  "ar": "ورقة عمل الرواتب والأجور"
+ },
+ "purpose": {
+  "en": "Document every substantive procedure of the payroll cycle: the work, the results, the evidence and the conclusion, against the balances the trial balance holds.",
+  "ar": "توثيق كل إجراء أساسي في دورة الرواتب والأجور: العمل والنتائج والأدلة والاستنتاج، مقابل الأرصدة الواردة في ميزان المراجعة."
+ },
+ "procedures": [
+  "P-PAY-003",
+  "P-PAY-004",
+  "P-PAY-005",
+  "P-PAY-006"
+ ],
+ "standards": [
+  "ISA-330",
+  "ISA-520",
+  "ISA-530",
+  "ISA-540",
+  "ISA-250"
+ ],
+ "sections": [
+  {
+   "id": "engagement",
+   "title": {
+    "en": "Engagement",
+    "ar": "الارتباط"
+   },
+   "fields": [
+    {
+     "id": "client",
+     "label": {
+      "en": "Entity audited",
+      "ar": "المنشأة محل المراجعة"
+     },
+     "type": "text",
+     "required": false,
+     "autofill": "engagement.client",
+     "readonly": true
+    },
+    {
+     "id": "period_start",
+     "label": {
+      "en": "Period from",
+      "ar": "الفترة من"
+     },
+     "type": "date",
+     "required": false,
+     "autofill": "engagement.period_start",
+     "readonly": true
+    },
+    {
+     "id": "period_end",
+     "label": {
+      "en": "Period to",
+      "ar": "الفترة إلى"
+     },
+     "type": "date",
+     "required": false,
+     "autofill": "engagement.period_end",
+     "readonly": true
+    },
+    {
+     "id": "framework",
+     "label": {
+      "en": "Financial reporting framework",
+      "ar": "إطار التقرير المالي"
+     },
+     "type": "text",
+     "required": false,
+     "autofill": "engagement.framework",
+     "readonly": true
+    }
+   ]
+  },
+  {
+   "id": "balances",
+   "title": {
+    "en": "Balances, materiality and risks",
+    "ar": "الأرصدة والأهمية النسبية والمخاطر"
+   },
+   "fields": [
+    {
+     "id": "performance_materiality",
+     "label": {
+      "en": "Performance materiality",
+      "ar": "مادية الأداء"
+     },
+     "type": "money",
+     "required": false,
+     "autofill": "paper.materiality.performance",
+     "readonly": true
+    },
+    {
+     "id": "clearly_trivial",
+     "label": {
+      "en": "Clearly trivial threshold",
+      "ar": "حد المبالغ التافهة بشكل واضح"
+     },
+     "type": "money",
+     "required": false,
+     "autofill": "paper.materiality.clearly_trivial",
+     "readonly": true
+    },
+    {
+     "id": "ls_ebo",
+     "label": {
+      "en": "Employee benefit obligations (LS-EBO)",
+      "ar": "Employee benefit obligations (LS-EBO)"
+     },
+     "type": "money",
+     "required": false,
+     "autofill": "tb.leadsheet.LS-EBO",
+     "readonly": true
+    },
+    {
+     "id": "ls_ebo_prior",
+     "label": {
+      "en": "Employee benefit obligations, prior period",
+      "ar": "Employee benefit obligations، الفترة السابقة"
+     },
+     "type": "money",
+     "required": false,
+     "autofill": "tb.leadsheet.LS-EBO.prior",
+     "readonly": true
+    },
+    {
+     "id": "ls_payl",
+     "label": {
+      "en": "Payroll liabilities (LS-PAYL)",
+      "ar": "Payroll liabilities (LS-PAYL)"
+     },
+     "type": "money",
+     "required": false,
+     "autofill": "tb.leadsheet.LS-PAYL",
+     "readonly": true
+    },
+    {
+     "id": "ls_payl_prior",
+     "label": {
+      "en": "Payroll liabilities, prior period",
+      "ar": "Payroll liabilities، الفترة السابقة"
+     },
+     "type": "money",
+     "required": false,
+     "autofill": "tb.leadsheet.LS-PAYL.prior",
+     "readonly": true
+    },
+    {
+     "id": "ls_staff",
+     "label": {
+      "en": "Staff costs (LS-STAFF)",
+      "ar": "Staff costs (LS-STAFF)"
+     },
+     "type": "money",
+     "required": false,
+     "autofill": "tb.leadsheet.LS-STAFF",
+     "readonly": true
+    },
+    {
+     "id": "ls_staff_prior",
+     "label": {
+      "en": "Staff costs, prior period",
+      "ar": "Staff costs، الفترة السابقة"
+     },
+     "type": "money",
+     "required": false,
+     "autofill": "tb.leadsheet.LS-STAFF.prior",
+     "readonly": true
+    },
+    {
+     "id": "risks",
+     "label": {
+      "en": "Risks placed on this cycle by the risk register",
+      "ar": "المخاطر الموضوعة على هذه الدورة في سجل المخاطر"
+     },
+     "type": "table",
+     "required": false,
+     "autofill": "form.F04-RISK-REGISTER.risks",
+     "readonly": true,
+     "columns": [
+      {
+       "id": "risk",
+       "label": {
+        "en": "Risk",
+        "ar": "الخطر"
+       },
+       "type": "text",
+       "required": true
+      },
+      {
+       "id": "level",
+       "label": {
+        "en": "Level",
+        "ar": "المستوى"
+       },
+       "type": "text",
+       "required": false
+      },
+      {
+       "id": "assertions",
+       "label": {
+        "en": "Assertions affected",
+        "ar": "الإقرارات المتأثرة"
+       },
+       "type": "text",
+       "required": false
+      },
+      {
+       "id": "inherent_risk",
+       "label": {
+        "en": "Inherent risk",
+        "ar": "الخطر الملازم"
+       },
+       "type": "text",
+       "required": false
+      },
+      {
+       "id": "significant",
+       "label": {
+        "en": "Significant risk",
+        "ar": "خطر مهم"
+       },
+       "type": "text",
+       "required": false
+      },
+      {
+       "id": "control_risk",
+       "label": {
+        "en": "Control risk",
+        "ar": "خطر الرقابة"
+       },
+       "type": "text",
+       "required": false
+      },
+      {
+       "id": "response",
+       "label": {
+        "en": "Planned response",
+        "ar": "الاستجابة المخططة"
+       },
+       "type": "textarea",
+       "required": false
+      }
+     ]
+    }
+   ],
+   "note": {
+    "en": "Balances are read from the latest accepted trial balance and frozen when the paper is prepared; a later import marks them as drifted.",
+    "ar": "تُقرأ الأرصدة من أحدث ميزان مراجعة مقبول وتُثبت عند إعداد الورقة؛ ويؤدي استيراد لاحق إلى وسمها بأنها تغيرت."
+   }
+  },
+  {
+   "id": "p_pay_003",
+   "title": {
+    "en": "P-PAY-003 Payroll proof in total",
+    "ar": "P-PAY-003 إثبات الرواتب في المجموع"
+   },
+   "fields": [
+    {
+     "id": "p_pay_003_work",
+     "label": {
+      "en": "Work performed",
+      "ar": "العمل المنفذ"
+     },
+     "type": "textarea",
+     "required": true
+    },
+    {
+     "id": "p_pay_003_result",
+     "label": {
+      "en": "Results and exceptions",
+      "ar": "النتائج والاستثناءات"
+     },
+     "type": "textarea",
+     "required": true
+    },
+    {
+     "id": "p_pay_003_samples",
+     "label": {
+      "en": "Samples recorded for this procedure",
+      "ar": "العينات المسجلة لهذا الإجراء"
+     },
+     "type": "integer",
+     "required": false,
+     "autofill": "records.RK-SAMPLE.for.P-PAY-003",
+     "readonly": true
+    },
+    {
+     "id": "p_pay_003_evidence",
+     "label": {
+      "en": "Evidence links citing this procedure",
+      "ar": "روابط الأدلة التي تستشهد بهذا الإجراء"
+     },
+     "type": "integer",
+     "required": false,
+     "autofill": "records.RK-EVIDENCE-LINK.for.P-PAY-003",
+     "readonly": true
+    },
+    {
+     "id": "p_pay_003_flagged",
+     "label": {
+      "en": "Lines flagged by the analytical review paper",
+      "ar": "البنود المعلَّمة في ورقة الفحص التحليلي"
+     },
+     "type": "integer",
+     "required": false,
+     "autofill": "paper.analytical_review.lines_flagged",
+     "readonly": true
+    },
+    {
+     "id": "p_pay_003_conclusion",
+     "label": {
+      "en": "Conclusion",
+      "ar": "الاستنتاج"
+     },
+     "type": "select",
+     "required": true,
+     "options": [
+      {
+       "value": "performed_no_exception",
+       "label": {
+        "en": "Performed, no exception",
+        "ar": "نُفذ دون استثناء"
+       }
+      },
+      {
+       "value": "performed_exception",
+       "label": {
+        "en": "Performed, exception noted",
+        "ar": "نُفذ مع ملاحظة استثناء"
+       }
+      },
+      {
+       "value": "not_applicable",
+       "label": {
+        "en": "Not applicable, reason stated",
+        "ar": "لا ينطبق، مع بيان السبب"
+       }
+      }
+     ]
+    }
+   ],
+   "note": {
+    "en": "Obtain evidence over staff cost completeness and accuracy through an expectation.",
+    "ar": "Obtain evidence over staff cost completeness and accuracy through an expectation."
+   }
+  },
+  {
+   "id": "p_pay_004",
+   "title": {
+    "en": "P-PAY-004 Employee existence and pay accuracy sample",
+    "ar": "P-PAY-004 عينة وجود الموظفين ودقة الأجور"
+   },
+   "fields": [
+    {
+     "id": "p_pay_004_work",
+     "label": {
+      "en": "Work performed",
+      "ar": "العمل المنفذ"
+     },
+     "type": "textarea",
+     "required": true
+    },
+    {
+     "id": "p_pay_004_result",
+     "label": {
+      "en": "Results and exceptions",
+      "ar": "النتائج والاستثناءات"
+     },
+     "type": "textarea",
+     "required": true
+    },
+    {
+     "id": "p_pay_004_samples",
+     "label": {
+      "en": "Samples recorded for this procedure",
+      "ar": "العينات المسجلة لهذا الإجراء"
+     },
+     "type": "integer",
+     "required": false,
+     "autofill": "records.RK-SAMPLE.for.P-PAY-004",
+     "readonly": true
+    },
+    {
+     "id": "p_pay_004_evidence",
+     "label": {
+      "en": "Evidence links citing this procedure",
+      "ar": "روابط الأدلة التي تستشهد بهذا الإجراء"
+     },
+     "type": "integer",
+     "required": false,
+     "autofill": "records.RK-EVIDENCE-LINK.for.P-PAY-004",
+     "readonly": true
+    },
+    {
+     "id": "p_pay_004_sample_size",
+     "label": {
+      "en": "Sample size from the sampling plan",
+      "ar": "حجم العينة من خطة العينة"
+     },
+     "type": "integer",
+     "required": false,
+     "autofill": "paper.mus_sample_size.sample_size",
+     "readonly": true
+    },
+    {
+     "id": "p_pay_004_upper_limit",
+     "label": {
+      "en": "Upper misstatement limit from the evaluation",
+      "ar": "الحد الأعلى للتحريف من التقييم"
+     },
+     "type": "money",
+     "required": false,
+     "autofill": "paper.mus_evaluate.upper_misstatement_limit",
+     "readonly": true
+    },
+    {
+     "id": "p_pay_004_conclusion",
+     "label": {
+      "en": "Conclusion",
+      "ar": "الاستنتاج"
+     },
+     "type": "select",
+     "required": true,
+     "options": [
+      {
+       "value": "performed_no_exception",
+       "label": {
+        "en": "Performed, no exception",
+        "ar": "نُفذ دون استثناء"
+       }
+      },
+      {
+       "value": "performed_exception",
+       "label": {
+        "en": "Performed, exception noted",
+        "ar": "نُفذ مع ملاحظة استثناء"
+       }
+      },
+      {
+       "value": "not_applicable",
+       "label": {
+        "en": "Not applicable, reason stated",
+        "ar": "لا ينطبق، مع بيان السبب"
+       }
+      }
+     ]
+    }
+   ],
+   "note": {
+    "en": "Obtain evidence that employees exist and are paid at authorised rates.",
+    "ar": "Obtain evidence that employees exist and are paid at authorised rates."
+   }
+  },
+  {
+   "id": "p_pay_005",
+   "title": {
+    "en": "P-PAY-005 Social insurance and payroll tax reconciliation",
+    "ar": "P-PAY-005 مطابقة التأمينات الاجتماعية وضرائب الرواتب"
+   },
+   "fields": [
+    {
+     "id": "p_pay_005_work",
+     "label": {
+      "en": "Work performed",
+      "ar": "العمل المنفذ"
+     },
+     "type": "textarea",
+     "required": true
+    },
+    {
+     "id": "p_pay_005_result",
+     "label": {
+      "en": "Results and exceptions",
+      "ar": "النتائج والاستثناءات"
+     },
+     "type": "textarea",
+     "required": true
+    },
+    {
+     "id": "p_pay_005_samples",
+     "label": {
+      "en": "Samples recorded for this procedure",
+      "ar": "العينات المسجلة لهذا الإجراء"
+     },
+     "type": "integer",
+     "required": false,
+     "autofill": "records.RK-SAMPLE.for.P-PAY-005",
+     "readonly": true
+    },
+    {
+     "id": "p_pay_005_evidence",
+     "label": {
+      "en": "Evidence links citing this procedure",
+      "ar": "روابط الأدلة التي تستشهد بهذا الإجراء"
+     },
+     "type": "integer",
+     "required": false,
+     "autofill": "records.RK-EVIDENCE-LINK.for.P-PAY-005",
+     "readonly": true
+    },
+    {
+     "id": "p_pay_005_conclusion",
+     "label": {
+      "en": "Conclusion",
+      "ar": "الاستنتاج"
+     },
+     "type": "select",
+     "required": true,
+     "options": [
+      {
+       "value": "performed_no_exception",
+       "label": {
+        "en": "Performed, no exception",
+        "ar": "نُفذ دون استثناء"
+       }
+      },
+      {
+       "value": "performed_exception",
+       "label": {
+        "en": "Performed, exception noted",
+        "ar": "نُفذ مع ملاحظة استثناء"
+       }
+      },
+      {
+       "value": "not_applicable",
+       "label": {
+        "en": "Not applicable, reason stated",
+        "ar": "لا ينطبق، مع بيان السبب"
+       }
+      }
+     ]
+    }
+   ],
+   "note": {
+    "en": "Obtain evidence of the completeness of statutory payroll liabilities.",
+    "ar": "Obtain evidence of the completeness of statutory payroll liabilities."
+   }
+  },
+  {
+   "id": "p_pay_006",
+   "title": {
+    "en": "P-PAY-006 Bonus, leave and end-of-service accruals",
+    "ar": "P-PAY-006 مستحقات المكافآت والإجازات ونهاية الخدمة"
+   },
+   "fields": [
+    {
+     "id": "p_pay_006_work",
+     "label": {
+      "en": "Work performed",
+      "ar": "العمل المنفذ"
+     },
+     "type": "textarea",
+     "required": true
+    },
+    {
+     "id": "p_pay_006_result",
+     "label": {
+      "en": "Results and exceptions",
+      "ar": "النتائج والاستثناءات"
+     },
+     "type": "textarea",
+     "required": true
+    },
+    {
+     "id": "p_pay_006_samples",
+     "label": {
+      "en": "Samples recorded for this procedure",
+      "ar": "العينات المسجلة لهذا الإجراء"
+     },
+     "type": "integer",
+     "required": false,
+     "autofill": "records.RK-SAMPLE.for.P-PAY-006",
+     "readonly": true
+    },
+    {
+     "id": "p_pay_006_evidence",
+     "label": {
+      "en": "Evidence links citing this procedure",
+      "ar": "روابط الأدلة التي تستشهد بهذا الإجراء"
+     },
+     "type": "integer",
+     "required": false,
+     "autofill": "records.RK-EVIDENCE-LINK.for.P-PAY-006",
+     "readonly": true
+    },
+    {
+     "id": "p_pay_006_conclusion",
+     "label": {
+      "en": "Conclusion",
+      "ar": "الاستنتاج"
+     },
+     "type": "select",
+     "required": true,
+     "options": [
+      {
+       "value": "performed_no_exception",
+       "label": {
+        "en": "Performed, no exception",
+        "ar": "نُفذ دون استثناء"
+       }
+      },
+      {
+       "value": "performed_exception",
+       "label": {
+        "en": "Performed, exception noted",
+        "ar": "نُفذ مع ملاحظة استثناء"
+       }
+      },
+      {
+       "value": "not_applicable",
+       "label": {
+        "en": "Not applicable, reason stated",
+        "ar": "لا ينطبق، مع بيان السبب"
+       }
+      }
+     ]
+    }
+   ],
+   "note": {
+    "en": "Evaluate payroll-related accruals and employee benefit obligations.",
+    "ar": "Evaluate payroll-related accruals and employee benefit obligations."
+   }
+  }
+ ],
+ "signoff": {
+  "prepare": [
+   "partner",
+   "manager",
+   "senior",
+   "staff"
+  ],
+  "review": [
+   "partner",
+   "manager"
+  ],
+  "approve": [
+   "partner"
+  ]
+ },
+ "version": 1,
+ "ar_status": "draft_pending_review"
+}
