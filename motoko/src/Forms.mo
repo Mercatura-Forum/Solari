@@ -34,6 +34,7 @@ import Programme "Programme";
 import Disclosures "Disclosures";
 import Group "Group";
 import Adjustments "Adjustments";
+import Controls "Controls";
 import ProductForms "ProductForms";
 import Hash "Hash";
 import FirmForms "FirmForms";
@@ -338,6 +339,13 @@ module {
       case "disclosures" if (parts[1] == "open") Json.nat(Disclosures.openCount(s, e.id)) else #null_;
       case "programme" if (parts[1] == "open") Json.nat(Programme.open(s, ff, e.id).size()) else #null_;
       case "group" if (parts[1] == "components") #arr(Group.components(s, e.id)) else #null_;
+      case "controls" switch (parts[1]) {
+        case "gaps" Json.nat(Controls.gapCount(s, e.id));
+        case "all" #arr(Controls.register(s, e.id));
+        case "matrix" Controls.matrix(s, e.id);
+        case "reliance" Controls.relianceGaps(s, e.id);
+        case cycle #arr(Controls.ofCycle(s, e.id, cycle));
+      };
       case "adjustments" switch (parts[1]) {
         case "open" Json.nat(Adjustments.openCount(s, e.id));
         case "waived" Json.nat(Adjustments.waivedCount(s, e.id));
@@ -372,7 +380,7 @@ module {
   /// shown live, never frozen, since signing a form is not signing a to-do list and approving
   /// a form closes procedures itself.
   func liveOnly(expr : Text) : Bool {
-    expr == "programme.open" or expr == "disclosures.open" or expr == "adjustments.open" or (Text.startsWith(expr, #text "records.") and Text.endsWith(expr, #text ".open"))
+    expr == "programme.open" or expr == "disclosures.open" or expr == "adjustments.open" or expr == "controls.gaps" or (Text.startsWith(expr, #text "records.") and Text.endsWith(expr, #text ".open"))
   };
 
   /// Every autofill field's live value.
@@ -583,6 +591,7 @@ module {
                 case "programme" ("programme", #null_, "programme");
                 case "group" ("group", #null_, "group");
                 case "adjustments" ("tb", #null_, "trial_balance");
+                case "controls" ("records:RK-CONTROL", #null_, "records");
                 case _ ("", #null_, "");
               };
               if (from != "" and from != id) List.add(out, #obj([("from", #str(from)), ("from_field", fromField), ("to", #str(id)), ("to_field", #str(fid)), ("via", #str(expr)), ("kind", #str(kind))]));

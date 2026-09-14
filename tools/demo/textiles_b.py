@@ -201,3 +201,46 @@ def computations(tb):
 
 
 MISSTATEMENTS_FOR_AGG = [{k: m[k] for k in ('id', 'description', 'type', 'status', 'assets', 'liabilities', 'equity', 'profit')} for m in MISSTATEMENTS]
+
+# The controls of Wadi Qamar relevant to the audit: identified in the walkthroughs, tested where the
+# audit relies on them, recorded as data so the internal control form, the matrix and the reliance
+# report read the same register.
+def _control(name, cycle, assertions, kind, freq, owner, description, design='effective', implementation='implemented',
+             test=None, relied=False, risks=(), area=None, when='2026-02-03T10:00'):
+    c = {'name': name, 'cycle': cycle, 'assertions': list(assertions), 'type': kind, 'frequency': freq, 'owner': owner, 'description': description,
+         'design': design, 'implementation': implementation, 'test_result': 'not_tested', 'relied_on': relied, 'risks': list(risks),
+         'identified_by': 'P3', 'identified_at': when}
+    if area:
+        c['gitc_area'] = area
+    if test:
+        proc, items, dev, result = test
+        c.update({'test_procedure': proc, 'items_tested': items, 'deviations': dev, 'test_result': result})
+    return c
+
+
+CONTROLS = [
+    _control('Export order matched to letter of credit before dispatch', 'REV', ['EO', 'ACC'], 'preventive', 'each_transaction', 'Export sales manager',
+             'No export order is released to the dye house without a confirmed letter of credit or approved open-account limit.', test=('P-REV-002', 45, 0, 'effective'), relied=True, risks=['Revenue cut-off']),
+    _control('Daily dispatch-to-invoice reconciliation', 'REV', ['C', 'CO'], 'detective', 'daily', 'Billing supervisor',
+             'Every dispatch note of the day is matched to an invoice before the billing run closes.', test=('P-REV-002', 45, 1, 'effective'), relied=True, risks=['Revenue cut-off']),
+    _control('Credit limit approval', 'REV', ['VA'], 'preventive', 'each_transaction', 'Credit controller',
+             'Orders above the approved limit are held until the credit controller signs the release.', test=('P-REV-003', 40, 0, 'effective'), relied=True),
+    _control('Three-way match before payment', 'PUR', ['EO', 'ACC'], 'preventive', 'each_transaction', 'Accounts payable supervisor',
+             'Invoices are paid only when matched to a purchase order and a goods receipt note within tolerance.', test=('P-PUR-002', 60, 2, 'effective'), relied=True, risks=['Unauthorised purchases']),
+    _control('Supplier master-file changes approved', 'PUR', ['EO'], 'preventive', 'each_transaction', 'Financial controller',
+             'A new supplier or a bank-detail change is approved by the financial controller on the change form.', test=('P-PUR-002', 25, 0, 'effective'), relied=True),
+    _control('Payroll master-file changes approved by HR and finance', 'PAY', ['EO', 'ACC'], 'preventive', 'each_transaction', 'HR manager',
+             'Starters, leavers and rate changes carry two approvals before the payroll run.', test=('P-PAY-002', 40, 0, 'effective'), relied=True, risks=['Ghost employees']),
+    _control('Monthly payroll cost reviewed against the headcount plan', 'PAY', ['C', 'ACC'], 'detective', 'monthly', 'Finance manager',
+             'The payroll journal is compared with the headcount plan and the prior month; variances above two percent are explained.', relied=False),
+    _control('Perpetual inventory counts by the warehouse', 'INV', ['EO', 'C'], 'detective', 'weekly', 'Warehouse manager',
+             'Cycle counts cover every location each quarter; differences are investigated before adjustment.', test=('P-INV-001', 30, 0, 'effective'), relied=True),
+    _control('Capital expenditure authorised on the investment form', 'PPE', ['EO', 'RO'], 'preventive', 'each_transaction', 'Managing director',
+             'No fixed-asset purchase is placed without an approved investment form naming the budget line.', relied=False),
+    _control('Bank payments released by two signatories', 'TRE', ['EO', 'RO'], 'preventive', 'each_transaction', 'Treasurer',
+             'Every payment above the petty-cash limit is released by two of the four authorised signatories in the bank portal.', test=('P-TRE-001', 40, 0, 'effective'), relied=True),
+    _control('User access to the ERP reviewed quarterly', 'GITC', ['C', 'ACC'], 'general_it', 'quarterly', 'IT manager',
+             'Access rights are reviewed against the role matrix every quarter and leavers removed within a day.', area='access', test=('P-FSL-011', 25, 0, 'effective'), relied=True),
+    _control('Programme changes tested and approved before release', 'GITC', ['C', 'ACC'], 'general_it', 'each_transaction', 'IT manager',
+             'A change to the ERP is tested in the staging system and approved by the finance manager before release.', area='change', test=('P-FSL-011', 12, 0, 'effective'), relied=True),
+]

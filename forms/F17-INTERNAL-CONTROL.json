@@ -722,6 +722,979 @@
      "required": true
     }
    ]
+  },
+  {
+   "id": "controls_rev",
+   "title": {
+    "en": "Controls: Revenue and receivables (REV)",
+    "ar": "الضوابط: Revenue and receivables (REV)"
+   },
+   "fields": [
+    {
+     "id": "controls_rev",
+     "label": {
+      "en": "Controls of the revenue and receivables cycle in the register",
+      "ar": "ضوابط دورة Revenue and receivables في السجل"
+     },
+     "type": "table",
+     "required": false,
+     "autofill": "controls.REV",
+     "readonly": true,
+     "columns": [
+      {
+       "id": "name",
+       "label": {
+        "en": "Control",
+        "ar": "الضابط"
+       },
+       "type": "text",
+       "required": false
+      },
+      {
+       "id": "assertions",
+       "label": {
+        "en": "Assertions",
+        "ar": "الإقرارات"
+       },
+       "type": "text",
+       "required": false
+      },
+      {
+       "id": "type",
+       "label": {
+        "en": "Type",
+        "ar": "النوع"
+       },
+       "type": "text",
+       "required": false
+      },
+      {
+       "id": "frequency",
+       "label": {
+        "en": "Frequency",
+        "ar": "التكرار"
+       },
+       "type": "text",
+       "required": false
+      },
+      {
+       "id": "design",
+       "label": {
+        "en": "Design",
+        "ar": "التصميم"
+       },
+       "type": "text",
+       "required": false
+      },
+      {
+       "id": "implementation",
+       "label": {
+        "en": "Implementation",
+        "ar": "التطبيق"
+       },
+       "type": "text",
+       "required": false
+      },
+      {
+       "id": "test_result",
+       "label": {
+        "en": "Test result",
+        "ar": "نتيجة الاختبار"
+       },
+       "type": "text",
+       "required": false
+      },
+      {
+       "id": "relied_on",
+       "label": {
+        "en": "Relied on",
+        "ar": "معتمد عليه"
+       },
+       "type": "text",
+       "required": false
+      }
+     ]
+    }
+   ],
+   "note": {
+    "en": "Read live from the control register; frozen when the paper is prepared, so a control changed afterwards drifts it.",
+    "ar": "تُقرأ مباشرة من سجل الضوابط وتُثبت عند إعداد الورقة، فيؤدي تغيير ضابط بعدها إلى انحرافها."
+   }
+  },
+  {
+   "id": "controls_pur",
+   "title": {
+    "en": "Controls: Purchases, payables and expenditure (PUR)",
+    "ar": "الضوابط: Purchases, payables and expenditure (PUR)"
+   },
+   "fields": [
+    {
+     "id": "controls_pur",
+     "label": {
+      "en": "Controls of the purchases, payables and expenditure cycle in the register",
+      "ar": "ضوابط دورة Purchases, payables and expenditure في السجل"
+     },
+     "type": "table",
+     "required": false,
+     "autofill": "controls.PUR",
+     "readonly": true,
+     "columns": [
+      {
+       "id": "name",
+       "label": {
+        "en": "Control",
+        "ar": "الضابط"
+       },
+       "type": "text",
+       "required": false
+      },
+      {
+       "id": "assertions",
+       "label": {
+        "en": "Assertions",
+        "ar": "الإقرارات"
+       },
+       "type": "text",
+       "required": false
+      },
+      {
+       "id": "type",
+       "label": {
+        "en": "Type",
+        "ar": "النوع"
+       },
+       "type": "text",
+       "required": false
+      },
+      {
+       "id": "frequency",
+       "label": {
+        "en": "Frequency",
+        "ar": "التكرار"
+       },
+       "type": "text",
+       "required": false
+      },
+      {
+       "id": "design",
+       "label": {
+        "en": "Design",
+        "ar": "التصميم"
+       },
+       "type": "text",
+       "required": false
+      },
+      {
+       "id": "implementation",
+       "label": {
+        "en": "Implementation",
+        "ar": "التطبيق"
+       },
+       "type": "text",
+       "required": false
+      },
+      {
+       "id": "test_result",
+       "label": {
+        "en": "Test result",
+        "ar": "نتيجة الاختبار"
+       },
+       "type": "text",
+       "required": false
+      },
+      {
+       "id": "relied_on",
+       "label": {
+        "en": "Relied on",
+        "ar": "معتمد عليه"
+       },
+       "type": "text",
+       "required": false
+      }
+     ]
+    }
+   ],
+   "note": {
+    "en": "Read live from the control register; frozen when the paper is prepared, so a control changed afterwards drifts it.",
+    "ar": "تُقرأ مباشرة من سجل الضوابط وتُثبت عند إعداد الورقة، فيؤدي تغيير ضابط بعدها إلى انحرافها."
+   }
+  },
+  {
+   "id": "controls_pay",
+   "title": {
+    "en": "Controls: Payroll (PAY)",
+    "ar": "الضوابط: Payroll (PAY)"
+   },
+   "fields": [
+    {
+     "id": "controls_pay",
+     "label": {
+      "en": "Controls of the payroll cycle in the register",
+      "ar": "ضوابط دورة Payroll في السجل"
+     },
+     "type": "table",
+     "required": false,
+     "autofill": "controls.PAY",
+     "readonly": true,
+     "columns": [
+      {
+       "id": "name",
+       "label": {
+        "en": "Control",
+        "ar": "الضابط"
+       },
+       "type": "text",
+       "required": false
+      },
+      {
+       "id": "assertions",
+       "label": {
+        "en": "Assertions",
+        "ar": "الإقرارات"
+       },
+       "type": "text",
+       "required": false
+      },
+      {
+       "id": "type",
+       "label": {
+        "en": "Type",
+        "ar": "النوع"
+       },
+       "type": "text",
+       "required": false
+      },
+      {
+       "id": "frequency",
+       "label": {
+        "en": "Frequency",
+        "ar": "التكرار"
+       },
+       "type": "text",
+       "required": false
+      },
+      {
+       "id": "design",
+       "label": {
+        "en": "Design",
+        "ar": "التصميم"
+       },
+       "type": "text",
+       "required": false
+      },
+      {
+       "id": "implementation",
+       "label": {
+        "en": "Implementation",
+        "ar": "التطبيق"
+       },
+       "type": "text",
+       "required": false
+      },
+      {
+       "id": "test_result",
+       "label": {
+        "en": "Test result",
+        "ar": "نتيجة الاختبار"
+       },
+       "type": "text",
+       "required": false
+      },
+      {
+       "id": "relied_on",
+       "label": {
+        "en": "Relied on",
+        "ar": "معتمد عليه"
+       },
+       "type": "text",
+       "required": false
+      }
+     ]
+    }
+   ],
+   "note": {
+    "en": "Read live from the control register; frozen when the paper is prepared, so a control changed afterwards drifts it.",
+    "ar": "تُقرأ مباشرة من سجل الضوابط وتُثبت عند إعداد الورقة، فيؤدي تغيير ضابط بعدها إلى انحرافها."
+   }
+  },
+  {
+   "id": "controls_inv",
+   "title": {
+    "en": "Controls: Inventory and cost of sales (INV)",
+    "ar": "الضوابط: Inventory and cost of sales (INV)"
+   },
+   "fields": [
+    {
+     "id": "controls_inv",
+     "label": {
+      "en": "Controls of the inventory and cost of sales cycle in the register",
+      "ar": "ضوابط دورة Inventory and cost of sales في السجل"
+     },
+     "type": "table",
+     "required": false,
+     "autofill": "controls.INV",
+     "readonly": true,
+     "columns": [
+      {
+       "id": "name",
+       "label": {
+        "en": "Control",
+        "ar": "الضابط"
+       },
+       "type": "text",
+       "required": false
+      },
+      {
+       "id": "assertions",
+       "label": {
+        "en": "Assertions",
+        "ar": "الإقرارات"
+       },
+       "type": "text",
+       "required": false
+      },
+      {
+       "id": "type",
+       "label": {
+        "en": "Type",
+        "ar": "النوع"
+       },
+       "type": "text",
+       "required": false
+      },
+      {
+       "id": "frequency",
+       "label": {
+        "en": "Frequency",
+        "ar": "التكرار"
+       },
+       "type": "text",
+       "required": false
+      },
+      {
+       "id": "design",
+       "label": {
+        "en": "Design",
+        "ar": "التصميم"
+       },
+       "type": "text",
+       "required": false
+      },
+      {
+       "id": "implementation",
+       "label": {
+        "en": "Implementation",
+        "ar": "التطبيق"
+       },
+       "type": "text",
+       "required": false
+      },
+      {
+       "id": "test_result",
+       "label": {
+        "en": "Test result",
+        "ar": "نتيجة الاختبار"
+       },
+       "type": "text",
+       "required": false
+      },
+      {
+       "id": "relied_on",
+       "label": {
+        "en": "Relied on",
+        "ar": "معتمد عليه"
+       },
+       "type": "text",
+       "required": false
+      }
+     ]
+    }
+   ],
+   "note": {
+    "en": "Read live from the control register; frozen when the paper is prepared, so a control changed afterwards drifts it.",
+    "ar": "تُقرأ مباشرة من سجل الضوابط وتُثبت عند إعداد الورقة، فيؤدي تغيير ضابط بعدها إلى انحرافها."
+   }
+  },
+  {
+   "id": "controls_ppe",
+   "title": {
+    "en": "Controls: Property, plant, equipment and intangibles (PPE)",
+    "ar": "الضوابط: Property, plant, equipment and intangibles (PPE)"
+   },
+   "fields": [
+    {
+     "id": "controls_ppe",
+     "label": {
+      "en": "Controls of the property, plant, equipment and intangibles cycle in the register",
+      "ar": "ضوابط دورة Property, plant, equipment and intangibles في السجل"
+     },
+     "type": "table",
+     "required": false,
+     "autofill": "controls.PPE",
+     "readonly": true,
+     "columns": [
+      {
+       "id": "name",
+       "label": {
+        "en": "Control",
+        "ar": "الضابط"
+       },
+       "type": "text",
+       "required": false
+      },
+      {
+       "id": "assertions",
+       "label": {
+        "en": "Assertions",
+        "ar": "الإقرارات"
+       },
+       "type": "text",
+       "required": false
+      },
+      {
+       "id": "type",
+       "label": {
+        "en": "Type",
+        "ar": "النوع"
+       },
+       "type": "text",
+       "required": false
+      },
+      {
+       "id": "frequency",
+       "label": {
+        "en": "Frequency",
+        "ar": "التكرار"
+       },
+       "type": "text",
+       "required": false
+      },
+      {
+       "id": "design",
+       "label": {
+        "en": "Design",
+        "ar": "التصميم"
+       },
+       "type": "text",
+       "required": false
+      },
+      {
+       "id": "implementation",
+       "label": {
+        "en": "Implementation",
+        "ar": "التطبيق"
+       },
+       "type": "text",
+       "required": false
+      },
+      {
+       "id": "test_result",
+       "label": {
+        "en": "Test result",
+        "ar": "نتيجة الاختبار"
+       },
+       "type": "text",
+       "required": false
+      },
+      {
+       "id": "relied_on",
+       "label": {
+        "en": "Relied on",
+        "ar": "معتمد عليه"
+       },
+       "type": "text",
+       "required": false
+      }
+     ]
+    }
+   ],
+   "note": {
+    "en": "Read live from the control register; frozen when the paper is prepared, so a control changed afterwards drifts it.",
+    "ar": "تُقرأ مباشرة من سجل الضوابط وتُثبت عند إعداد الورقة، فيؤدي تغيير ضابط بعدها إلى انحرافها."
+   }
+  },
+  {
+   "id": "controls_tre",
+   "title": {
+    "en": "Controls: Treasury and financial instruments (TRE)",
+    "ar": "الضوابط: Treasury and financial instruments (TRE)"
+   },
+   "fields": [
+    {
+     "id": "controls_tre",
+     "label": {
+      "en": "Controls of the treasury and financial instruments cycle in the register",
+      "ar": "ضوابط دورة Treasury and financial instruments في السجل"
+     },
+     "type": "table",
+     "required": false,
+     "autofill": "controls.TRE",
+     "readonly": true,
+     "columns": [
+      {
+       "id": "name",
+       "label": {
+        "en": "Control",
+        "ar": "الضابط"
+       },
+       "type": "text",
+       "required": false
+      },
+      {
+       "id": "assertions",
+       "label": {
+        "en": "Assertions",
+        "ar": "الإقرارات"
+       },
+       "type": "text",
+       "required": false
+      },
+      {
+       "id": "type",
+       "label": {
+        "en": "Type",
+        "ar": "النوع"
+       },
+       "type": "text",
+       "required": false
+      },
+      {
+       "id": "frequency",
+       "label": {
+        "en": "Frequency",
+        "ar": "التكرار"
+       },
+       "type": "text",
+       "required": false
+      },
+      {
+       "id": "design",
+       "label": {
+        "en": "Design",
+        "ar": "التصميم"
+       },
+       "type": "text",
+       "required": false
+      },
+      {
+       "id": "implementation",
+       "label": {
+        "en": "Implementation",
+        "ar": "التطبيق"
+       },
+       "type": "text",
+       "required": false
+      },
+      {
+       "id": "test_result",
+       "label": {
+        "en": "Test result",
+        "ar": "نتيجة الاختبار"
+       },
+       "type": "text",
+       "required": false
+      },
+      {
+       "id": "relied_on",
+       "label": {
+        "en": "Relied on",
+        "ar": "معتمد عليه"
+       },
+       "type": "text",
+       "required": false
+      }
+     ]
+    }
+   ],
+   "note": {
+    "en": "Read live from the control register; frozen when the paper is prepared, so a control changed afterwards drifts it.",
+    "ar": "تُقرأ مباشرة من سجل الضوابط وتُثبت عند إعداد الورقة، فيؤدي تغيير ضابط بعدها إلى انحرافها."
+   }
+  },
+  {
+   "id": "controls_eqy",
+   "title": {
+    "en": "Controls: Equity (EQY)",
+    "ar": "الضوابط: Equity (EQY)"
+   },
+   "fields": [
+    {
+     "id": "controls_eqy",
+     "label": {
+      "en": "Controls of the equity cycle in the register",
+      "ar": "ضوابط دورة Equity في السجل"
+     },
+     "type": "table",
+     "required": false,
+     "autofill": "controls.EQY",
+     "readonly": true,
+     "columns": [
+      {
+       "id": "name",
+       "label": {
+        "en": "Control",
+        "ar": "الضابط"
+       },
+       "type": "text",
+       "required": false
+      },
+      {
+       "id": "assertions",
+       "label": {
+        "en": "Assertions",
+        "ar": "الإقرارات"
+       },
+       "type": "text",
+       "required": false
+      },
+      {
+       "id": "type",
+       "label": {
+        "en": "Type",
+        "ar": "النوع"
+       },
+       "type": "text",
+       "required": false
+      },
+      {
+       "id": "frequency",
+       "label": {
+        "en": "Frequency",
+        "ar": "التكرار"
+       },
+       "type": "text",
+       "required": false
+      },
+      {
+       "id": "design",
+       "label": {
+        "en": "Design",
+        "ar": "التصميم"
+       },
+       "type": "text",
+       "required": false
+      },
+      {
+       "id": "implementation",
+       "label": {
+        "en": "Implementation",
+        "ar": "التطبيق"
+       },
+       "type": "text",
+       "required": false
+      },
+      {
+       "id": "test_result",
+       "label": {
+        "en": "Test result",
+        "ar": "نتيجة الاختبار"
+       },
+       "type": "text",
+       "required": false
+      },
+      {
+       "id": "relied_on",
+       "label": {
+        "en": "Relied on",
+        "ar": "معتمد عليه"
+       },
+       "type": "text",
+       "required": false
+      }
+     ]
+    }
+   ],
+   "note": {
+    "en": "Read live from the control register; frozen when the paper is prepared, so a control changed afterwards drifts it.",
+    "ar": "تُقرأ مباشرة من سجل الضوابط وتُثبت عند إعداد الورقة، فيؤدي تغيير ضابط بعدها إلى انحرافها."
+   }
+  },
+  {
+   "id": "controls_tax",
+   "title": {
+    "en": "Controls: Income and indirect taxes (TAX)",
+    "ar": "الضوابط: Income and indirect taxes (TAX)"
+   },
+   "fields": [
+    {
+     "id": "controls_tax",
+     "label": {
+      "en": "Controls of the income and indirect taxes cycle in the register",
+      "ar": "ضوابط دورة Income and indirect taxes في السجل"
+     },
+     "type": "table",
+     "required": false,
+     "autofill": "controls.TAX",
+     "readonly": true,
+     "columns": [
+      {
+       "id": "name",
+       "label": {
+        "en": "Control",
+        "ar": "الضابط"
+       },
+       "type": "text",
+       "required": false
+      },
+      {
+       "id": "assertions",
+       "label": {
+        "en": "Assertions",
+        "ar": "الإقرارات"
+       },
+       "type": "text",
+       "required": false
+      },
+      {
+       "id": "type",
+       "label": {
+        "en": "Type",
+        "ar": "النوع"
+       },
+       "type": "text",
+       "required": false
+      },
+      {
+       "id": "frequency",
+       "label": {
+        "en": "Frequency",
+        "ar": "التكرار"
+       },
+       "type": "text",
+       "required": false
+      },
+      {
+       "id": "design",
+       "label": {
+        "en": "Design",
+        "ar": "التصميم"
+       },
+       "type": "text",
+       "required": false
+      },
+      {
+       "id": "implementation",
+       "label": {
+        "en": "Implementation",
+        "ar": "التطبيق"
+       },
+       "type": "text",
+       "required": false
+      },
+      {
+       "id": "test_result",
+       "label": {
+        "en": "Test result",
+        "ar": "نتيجة الاختبار"
+       },
+       "type": "text",
+       "required": false
+      },
+      {
+       "id": "relied_on",
+       "label": {
+        "en": "Relied on",
+        "ar": "معتمد عليه"
+       },
+       "type": "text",
+       "required": false
+      }
+     ]
+    }
+   ],
+   "note": {
+    "en": "Read live from the control register; frozen when the paper is prepared, so a control changed afterwards drifts it.",
+    "ar": "تُقرأ مباشرة من سجل الضوابط وتُثبت عند إعداد الورقة، فيؤدي تغيير ضابط بعدها إلى انحرافها."
+   }
+  },
+  {
+   "id": "controls_fsl",
+   "title": {
+    "en": "Controls: Financial-statement level and entity-wide (FSL)",
+    "ar": "الضوابط: Financial-statement level and entity-wide (FSL)"
+   },
+   "fields": [
+    {
+     "id": "controls_fsl",
+     "label": {
+      "en": "Controls of the financial-statement level and entity-wide cycle in the register",
+      "ar": "ضوابط دورة Financial-statement level and entity-wide في السجل"
+     },
+     "type": "table",
+     "required": false,
+     "autofill": "controls.FSL",
+     "readonly": true,
+     "columns": [
+      {
+       "id": "name",
+       "label": {
+        "en": "Control",
+        "ar": "الضابط"
+       },
+       "type": "text",
+       "required": false
+      },
+      {
+       "id": "assertions",
+       "label": {
+        "en": "Assertions",
+        "ar": "الإقرارات"
+       },
+       "type": "text",
+       "required": false
+      },
+      {
+       "id": "type",
+       "label": {
+        "en": "Type",
+        "ar": "النوع"
+       },
+       "type": "text",
+       "required": false
+      },
+      {
+       "id": "frequency",
+       "label": {
+        "en": "Frequency",
+        "ar": "التكرار"
+       },
+       "type": "text",
+       "required": false
+      },
+      {
+       "id": "design",
+       "label": {
+        "en": "Design",
+        "ar": "التصميم"
+       },
+       "type": "text",
+       "required": false
+      },
+      {
+       "id": "implementation",
+       "label": {
+        "en": "Implementation",
+        "ar": "التطبيق"
+       },
+       "type": "text",
+       "required": false
+      },
+      {
+       "id": "test_result",
+       "label": {
+        "en": "Test result",
+        "ar": "نتيجة الاختبار"
+       },
+       "type": "text",
+       "required": false
+      },
+      {
+       "id": "relied_on",
+       "label": {
+        "en": "Relied on",
+        "ar": "معتمد عليه"
+       },
+       "type": "text",
+       "required": false
+      }
+     ]
+    }
+   ],
+   "note": {
+    "en": "Read live from the control register; frozen when the paper is prepared, so a control changed afterwards drifts it.",
+    "ar": "تُقرأ مباشرة من سجل الضوابط وتُثبت عند إعداد الورقة، فيؤدي تغيير ضابط بعدها إلى انحرافها."
+   }
+  },
+  {
+   "id": "controls_gitc",
+   "title": {
+    "en": "General IT controls: access, change and operations",
+    "ar": "الضوابط العامة لتقنية المعلومات: الوصول والتغيير والتشغيل"
+   },
+   "fields": [
+    {
+     "id": "controls_gitc",
+     "label": {
+      "en": "General IT controls in the register",
+      "ar": "الضوابط العامة لتقنية المعلومات في السجل"
+     },
+     "type": "table",
+     "required": false,
+     "autofill": "controls.GITC",
+     "readonly": true,
+     "columns": [
+      {
+       "id": "name",
+       "label": {
+        "en": "Control",
+        "ar": "الضابط"
+       },
+       "type": "text",
+       "required": false
+      },
+      {
+       "id": "gitc_area",
+       "label": {
+        "en": "Area",
+        "ar": "المجال"
+       },
+       "type": "text",
+       "required": false
+      },
+      {
+       "id": "design",
+       "label": {
+        "en": "Design",
+        "ar": "التصميم"
+       },
+       "type": "text",
+       "required": false
+      },
+      {
+       "id": "implementation",
+       "label": {
+        "en": "Implementation",
+        "ar": "التطبيق"
+       },
+       "type": "text",
+       "required": false
+      },
+      {
+       "id": "test_result",
+       "label": {
+        "en": "Test result",
+        "ar": "نتيجة الاختبار"
+       },
+       "type": "text",
+       "required": false
+      },
+      {
+       "id": "relied_on",
+       "label": {
+        "en": "Relied on",
+        "ar": "معتمد عليه"
+       },
+       "type": "text",
+       "required": false
+      }
+     ]
+    },
+    {
+     "id": "reliance_gaps",
+     "label": {
+      "en": "Reliance without an effective test (open)",
+      "ar": "الاعتماد دون اختبار فعال (مفتوح)"
+     },
+     "type": "integer",
+     "required": false,
+     "autofill": "controls.gaps",
+     "readonly": true
+    }
+   ],
+   "note": {
+    "en": "A control the audit relies on whose test is not effective, or a risk whose relied-on controls have no effective test, is counted here until it is resolved; the count is live and never frozen.",
+    "ar": "يُحسب هنا الضابط المعتمد عليه الذي لم يُختبر بفعالية، أو الخطر الذي لا يملك ضوابطه المعتمد عليها اختباراً فعالاً، حتى يُحل؛ والعدد حي ولا يُثبت."
+   }
   }
  ],
  "signoff": {
@@ -739,6 +1712,6 @@
    "partner"
   ]
  },
- "version": 1,
+ "version": 2,
  "ar_status": "draft_pending_review"
 }

@@ -144,6 +144,8 @@ def build_graph(forms):
                     problems.append(f'{f["id"]}.{fid}: a form does not read itself')
                     continue
                 add({'from': src, 'from_field': src_field, 'to': f['id'], 'to_field': fid, 'via': expr, 'kind': 'form'})
+            elif root == 'controls':
+                add({'from': source('records:RK-CONTROL', 'records', 'Records: RK-CONTROL'), 'to': f['id'], 'to_field': fid, 'via': expr, 'kind': 'records'})
             elif root in SOURCE_KINDS:
                 label = {'tb': 'Trial balance', 'adjustments': 'Trial balance', 'seed': 'The standards model', 'disclosures': 'Disclosure checklist', 'programme': 'Audit programme', 'group': 'Group ladder'}[root]
                 add({'from': source(root, SOURCE_KINDS[root], label), 'to': f['id'], 'to_field': fid, 'via': expr, 'kind': SOURCE_KINDS[root]})

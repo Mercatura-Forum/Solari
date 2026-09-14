@@ -48,6 +48,7 @@ import Programme "src/Programme";
 import Disclosures "src/Disclosures";
 import Group "src/Group";
 import Adjustments "src/Adjustments";
+import Controls "src/Controls";
 import Api "src/Api";
 import Dates "src/Dates";
 import Dec "src/Dec";
@@ -734,6 +735,16 @@ shared (install) persistent actor class AuditEngine() = self {
   public query func adjustmentsView(token : Text, engagementId : Nat) : async Reply {
     switch (cached(token)) {
       case (#ok(p)) reply(observed(p, Adjustments.view(engine, p, reads(p), engagementId)));
+      case (#err(m)) refuse(m);
+    }
+  };
+
+  // ------------------------------------------------------------------ controls as data (src/Controls.mo)
+
+  /// The control register with the control matrix and the reliance report.
+  public query func controlsView(token : Text, engagementId : Nat) : async Reply {
+    switch (cached(token)) {
+      case (#ok(p)) reply(observed(p, Controls.view(engine, p, reads(p), engagementId)));
       case (#err(m)) refuse(m);
     }
   };
@@ -1725,7 +1736,7 @@ shared (install) persistent actor class AuditEngine() = self {
 
   // `transient`, so every build states its own label: a plain `let` here is a stable field,
   // and an upgrade would restore the previous build's label over the new code's.
-  transient let THIS_BUILD : Text = "2026-09-13.17 the per-balance analytical procedure paper: one instance per populated leadsheet, its figures from its own computation, an uninvestigated excess refused";
+  transient let THIS_BUILD : Text = "2026-09-13.18 the per-balance analytical procedure paper and controls as data: the register, the matrix and the reliance report as queries";
   func buildJ() : Json.J { #obj([("build", #str(THIS_BUILD)), ("rulebook", #str(Seed.SOURCE_COMMIT))]) };
 
   func scopeOf(json : Text) : ?[Nat] {

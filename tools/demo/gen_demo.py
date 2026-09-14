@@ -142,6 +142,10 @@ def steps():
     st.compute('P3', 'a', 'trend', ca['trend'], 'P-FSL-009')
     st.compute('P3', 'a', 'attribute_sample_size', {'tolerable_rate': '0.05', 'beta': '0.10', 'expected_rate': '0'}, 'P-REV-002')
     st.compute('P3', 'a', 'attribute_evaluate', {'sample_size': 45, 'deviations': 0, 'beta': '0.10'}, 'P-REV-002')
+    # the control register: the controls the walkthroughs identified, their tests and the reliance placed on them,
+    # recorded before the internal control form reads them
+    for ctrl in B.CONTROLS:
+        st.record('P3', 'a', 'RK-CONTROL', ctrl)
     for form, v, who, d in (('F15-INDEPENDENCE', C.F15, 'P4', '2025-10-30T09'), ('F16-UNDERSTANDING-ENTITY', C.F16, 'P3', '2025-10-30T12'),
                             ('F17-INTERNAL-CONTROL', C.F17, 'P3', '2025-10-31T09'), ('F28-TIME-BUDGET', C.F28, 'P2', '2025-10-31T12')):
         st.save(who, 'a', form, v)

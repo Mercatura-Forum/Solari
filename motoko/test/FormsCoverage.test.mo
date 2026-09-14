@@ -37,7 +37,7 @@ let knownD = Map.empty<Text, Bool>();
 for (d in disclosures.vals()) Map.add(knownD, Text.compare, str(d, "id"), true);
 
 // every form parses; its procedures and standards exist; every autofill root is one the engine resolves
-let ROOTS : [Text] = ["engagement", "tb", "paper", "records", "seed", "disclosures", "programme", "group", "form"];
+let ROOTS : [Text] = ["engagement", "tb", "paper", "records", "seed", "disclosures", "programme", "group", "adjustments", "controls", "form"];
 let served = Map.empty<Text, Nat>();
 let fieldsOf = Map.empty<Text, Map.Map<Text, Bool>>();
 var forms = 0;

@@ -1,0 +1,744 @@
+{
+ "id": "F17-INTERNAL-CONTROL",
+ "number": 17,
+ "kind": "worksheet",
+ "phase": "planning",
+ "title": {
+  "en": "Internal control evaluation, walkthroughs and tests of controls",
+  "ar": "تقييم الرقابة الداخلية والتتبع واختبارات الرقابة"
+ },
+ "purpose": {
+  "en": "Record the understanding and evaluation of the components of the system of internal control, the walkthroughs of the significant processes, the tests of controls relied upon, and the deficiencies identified.",
+  "ar": "توثيق فهم مكونات نظام الرقابة الداخلية وتقييمها، وتتبع العمليات المهمة، واختبارات الرقابة المعتمد عليها، وأوجه القصور المحددة."
+ },
+ "procedures": [
+  "P-FSL-010",
+  "P-FSL-011",
+  "P-FSL-054",
+  "P-REV-001",
+  "P-PUR-001",
+  "P-PAY-001",
+  "P-INV-001",
+  "P-REV-002",
+  "P-REV-003",
+  "P-PUR-002",
+  "P-PAY-002"
+ ],
+ "standards": [
+  "ISA-315",
+  "ISA-330",
+  "ISA-265",
+  "ISA-530"
+ ],
+ "computation": "attribute_evaluate",
+ "sections": [
+  {
+   "id": "engagement",
+   "title": {
+    "en": "Engagement",
+    "ar": "الارتباط"
+   },
+   "fields": [
+    {
+     "id": "client",
+     "label": {
+      "en": "Entity audited",
+      "ar": "المنشأة محل المراجعة"
+     },
+     "type": "text",
+     "required": false,
+     "autofill": "engagement.client",
+     "readonly": true
+    },
+    {
+     "id": "period_start",
+     "label": {
+      "en": "Period from",
+      "ar": "الفترة من"
+     },
+     "type": "date",
+     "required": false,
+     "autofill": "engagement.period_start",
+     "readonly": true
+    },
+    {
+     "id": "period_end",
+     "label": {
+      "en": "Period to",
+      "ar": "الفترة إلى"
+     },
+     "type": "date",
+     "required": false,
+     "autofill": "engagement.period_end",
+     "readonly": true
+    },
+    {
+     "id": "framework",
+     "label": {
+      "en": "Financial reporting framework",
+      "ar": "إطار التقرير المالي"
+     },
+     "type": "text",
+     "required": false,
+     "autofill": "engagement.framework",
+     "readonly": true
+    }
+   ]
+  },
+  {
+   "id": "components",
+   "title": {
+    "en": "Components of the system of internal control",
+    "ar": "مكونات نظام الرقابة الداخلية"
+   },
+   "fields": [
+    {
+     "id": "control_environment",
+     "label": {
+      "en": "Control environment",
+      "ar": "بيئة الرقابة"
+     },
+     "type": "textarea",
+     "required": true
+    },
+    {
+     "id": "control_environment_eval",
+     "label": {
+      "en": "Evaluation",
+      "ar": "التقييم"
+     },
+     "type": "select",
+     "required": true,
+     "options": [
+      {
+       "value": "effective",
+       "label": {
+        "en": "Designed and implemented effectively",
+        "ar": "مصمم ومنفذ بفعالية"
+       }
+      },
+      {
+       "value": "deficient",
+       "label": {
+        "en": "Deficiency identified",
+        "ar": "تم تحديد قصور"
+       }
+      },
+      {
+       "value": "not_relied",
+       "label": {
+        "en": "Not relied upon",
+        "ar": "لا يُعتمد عليه"
+       }
+      }
+     ]
+    },
+    {
+     "id": "risk_process",
+     "label": {
+      "en": "The entity's risk assessment process",
+      "ar": "عملية تقييم المخاطر في المنشأة"
+     },
+     "type": "textarea",
+     "required": true
+    },
+    {
+     "id": "risk_process_eval",
+     "label": {
+      "en": "Evaluation",
+      "ar": "التقييم"
+     },
+     "type": "select",
+     "required": true,
+     "options": [
+      {
+       "value": "effective",
+       "label": {
+        "en": "Designed and implemented effectively",
+        "ar": "مصمم ومنفذ بفعالية"
+       }
+      },
+      {
+       "value": "deficient",
+       "label": {
+        "en": "Deficiency identified",
+        "ar": "تم تحديد قصور"
+       }
+      },
+      {
+       "value": "not_relied",
+       "label": {
+        "en": "Not relied upon",
+        "ar": "لا يُعتمد عليه"
+       }
+      }
+     ]
+    },
+    {
+     "id": "monitoring",
+     "label": {
+      "en": "Monitoring of the system of internal control",
+      "ar": "متابعة نظام الرقابة الداخلية"
+     },
+     "type": "textarea",
+     "required": true
+    },
+    {
+     "id": "monitoring_eval",
+     "label": {
+      "en": "Evaluation",
+      "ar": "التقييم"
+     },
+     "type": "select",
+     "required": true,
+     "options": [
+      {
+       "value": "effective",
+       "label": {
+        "en": "Designed and implemented effectively",
+        "ar": "مصمم ومنفذ بفعالية"
+       }
+      },
+      {
+       "value": "deficient",
+       "label": {
+        "en": "Deficiency identified",
+        "ar": "تم تحديد قصور"
+       }
+      },
+      {
+       "value": "not_relied",
+       "label": {
+        "en": "Not relied upon",
+        "ar": "لا يُعتمد عليه"
+       }
+      }
+     ]
+    },
+    {
+     "id": "information_system",
+     "label": {
+      "en": "Information system and communication, including the journal-entry process",
+      "ar": "نظام المعلومات والاتصال، بما في ذلك عملية قيود اليومية"
+     },
+     "type": "textarea",
+     "required": true
+    },
+    {
+     "id": "information_system_eval",
+     "label": {
+      "en": "Evaluation",
+      "ar": "التقييم"
+     },
+     "type": "select",
+     "required": true,
+     "options": [
+      {
+       "value": "effective",
+       "label": {
+        "en": "Designed and implemented effectively",
+        "ar": "مصمم ومنفذ بفعالية"
+       }
+      },
+      {
+       "value": "deficient",
+       "label": {
+        "en": "Deficiency identified",
+        "ar": "تم تحديد قصور"
+       }
+      },
+      {
+       "value": "not_relied",
+       "label": {
+        "en": "Not relied upon",
+        "ar": "لا يُعتمد عليه"
+       }
+      }
+     ]
+    },
+    {
+     "id": "control_activities",
+     "label": {
+      "en": "Control activities relevant to the audit and general IT controls",
+      "ar": "أنشطة الرقابة ذات الصلة بالمراجعة والضوابط العامة لتقنية المعلومات"
+     },
+     "type": "textarea",
+     "required": true
+    },
+    {
+     "id": "control_activities_eval",
+     "label": {
+      "en": "Evaluation",
+      "ar": "التقييم"
+     },
+     "type": "select",
+     "required": true,
+     "options": [
+      {
+       "value": "effective",
+       "label": {
+        "en": "Designed and implemented effectively",
+        "ar": "مصمم ومنفذ بفعالية"
+       }
+      },
+      {
+       "value": "deficient",
+       "label": {
+        "en": "Deficiency identified",
+        "ar": "تم تحديد قصور"
+       }
+      },
+      {
+       "value": "not_relied",
+       "label": {
+        "en": "Not relied upon",
+        "ar": "لا يُعتمد عليه"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "walkthroughs",
+   "title": {
+    "en": "Walkthroughs",
+    "ar": "التتبع"
+   },
+   "fields": [
+    {
+     "id": "walkthroughs",
+     "label": {
+      "en": "Processes walked through from initiation to the ledger",
+      "ar": "العمليات المتتبعة من البدء حتى دفتر الأستاذ"
+     },
+     "type": "table",
+     "required": true,
+     "columns": [
+      {
+       "id": "cycle",
+       "label": {
+        "en": "Cycle",
+        "ar": "الدورة"
+       },
+       "type": "select",
+       "required": true,
+       "options": [
+        {
+         "value": "REV",
+         "label": {
+          "en": "Revenue and receivables",
+          "ar": "الإيرادات والمدينون"
+         }
+        },
+        {
+         "value": "PUR",
+         "label": {
+          "en": "Purchases and payables",
+          "ar": "المشتريات والدائنون"
+         }
+        },
+        {
+         "value": "PAY",
+         "label": {
+          "en": "Payroll",
+          "ar": "الرواتب"
+         }
+        },
+        {
+         "value": "INV",
+         "label": {
+          "en": "Inventory",
+          "ar": "المخزون"
+         }
+        },
+        {
+         "value": "PPE",
+         "label": {
+          "en": "Fixed assets",
+          "ar": "الأصول الثابتة"
+         }
+        },
+        {
+         "value": "TRE",
+         "label": {
+          "en": "Treasury",
+          "ar": "الخزينة"
+         }
+        },
+        {
+         "value": "FSL",
+         "label": {
+          "en": "Entity-wide",
+          "ar": "على مستوى المنشأة"
+         }
+        }
+       ]
+      },
+      {
+       "id": "process",
+       "label": {
+        "en": "Process and transaction traced",
+        "ar": "العملية والمعاملة المتتبعة"
+       },
+       "type": "text",
+       "required": true
+      },
+      {
+       "id": "performed_on",
+       "label": {
+        "en": "Performed on",
+        "ar": "تاريخ التنفيذ"
+       },
+       "type": "date",
+       "required": true
+      },
+      {
+       "id": "controls",
+       "label": {
+        "en": "Controls identified",
+        "ar": "الضوابط المحددة"
+       },
+       "type": "textarea",
+       "required": true
+      },
+      {
+       "id": "deficiencies",
+       "label": {
+        "en": "Deficiencies noted",
+        "ar": "أوجه القصور الملاحظة"
+       },
+       "type": "textarea",
+       "required": false
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "tests",
+   "title": {
+    "en": "Tests of controls",
+    "ar": "اختبارات الرقابة"
+   },
+   "fields": [
+    {
+     "id": "tolerable_rate",
+     "label": {
+      "en": "Tolerable deviation rate",
+      "ar": "معدل الانحراف المسموح به"
+     },
+     "type": "percent",
+     "required": true
+    },
+    {
+     "id": "expected_rate",
+     "label": {
+      "en": "Expected deviation rate",
+      "ar": "معدل الانحراف المتوقع"
+     },
+     "type": "percent",
+     "required": true
+    },
+    {
+     "id": "beta",
+     "label": {
+      "en": "Risk of over-reliance",
+      "ar": "خطر الاعتماد المفرط"
+     },
+     "type": "select",
+     "required": true,
+     "options": [
+      {
+       "value": "0.05",
+       "label": {
+        "en": "5%",
+        "ar": "5%"
+       }
+      },
+      {
+       "value": "0.10",
+       "label": {
+        "en": "10%",
+        "ar": "10%"
+       }
+      }
+     ]
+    },
+    {
+     "id": "planned_size",
+     "label": {
+      "en": "Planned sample size",
+      "ar": "حجم العينة المخطط"
+     },
+     "type": "integer",
+     "required": false,
+     "autofill": "paper.attribute_sample_size.sample_size",
+     "readonly": true
+    },
+    {
+     "id": "allowed_deviations",
+     "label": {
+      "en": "Allowed deviations",
+      "ar": "الانحرافات المسموح بها"
+     },
+     "type": "integer",
+     "required": false,
+     "autofill": "paper.attribute_sample_size.allowed_deviations",
+     "readonly": true
+    },
+    {
+     "id": "sample_size",
+     "label": {
+      "en": "Items tested",
+      "ar": "العناصر المختبرة"
+     },
+     "type": "integer",
+     "required": false
+    },
+    {
+     "id": "deviations",
+     "label": {
+      "en": "Deviations found",
+      "ar": "الانحرافات المكتشفة"
+     },
+     "type": "integer",
+     "required": false
+    },
+    {
+     "id": "deviation_rate",
+     "label": {
+      "en": "Sample deviation rate",
+      "ar": "معدل الانحراف في العينة"
+     },
+     "type": "text",
+     "required": false,
+     "autofill": "paper.attribute_evaluate.sample_deviation_rate",
+     "readonly": true
+    },
+    {
+     "id": "upper_deviation_limit",
+     "label": {
+      "en": "Upper deviation limit",
+      "ar": "الحد الأعلى للانحراف"
+     },
+     "type": "text",
+     "required": false,
+     "autofill": "paper.attribute_evaluate.upper_deviation_limit",
+     "readonly": true
+    },
+    {
+     "id": "controls_tested",
+     "label": {
+      "en": "Controls tested",
+      "ar": "الضوابط المختبرة"
+     },
+     "type": "table",
+     "required": true,
+     "columns": [
+      {
+       "id": "control",
+       "label": {
+        "en": "Control",
+        "ar": "الضابط"
+       },
+       "type": "text",
+       "required": true
+      },
+      {
+       "id": "cycle",
+       "label": {
+        "en": "Cycle",
+        "ar": "الدورة"
+       },
+       "type": "select",
+       "required": true,
+       "options": [
+        {
+         "value": "REV",
+         "label": {
+          "en": "Revenue and receivables",
+          "ar": "الإيرادات والمدينون"
+         }
+        },
+        {
+         "value": "PUR",
+         "label": {
+          "en": "Purchases and payables",
+          "ar": "المشتريات والدائنون"
+         }
+        },
+        {
+         "value": "PAY",
+         "label": {
+          "en": "Payroll",
+          "ar": "الرواتب"
+         }
+        },
+        {
+         "value": "INV",
+         "label": {
+          "en": "Inventory",
+          "ar": "المخزون"
+         }
+        },
+        {
+         "value": "PPE",
+         "label": {
+          "en": "Fixed assets",
+          "ar": "الأصول الثابتة"
+         }
+        },
+        {
+         "value": "TRE",
+         "label": {
+          "en": "Treasury",
+          "ar": "الخزينة"
+         }
+        },
+        {
+         "value": "FSL",
+         "label": {
+          "en": "Entity-wide",
+          "ar": "على مستوى المنشأة"
+         }
+        }
+       ]
+      },
+      {
+       "id": "assertion",
+       "label": {
+        "en": "Assertion addressed",
+        "ar": "الإقرار المعني"
+       },
+       "type": "text",
+       "required": true
+      },
+      {
+       "id": "items",
+       "label": {
+        "en": "Items tested",
+        "ar": "العناصر المختبرة"
+       },
+       "type": "integer",
+       "required": true
+      },
+      {
+       "id": "deviations",
+       "label": {
+        "en": "Deviations",
+        "ar": "الانحرافات"
+       },
+       "type": "integer",
+       "required": true
+      },
+      {
+       "id": "conclusion",
+       "label": {
+        "en": "Operating effectively",
+        "ar": "يعمل بفعالية"
+       },
+       "type": "yesno",
+       "required": true
+      }
+     ]
+    },
+    {
+     "id": "rollforward",
+     "label": {
+      "en": "Interim testing rolled forward to the period end, and reliance on evidence from previous audits with its justification",
+      "ar": "ترحيل الاختبارات المرحلية إلى نهاية الفترة، والاعتماد على أدلة من مراجعات سابقة مع مبرراته"
+     },
+     "type": "textarea",
+     "required": false
+    }
+   ],
+   "note": {
+    "en": "Compute the paper from these inputs: the sample size while the items tested are blank, the evaluation once they are entered.",
+    "ar": "تُحتسب الورقة من هذه المدخلات: حجم العينة ما دامت العناصر المختبرة فارغة، والتقييم بعد إدخالها."
+   }
+  },
+  {
+   "id": "deficiencies",
+   "title": {
+    "en": "Deficiencies in internal control",
+    "ar": "أوجه القصور في الرقابة الداخلية"
+   },
+   "fields": [
+    {
+     "id": "deficiencies",
+     "label": {
+      "en": "Deficiencies identified",
+      "ar": "أوجه القصور المحددة"
+     },
+     "type": "table",
+     "required": false,
+     "columns": [
+      {
+       "id": "deficiency",
+       "label": {
+        "en": "Deficiency",
+        "ar": "القصور"
+       },
+       "type": "text",
+       "required": true
+      },
+      {
+       "id": "significant",
+       "label": {
+        "en": "Significant",
+        "ar": "جوهري"
+       },
+       "type": "yesno",
+       "required": true
+      },
+      {
+       "id": "effect",
+       "label": {
+        "en": "Potential effect on the financial statements",
+        "ar": "الأثر المحتمل على القوائم المالية"
+       },
+       "type": "textarea",
+       "required": true
+      },
+      {
+       "id": "recommendation",
+       "label": {
+        "en": "Recommendation",
+        "ar": "التوصية"
+       },
+       "type": "textarea",
+       "required": false
+      }
+     ]
+    },
+    {
+     "id": "conclusion",
+     "label": {
+      "en": "Conclusion on control risk and the planned reliance",
+      "ar": "الاستنتاج بشأن خطر الرقابة والاعتماد المخطط"
+     },
+     "type": "textarea",
+     "required": true
+    }
+   ]
+  }
+ ],
+ "signoff": {
+  "prepare": [
+   "partner",
+   "manager",
+   "senior",
+   "staff"
+  ],
+  "review": [
+   "partner",
+   "manager"
+  ],
+  "approve": [
+   "partner"
+  ]
+ },
+ "version": 1,
+ "ar_status": "draft_pending_review"
+}

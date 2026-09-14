@@ -50,7 +50,7 @@ module {
   let TYPES : [Text] = ["text", "textarea", "date", "money", "percent", "integer", "select", "yesno", "table"];
   let KINDS : [Text] = ["worksheet", "letter", "checklist"];
   let PHASES : [Text] = ["planning", "fieldwork", "completion"];
-  let ROOTS : [Text] = ["engagement", "tb", "paper", "records", "seed", "disclosures", "programme", "group", "adjustments", "form"];
+  let ROOTS : [Text] = ["engagement", "tb", "paper", "records", "seed", "disclosures", "programme", "group", "adjustments", "controls", "form"];
   let ROLES : [Text] = ["partner", "manager", "senior", "staff", "eqr"];
 
   func has(xs : [Text], x : Text) : Bool { for (y in xs.vals()) { if (y == x) return true }; false };

@@ -431,6 +431,14 @@
    }
   },
   {
+   "id": "records:RK-CONTROL",
+   "kind": "records",
+   "title": {
+    "en": "Records: RK-CONTROL",
+    "ar": "Records: RK-CONTROL"
+   }
+  },
+  {
    "id": "paper:journal_completeness",
    "kind": "paper",
    "title": {
@@ -546,6 +554,83 @@
    "to_field": "open_disclosures",
    "via": "disclosures.open",
    "kind": "checklist"
+  },
+  {
+   "from": "records:RK-CONTROL",
+   "to": "F17-INTERNAL-CONTROL",
+   "to_field": "controls_rev",
+   "via": "controls.REV",
+   "kind": "records"
+  },
+  {
+   "from": "records:RK-CONTROL",
+   "to": "F17-INTERNAL-CONTROL",
+   "to_field": "controls_pur",
+   "via": "controls.PUR",
+   "kind": "records"
+  },
+  {
+   "from": "records:RK-CONTROL",
+   "to": "F17-INTERNAL-CONTROL",
+   "to_field": "controls_pay",
+   "via": "controls.PAY",
+   "kind": "records"
+  },
+  {
+   "from": "records:RK-CONTROL",
+   "to": "F17-INTERNAL-CONTROL",
+   "to_field": "controls_inv",
+   "via": "controls.INV",
+   "kind": "records"
+  },
+  {
+   "from": "records:RK-CONTROL",
+   "to": "F17-INTERNAL-CONTROL",
+   "to_field": "controls_ppe",
+   "via": "controls.PPE",
+   "kind": "records"
+  },
+  {
+   "from": "records:RK-CONTROL",
+   "to": "F17-INTERNAL-CONTROL",
+   "to_field": "controls_tre",
+   "via": "controls.TRE",
+   "kind": "records"
+  },
+  {
+   "from": "records:RK-CONTROL",
+   "to": "F17-INTERNAL-CONTROL",
+   "to_field": "controls_eqy",
+   "via": "controls.EQY",
+   "kind": "records"
+  },
+  {
+   "from": "records:RK-CONTROL",
+   "to": "F17-INTERNAL-CONTROL",
+   "to_field": "controls_tax",
+   "via": "controls.TAX",
+   "kind": "records"
+  },
+  {
+   "from": "records:RK-CONTROL",
+   "to": "F17-INTERNAL-CONTROL",
+   "to_field": "controls_fsl",
+   "via": "controls.FSL",
+   "kind": "records"
+  },
+  {
+   "from": "records:RK-CONTROL",
+   "to": "F17-INTERNAL-CONTROL",
+   "to_field": "controls_gitc",
+   "via": "controls.GITC",
+   "kind": "records"
+  },
+  {
+   "from": "records:RK-CONTROL",
+   "to": "F17-INTERNAL-CONTROL",
+   "to_field": "reliance_gaps",
+   "via": "controls.gaps",
+   "kind": "records"
   },
   {
    "from": "paper:journal_completeness",

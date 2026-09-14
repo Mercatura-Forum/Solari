@@ -291,6 +291,17 @@ def main():
                 elif rk == 'RK-SAMPLE':
                     proc = e['via'].split('.')[-1]
                     add = f'ignore must("add a sample", E.addRecord(s, staff, false, stamp, 1, j("{{\\"kind\\":\\"RK-SAMPLE\\",\\"fields\\":{{\\"procedure\\":\\"{proc}\\",\\"population\\":\\"pop:1\\",\\"selection_method\\":\\"SM-MUS\\",\\"statistical\\":true,\\"size\\":5,\\"items\\":[]}}}}")));'
+                elif rk == 'RK-CONTROL':
+                    # the control moves the cycle the field reads (general IT for GITC), and a relied-on
+                    # control without an effective test moves the live reliance count
+                    target = e['via'].split('.')[1]
+                    gaps = target == 'gaps'
+                    ctrl = {'name': 'Approval of credit limits', 'cycle': 'REV' if target in ('gaps', 'all', 'matrix', 'reliance') else target, 'assertions': ['VA'],
+                            'type': 'preventive', 'frequency': 'each_transaction', 'owner': 'Credit controller', 'description': 'Orders above the limit are held for approval.',
+                            'design': 'effective', 'implementation': 'implemented', 'test_result': 'not_tested', 'relied_on': gaps, 'identified_by': 'staff', 'identified_at': '2026-02-01T09:00'}
+                    if target == 'GITC':
+                        ctrl.update({'type': 'general_it', 'gitc_area': 'access'})
+                    add = f'ignore must("add a control", E.addRecord(s, staff, false, stamp, 1, {jl({"kind": "RK-CONTROL", "fields": ctrl})}));'
                 elif rk == 'RK-EVIDENCE-LINK':
                     proc = e['via'].split('.')[-1]
                     add = f'ignore must("link evidence", E.addRecord(s, staff, false, stamp, 1, j("{{\\"kind\\":\\"RK-EVIDENCE-LINK\\",\\"fields\\":{{\\"procedure\\":\\"{proc}\\",\\"evidence_item\\":\\"doc:1\\",\\"evidence_kind\\":\\"EK-INSPECTION\\",\\"linked_by\\":\\"staff\\",\\"linked_at\\":\\"2026-02-01T09:00\\"}}}}")));'
@@ -299,7 +310,7 @@ def main():
                     body.append(f'// no mover for record kind {rk}')
                     continue
                 body.append(f'prepare({mo(inst(e["to"]))}, {mo(json.dumps(required_values(dst), ensure_ascii=False))});')
-                if e['via'].endswith('.open'):
+                if e['via'].endswith('.open') or e['via'] == 'controls.gaps':
                     body.append(f'let before_{n} = field(view({mo(inst(e["to"]))}), ["live", {mo(to_field)}]);')
                     body.append(add)
                     body.append(f'let after_{n} = view({mo(inst(e["to"]))});')

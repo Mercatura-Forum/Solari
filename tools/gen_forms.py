@@ -625,7 +625,7 @@ def mo(s):
     return '"' + ''.join(out) + '"'
 
 
-AUTOFILL_ROOTS = ('engagement', 'tb', 'paper', 'records', 'seed', 'disclosures', 'programme', 'group', 'form')
+AUTOFILL_ROOTS = ('engagement', 'tb', 'paper', 'records', 'seed', 'disclosures', 'programme', 'group', 'adjustments', 'controls', 'form')
 
 
 def check(forms, procedures, standards):
@@ -773,12 +773,43 @@ def at_version(f, version):
     return json.load(open(frozen_path(f['id'], version), encoding='utf-8'))
 
 
+def controls_register(catalogue, cycles):
+    """Version 2 of the internal control form: the register of controls as data (RK-CONTROL),
+    one section per cycle of the model and one for general IT controls, read live from the
+    records with the control matrix's reliance report; the fields of version 1 stay as they
+    were signed."""
+    f17 = next(f for f in catalogue if f['id'] == 'F17-INTERNAL-CONTROL')
+    columns = [
+        field('name', 'Control', 'الضابط'), field('assertions', 'Assertions', 'الإقرارات'), field('type', 'Type', 'النوع'),
+        field('frequency', 'Frequency', 'التكرار'), field('design', 'Design', 'التصميم'), field('implementation', 'Implementation', 'التطبيق'),
+        field('test_result', 'Test result', 'نتيجة الاختبار'), field('relied_on', 'Relied on', 'معتمد عليه'),
+    ]
+    sections = []
+    for cy in sorted(cycles, key=lambda c: c['sort_order']):
+        key = f"controls_{cy['id'].lower()}"
+        sections.append(section(key, f"Controls: {cy['name']} ({cy['id']})", f"الضوابط: {cy['name']} ({cy['id']})", [
+            field(key, f"Controls of the {cy['name'].lower()} cycle in the register", f"ضوابط دورة {cy['name']} في السجل", 'table',
+                  autofill=f"controls.{cy['id']}", readonly=True, columns=columns),
+        ], note=L('Read live from the control register; frozen when the paper is prepared, so a control changed afterwards drifts it.',
+                  'تُقرأ مباشرة من سجل الضوابط وتُثبت عند إعداد الورقة، فيؤدي تغيير ضابط بعدها إلى انحرافها.')))
+    sections.append(section('controls_gitc', 'General IT controls: access, change and operations', 'الضوابط العامة لتقنية المعلومات: الوصول والتغيير والتشغيل', [
+        field('controls_gitc', 'General IT controls in the register', 'الضوابط العامة لتقنية المعلومات في السجل', 'table', autofill='controls.GITC', readonly=True,
+              columns=[field('name', 'Control', 'الضابط'), field('gitc_area', 'Area', 'المجال'), field('design', 'Design', 'التصميم'),
+                       field('implementation', 'Implementation', 'التطبيق'), field('test_result', 'Test result', 'نتيجة الاختبار'), field('relied_on', 'Relied on', 'معتمد عليه')]),
+        field('reliance_gaps', 'Reliance without an effective test (open)', 'الاعتماد دون اختبار فعال (مفتوح)', 'integer', autofill='controls.gaps', readonly=True),
+    ], note=L('A control the audit relies on whose test is not effective, or a risk whose relied-on controls have no effective test, is counted here until it is resolved; the count is live and never frozen.',
+              'يُحسب هنا الضابط المعتمد عليه الذي لم يُختبر بفعالية، أو الخطر الذي لا يملك ضوابطه المعتمد عليها اختباراً فعالاً، حتى يُحل؛ والعدد حي ولا يُثبت.')))
+    f17['sections'] = f17['sections'] + sections
+    f17['version'] = 2
+
+
 def main():
     procedures = seed('procedures')
     leadsheets = seed('leadsheets')
     standards = seed('standards')
     catalogue = FORMS + forms_families_a.FORMS + forms_families_b.FORMS + cycle_forms(procedures, leadsheets, seed('movement_schedules')) + forms_families_c.FORMS
     catalogue.sort(key=lambda f: f['number'])
+    controls_register(catalogue, seed('cycles'))
     for f in catalogue:
         f['version'] = f.get('version', 1)
         f['ar_status'] = 'draft_pending_review'

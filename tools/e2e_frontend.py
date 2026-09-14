@@ -536,6 +536,46 @@ def main():
         except Exception as e:
             shot(pg, 'd5-03-balance-analytics-failed')
             row('the per-balance analytics workflow completes', False, e)
+
+        # ── controls as data: the register, the matrix, the reliance report ──────
+        try:
+            CT = f'{int(time.time()) % 100000:05d}'
+            pg.goto(f'{URL}#/e/{eid}/controls', wait_until='load')
+            pg.get_by_test_id('controls').wait_for(timeout=120000)
+            pg.get_by_test_id('ct-matrix').wait_for(timeout=120000)
+            n_before = int(pg.get_by_test_id('ct-counts').get_attribute('data-controls') or 0)
+            gaps_before = int(pg.get_by_test_id('ct-counts').get_attribute('data-gaps') or 0)
+            row('the controls page shows the matrix of cycles by assertions', pg.locator('[data-testid=ct-matrix] tbody tr[data-cycle]').count() >= 9)
+            pg.get_by_test_id('ct-new').click()
+            pg.get_by_test_id('ct-compose').wait_for(timeout=10000)
+            pg.locator('#ct-name').fill(f'Credit limit approval {CT}')
+            pg.locator('#ct-cycle').select_option('REV')
+            pg.locator('[data-testid=ct-assertions] input[type=checkbox]').first.check()
+            pg.locator('#ct-owner').fill('Credit controller')
+            pg.locator('#ct-description').fill('Orders above the credit limit are held until the controller approves them.')
+            pg.locator('#ct-result').select_option('not_tested')
+            pg.get_by_test_id('ct-relied').check()
+            pg.get_by_test_id('ct-submit').click()
+            pg.wait_for_function(f'() => Number(document.querySelector("[data-testid=ct-counts]")?.dataset.controls) > {n_before}', timeout=180000)
+            gaps_after = int(pg.get_by_test_id('ct-counts').get_attribute('data-gaps') or 0)
+            row('a control relied on without an effective test is reported as a reliance gap the moment it is recorded', gaps_after > gaps_before and pg.locator('[data-testid=ct-gap-controls] li', has_text=f'Credit limit approval {CT}').count() == 1, f'gaps {gaps_before} -> {gaps_after}')
+            cell = pg.locator('[data-testid=ct-matrix] [data-cell^="REV:"]').first
+            row('the matrix counts the control in its cycle and assertion cell', int(cell.get_attribute('data-controls') or 0) >= 1)
+            ctrl = pg.locator('[data-testid=ct-row]', has_text=f'Credit limit approval {CT}')
+            ctrl.get_by_role('button', name='Change').click()
+            pg.get_by_test_id('ct-compose').wait_for(timeout=10000)
+            pg.locator('#ct-result').select_option('effective')
+            pg.locator('#ct-procedure').fill('P-REV-002')
+            pg.locator('#ct-items').fill('40')
+            pg.locator('#ct-deviations').fill('0')
+            pg.get_by_test_id('ct-submit').click()
+            pg.wait_for_function(f'() => Number(document.querySelector("[data-testid=ct-counts]")?.dataset.gaps) == {gaps_before}', timeout=180000)
+            row('testing the control effective clears the gap: the report is a query over the same record', True)
+            shot(pg, 'd5-04-controls')
+            axe(pg, 'the controls page', 'en')
+        except Exception as e:
+            shot(pg, 'd5-04-controls-failed')
+            row('the controls workflow completes', False, e)
         return finish(ctx)
 
 
