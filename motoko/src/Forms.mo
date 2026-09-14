@@ -378,7 +378,11 @@ module {
       case "seed" if (parts[1] == "presumed_risks") presumedRisks() else #null_;
       case "disclosures" if (parts[1] == "open") Json.nat(Disclosures.openCount(s, e.id)) else #null_;
       case "programme" if (parts[1] == "open") Json.nat(Programme.open(s, ff, e.id).size()) else #null_;
-      case "group" if (parts[1] == "components") #arr(Group.components(s, e.id)) else #null_;
+      case "group" switch (parts[1]) {
+        case "components" #arr(Group.components(s, e.id));
+        case "auditors" #arr(Group.auditors(s, e.id));
+        case _ #null_;
+      };
       case "controls" switch (parts[1]) {
         case "gaps" Json.nat(Controls.gapCount(s, e.id));
         case "all" #arr(Controls.register(s, e.id));
@@ -390,6 +394,8 @@ module {
         case "open" Json.nat(Adjustments.openCount(s, e.id));
         case "waived" Json.nat(Adjustments.waivedCount(s, e.id));
         case "leadsheets" #arr(Py.list(Adjustments.adjusted(s, e.id), "leadsheets"));
+        case "eliminations" #arr(Adjustments.eliminations(s, e.id));
+        case "eliminations_count" Json.nat(Adjustments.eliminations(s, e.id).size());
         case _ #null_;
       };
       // Another form's effective value: what it was signed on when prepared or beyond, the

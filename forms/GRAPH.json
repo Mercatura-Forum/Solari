@@ -595,6 +595,14 @@
    }
   },
   {
+   "id": "adjustments",
+   "kind": "trial_balance",
+   "title": {
+    "en": "Trial balance",
+    "ar": "Trial balance"
+   }
+  },
+  {
    "id": "programme",
    "kind": "programme",
    "title": {
@@ -879,6 +887,27 @@
    "to_field": "group_clearly_trivial",
    "via": "paper.materiality.clearly_trivial",
    "kind": "computed"
+  },
+  {
+   "from": "group",
+   "to": "F22-GROUP-AUDIT",
+   "to_field": "auditor_evaluations",
+   "via": "group.auditors",
+   "kind": "group"
+  },
+  {
+   "from": "adjustments",
+   "to": "F22-GROUP-AUDIT",
+   "to_field": "eliminations",
+   "via": "adjustments.eliminations",
+   "kind": "trial_balance"
+  },
+  {
+   "from": "adjustments",
+   "to": "F22-GROUP-AUDIT",
+   "to_field": "eliminations_count",
+   "via": "adjustments.eliminations_count",
+   "kind": "trial_balance"
   },
   {
    "from": "tb",

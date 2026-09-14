@@ -441,6 +441,38 @@ module {
   };
 
   /// The adjusted leadsheet totals as the tie-out reads them: {leadsheet_id: adjusted}.
+  /// The consolidation eliminations booked, by leadsheet: the sum of the elimination legs
+  /// (debit less credit) and the entries touching it, in the model's leadsheet order. What a
+  /// group's consolidation reads to agree the eliminations in the group trial balance with
+  /// the entries recorded (IFRS 10.B86).
+  public func eliminations(s : Engine.State, eng : Nat) : [J] {
+    let sums = List.empty<(Text, Dec.Dec, List.List<Nat>)>();
+    for (r in entries(s, eng).vals()) {
+      let f = parse(r.fields);
+      if (Py.textOr(f, "state", "") == "booked" and Py.textOr(f, "type", "") == "elimination") {
+        for (g in legsOf(f).vals()) {
+          var hit = false;
+          let next = List.empty<(Text, Dec.Dec, List.List<Nat>)>();
+          for ((ls, amt, ids) in List.values(sums)) {
+            if (ls == g.leadsheet) { hit := true; var seen = false; for (x in List.values(ids)) { if (x == r.id) seen := true }; if (not seen) List.add(ids, r.id); List.add(next, (ls, Dec.add(amt, Dec.sub(g.debit, g.credit, P), P), ids)) }
+            else List.add(next, (ls, amt, ids));
+          };
+          if (not hit) { let ids = List.empty<Nat>(); List.add(ids, r.id); List.add(next, (g.leadsheet, Dec.sub(g.debit, g.credit, P), ids)) };
+          List.clear(sums);
+          for (x in List.values(next)) List.add(sums, x);
+        };
+      };
+    };
+    let out = List.empty<J>();
+    for (meta in seedRows("leadsheets").vals()) {
+      let id = Py.textOr(meta, "id", "");
+      for ((ls, amt, ids) in List.values(sums)) {
+        if (ls == id) List.add(out, #obj([("leadsheet", #str(id)), ("name", Py.optJ(Json.get(meta, "name"))), ("amount", Py.mtext(amt, 2)), ("entries", Json.nat(List.size(ids)))]));
+      };
+    };
+    List.toArray(out)
+  };
+
   public func leadsheetTotals(s : Engine.State, eng : Nat) : J {
     #obj(Array.map<J, (Text, J)>(Py.list(adjusted(s, eng), "leadsheets"), func(l) { (Py.textOr(l, "leadsheet_id", ""), get(l, "adjusted")) }))
   };

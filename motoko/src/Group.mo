@@ -1,7 +1,9 @@
 /// The group audit (ISA 600, Revised 2022): the components (RK-COMPONENT), the group auditor's
-/// instructions to component auditors (RK-COMPONENT-INSTRUCTION), the component auditors'
-/// reports against them and the group auditor's evaluation of those reports
-/// (RK-COMPONENT-REPORT). A view derives each component's state; nothing is stored twice.
+/// evaluation of each component auditor before it is instructed (RK-COMPONENT-AUDITOR, ISA
+/// 600.26 to .28 and .32 to .34), the instructions to component auditors
+/// (RK-COMPONENT-INSTRUCTION), the component auditors' reports against them and the group
+/// auditor's evaluation of those reports (RK-COMPONENT-REPORT). A view derives each
+/// component's state; nothing is stored twice.
 ///
 /// Ladder, per component:
 ///   group_team     no component auditor: the group team performs the work (no instruction needed)
@@ -34,6 +36,7 @@ module {
   public let COMPONENT : Text = "RK-COMPONENT";
   public let INSTRUCTION : Text = "RK-COMPONENT-INSTRUCTION";
   public let REPORT : Text = "RK-COMPONENT-REPORT";
+  public let AUDITOR : Text = "RK-COMPONENT-AUDITOR";
   let EVALUATORS : [Engine.Role] = [#partner, #manager];
 
   func parse(t : Text) : J { switch (Json.parse(t)) { case (#ok(j)) j; case (#err(_)) #null_ } };
@@ -56,14 +59,54 @@ module {
     out
   };
 
-  type Comp = { rec : Engine.Record; var instruction : ?Engine.Record; var report : ?Engine.Record; var status : Text };
+  type Comp = { rec : Engine.Record; var instruction : ?Engine.Record; var report : ?Engine.Record; var status : Text; var evaluation : ?Engine.Record };
+
+  /// The latest evaluation of the component's auditor (ISA 600.26 to .28), if any.
+  public func auditorEvaluation(s : Engine.State, eng : Nat, compId : Nat) : ?Engine.Record {
+    var out : ?Engine.Record = null;
+    for (r in List.values(s.records)) {
+      if (r.engagementId == eng and r.kind == AUDITOR and refId(parse(r.fields), "component") == compId) {
+        switch (out) { case (?x) { if (r.id > x.id) out := ?r }; case null out := ?r };
+      };
+    };
+    out
+  };
+
+  /// Why the component's auditor cannot be instructed, or null: no evaluation on record, or one
+  /// that found the auditor not appropriate.
+  func instructionProblem(s : Engine.State, eng : Nat, compId : Nat) : ?Text {
+    switch (auditorEvaluation(s, eng, compId)) {
+      case null ?("the component auditor's independence, competence and regulatory environment are evaluated before an instruction is issued (ISA 600.26 to .28): no evaluation on record for component " # Nat.toText(compId));
+      case (?ev) { if (Py.textOr(parse(ev.fields), "evaluation", "") == "not_appropriate") ?("the group auditor's evaluation (record " # Nat.toText(ev.id) # ") found the component auditor not appropriate: the group team performs the work, or another auditor is engaged and evaluated") else null };
+    }
+  };
+
+  /// The evaluations as table rows, for a form's live value (`group.auditors`): component,
+  /// firm, independence, evaluation, involvement.
+  public func auditors(s : Engine.State, eng : Nat) : [J] {
+    let out = List.empty<J>();
+    for (c in build(s, eng).vals()) {
+      switch (c.evaluation) {
+        case (?ev) {
+          let f = parse(ev.fields);
+          List.add(out, #obj([
+            ("component", Py.optJ(Json.get(parse(c.rec.fields), "name"))), ("firm", Py.optJ(Json.get(f, "firm"))),
+            ("independence", #str(if (Py.truthy(Json.get(f, "independence_confirmed"))) "confirmed" else "not confirmed")),
+            ("evaluation", Py.optJ(Json.get(f, "evaluation"))), ("involvement", Py.optJ(Json.get(f, "involvement"))),
+          ]));
+        };
+        case null {};
+      };
+    };
+    List.toArray(out)
+  };
 
   func build(s : Engine.State, eng : Nat) : [Comp] {
     let comps = List.empty<Comp>();
     let byId = Map.empty<Nat, Comp>();
     for (r in List.values(s.records)) {
       if (r.engagementId == eng and r.kind == COMPONENT) {
-        let c : Comp = { rec = r; var instruction = null; var report = null; var status = "identified" };
+        let c : Comp = { rec = r; var instruction = null; var report = null; var status = "identified"; var evaluation = null };
         List.add(comps, c);
         Map.add(byId, Nat.compare, r.id, c);
       };
@@ -88,6 +131,14 @@ module {
               case null {};
             };
           };
+          case null {};
+        };
+      };
+    };
+    for (r in List.values(s.records)) {
+      if (r.engagementId == eng and r.kind == AUDITOR) {
+        switch (Map.get(byId, Nat.compare, refId(parse(r.fields), "component"))) {
+          case (?c) { switch (c.evaluation) { case (?e) { if (r.id > e.id) c.evaluation := ?r }; case null c.evaluation := ?r } };
           case null {};
         };
       };
@@ -142,6 +193,7 @@ module {
         ("component", Engine.recordJ(c.rec)), ("status", #str(c.status)),
         ("instruction", switch (c.instruction) { case (?i) Engine.recordJ(i); case null #null_ }),
         ("report", switch (c.report) { case (?r) Engine.recordJ(r); case null #null_ }),
+        ("auditor_evaluation", switch (c.evaluation) { case (?e) Engine.recordJ(e); case null #null_ }),
       ]));
     };
     var byStatus : [(Text, J)] = [];
@@ -173,6 +225,7 @@ module {
     let cf = parse(comp.fields);
     if (Py.textOr(cf, "component_auditor", "") == "") return #err("this component has no component auditor: the group team performs its work");
     if (Py.textOr(cf, "scope", "") == "none") return #err("this component is out of scope");
+    switch (instructionProblem(s, eng, compId)) { case (?p) return #err(p); case null {} };
     let pm = switch (Dec.tryParse(Py.textOr(inp, "performance_materiality", ""))) { case (?d) d; case null return #err("performance_materiality must be a decimal amount") };
     let th = switch (Dec.tryParse(Py.textOr(inp, "threshold", ""))) { case (?d) d; case null return #err("threshold must be a decimal amount") };
     if (not Dec.gt(pm, Dec.zero) or not Dec.gt(th, Dec.zero)) return #err("materiality and threshold are positive amounts");

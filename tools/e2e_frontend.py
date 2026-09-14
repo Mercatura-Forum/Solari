@@ -709,6 +709,16 @@ def main():
         except Exception as e:
             shot(pg, 'd5-09-governance-failed')
             row('the governance workflow completes', False, e)
+
+        # ── the group plan at version 2: the evaluations and the eliminations it reads ──
+        try:
+            pg.goto(f'{URL}#/e/{eid}/f/F22-GROUP-AUDIT', wait_until='load')
+            pg.get_by_test_id('signoff-panel').wait_for(timeout=120000)
+            row('the group plan reads the component auditors evaluated and the eliminations booked', pg.locator('[data-field=auditor_evaluations]').count() == 1 and pg.locator('[data-field=eliminations]').count() == 1 and pg.locator('[data-field=eliminations_count]').count() == 1)
+            shot(pg, 'd5-11-group-plan')
+        except Exception as e:
+            shot(pg, 'd5-11-group-plan-failed')
+            row('the group plan workflow completes', False, e)
         return finish(ctx)
 
 

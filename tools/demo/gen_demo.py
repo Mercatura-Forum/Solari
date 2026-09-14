@@ -11,7 +11,7 @@ import re
 import sys
 
 sys.path.insert(0, os.path.dirname(__file__))
-from common import ROOT, STD, TEAM, FIRM, D, mo  # noqa: E402
+from common import ROOT, STD, TEAM, FIRM, D, NAME, mo  # noqa: E402
 import companies as K  # noqa: E402
 import hospitality as H  # noqa: E402
 import journals as J  # noqa: E402
@@ -384,6 +384,9 @@ def steps():
     st.add('ignore ok("component: Nile Cruises (group team)", E.addRecord(s, P9, false, at, b, j("{\\"kind\\":\\"RK-COMPONENT\\",\\"fields\\":{\\"name\\":\\"Nile Cruises\\",\\"entity\\":\\"Shams Nile Cruises LLC\\",\\"scope\\":\\"specific_balances\\",\\"performance_materiality\\":\\"" # Dec.toText(cpmB) # "\\",\\"threshold\\":\\"" # Dec.toText(cthB) # "\\"}}")));')
     st.n += 1
     st.add('let compBId = Nat.toText(Py.natOr(compB, "id", 0));')
+    # the group auditor evaluates the component auditor before instructing it (ISA 600.26 to .28)
+    st.add('ignore ok("evaluate the component auditor", E.addRecord(s, P2, false, at, b, j("{\\"kind\\":\\"RK-COMPONENT-AUDITOR\\",\\"fields\\":{\\"component\\":\\"" # compBId # "\\",\\"firm\\":\\"Hassan & Partners, Hurghada\\",\\"independence_confirmed\\":true,\\"independence_confirmed_on\\":\\"2026-06-10\\",\\"competence\\":\\"Registered with the FRA; audits two listed hospitality groups under EAS; the engagement partner has twelve years in the sector.\\",\\"regulatory_environment\\":\\"Egypt: FRA oversight, EAS and Egyptian Standards on Auditing; inspected in 2024 with no findings.\\",\\"evaluation\\":\\"appropriate_with_involvement\\",\\"involvement\\":\\"review_of_work\\",\\"evaluated_by\\":\\"' + mo(NAME['P2'])[1:-1] + '\\",\\"evaluated_at\\":\\"2026-06-12T10:00\\"}}")));')
+    st.n += 1
     st.add('ignore ok("instruct the component auditor", Gr.instruct(s, P2, false, at, b, j("{\\"component\\":\\"" # compBId # "\\",\\"work_requested\\":\\"audit\\",\\"performance_materiality\\":\\"" # Dec.toText(cpmB) # "\\",\\"threshold\\":\\"" # Dec.toText(cthB) # "\\",\\"significant_risks\\":\\"Revenue recognition on package bookings (cut-off at 30 June); management override\\",\\"reporting_deadline\\":\\"2026-09-20\\",\\"instructions\\":\\"Audit the resort financial information at 30 June 2026 for the group reporting package under the group accounting policies; report all misstatements above the threshold, the cut-off testing performed, and any subsequent events to the date of your report.\\",\\"issued_at\\":\\"2026-09-04T10:00\\"}")));')
     st.n += 1
     st.add('let repB = ok("record the component auditor\'s report", Gr.report(s, P9, false, at, b, j("{\\"component\\":\\"" # compBId # "\\",\\"received_at\\":\\"2026-09-05T16:00\\",\\"work_performed\\":\\"as_instructed\\",\\"findings\\":\\"Cut-off tested on 40 bookings around 30 June; one booking (EGP 18,400) recognised a day early, corrected by the resort. No other exceptions. No subsequent events to 5 September.\\",\\"uncorrected_misstatements\\":\\"0\\",\\"subsequent_events\\":\\"None reported to 5 September 2026.\\"}")));')

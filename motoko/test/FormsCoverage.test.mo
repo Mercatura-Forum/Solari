@@ -100,7 +100,7 @@ for (e in edges.vals()) {
   let from = str(e, "from");
   let fromOk = switch (Map.get(fieldsOf, Text.compare, from)) {
     case (?fs) (switch (Json.get(e, "from_field")) { case (?#str(ff)) Map.get(fs, Text.compare, ff) != null; case _ true });
-    case null Text.contains(from, #char ':') or from == "tb" or from == "seed" or from == "disclosures" or from == "programme" or from == "group";
+    case null Text.contains(from, #char ':') or from == "tb" or from == "adjustments" or from == "seed" or from == "disclosures" or from == "programme" or from == "group";
   };
   if (known and fromOk) edgesOk += 1 else Debug.print("FAIL edge " # from # " -> " # to # "." # toField);
 };

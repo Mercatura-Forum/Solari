@@ -3,7 +3,6 @@
  "number": 22,
  "kind": "worksheet",
  "phase": "planning",
- "version": 2,
  "title": {
   "en": "Group audit plan and instructions to component auditors",
   "ar": "خطة مراجعة المجموعة والتعليمات إلى مراجعي المكونات"
@@ -302,64 +301,6 @@
      "required": true
     },
     {
-     "id": "auditor_evaluations",
-     "label": {
-      "en": "Component auditors evaluated before they are instructed (ISA 600.26 to .28, .32 to .34)",
-      "ar": "مراجعو المكونات الذين تم تقييمهم قبل إصدار التعليمات إليهم (معيار 600 فقرات 26 إلى 28 و32 إلى 34)"
-     },
-     "type": "table",
-     "required": false,
-     "autofill": "group.auditors",
-     "readonly": true,
-     "columns": [
-      {
-       "id": "component",
-       "label": {
-        "en": "Component",
-        "ar": "المكون"
-       },
-       "type": "text",
-       "required": false
-      },
-      {
-       "id": "firm",
-       "label": {
-        "en": "Firm",
-        "ar": "المكتب"
-       },
-       "type": "text",
-       "required": false
-      },
-      {
-       "id": "independence",
-       "label": {
-        "en": "Independence",
-        "ar": "الاستقلال"
-       },
-       "type": "text",
-       "required": false
-      },
-      {
-       "id": "evaluation",
-       "label": {
-        "en": "Evaluation",
-        "ar": "التقييم"
-       },
-       "type": "text",
-       "required": false
-      },
-      {
-       "id": "involvement",
-       "label": {
-        "en": "Involvement",
-        "ar": "المشاركة"
-       },
-       "type": "text",
-       "required": false
-      }
-     ]
-    },
-    {
      "id": "involvement",
      "label": {
       "en": "Group team's involvement in the component auditors' work",
@@ -384,84 +325,6 @@
       "ar": "تقييم تقارير مراجعي المكونات وكفاية أدلة المجموعة"
      },
      "type": "textarea",
-     "required": false
-    },
-    {
-     "id": "eliminations",
-     "label": {
-      "en": "Consolidation eliminations booked, by leadsheet: the elimination entries of the adjusted trial balance (IFRS 10.B86)",
-      "ar": "استبعادات التوحيد المقيدة حسب الورقة الرئيسية: قيود الاستبعاد في ميزان المراجعة المعدّل (المعيار الدولي 10 فقرة ب86)"
-     },
-     "type": "table",
-     "required": false,
-     "autofill": "adjustments.eliminations",
-     "readonly": true,
-     "columns": [
-      {
-       "id": "leadsheet",
-       "label": {
-        "en": "Leadsheet",
-        "ar": "الورقة الرئيسية"
-       },
-       "type": "text",
-       "required": false
-      },
-      {
-       "id": "name",
-       "label": {
-        "en": "Name",
-        "ar": "الاسم"
-       },
-       "type": "text",
-       "required": false
-      },
-      {
-       "id": "amount",
-       "label": {
-        "en": "Eliminated (debit less credit)",
-        "ar": "المستبعد (المدين ناقص الدائن)"
-       },
-       "type": "money",
-       "required": false
-      },
-      {
-       "id": "entries",
-       "label": {
-        "en": "Entries",
-        "ar": "القيود"
-       },
-       "type": "integer",
-       "required": false
-      }
-     ]
-    },
-    {
-     "id": "eliminations_count",
-     "label": {
-      "en": "Leadsheets touched by eliminations",
-      "ar": "الأوراق الرئيسية التي مستها الاستبعادات"
-     },
-     "type": "integer",
-     "required": false,
-     "autofill": "adjustments.eliminations_count",
-     "readonly": true
-    },
-    {
-     "id": "intragroup_agreed",
-     "label": {
-      "en": "Intra-group balances and transactions agreed between components before elimination",
-      "ar": "تمت مطابقة الأرصدة والمعاملات داخل المجموعة بين المكونات قبل الاستبعاد"
-     },
-     "type": "yesno",
-     "required": false
-    },
-    {
-     "id": "uniform_policies",
-     "label": {
-      "en": "Uniform accounting policies applied across the components, or adjusted for on consolidation",
-      "ar": "طُبقت سياسات محاسبية موحدة عبر المكونات، أو عُدّلت عند التوحيد"
-     },
-     "type": "yesno",
      "required": false
     },
     {
@@ -515,5 +378,6 @@
    "partner"
   ]
  },
+ "version": 1,
  "ar_status": "draft_pending_review"
 }

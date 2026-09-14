@@ -18,6 +18,7 @@ module {
   public let MEETING : Text = "RK-MEETING-NOTE";
   public let CARRY : Text = "RK-CARRY-FORWARD";
   public let CONSULTATION : Text = "RK-CONSULTATION";
+  public let COMPONENT_AUDITOR : Text = "RK-COMPONENT-AUDITOR";
 
   /// A record of the file by its id: (kind, fields), or null.
   public type Lookup = Nat -> ?(Text, J);
@@ -77,6 +78,14 @@ module {
     };
     if (kind == MINUTES or kind == MEETING) {
       switch (citedConsultationProblem(Py.textOr(fields, "resolution", ""), lookup)) { case (?p) return ?p; case null {} };
+    };
+    if (kind == COMPONENT_AUDITOR) {
+      // the evaluation names a component of the file; work used with involvement says which
+      switch (Nat.fromText(Py.textOr(fields, "component", ""))) {
+        case (?id) { switch (lookup(id)) { case (?(k, _)) { if (k != "RK-COMPONENT") return ?("component " # Nat.toText(id) # " is not a component of the file") }; case null return ?("component " # Nat.toText(id) # " is not a component of the file") } };
+        case null return ?"component names the component's record by its number";
+      };
+      if (Py.textOr(fields, "evaluation", "") == "appropriate_with_involvement" and Py.textOr(fields, "involvement", "") == "none") return ?"work used with the group auditor's involvement says which involvement (a review of the work, participation or direction)";
     };
     if (kind == CONSULTATION) {
       let st = Py.textOr(fields, "state", "");

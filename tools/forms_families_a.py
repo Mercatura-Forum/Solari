@@ -312,7 +312,7 @@ FORMS.append({
 
 # 22 ---------------------------------------------------------------------------
 FORMS.append({
-    'id': 'F22-GROUP-AUDIT', 'number': 22, 'kind': 'worksheet', 'phase': 'planning',
+    'id': 'F22-GROUP-AUDIT', 'number': 22, 'kind': 'worksheet', 'phase': 'planning', 'version': 2,
     'title': L('Group audit plan and instructions to component auditors', 'خطة مراجعة المجموعة والتعليمات إلى مراجعي المكونات'),
     'purpose': L('Set the group audit strategy: the components and their scope, component performance materiality checked against the group\'s, the significant risks at group level, the instructions and communications with component auditors, and the group completion.',
                  'وضع استراتيجية مراجعة المجموعة: المكونات ونطاقها، ومادية الأداء للمكونات مقابل مادية المجموعة، والمخاطر المهمة على مستوى المجموعة، والتعليمات والاتصالات مع مراجعي المكونات، وإنجاز مراجعة المجموعة.'),
@@ -340,10 +340,18 @@ FORMS.append({
             field('significant_risks', 'Significant risks of material misstatement of the group financial statements', 'المخاطر المهمة للتحريف الجوهري في القوائم المالية للمجموعة', 'textarea', True),
             field('work_requested', 'Work requested from component auditors, by component', 'العمل المطلوب من مراجعي المكونات، حسب المكون', 'textarea', True),
             field('reporting_deadline', 'Reporting deadline for component auditors', 'الموعد النهائي لتقارير مراجعي المكونات', 'date', True),
+            field('auditor_evaluations', 'Component auditors evaluated before they are instructed (ISA 600.26 to .28, .32 to .34)', 'مراجعو المكونات الذين تم تقييمهم قبل إصدار التعليمات إليهم (معيار 600 فقرات 26 إلى 28 و32 إلى 34)', 'table', autofill='group.auditors', readonly=True, columns=[
+                field('component', 'Component', 'المكون'), field('firm', 'Firm', 'المكتب'), field('independence', 'Independence', 'الاستقلال'),
+                field('evaluation', 'Evaluation', 'التقييم'), field('involvement', 'Involvement', 'المشاركة')]),
             field('involvement', 'Group team\'s involvement in the component auditors\' work', 'مشاركة فريق المجموعة في عمل مراجعي المكونات', 'textarea', True),
         ]),
         section('completion', 'Group completion', 'إنجاز مراجعة المجموعة', [
             field('evaluation', 'Evaluation of component auditors\' reports and the sufficiency of group evidence', 'تقييم تقارير مراجعي المكونات وكفاية أدلة المجموعة', 'textarea'),
+            field('eliminations', 'Consolidation eliminations booked, by leadsheet: the elimination entries of the adjusted trial balance (IFRS 10.B86)', 'استبعادات التوحيد المقيدة حسب الورقة الرئيسية: قيود الاستبعاد في ميزان المراجعة المعدّل (المعيار الدولي 10 فقرة ب86)', 'table', autofill='adjustments.eliminations', readonly=True, columns=[
+                field('leadsheet', 'Leadsheet', 'الورقة الرئيسية'), field('name', 'Name', 'الاسم'), field('amount', 'Eliminated (debit less credit)', 'المستبعد (المدين ناقص الدائن)', 'money'), field('entries', 'Entries', 'القيود', 'integer')]),
+            field('eliminations_count', 'Leadsheets touched by eliminations', 'الأوراق الرئيسية التي مستها الاستبعادات', 'integer', autofill='adjustments.eliminations_count', readonly=True),
+            yesno('intragroup_agreed', 'Intra-group balances and transactions agreed between components before elimination', 'تمت مطابقة الأرصدة والمعاملات داخل المجموعة بين المكونات قبل الاستبعاد', required=False),
+            yesno('uniform_policies', 'Uniform accounting policies applied across the components, or adjusted for on consolidation', 'طُبقت سياسات محاسبية موحدة عبر المكونات، أو عُدّلت عند التوحيد', required=False),
             field('consolidation', 'Consolidation adjustments and reclassifications tested', 'تسويات التوحيد وإعادة التبويب المختبرة', 'textarea'),
             field('conclusion', 'Conclusion', 'الاستنتاج', 'select', options=[
                 opt('sufficient', 'Sufficient appropriate evidence obtained for the group opinion', 'تم الحصول على ما يكفي من الأدلة المناسبة لرأي المجموعة'), opt('not_yet', 'Not yet: component work outstanding', 'ليس بعد: عمل المكونات لم يكتمل')]),
