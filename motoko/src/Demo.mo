@@ -90,7 +90,7 @@ module {
     let P8 = pr("\D8");
     let P9 = pr("\D9");
     switch (n) {
-      case 0 { // firm quality records; Wadi Qamar opened, team, trial balance (11 operations)
+      case 0 { // firm quality records; Wadi Qamar opened, team, trial balance (13 operations)
         ignore ok("record RK-MONITORING-FINDING", E.addRecord(s, P1, true, at, 0, j("{\"kind\":\"RK-MONITORING-FINDING\",\"fields\":{\"activity\":\"Cold file review, FY2024 engagements\",\"engagement\":\"FY2024 file of a manufacturing client\",\"finding\":\"Inventory NRV testing documented conclusions without the sale prices used.\",\"deficiency\":true,\"severity\":\"moderate\",\"pervasive\":false,\"root_cause\":\"Template did not ask for the price source.\",\"found_at\":\"2025-06-15\"}}")));
         ignore ok("record RK-MONITORING-FINDING", E.addRecord(s, P1, true, at, 0, j("{\"kind\":\"RK-MONITORING-FINDING\",\"fields\":{\"activity\":\"Independence confirmations sample\",\"finding\":\"Two annual confirmations returned late; no breach.\",\"deficiency\":false,\"severity\":\"low\",\"found_at\":\"2025-07-02\"}}")));
         ignore ok("record RK-REMEDIATION", E.addRecord(s, P1, true, at, 0, j("{\"kind\":\"RK-REMEDIATION\",\"fields\":{\"finding\":\"Cold file review FY2024 — NRV documentation\",\"action\":\"NRV template now requires the post-year-end price list reference; training for seniors in September 2025.\",\"owner\":\"Mona Hassan\",\"due\":\"2025-09-30\",\"state\":\"effective\",\"evaluated_at\":\"2026-04-15\"}}")));
@@ -103,7 +103,9 @@ module {
         ignore ok("member eqr", E.setMember(s, P1, true, at, a, P5, "eqr"));
         ignore ok("member client", E.setMember(s, P1, true, at, a, P6, "client"));
         ignore ok("import the FY2025 trial balance", E.importTrialBalance(s, P4, false, at, a, #obj([("profile_id", #str("spreadsheet-generic-csv")), ("source", #str(TB_TEXTILES))])));
-        "Wadi Qamar Textiles opened with its team; FY2025 trial balance imported"
+        let proposedA = ok("accept the applicability the trial balance proposes", Pg.acceptProposal(s, ff, P3, false, at, a, j("{\"performed_at\":\"2025-09-06T09:00\"}")));
+        for (c in Py.items(proposedA).vals()) { ignore ok("review a proposed conclusion", Pg.review(s, P2, false, at, a, Py.natOr(c, "id", 0), "2025-09-06T15:00")) };
+        "Wadi Qamar Textiles opened with its team; FY2025 trial balance imported; the applicability it proposes accepted and reviewed"
       };
       case 1 { // Wadi Qamar planning (74 operations)
         let a = engId(s, "Wadi Qamar Textiles S.A.E. (وادي قمر للغزل والنسيج)", "2025-12-31");

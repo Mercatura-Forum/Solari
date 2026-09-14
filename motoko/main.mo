@@ -828,6 +828,24 @@ shared (install) persistent actor class AuditEngine() = self {
     }
   };
 
+  /// The applicability proposed from the trial balance: the procedures the model ties to
+  /// leadsheets, those proposed not applicable with the reason, and each one's state against the proposal.
+  public query func applicabilityView(token : Text, engagementId : Nat) : async Reply {
+    switch (cached(token)) {
+      case (#ok(p)) reply(observed(p, Programme.proposal(engine, firmForms, p, reads(p), engagementId)));
+      case (#err(m)) refuse(m);
+    }
+  };
+
+  /// Accept the proposal: {performed_at}. Every procedure proposed not applicable and not yet concluded is concluded so.
+  public shared func acceptApplicability(token : Text, engagementId : Nat, json : Text) : async Reply {
+    switch (await* identify(token), Json.parse(json)) {
+      case (#ok(p), #ok(j)) commit(Programme.acceptProposal(engine, firmForms, p, isAdmin(p), now(), engagementId, j));
+      case (#err(m), _) refuse(m);
+      case (_, #err(m)) refuse("invalid JSON: " # m);
+    }
+  };
+
   /// The audit programme: every procedure's state on the engagement, the summary, what is open.
   public query func programmeView(token : Text, engagementId : Nat) : async Reply {
     switch (cached(token)) {

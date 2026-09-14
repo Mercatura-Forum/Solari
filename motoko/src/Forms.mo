@@ -1030,6 +1030,8 @@ module {
       return #err("the group audit is not closed: " # Nat.toText(openG.size()) # " component(s) without sufficient evidence (" # first # ")");
     };
     // the audit programme is closed first: every applicable procedure has a reviewed conclusion
+    let contradicted = Programme.contradicted(s, ff, eng);
+    if (contradicted.size() > 0) return #err("the file is not assembled while " # Nat.toText(contradicted.size()) # " procedure(s) stand concluded not applicable from a trial balance that no longer says so (" # Text.join(contradicted.vals(), ", ") # "): conclude them anew");
     let open = Programme.open(s, ff, eng);
     if (open.size() > 0) {
       var first = "";

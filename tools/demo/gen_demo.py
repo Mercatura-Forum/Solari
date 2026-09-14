@@ -139,7 +139,11 @@ def steps():
     st.eng('a', A.CLIENT, '2025-12-31')
     team(st, 'a', A.TEAM)
     st.ok('import the FY2025 trial balance', f'E.importTrialBalance(s, P4, false, at, a, #obj([("profile_id", #str("spreadsheet-generic-csv")), ("source", #str(TB_TEXTILES))]))')
-    st.summary('Wadi Qamar Textiles opened with its team; FY2025 trial balance imported')
+    # the applicability the trial balance proposes (ISA 300.9): the senior accepts it, the manager reviews each conclusion
+    st.add(f'let proposedA = ok("accept the applicability the trial balance proposes", Pg.acceptProposal(s, ff, P3, false, at, a, j({mo(js({"performed_at": A.PROPOSAL_AT}))})));')
+    st.add(f'for (c in Py.items(proposedA).vals()) {{ ignore ok("review a proposed conclusion", Pg.review(s, P2, false, at, a, Py.natOr(c, "id", 0), {mo(A.PROPOSAL_REVIEWED_AT)})) }};')
+    st.n += 2
+    st.summary('Wadi Qamar Textiles opened with its team; FY2025 trial balance imported; the applicability it proposes accepted and reviewed')
     out.append(st)
 
     # 1 — Wadi Qamar planning

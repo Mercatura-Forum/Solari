@@ -4,6 +4,10 @@ Fictitious. Attribution: Thebes Core Team. Licence: Apache 2.0.
 from common import FIRM, NAME
 
 CLIENT = 'Wadi Qamar Textiles S.A.E. (وادي قمر للغزل والنسيج)'
+# the applicability the trial balance proposes is accepted and reviewed before planning begins
+PROPOSAL_AT = '2025-09-06T09:00'
+PROPOSAL_REVIEWED_AT = '2025-09-06T15:00'
+
 ENGAGEMENT = {'client': CLIENT, 'framework': 'EAS', 'audit_standard': 'EAS', 'currency': 'EGP',
               'period_start': '2025-01-01', 'period_end': '2025-12-31'}
 TEAM = [('P2', 'manager'), ('P3', 'senior'), ('P4', 'staff'), ('P5', 'eqr'), ('P6', 'client')]   # P1 opens it as partner

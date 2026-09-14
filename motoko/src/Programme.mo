@@ -14,6 +14,15 @@
 /// file assembled after the report date holds the completed documentation; ISA 220.30–31: the
 /// partner's review of the performed procedures). `open` lists what still stands in the way.
 ///
+/// Applicability is proposed from the trial balance (ISA 300.9 to .10, ISA 315.A10): the model
+/// names the leadsheets each procedure serves (seed `procedure_leadsheets`), and a procedure
+/// whose every leadsheet is unpopulated on the accepted trial balance is proposed not applicable
+/// with that reason. Accepting the proposal records the conclusions; the reviewer confirms them
+/// four-eyes or overrides with a conclusion of their own. A conclusion recorded from the proposal
+/// is read against the trial balance as it stands: when a later import or a booked entry
+/// populates one of its leadsheets, the conclusion is contradicted and the procedure is open
+/// again until it is concluded anew.
+///
 /// Attribution: Thebes Core Team. Licence: Apache 2.0.
 import Array "mo:core/Array";
 import List "mo:core/List";
@@ -21,6 +30,7 @@ import Map "mo:core/Map";
 import Nat "mo:core/Nat";
 import Principal "mo:core/Principal";
 import Text "mo:core/Text";
+import Adjustments "Adjustments";
 import Engine "Engine";
 import ProductForms "ProductForms";
 import FirmForms "FirmForms";
@@ -33,10 +43,14 @@ module {
   public type R = { #ok : J; #err : Text };
 
   public let CONCLUSION : Text = "RK-PROCEDURE-CONCLUSION";
+  /// The rationale of a conclusion recorded from the proposal begins with this, so that a
+  /// confirmed proposal is told from the auditor's own judgement when the trial balance changes.
+  public let PROPOSED : Text = "Proposed from the trial balance: ";
   public let REVIEWERS : [Engine.Role] = [#partner, #manager];
   /// Record kinds whose `procedure` field cites the procedure they evidence.
   let CITING : [Text] = ["RK-REQUEST", "RK-EVIDENCE-LINK", "RK-SAMPLE", "RK-PRIOR-PERIOD-REFERENCE"];
 
+  func get(o : J, k : Text) : J { Py.optJ(Json.get(o, k)) };
   func parse(t : Text) : J { switch (Json.parse(t)) { case (#ok(j)) j; case (#err(_)) #null_ } };
   /// A form's definition (the Forms module reads the same seed; this module cannot import it,
   /// since Forms imports this one for the assembly gate).
@@ -60,6 +74,22 @@ module {
     records : List.List<J>;
     var conclusion : ?J; // the latest RK-PROCEDURE-CONCLUSION record, as recordJ + reviewed
     var conclusionId : Nat;
+    var leadsheets : [Text]; // the leadsheets the procedure serves (the model), empty when it serves none
+    var populated : [Text]; // those of them populated on the trial balance as it stands
+    var contradicted : Bool; // concluded not applicable from the proposal, and a leadsheet is populated now
+  };
+
+  /// The leadsheets each procedure serves, from the model, and those the trial balance populates.
+  func applicability(s : Engine.State, eng : Nat) : (Map.Map<Text, [Text]>, [Text]) {
+    let links = Map.empty<Text, List.List<Text>>();
+    for (l in rows("procedure_leadsheets").vals()) {
+      let pid = Py.textOr(l, "procedure_id", "");
+      let ls = Py.textOr(l, "leadsheet_id", "");
+      switch (Map.get(links, Text.compare, pid)) { case (?xs) List.add(xs, ls); case null { let xs = List.empty<Text>(); List.add(xs, ls); Map.add(links, Text.compare, pid, xs) } };
+    };
+    let out = Map.empty<Text, [Text]>();
+    for ((pid, xs) in Map.entries(links)) Map.add(out, Text.compare, pid, List.toArray(xs));
+    (out, Adjustments.populatedLeadsheets(s, eng))
   };
 
   /// The state of every procedure on the engagement.
@@ -67,8 +97,15 @@ module {
     let procs = rows("procedures");
     let m = Map.empty<Text, Row>();
     for (p in procs.vals()) {
-      let row : Row = { var status = "not_started"; forms = List.empty<J>(); papers = List.empty<J>(); records = List.empty<J>(); var conclusion = null; var conclusionId = 0 };
+      let row : Row = { var status = "not_started"; forms = List.empty<J>(); papers = List.empty<J>(); records = List.empty<J>(); var conclusion = null; var conclusionId = 0; var leadsheets = []; var populated = []; var contradicted = false };
       Map.add(m, Text.compare, Py.textOr(p, "id", ""), row);
+    };
+    let (links, pop) = applicability(s, eng);
+    for ((pid, ls) in Map.entries(links)) {
+      switch (Map.get(m, Text.compare, pid)) {
+        case (?r) { r.leadsheets := ls; r.populated := Array.filter<Text>(ls, func(l) { for (x in pop.vals()) { if (x == l) return true }; false }) };
+        case null {};
+      };
     };
     func lift(pid : Text, to : Text) {
       switch (Map.get(m, Text.compare, pid)) { case (?r) { if (rank(to) > rank(r.status)) r.status := to }; case null {} };
@@ -136,7 +173,12 @@ module {
           let verdict = Py.textOr(Py.optJ(Json.get(c, "fields")), "conclusion", "");
           let reviewed = Map.get(signed, Nat.compare, r.conclusionId) != null;
           r.conclusion := ?(switch (c) { case (#obj(kvs)) #obj(Array.concat(kvs, [("reviewed", #bool(reviewed))])); case x x });
-          if (verdict == "not_applicable") r.status := "not_applicable"
+          if (verdict == "not_applicable") {
+            r.status := "not_applicable";
+            // a conclusion recorded from the proposal holds only while the trial balance still says so
+            let rationale = Py.textOr(Py.optJ(Json.get(c, "fields")), "rationale", "");
+            if (Text.startsWith(rationale, #text PROPOSED) and r.populated.size() > 0) r.contradicted := true;
+          }
           else if (reviewed) { if (rank("reviewed") > rank(r.status)) r.status := "reviewed" }
           else { if (rank("concluded") > rank(r.status)) r.status := "concluded" };
         };
@@ -144,6 +186,107 @@ module {
       };
     };
     (m, procs)
+  };
+
+  func reasonFor(leadsheets : [Text], populated : [Text]) : Text {
+    if (populated.size() == 0) "none of the leadsheets the procedure serves (" # Text.join(leadsheets.vals(), ", ") # ") is populated on the trial balance"
+    else Text.join(populated.vals(), ", ") # " populated on the trial balance"
+  };
+
+  /// The state of one procedure against the proposal:
+  ///   proposed      every leadsheet unpopulated, no conclusion yet
+  ///   confirmed     proposed not applicable and concluded so
+  ///   overridden    proposed not applicable and concluded performed, with the auditor's reason
+  ///   applicable    a leadsheet is populated (and no conclusion says otherwise)
+  ///   judgement     a leadsheet is populated, concluded not applicable by the auditor with a reason
+  ///   contradicted  concluded not applicable from the proposal, and a leadsheet is populated now
+  func proposalState(r : Row) : Text {
+    let (verdict, rationale) = switch (r.conclusion) {
+      case (?c) (Py.textOr(Py.optJ(Json.get(c, "fields")), "conclusion", ""), Py.textOr(Py.optJ(Json.get(c, "fields")), "rationale", ""));
+      case null ("", "");
+    };
+    if (r.populated.size() == 0) {
+      if (verdict == "") "proposed" else if (verdict == "not_applicable") "confirmed" else "overridden"
+    } else if (verdict == "not_applicable") {
+      if (Text.startsWith(rationale, #text PROPOSED)) "contradicted" else "judgement"
+    } else "applicable"
+  };
+
+  /// The applicability proposed from the trial balance: one row per procedure the model ties to
+  /// leadsheets, with the leadsheets, those populated, what is proposed and why, the state
+  /// against the proposal and the latest conclusion. Nothing is proposed without a trial balance.
+  public func proposal(s : Engine.State, ff : FirmForms.State, by : Principal, isAdmin : Bool, eng : Nat) : R {
+    let e = switch (Engine.engagement(s, eng)) { case (#ok(e)) e; case (#err(m)) return #err(m) };
+    let role = Engine.memberRole(e, by);
+    if (role == null and not isAdmin) return #err("not permitted: not a member of this engagement");
+    if (role == ?#client) return #err("not permitted: the audit programme is the auditor's");
+    let hasTb = Engine.latestTb(s, eng) != null;
+    let (m, procs) = build(s, ff, eng);
+    let out = List.empty<J>();
+    var proposed = 0; var confirmed = 0; var overridden = 0; var judgement = 0; var contradicted = 0;
+    var populated : [Text] = [];
+    for (p in procs.vals()) {
+      let pid = Py.textOr(p, "id", "");
+      switch (Map.get(m, Text.compare, pid)) {
+        case (?r) {
+          if (r.leadsheets.size() == 0 or not hasTb) {} else {
+            let state = proposalState(r);
+            switch (state) { case "proposed" proposed += 1; case "confirmed" confirmed += 1; case "overridden" overridden += 1; case "judgement" judgement += 1; case "contradicted" contradicted += 1; case _ {} };
+            List.add(out, #obj([
+              ("procedure", #str(pid)), ("cycle", get(p, "cycle_id")),
+              ("leadsheets", Json.texts(r.leadsheets)), ("populated", Json.texts(r.populated)),
+              ("proposed", #str(if (r.populated.size() == 0) "not_applicable" else "applicable")),
+              ("reason", #str(reasonFor(r.leadsheets, r.populated))),
+              ("state", #str(state)), ("status", #str(r.status)),
+              ("conclusion", switch (r.conclusion) { case (?c) c; case null #null_ }),
+            ]));
+          };
+        };
+        case null {};
+      };
+    };
+    if (hasTb) populated := Adjustments.populatedLeadsheets(s, eng);
+    #ok(#obj([
+      ("engagement", Json.nat(eng)), ("trial_balance", #bool(hasTb)), ("populated", Json.texts(populated)),
+      ("proposed", Json.nat(proposed)), ("confirmed", Json.nat(confirmed)), ("overridden", Json.nat(overridden)),
+      ("judgement", Json.nat(judgement)), ("contradicted", Json.nat(contradicted)),
+      ("rows", #arr(List.toArray(out))),
+    ]))
+  };
+
+  /// Accept the proposal: every procedure proposed not applicable and not yet concluded is
+  /// concluded not applicable in the person's name at the stated time, the reason computed as the
+  /// rationale; each conclusion then awaits the reviewer's sign-off like any other. Input:
+  /// {performed_at}. Refused without a trial balance, and when nothing remains proposed.
+  public func acceptProposal(s : Engine.State, ff : FirmForms.State, by : Principal, isAdmin : Bool, at : Int, eng : Nat, inp : J) : R {
+    switch (Engine.authorise(s, eng, by, isAdmin, Engine.PREPARERS, false)) { case (#ok(_)) {}; case (#err(m)) return #err(m) };
+    if (Engine.latestTb(s, eng) == null) return #err("no trial balance is accepted on this engagement: nothing is proposed");
+    let when = Py.textOr(inp, "performed_at", "");
+    let (m, procs) = build(s, ff, eng);
+    let items = List.empty<J>();
+    for (p in procs.vals()) {
+      let pid = Py.textOr(p, "id", "");
+      switch (Map.get(m, Text.compare, pid)) {
+        case (?r) {
+          if (r.leadsheets.size() > 0 and proposalState(r) == "proposed") {
+            List.add(items, #obj([("procedure", #str(pid)), ("conclusion", #str("not_applicable")), ("rationale", #str(PROPOSED # reasonFor(r.leadsheets, r.populated))), ("performed_at", #str(when))]));
+          };
+        };
+        case null {};
+      };
+    };
+    if (List.size(items) == 0) return #err("nothing remains proposed: every procedure the trial balance proposes not applicable is concluded already");
+    concludeMany(s, by, isAdmin, at, eng, #arr(List.toArray(items)))
+  };
+
+  /// The procedures concluded not applicable from a proposal the trial balance no longer makes.
+  public func contradicted(s : Engine.State, ff : FirmForms.State, eng : Nat) : [Text] {
+    let (m, procs) = build(s, ff, eng);
+    let out = List.empty<Text>();
+    for (p in procs.vals()) {
+      switch (Map.get(m, Text.compare, Py.textOr(p, "id", ""))) { case (?r) { if (r.contradicted) List.add(out, Py.textOr(p, "id", "")) }; case null {} };
+    };
+    List.toArray(out)
   };
 
   /// The programme as the app shows it: one row per procedure (the rulebook's own columns are
@@ -167,9 +310,10 @@ module {
             ("procedure", #str(pid)), ("cycle", #str(cyc)), ("status", #str(r.status)),
             ("forms", #arr(List.toArray(r.forms))), ("papers", #arr(List.toArray(r.papers))), ("records", #arr(List.toArray(r.records))),
             ("conclusion", switch (r.conclusion) { case (?c) c; case null #null_ }),
+            ("leadsheets", Json.texts(r.leadsheets)), ("populated", Json.texts(r.populated)), ("contradicted", #bool(r.contradicted)),
           ]));
           Map.add(byStatus, Text.compare, r.status, (switch (Map.get(byStatus, Text.compare, r.status)) { case (?n) n; case null 0 }) + 1);
-          let done = r.status == "reviewed" or r.status == "not_applicable";
+          let done = (r.status == "reviewed" or r.status == "not_applicable") and not r.contradicted;
           let (a, b) = switch (Map.get(byCycle, Text.compare, cyc)) { case (?x) x; case null (0, 0) };
           Map.add(byCycle, Text.compare, cyc, (a + 1, if (done) b + 1 else b));
           if (not done) List.add(open, pid);
@@ -208,7 +352,7 @@ module {
     for (p in procs.vals()) {
       let pid = Py.textOr(p, "id", "");
       switch (Map.get(m, Text.compare, pid)) {
-        case (?r) { if (r.status != "reviewed" and r.status != "not_applicable") List.add(out, pid) };
+        case (?r) { if ((r.status != "reviewed" and r.status != "not_applicable") or r.contradicted) List.add(out, pid) };
         case null {};
       };
     };

@@ -658,6 +658,28 @@ def main():
         except Exception as e:
             shot(pg, 'd5-07-steps-failed')
             row('the steps workflow completes', False, e)
+
+        # ── applicability proposed from the trial balance: the proposal, its acceptance, its states ──
+        try:
+            pg.goto(f'{URL}#/e/{eid}/programme', wait_until='load')
+            pg.get_by_test_id('pg-proposal').wait_for(timeout=120000)
+            pg.wait_for_function('() => document.querySelectorAll("[data-proposal-count]").length >= 5', timeout=120000)
+            counts = {c.get_attribute('data-proposal-count'): int(c.inner_text().split()[-1]) for c in pg.locator('[data-proposal-count]').all()}
+            row('the proposal counts every state against it', set(counts) == {'proposed', 'confirmed', 'overridden', 'judgement', 'contradicted'}, str(counts))
+            if pg.get_by_test_id('pg-proposal-accept').count():
+                before = counts['proposed']
+                pg.get_by_test_id('pg-proposal-accept').click()
+                pg.wait_for_function('() => !document.querySelector("[data-testid=pg-proposal-accept]")', timeout=180000)
+                after = {c.get_attribute('data-proposal-count'): int(c.inner_text().split()[-1]) for c in pg.locator('[data-proposal-count]').all()}
+                row('accepting the proposal concludes every proposed procedure, and only those', after['proposed'] == 0 and after['confirmed'] == counts['confirmed'] + before, f'{before} accepted')
+            confirmed = pg.locator('[data-proposal-state=confirmed]').count()
+            row('every confirmed procedure names the leadsheets the trial balance leaves unpopulated', confirmed >= 1 and pg.locator('[data-proposal-state=confirmed] .ref').count() >= confirmed, f'{confirmed} confirmed')
+            row('no row of the proposal is applicable until every linked procedure is shown', pg.locator('[data-proposal-state=applicable]').count() == 0)
+            shot(pg, 'd5-08-applicability')
+            axe(pg, 'the programme with the proposal', 'en')
+        except Exception as e:
+            shot(pg, 'd5-08-applicability-failed')
+            row('the applicability workflow completes', False, e)
         return finish(ctx)
 
 
