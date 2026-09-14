@@ -45,7 +45,7 @@ sys.path.insert(0, HERE)
 from forms_lib import APPROVE, ENGAGEMENT, L, LEVELS, PREP, REVIEW, YES_NO_NA, field, opt, section, yesno  # noqa: E402
 from forms_cycles import cycle_forms  # noqa: E402
 import forms_families_a, forms_families_b, forms_families_c, forms_letters  # noqa: E402
-from forms_graph import build_graph  # noqa: E402
+from forms_graph import OWNS, build_graph  # noqa: E402
 
 FORMS_DIR = os.path.join(HERE, '..', 'forms')
 STD_EARLY = os.environ.get('AUDIT_STANDARDS', '../thebes-audit-standards')
@@ -858,6 +858,9 @@ def main():
                  f'  public let GRAPH : Text = {mo(json.dumps(graph, ensure_ascii=False, separators=(",", ":")))};\n\n'
                  '  /// The definitions instantiated per leadsheet, by id: read without parsing a definition.\n'
                  f'  public let PER : [Text] = [{", ".join(mo(f["id"]) for f in catalogue if f.get("per") == "leadsheet")}];\n\n'
+                 '  /// The form that owns each computation kind (the paper a firm form reads through `paper.<kind>`):\n'
+                 '  /// a lookup, so that no definition is parsed to find an owner.\n'
+                 f'  public let OWNERS : [(Text, Text)] = [{", ".join(f"({mo(kind)}, {mo(fid)})" for fid, kinds in OWNS.items() for kind in kinds)}];\n\n'
                  '  /// The edges into each form, as canonical JSON per target: a read of one form parses\n'
                  '  /// its own edges and no other.\n'
                  '  public let INTO : [(Text, Text)] = [\n'

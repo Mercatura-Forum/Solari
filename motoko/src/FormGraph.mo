@@ -9,6 +9,10 @@ module {
   /// The definitions instantiated per leadsheet, by id: read without parsing a definition.
   public let PER : [Text] = ["F40-BALANCE-ANALYTICS"];
 
+  /// The form that owns each computation kind (the paper a firm form reads through `paper.<kind>`):
+  /// a lookup, so that no definition is parsed to find an owner.
+  public let OWNERS : [(Text, Text)] = [("materiality", "F06-MATERIALITY"), ("mus_sample_size", "F07-SAMPLING-PLAN"), ("mus_select", "F07-SAMPLING-PLAN"), ("mus_evaluate", "F07-SAMPLING-PLAN"), ("going_concern", "F09-GOING-CONCERN"), ("aggregation", "F10-MISSTATEMENTS"), ("trend", "F16-UNDERSTANDING-ENTITY"), ("attribute_sample_size", "F17-INTERNAL-CONTROL"), ("attribute_evaluate", "F17-INTERNAL-CONTROL"), ("component_materiality", "F22-GROUP-AUDIT"), ("analytical_review", "F30-STATEMENTS-REVIEW"), ("tieout", "F30-STATEMENTS-REVIEW")];
+
   /// The edges into each form, as canonical JSON per target: a read of one form parses
   /// its own edges and no other.
   public let INTO : [(Text, Text)] = [

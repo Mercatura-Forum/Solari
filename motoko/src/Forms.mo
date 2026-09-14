@@ -642,7 +642,9 @@ module {
                   if (parts[1] == "rollforward" and parts.size() >= 4 and parts[2] == "schedules") {
                     switch (scheduleOwner(parts[3])) { case (?o) owner := o; case null {} };
                   } else {
-                    for ((oid, ot) in seeds().vals()) { let osp = parse(ot); if (Py.textOr(osp, "computation", "") == parts[1] and not perLeadsheet(osp)) owner := oid };
+                    // the owner of a computation is read from the generated table: parsing every
+                    // definition of the catalogue for each such field cost a query its whole budget
+                    for ((kind, oid) in FormGraph.OWNERS.vals()) { if (kind == parts[1]) owner := oid };
                   };
                   if (owner != "") (owner, #null_, "computed") else ("paper:" # parts[1], #null_, "paper")
                 };
