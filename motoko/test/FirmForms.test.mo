@@ -104,7 +104,7 @@ ignore must("staff joins", E.setMember(s, admin, true, 9, 1, staff, "staff"));
 let cat = Py.items(F.catalogue(ff));
 var firmInCat = 0;
 for (c in cat.vals()) { if (Py.truthy(Json.get(c, "firm"))) firmInCat += 1 };
-check("the catalogue lists the product's forms and the firm's", cat.size() == 48 + 2 and firmInCat == 2);
+check("the catalogue lists the product's forms and the firm's", cat.size() == 50 + 2 and firmInCat == 2);
 let fv = switch (F.view(s, ff, staff, false, 1, "FF-CASH-COUNT")) { case (#ok(v)) v; case (#err(m)) { Debug.print(m); #null_ } };
 check("a firm form renders under its latest version", field(fv, ["form", "version"]) == #num("2") and field(fv, ["status"]) == #str("not_started"));
 ignore must("staff save the firm form", F.save(s, ff, staff, false, 10, 1, "FF-CASH-COUNT", j("{\"values\":{\"counted_on\":\"2025-12-31\",\"amount\":\"12500.00\",\"denominations\":[{\"denomination\":\"200\",\"count\":50}],\"result\":\"agrees\"}}")));
@@ -128,7 +128,7 @@ ignore must("a second engagement", E.createEngagement(s, admin, true, 13, j("{\"
 refused("a retired form starts no new instance", F.save(s, ff, admin, true, 14, 2, "FF-CASH-COUNT", j("{\"values\":{\"amount\":\"1.00\"}}")), "retired");
 check("the existing instance still renders", switch (F.view(s, ff, staff, false, 1, "FF-CASH-COUNT")) { case (#ok(_)) true; case (#err(_)) false });
 let statuses = Py.items(switch (F.statuses(s, ff, staff, false, 1)) { case (#ok(v)) v; case (#err(_)) #arr([]) });
-check("statuses covers the product forms and the active firm forms", statuses.size() == 47 + 1);
+check("statuses covers the product forms and the active firm forms", statuses.size() == 49 + 1);
 
 Debug.print("count: firm form checks = " # Nat.toText(checks));
 Debug.print("count: firm forms in the catalogue = " # Nat.toText(firmInCat));

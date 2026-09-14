@@ -625,7 +625,7 @@ def main():
             pg.get_by_test_id('letter-send-open').click()
             row('the addressee is taken from the party the paper names', pg.get_by_test_id('letter-addressee').input_value() == f'Delta Textiles {LT}')
             pg.get_by_test_id('letter-send-confirm').click()
-            pg.wait_for_function(f'() => document.body.innerText.includes("Delta Textiles {LT}") && document.querySelector("[data-testid=letter-sent-list]")', timeout=180000)
+            pg.wait_for_function(f'() => [...document.querySelectorAll("[data-testid=letter-sent-list] li")].some((li) => li.innerText.includes("Delta Textiles {LT}"))', timeout=180000)
             row('sending the letter records the communication and opens the request under the paper', pg.locator('[data-testid=letter-sent-list] li', has_text=f'Delta Textiles {LT}').count() == 1)
             shot(pg, 'd5-06-letter')
             axe(pg, 'a letter template', 'en')
@@ -713,7 +713,7 @@ def main():
         # ── the group plan at version 2: the evaluations and the eliminations it reads ──
         try:
             pg.goto(f'{URL}#/e/{eid}/f/F22-GROUP-AUDIT', wait_until='load')
-            pg.get_by_test_id('signoff-panel').wait_for(timeout=120000)
+            pg.locator('[data-field=auditor_evaluations]').wait_for(timeout=120000)
             row('the group plan reads the component auditors evaluated and the eliminations booked', pg.locator('[data-field=auditor_evaluations]').count() == 1 and pg.locator('[data-field=eliminations]').count() == 1 and pg.locator('[data-field=eliminations_count]').count() == 1)
             shot(pg, 'd5-11-group-plan')
         except Exception as e:
@@ -723,7 +723,7 @@ def main():
         # ── the biological assets count: catalogued, its schedule tied to the leadsheet, applicable only where the leadsheet is populated ──
         try:
             pg.goto(f'{URL}#/e/{eid}/f/F50-BIOLOGICAL-COUNT', wait_until='load')
-            pg.get_by_test_id('signoff-panel').wait_for(timeout=120000)
+            pg.locator('[data-field=sch_bio]').wait_for(timeout=120000)
             row('the biological assets count carries its movement schedule and the difference to the leadsheet', pg.locator('[data-field=sch_bio]').count() == 1 and pg.locator('[data-field=sch_bio_difference]').count() == 1)
             pg.goto(f'{URL}#/e/{eid}/map', wait_until='load')
             pg.wait_for_function('() => document.body.innerText.includes("Biological assets count attendance")', timeout=120000)
