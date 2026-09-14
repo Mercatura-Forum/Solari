@@ -1,0 +1,363 @@
+{
+ "id": "F15-INDEPENDENCE",
+ "number": 15,
+ "kind": "checklist",
+ "phase": "planning",
+ "title": {
+  "en": "Independence and ethics confirmation",
+  "ar": "تأكيد الاستقلال والمتطلبات المسلكية"
+ },
+ "purpose": {
+  "en": "Confirm, for the firm and for every member of the engagement team, compliance with the relevant ethical requirements including independence, and evaluate threats and safeguards.",
+  "ar": "تأكيد التزام المكتب وكل عضو في فريق الارتباط بالمتطلبات المسلكية ذات الصلة بما فيها الاستقلال، وتقييم التهديدات والضمانات."
+ },
+ "procedures": [
+  "P-FSL-002"
+ ],
+ "standards": [
+  "IESBA-CODE",
+  "ISQM-1",
+  "ISA-220",
+  "ISA-200"
+ ],
+ "sections": [
+  {
+   "id": "engagement",
+   "title": {
+    "en": "Engagement",
+    "ar": "الارتباط"
+   },
+   "fields": [
+    {
+     "id": "client",
+     "label": {
+      "en": "Entity audited",
+      "ar": "المنشأة محل المراجعة"
+     },
+     "type": "text",
+     "required": false,
+     "autofill": "engagement.client",
+     "readonly": true
+    },
+    {
+     "id": "period_start",
+     "label": {
+      "en": "Period from",
+      "ar": "الفترة من"
+     },
+     "type": "date",
+     "required": false,
+     "autofill": "engagement.period_start",
+     "readonly": true
+    },
+    {
+     "id": "period_end",
+     "label": {
+      "en": "Period to",
+      "ar": "الفترة إلى"
+     },
+     "type": "date",
+     "required": false,
+     "autofill": "engagement.period_end",
+     "readonly": true
+    },
+    {
+     "id": "framework",
+     "label": {
+      "en": "Financial reporting framework",
+      "ar": "إطار التقرير المالي"
+     },
+     "type": "text",
+     "required": false,
+     "autofill": "engagement.framework",
+     "readonly": true
+    }
+   ]
+  },
+  {
+   "id": "team",
+   "title": {
+    "en": "The engagement team",
+    "ar": "فريق الارتباط"
+   },
+   "fields": [
+    {
+     "id": "members",
+     "label": {
+      "en": "Members of the engagement on this file",
+      "ar": "أعضاء الارتباط في هذا الملف"
+     },
+     "type": "table",
+     "required": false,
+     "autofill": "engagement.members",
+     "readonly": true,
+     "columns": [
+      {
+       "id": "principal",
+       "label": {
+        "en": "Identifier",
+        "ar": "المعرّف"
+       },
+       "type": "text",
+       "required": false
+      },
+      {
+       "id": "role",
+       "label": {
+        "en": "Role",
+        "ar": "الدور"
+       },
+       "type": "text",
+       "required": false
+      }
+     ]
+    },
+    {
+     "id": "confirmations",
+     "label": {
+      "en": "Confirmations obtained",
+      "ar": "التأكيدات التي تم الحصول عليها"
+     },
+     "type": "table",
+     "required": true,
+     "columns": [
+      {
+       "id": "member",
+       "label": {
+        "en": "Team member",
+        "ar": "عضو الفريق"
+       },
+       "type": "text",
+       "required": true
+      },
+      {
+       "id": "role",
+       "label": {
+        "en": "Role",
+        "ar": "الدور"
+       },
+       "type": "text",
+       "required": true
+      },
+      {
+       "id": "confirmed_on",
+       "label": {
+        "en": "Confirmed on",
+        "ar": "تاريخ التأكيد"
+       },
+       "type": "date",
+       "required": true
+      },
+      {
+       "id": "financial_interest",
+       "label": {
+        "en": "Financial interest in the entity",
+        "ar": "مصلحة مالية في المنشأة"
+       },
+       "type": "yesno",
+       "required": true
+      },
+      {
+       "id": "relationship",
+       "label": {
+        "en": "Family, business or employment relationship",
+        "ar": "علاقة عائلية أو تجارية أو وظيفية"
+       },
+       "type": "yesno",
+       "required": true
+      },
+      {
+       "id": "matters",
+       "label": {
+        "en": "Matters declared",
+        "ar": "الأمور المفصح عنها"
+       },
+       "type": "textarea",
+       "required": false
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "firm",
+   "title": {
+    "en": "The firm",
+    "ar": "المكتب"
+   },
+   "fields": [
+    {
+     "id": "partner_years",
+     "label": {
+      "en": "Years the engagement partner has served this entity",
+      "ar": "عدد سنوات خدمة شريك الارتباط لهذه المنشأة"
+     },
+     "type": "integer",
+     "required": true
+    },
+    {
+     "id": "rotation",
+     "label": {
+      "en": "Partner rotation required or applied",
+      "ar": "تناوب الشريك مطلوب أو مطبق"
+     },
+     "type": "select",
+     "required": true,
+     "options": [
+      {
+       "value": "yes",
+       "label": {
+        "en": "Yes",
+        "ar": "نعم"
+       }
+      },
+      {
+       "value": "no",
+       "label": {
+        "en": "No",
+        "ar": "لا"
+       }
+      },
+      {
+       "value": "na",
+       "label": {
+        "en": "Not applicable",
+        "ar": "لا ينطبق"
+       }
+      }
+     ]
+    },
+    {
+     "id": "fee_share",
+     "label": {
+      "en": "Fees from this entity as a share of the firm's total fees",
+      "ar": "أتعاب هذه المنشأة كنسبة من إجمالي أتعاب المكتب"
+     },
+     "type": "percent",
+     "required": false
+    },
+    {
+     "id": "non_assurance",
+     "label": {
+      "en": "Non-assurance services provided during the period",
+      "ar": "الخدمات غير التأكيدية المقدمة خلال الفترة"
+     },
+     "type": "textarea",
+     "required": false
+    },
+    {
+     "id": "gifts",
+     "label": {
+      "en": "Gifts, hospitality or loans received from or given to the entity",
+      "ar": "الهدايا أو الضيافة أو القروض المستلمة من المنشأة أو المقدمة لها"
+     },
+     "type": "textarea",
+     "required": false
+    }
+   ]
+  },
+  {
+   "id": "threats",
+   "title": {
+    "en": "Threats and safeguards",
+    "ar": "التهديدات والضمانات"
+   },
+   "fields": [
+    {
+     "id": "threats",
+     "label": {
+      "en": "Threats identified (self-interest, self-review, advocacy, familiarity, intimidation)",
+      "ar": "التهديدات المحددة (المصلحة الذاتية، مراجعة الذات، المناصرة، الألفة، التخويف)"
+     },
+     "type": "textarea",
+     "required": true
+    },
+    {
+     "id": "safeguards",
+     "label": {
+      "en": "Safeguards applied and their adequacy",
+      "ar": "الضمانات المطبقة ومدى كفايتها"
+     },
+     "type": "textarea",
+     "required": true
+    },
+    {
+     "id": "breaches",
+     "label": {
+      "en": "Breaches of independence during the period and their resolution",
+      "ar": "الإخلالات بالاستقلال خلال الفترة وكيفية معالجتها"
+     },
+     "type": "textarea",
+     "required": false
+    }
+   ]
+  },
+  {
+   "id": "conclusion",
+   "title": {
+    "en": "Conclusion",
+    "ar": "الاستنتاج"
+   },
+   "fields": [
+    {
+     "id": "independent",
+     "label": {
+      "en": "The firm and the team are independent and compliant",
+      "ar": "المكتب والفريق مستقلان وملتزمان"
+     },
+     "type": "select",
+     "required": true,
+     "options": [
+      {
+       "value": "yes",
+       "label": {
+        "en": "Yes",
+        "ar": "نعم"
+       }
+      },
+      {
+       "value": "with_safeguards",
+       "label": {
+        "en": "Yes, with the safeguards above",
+        "ar": "نعم، مع الضمانات المذكورة"
+       }
+      },
+      {
+       "value": "no",
+       "label": {
+        "en": "No",
+        "ar": "لا"
+       }
+      }
+     ]
+    },
+    {
+     "id": "rationale",
+     "label": {
+      "en": "Rationale",
+      "ar": "المبررات"
+     },
+     "type": "textarea",
+     "required": true
+    }
+   ]
+  }
+ ],
+ "signoff": {
+  "prepare": [
+   "partner",
+   "manager",
+   "senior",
+   "staff"
+  ],
+  "review": [
+   "partner",
+   "manager"
+  ],
+  "approve": [
+   "partner"
+  ]
+ },
+ "version": 1,
+ "ar_status": "draft_pending_review"
+}

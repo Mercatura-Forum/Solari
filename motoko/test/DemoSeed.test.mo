@@ -3,6 +3,7 @@
 // Attribution: Thebes Core Team. Licence: Apache 2.0.
 import E "../src/Engine";
 import F "../src/Forms";
+import FF "../src/FirmForms";
 import Demo "../src/Demo";
 import Json "../src/Json";
 import Py "../src/Py";
@@ -12,11 +13,12 @@ import Principal "mo:core/Principal";
 import Runtime "mo:core/Runtime";
 
 let s = E.init();
+let ff = FF.init();
 var checks = 0;
 var failed = 0;
 func check(name : Text, c : Bool) { checks += 1; if (not c) { failed += 1; Debug.print("FAIL " # name) } };
 var n = 0;
-while (n < Demo.STEPS) { Debug.print("step " # Nat.toText(n) # ": " # Demo.step(s, n, 1000 + n)); n += 1 };
+while (n < Demo.STEPS) { Debug.print("step " # Nat.toText(n) # ": " # Demo.step(s, ff, n, 1000 + n)); n += 1 };
 
 let admin = Principal.fromBlob("\D1");
 func ok(r : E.R) : Json.J { switch (r) { case (#ok(v)) v; case (#err(m)) Runtime.trap(m) } };
@@ -26,7 +28,7 @@ func eng(client : Text, pe : Text) : Nat {
   Runtime.trap("no engagement " # client)
 };
 func view(e : Nat) : Json.J { ok(E.engagementView(s, admin, true, e)) };
-func formStatus(e : Nat, f : Text) : Text { Py.textOr(ok(F.view(s, admin, true, e, f)), "status", "") };
+func formStatus(e : Nat, f : Text) : Text { Py.textOr(ok(F.view(s, ff, admin, true, e, f)), "status", "") };
 func latest(e : Nat, kind : Text) : Json.J {
   var found : Json.J = #null_;
   for (p in Py.items(field(view(e), ["papers"])).vals()) { if (Py.textOr(p, "kind", "") == kind) found := p };
@@ -41,7 +43,7 @@ check("Wadi Qamar FY2025 is assembled", field(view(a), ["engagement", "status"])
 check("Wadi Qamar FY2026 is at planning", field(view(a26), ["engagement", "status"]) == #str("planning"));
 check("Shams El-Bahr is in fieldwork", field(view(b), ["engagement", "status"]) == #str("fieldwork"));
 for (f in ["F01-ACCEPTANCE", "F02-ENGAGEMENT-LETTER", "F03-PLANNING-MEMO", "F04-RISK-REGISTER", "F05-FRAUD-DISCUSSION", "F06-MATERIALITY", "F07-SAMPLING-PLAN", "F08-CONFIRMATIONS", "F09-GOING-CONCERN", "F10-MISSTATEMENTS", "F11-SUBSEQUENT-EVENTS", "F12-REPRESENTATION-LETTER", "F13-TCWG-LETTER", "F14-COMPLETION"].vals()) check("Wadi Qamar " # f # " approved", formStatus(a, f) == "approved");
-check("the carried continuance form was reviewed and saved", formStatus(a26, "F01-ACCEPTANCE") == "draft" and field(ok(F.view(s, admin, true, a26, "F01-ACCEPTANCE")), ["values", "_carried"]) == #null_);
+check("the carried continuance form was reviewed and saved", formStatus(a26, "F01-ACCEPTANCE") == "draft" and field(ok(F.view(s, ff, admin, true, a26, "F01-ACCEPTANCE")), ["values", "_carried"]) == #null_);
 for (f in ["F01-ACCEPTANCE", "F02-ENGAGEMENT-LETTER", "F03-PLANNING-MEMO", "F04-RISK-REGISTER", "F05-FRAUD-DISCUSSION", "F06-MATERIALITY"].vals()) check("Shams El-Bahr " # f # " approved", formStatus(b, f) == "approved");
 check("Shams El-Bahr sampling plan prepared, awaiting review", formStatus(b, "F07-SAMPLING-PLAN") == "prepared");
 check("Shams El-Bahr confirmations in draft", formStatus(b, "F08-CONFIRMATIONS") == "draft");

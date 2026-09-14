@@ -33,7 +33,7 @@ WEB, OUT = sys.argv[1], sys.argv[2]
 # test contract, never the firm of the single-firm era
 DEFAULT_CID = int(os.environ['E2E_DEFAULT_CID'])
 os.makedirs(OUT, exist_ok=True)
-URL = f'https://memphis.mercaturaforum.com/_/raw/{WEB}/index.html'
+URL = f'https://<thebes-gateway>/_/raw/{WEB}/index.html'
 FIXTURE = os.environ.get('TB_FIXTURE', f'{R}/../thebes-audit-standards/adapters/fixtures/spreadsheet-basic.csv')
 RUN = f'{int(time.time()) % 100000:05d}'
 results = []

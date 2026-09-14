@@ -37,7 +37,7 @@ ROOT = os.path.dirname(HERE)
 STD = os.environ.get('STANDARDS', os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', '..', 'thebes-audit-standards'))
 TD = os.environ.get('THEBES_DEPLOY', 'thebes-deploy')
 MAN = os.path.join(ROOT, 'e2e', 'thebes.toml')
-URL = f'https://memphis.mercaturaforum.com/_/raw/{WEB}/index.html'
+URL = f'https://<thebes-gateway>/_/raw/{WEB}/index.html'
 os.makedirs(OUT, exist_ok=True)
 sys.path.insert(0, STD)
 sys.path.insert(0, HERE)

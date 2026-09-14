@@ -1,0 +1,359 @@
+{
+ "id": "F23-INVENTORY-COUNT",
+ "number": 23,
+ "kind": "checklist",
+ "phase": "fieldwork",
+ "title": {
+  "en": "Inventory count attendance",
+  "ar": "حضور جرد المخزون"
+ },
+ "purpose": {
+  "en": "Record attendance at the physical inventory count: the instructions evaluated, the counts observed and tested, inventory held by third parties, and the roll-forward or roll-back to the period end.",
+  "ar": "توثيق حضور الجرد الفعلي للمخزون: تقييم تعليمات الجرد، والعدّ الملاحظ والمختبر، والمخزون لدى الغير، والترحيل إلى نهاية الفترة أو منها."
+ },
+ "procedures": [
+  "P-INV-002",
+  "P-INV-003",
+  "P-INV-004"
+ ],
+ "standards": [
+  "ISA-501",
+  "ISA-505",
+  "ISA-330"
+ ],
+ "sections": [
+  {
+   "id": "engagement",
+   "title": {
+    "en": "Engagement",
+    "ar": "الارتباط"
+   },
+   "fields": [
+    {
+     "id": "client",
+     "label": {
+      "en": "Entity audited",
+      "ar": "المنشأة محل المراجعة"
+     },
+     "type": "text",
+     "required": false,
+     "autofill": "engagement.client",
+     "readonly": true
+    },
+    {
+     "id": "period_start",
+     "label": {
+      "en": "Period from",
+      "ar": "الفترة من"
+     },
+     "type": "date",
+     "required": false,
+     "autofill": "engagement.period_start",
+     "readonly": true
+    },
+    {
+     "id": "period_end",
+     "label": {
+      "en": "Period to",
+      "ar": "الفترة إلى"
+     },
+     "type": "date",
+     "required": false,
+     "autofill": "engagement.period_end",
+     "readonly": true
+    },
+    {
+     "id": "framework",
+     "label": {
+      "en": "Financial reporting framework",
+      "ar": "إطار التقرير المالي"
+     },
+     "type": "text",
+     "required": false,
+     "autofill": "engagement.framework",
+     "readonly": true
+    }
+   ]
+  },
+  {
+   "id": "count",
+   "title": {
+    "en": "The count",
+    "ar": "الجرد"
+   },
+   "fields": [
+    {
+     "id": "locations",
+     "label": {
+      "en": "Locations counted and attended",
+      "ar": "المواقع التي تم جردها وحضورها"
+     },
+     "type": "table",
+     "required": true,
+     "columns": [
+      {
+       "id": "location",
+       "label": {
+        "en": "Location",
+        "ar": "الموقع"
+       },
+       "type": "text",
+       "required": true
+      },
+      {
+       "id": "date",
+       "label": {
+        "en": "Count date",
+        "ar": "تاريخ الجرد"
+       },
+       "type": "date",
+       "required": true
+      },
+      {
+       "id": "attended",
+       "label": {
+        "en": "Attended by the team",
+        "ar": "حضره الفريق"
+       },
+       "type": "yesno",
+       "required": true
+      },
+      {
+       "id": "counter",
+       "label": {
+        "en": "Team member attending",
+        "ar": "عضو الفريق الحاضر"
+       },
+       "type": "text",
+       "required": false
+      }
+     ]
+    },
+    {
+     "id": "instructions",
+     "label": {
+      "en": "Management's count instructions evaluated as adequate",
+      "ar": "تم تقييم تعليمات الجرد الصادرة عن الإدارة على أنها كافية"
+     },
+     "type": "yesno",
+     "required": true
+    },
+    {
+     "id": "procedures_observed",
+     "label": {
+      "en": "Count procedures observed as performed per the instructions",
+      "ar": "تمت ملاحظة تنفيذ إجراءات الجرد وفقًا للتعليمات"
+     },
+     "type": "yesno",
+     "required": true
+    },
+    {
+     "id": "cutoff_recorded",
+     "label": {
+      "en": "Cut-off details recorded (last receipts and dispatches, movements during the count)",
+      "ar": "تم تسجيل تفاصيل الفصل الزمني (آخر الاستلامات والشحنات والحركات أثناء الجرد)"
+     },
+     "type": "yesno",
+     "required": true
+    },
+    {
+     "id": "test_counts",
+     "label": {
+      "en": "Test counts",
+      "ar": "العدّ الاختباري"
+     },
+     "type": "table",
+     "required": true,
+     "columns": [
+      {
+       "id": "item",
+       "label": {
+        "en": "Item",
+        "ar": "الصنف"
+       },
+       "type": "text",
+       "required": true
+      },
+      {
+       "id": "sheet_qty",
+       "label": {
+        "en": "Quantity per count sheet",
+        "ar": "الكمية وفق كشف الجرد"
+       },
+       "type": "text",
+       "required": true
+      },
+      {
+       "id": "test_qty",
+       "label": {
+        "en": "Quantity counted by the team",
+        "ar": "الكمية التي عدّها الفريق"
+       },
+       "type": "text",
+       "required": true
+      },
+      {
+       "id": "difference",
+       "label": {
+        "en": "Difference and resolution",
+        "ar": "الفرق وكيفية معالجته"
+       },
+       "type": "textarea",
+       "required": false
+      }
+     ]
+    },
+    {
+     "id": "condition",
+     "label": {
+      "en": "Obsolete, damaged or slow-moving items noted",
+      "ar": "الأصناف المتقادمة أو التالفة أو بطيئة الحركة الملاحظة"
+     },
+     "type": "textarea",
+     "required": false
+    }
+   ]
+  },
+  {
+   "id": "third_parties",
+   "title": {
+    "en": "Inventory held by third parties",
+    "ar": "المخزون لدى الغير"
+   },
+   "fields": [
+    {
+     "id": "third_parties",
+     "label": {
+      "en": "Custodians",
+      "ar": "الأمناء"
+     },
+     "type": "table",
+     "required": false,
+     "columns": [
+      {
+       "id": "holder",
+       "label": {
+        "en": "Third party",
+        "ar": "الطرف الثالث"
+       },
+       "type": "text",
+       "required": true
+      },
+      {
+       "id": "quantity",
+       "label": {
+        "en": "Quantity or value held",
+        "ar": "الكمية أو القيمة المحتفظ بها"
+       },
+       "type": "text",
+       "required": true
+      },
+      {
+       "id": "confirmed",
+       "label": {
+        "en": "Confirmation received directly",
+        "ar": "تم استلام مصادقة مباشرة"
+       },
+       "type": "yesno",
+       "required": true
+      },
+      {
+       "id": "alternative",
+       "label": {
+        "en": "Alternative procedures",
+        "ar": "إجراءات بديلة"
+       },
+       "type": "textarea",
+       "required": false
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "rollforward",
+   "title": {
+    "en": "Roll-forward or roll-back",
+    "ar": "الترحيل"
+   },
+   "fields": [
+    {
+     "id": "count_date",
+     "label": {
+      "en": "Count date",
+      "ar": "تاريخ الجرد"
+     },
+     "type": "date",
+     "required": true
+    },
+    {
+     "id": "reconciled",
+     "label": {
+      "en": "Movements between the count date and the period end reconciled",
+      "ar": "تمت مطابقة الحركات بين تاريخ الجرد ونهاية الفترة"
+     },
+     "type": "select",
+     "required": true,
+     "options": [
+      {
+       "value": "yes",
+       "label": {
+        "en": "Yes",
+        "ar": "نعم"
+       }
+      },
+      {
+       "value": "no",
+       "label": {
+        "en": "No",
+        "ar": "لا"
+       }
+      },
+      {
+       "value": "na",
+       "label": {
+        "en": "Not applicable",
+        "ar": "لا ينطبق"
+       }
+      }
+     ]
+    },
+    {
+     "id": "rollforward",
+     "label": {
+      "en": "Roll-forward work and results",
+      "ar": "عمل الترحيل ونتائجه"
+     },
+     "type": "textarea",
+     "required": true
+    },
+    {
+     "id": "conclusion",
+     "label": {
+      "en": "Conclusion on existence and condition of inventory",
+      "ar": "الاستنتاج بشأن وجود المخزون وحالته"
+     },
+     "type": "textarea",
+     "required": true
+    }
+   ]
+  }
+ ],
+ "signoff": {
+  "prepare": [
+   "partner",
+   "manager",
+   "senior",
+   "staff"
+  ],
+  "review": [
+   "partner",
+   "manager"
+  ],
+  "approve": [
+   "partner"
+  ]
+ },
+ "version": 1,
+ "ar_status": "draft_pending_review"
+}

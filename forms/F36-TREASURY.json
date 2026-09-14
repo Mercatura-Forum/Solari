@@ -1,0 +1,1190 @@
+{
+ "id": "F36-TREASURY",
+ "number": 36,
+ "kind": "worksheet",
+ "phase": "fieldwork",
+ "title": {
+  "en": "Treasury and financial instruments working paper",
+  "ar": "ورقة عمل الخزينة والأدوات المالية"
+ },
+ "purpose": {
+  "en": "Document every substantive procedure of the treasury and financial instruments cycle: the work, the results, the evidence and the conclusion, against the balances the trial balance holds.",
+  "ar": "توثيق كل إجراء أساسي في دورة الخزينة والأدوات المالية: العمل والنتائج والأدلة والاستنتاج، مقابل الأرصدة الواردة في ميزان المراجعة."
+ },
+ "procedures": [
+  "P-TRE-002",
+  "P-TRE-003",
+  "P-TRE-004",
+  "P-TRE-005",
+  "P-TRE-006",
+  "P-TRE-007",
+  "P-TRE-008",
+  "P-TRE-009",
+  "P-TRE-010"
+ ],
+ "standards": [
+  "ISA-330",
+  "ISA-500",
+  "ISA-505",
+  "ISA-540",
+  "ISA-570",
+  "ISA-700"
+ ],
+ "sections": [
+  {
+   "id": "engagement",
+   "title": {
+    "en": "Engagement",
+    "ar": "الارتباط"
+   },
+   "fields": [
+    {
+     "id": "client",
+     "label": {
+      "en": "Entity audited",
+      "ar": "المنشأة محل المراجعة"
+     },
+     "type": "text",
+     "required": false,
+     "autofill": "engagement.client",
+     "readonly": true
+    },
+    {
+     "id": "period_start",
+     "label": {
+      "en": "Period from",
+      "ar": "الفترة من"
+     },
+     "type": "date",
+     "required": false,
+     "autofill": "engagement.period_start",
+     "readonly": true
+    },
+    {
+     "id": "period_end",
+     "label": {
+      "en": "Period to",
+      "ar": "الفترة إلى"
+     },
+     "type": "date",
+     "required": false,
+     "autofill": "engagement.period_end",
+     "readonly": true
+    },
+    {
+     "id": "framework",
+     "label": {
+      "en": "Financial reporting framework",
+      "ar": "إطار التقرير المالي"
+     },
+     "type": "text",
+     "required": false,
+     "autofill": "engagement.framework",
+     "readonly": true
+    }
+   ]
+  },
+  {
+   "id": "balances",
+   "title": {
+    "en": "Balances, materiality and risks",
+    "ar": "الأرصدة والأهمية النسبية والمخاطر"
+   },
+   "fields": [
+    {
+     "id": "performance_materiality",
+     "label": {
+      "en": "Performance materiality",
+      "ar": "مادية الأداء"
+     },
+     "type": "money",
+     "required": false,
+     "autofill": "paper.materiality.performance",
+     "readonly": true
+    },
+    {
+     "id": "clearly_trivial",
+     "label": {
+      "en": "Clearly trivial threshold",
+      "ar": "حد المبالغ التافهة بشكل واضح"
+     },
+     "type": "money",
+     "required": false,
+     "autofill": "paper.materiality.clearly_trivial",
+     "readonly": true
+    },
+    {
+     "id": "ls_invs",
+     "label": {
+      "en": "Investments (LS-INVS)",
+      "ar": "Investments (LS-INVS)"
+     },
+     "type": "money",
+     "required": false,
+     "autofill": "tb.leadsheet.LS-INVS",
+     "readonly": true
+    },
+    {
+     "id": "ls_invs_prior",
+     "label": {
+      "en": "Investments, prior period",
+      "ar": "Investments، الفترة السابقة"
+     },
+     "type": "money",
+     "required": false,
+     "autofill": "tb.leadsheet.LS-INVS.prior",
+     "readonly": true
+    },
+    {
+     "id": "ls_ofa",
+     "label": {
+      "en": "Other current financial assets (LS-OFA)",
+      "ar": "Other current financial assets (LS-OFA)"
+     },
+     "type": "money",
+     "required": false,
+     "autofill": "tb.leadsheet.LS-OFA",
+     "readonly": true
+    },
+    {
+     "id": "ls_ofa_prior",
+     "label": {
+      "en": "Other current financial assets, prior period",
+      "ar": "Other current financial assets، الفترة السابقة"
+     },
+     "type": "money",
+     "required": false,
+     "autofill": "tb.leadsheet.LS-OFA.prior",
+     "readonly": true
+    },
+    {
+     "id": "ls_cash",
+     "label": {
+      "en": "Cash and cash equivalents (LS-CASH)",
+      "ar": "Cash and cash equivalents (LS-CASH)"
+     },
+     "type": "money",
+     "required": false,
+     "autofill": "tb.leadsheet.LS-CASH",
+     "readonly": true
+    },
+    {
+     "id": "ls_cash_prior",
+     "label": {
+      "en": "Cash and cash equivalents, prior period",
+      "ar": "Cash and cash equivalents، الفترة السابقة"
+     },
+     "type": "money",
+     "required": false,
+     "autofill": "tb.leadsheet.LS-CASH.prior",
+     "readonly": true
+    },
+    {
+     "id": "ls_bornc",
+     "label": {
+      "en": "Borrowings (non-current) (LS-BORNC)",
+      "ar": "Borrowings (non-current) (LS-BORNC)"
+     },
+     "type": "money",
+     "required": false,
+     "autofill": "tb.leadsheet.LS-BORNC",
+     "readonly": true
+    },
+    {
+     "id": "ls_bornc_prior",
+     "label": {
+      "en": "Borrowings (non-current), prior period",
+      "ar": "Borrowings (non-current)، الفترة السابقة"
+     },
+     "type": "money",
+     "required": false,
+     "autofill": "tb.leadsheet.LS-BORNC.prior",
+     "readonly": true
+    },
+    {
+     "id": "ls_leasnc",
+     "label": {
+      "en": "Lease liabilities (non-current) (LS-LEASNC)",
+      "ar": "Lease liabilities (non-current) (LS-LEASNC)"
+     },
+     "type": "money",
+     "required": false,
+     "autofill": "tb.leadsheet.LS-LEASNC",
+     "readonly": true
+    },
+    {
+     "id": "ls_leasnc_prior",
+     "label": {
+      "en": "Lease liabilities (non-current), prior period",
+      "ar": "Lease liabilities (non-current)، الفترة السابقة"
+     },
+     "type": "money",
+     "required": false,
+     "autofill": "tb.leadsheet.LS-LEASNC.prior",
+     "readonly": true
+    },
+    {
+     "id": "ls_borc",
+     "label": {
+      "en": "Borrowings (current) (LS-BORC)",
+      "ar": "Borrowings (current) (LS-BORC)"
+     },
+     "type": "money",
+     "required": false,
+     "autofill": "tb.leadsheet.LS-BORC",
+     "readonly": true
+    },
+    {
+     "id": "ls_borc_prior",
+     "label": {
+      "en": "Borrowings (current), prior period",
+      "ar": "Borrowings (current)، الفترة السابقة"
+     },
+     "type": "money",
+     "required": false,
+     "autofill": "tb.leadsheet.LS-BORC.prior",
+     "readonly": true
+    },
+    {
+     "id": "ls_leasc",
+     "label": {
+      "en": "Lease liabilities (current) (LS-LEASC)",
+      "ar": "Lease liabilities (current) (LS-LEASC)"
+     },
+     "type": "money",
+     "required": false,
+     "autofill": "tb.leadsheet.LS-LEASC",
+     "readonly": true
+    },
+    {
+     "id": "ls_leasc_prior",
+     "label": {
+      "en": "Lease liabilities (current), prior period",
+      "ar": "Lease liabilities (current)، الفترة السابقة"
+     },
+     "type": "money",
+     "required": false,
+     "autofill": "tb.leadsheet.LS-LEASC.prior",
+     "readonly": true
+    },
+    {
+     "id": "ls_fininc",
+     "label": {
+      "en": "Finance income (LS-FININC)",
+      "ar": "Finance income (LS-FININC)"
+     },
+     "type": "money",
+     "required": false,
+     "autofill": "tb.leadsheet.LS-FININC",
+     "readonly": true
+    },
+    {
+     "id": "ls_fininc_prior",
+     "label": {
+      "en": "Finance income, prior period",
+      "ar": "Finance income، الفترة السابقة"
+     },
+     "type": "money",
+     "required": false,
+     "autofill": "tb.leadsheet.LS-FININC.prior",
+     "readonly": true
+    },
+    {
+     "id": "ls_finc",
+     "label": {
+      "en": "Finance costs (LS-FINC)",
+      "ar": "Finance costs (LS-FINC)"
+     },
+     "type": "money",
+     "required": false,
+     "autofill": "tb.leadsheet.LS-FINC",
+     "readonly": true
+    },
+    {
+     "id": "ls_finc_prior",
+     "label": {
+      "en": "Finance costs, prior period",
+      "ar": "Finance costs، الفترة السابقة"
+     },
+     "type": "money",
+     "required": false,
+     "autofill": "tb.leadsheet.LS-FINC.prior",
+     "readonly": true
+    },
+    {
+     "id": "risks",
+     "label": {
+      "en": "Risks placed on this cycle by the risk register",
+      "ar": "المخاطر الموضوعة على هذه الدورة في سجل المخاطر"
+     },
+     "type": "table",
+     "required": false,
+     "autofill": "form.F04-RISK-REGISTER.risks",
+     "readonly": true,
+     "columns": [
+      {
+       "id": "risk",
+       "label": {
+        "en": "Risk",
+        "ar": "الخطر"
+       },
+       "type": "text",
+       "required": true
+      },
+      {
+       "id": "level",
+       "label": {
+        "en": "Level",
+        "ar": "المستوى"
+       },
+       "type": "text",
+       "required": false
+      },
+      {
+       "id": "assertions",
+       "label": {
+        "en": "Assertions affected",
+        "ar": "الإقرارات المتأثرة"
+       },
+       "type": "text",
+       "required": false
+      },
+      {
+       "id": "inherent_risk",
+       "label": {
+        "en": "Inherent risk",
+        "ar": "الخطر الملازم"
+       },
+       "type": "text",
+       "required": false
+      },
+      {
+       "id": "significant",
+       "label": {
+        "en": "Significant risk",
+        "ar": "خطر مهم"
+       },
+       "type": "text",
+       "required": false
+      },
+      {
+       "id": "control_risk",
+       "label": {
+        "en": "Control risk",
+        "ar": "خطر الرقابة"
+       },
+       "type": "text",
+       "required": false
+      },
+      {
+       "id": "response",
+       "label": {
+        "en": "Planned response",
+        "ar": "الاستجابة المخططة"
+       },
+       "type": "textarea",
+       "required": false
+      }
+     ]
+    }
+   ],
+   "note": {
+    "en": "Balances are read from the latest accepted trial balance and frozen when the paper is prepared; a later import marks them as drifted.",
+    "ar": "تُقرأ الأرصدة من أحدث ميزان مراجعة مقبول وتُثبت عند إعداد الورقة؛ ويؤدي استيراد لاحق إلى وسمها بأنها تغيرت."
+   }
+  },
+  {
+   "id": "p_tre_002",
+   "title": {
+    "en": "P-TRE-002 Bank reconciliation testing",
+    "ar": "P-TRE-002 اختبار التسويات البنكية"
+   },
+   "fields": [
+    {
+     "id": "p_tre_002_work",
+     "label": {
+      "en": "Work performed",
+      "ar": "العمل المنفذ"
+     },
+     "type": "textarea",
+     "required": true
+    },
+    {
+     "id": "p_tre_002_result",
+     "label": {
+      "en": "Results and exceptions",
+      "ar": "النتائج والاستثناءات"
+     },
+     "type": "textarea",
+     "required": true
+    },
+    {
+     "id": "p_tre_002_samples",
+     "label": {
+      "en": "Samples recorded for this procedure",
+      "ar": "العينات المسجلة لهذا الإجراء"
+     },
+     "type": "integer",
+     "required": false,
+     "autofill": "records.RK-SAMPLE.for.P-TRE-002",
+     "readonly": true
+    },
+    {
+     "id": "p_tre_002_evidence",
+     "label": {
+      "en": "Evidence links citing this procedure",
+      "ar": "روابط الأدلة التي تستشهد بهذا الإجراء"
+     },
+     "type": "integer",
+     "required": false,
+     "autofill": "records.RK-EVIDENCE-LINK.for.P-TRE-002",
+     "readonly": true
+    },
+    {
+     "id": "p_tre_002_conclusion",
+     "label": {
+      "en": "Conclusion",
+      "ar": "الاستنتاج"
+     },
+     "type": "select",
+     "required": true,
+     "options": [
+      {
+       "value": "performed_no_exception",
+       "label": {
+        "en": "Performed, no exception",
+        "ar": "نُفذ دون استثناء"
+       }
+      },
+      {
+       "value": "performed_exception",
+       "label": {
+        "en": "Performed, exception noted",
+        "ar": "نُفذ مع ملاحظة استثناء"
+       }
+      },
+      {
+       "value": "not_applicable",
+       "label": {
+        "en": "Not applicable, reason stated",
+        "ar": "لا ينطبق، مع بيان السبب"
+       }
+      }
+     ]
+    }
+   ],
+   "note": {
+    "en": "Obtain evidence that recorded cash agrees with the bank.",
+    "ar": "Obtain evidence that recorded cash agrees with the bank."
+   }
+  },
+  {
+   "id": "p_tre_003",
+   "title": {
+    "en": "P-TRE-003 Cash count and cash-in-transit",
+    "ar": "P-TRE-003 جرد النقدية والنقدية بالطريق"
+   },
+   "fields": [
+    {
+     "id": "p_tre_003_work",
+     "label": {
+      "en": "Work performed",
+      "ar": "العمل المنفذ"
+     },
+     "type": "textarea",
+     "required": true
+    },
+    {
+     "id": "p_tre_003_result",
+     "label": {
+      "en": "Results and exceptions",
+      "ar": "النتائج والاستثناءات"
+     },
+     "type": "textarea",
+     "required": true
+    },
+    {
+     "id": "p_tre_003_samples",
+     "label": {
+      "en": "Samples recorded for this procedure",
+      "ar": "العينات المسجلة لهذا الإجراء"
+     },
+     "type": "integer",
+     "required": false,
+     "autofill": "records.RK-SAMPLE.for.P-TRE-003",
+     "readonly": true
+    },
+    {
+     "id": "p_tre_003_evidence",
+     "label": {
+      "en": "Evidence links citing this procedure",
+      "ar": "روابط الأدلة التي تستشهد بهذا الإجراء"
+     },
+     "type": "integer",
+     "required": false,
+     "autofill": "records.RK-EVIDENCE-LINK.for.P-TRE-003",
+     "readonly": true
+    },
+    {
+     "id": "p_tre_003_conclusion",
+     "label": {
+      "en": "Conclusion",
+      "ar": "الاستنتاج"
+     },
+     "type": "select",
+     "required": true,
+     "options": [
+      {
+       "value": "performed_no_exception",
+       "label": {
+        "en": "Performed, no exception",
+        "ar": "نُفذ دون استثناء"
+       }
+      },
+      {
+       "value": "performed_exception",
+       "label": {
+        "en": "Performed, exception noted",
+        "ar": "نُفذ مع ملاحظة استثناء"
+       }
+      },
+      {
+       "value": "not_applicable",
+       "label": {
+        "en": "Not applicable, reason stated",
+        "ar": "لا ينطبق، مع بيان السبب"
+       }
+      }
+     ]
+    }
+   ],
+   "note": {
+    "en": "Obtain evidence of the existence of cash on hand and in transit.",
+    "ar": "Obtain evidence of the existence of cash on hand and in transit."
+   }
+  },
+  {
+   "id": "p_tre_004",
+   "title": {
+    "en": "P-TRE-004 Cash cut-off and window dressing",
+    "ar": "P-TRE-004 الفصل الزمني للنقدية وتجميل القوائم"
+   },
+   "fields": [
+    {
+     "id": "p_tre_004_work",
+     "label": {
+      "en": "Work performed",
+      "ar": "العمل المنفذ"
+     },
+     "type": "textarea",
+     "required": true
+    },
+    {
+     "id": "p_tre_004_result",
+     "label": {
+      "en": "Results and exceptions",
+      "ar": "النتائج والاستثناءات"
+     },
+     "type": "textarea",
+     "required": true
+    },
+    {
+     "id": "p_tre_004_samples",
+     "label": {
+      "en": "Samples recorded for this procedure",
+      "ar": "العينات المسجلة لهذا الإجراء"
+     },
+     "type": "integer",
+     "required": false,
+     "autofill": "records.RK-SAMPLE.for.P-TRE-004",
+     "readonly": true
+    },
+    {
+     "id": "p_tre_004_evidence",
+     "label": {
+      "en": "Evidence links citing this procedure",
+      "ar": "روابط الأدلة التي تستشهد بهذا الإجراء"
+     },
+     "type": "integer",
+     "required": false,
+     "autofill": "records.RK-EVIDENCE-LINK.for.P-TRE-004",
+     "readonly": true
+    },
+    {
+     "id": "p_tre_004_conclusion",
+     "label": {
+      "en": "Conclusion",
+      "ar": "الاستنتاج"
+     },
+     "type": "select",
+     "required": true,
+     "options": [
+      {
+       "value": "performed_no_exception",
+       "label": {
+        "en": "Performed, no exception",
+        "ar": "نُفذ دون استثناء"
+       }
+      },
+      {
+       "value": "performed_exception",
+       "label": {
+        "en": "Performed, exception noted",
+        "ar": "نُفذ مع ملاحظة استثناء"
+       }
+      },
+      {
+       "value": "not_applicable",
+       "label": {
+        "en": "Not applicable, reason stated",
+        "ar": "لا ينطبق، مع بيان السبب"
+       }
+      }
+     ]
+    }
+   ],
+   "note": {
+    "en": "Detect transfers and receipts recorded in the wrong period.",
+    "ar": "Detect transfers and receipts recorded in the wrong period."
+   }
+  },
+  {
+   "id": "p_tre_005",
+   "title": {
+    "en": "P-TRE-005 Borrowings confirmation and covenant compliance",
+    "ar": "P-TRE-005 مصادقة القروض والالتزام بالتعهدات"
+   },
+   "fields": [
+    {
+     "id": "p_tre_005_work",
+     "label": {
+      "en": "Work performed",
+      "ar": "العمل المنفذ"
+     },
+     "type": "textarea",
+     "required": true
+    },
+    {
+     "id": "p_tre_005_result",
+     "label": {
+      "en": "Results and exceptions",
+      "ar": "النتائج والاستثناءات"
+     },
+     "type": "textarea",
+     "required": true
+    },
+    {
+     "id": "p_tre_005_samples",
+     "label": {
+      "en": "Samples recorded for this procedure",
+      "ar": "العينات المسجلة لهذا الإجراء"
+     },
+     "type": "integer",
+     "required": false,
+     "autofill": "records.RK-SAMPLE.for.P-TRE-005",
+     "readonly": true
+    },
+    {
+     "id": "p_tre_005_evidence",
+     "label": {
+      "en": "Evidence links citing this procedure",
+      "ar": "روابط الأدلة التي تستشهد بهذا الإجراء"
+     },
+     "type": "integer",
+     "required": false,
+     "autofill": "records.RK-EVIDENCE-LINK.for.P-TRE-005",
+     "readonly": true
+    },
+    {
+     "id": "p_tre_005_conclusion",
+     "label": {
+      "en": "Conclusion",
+      "ar": "الاستنتاج"
+     },
+     "type": "select",
+     "required": true,
+     "options": [
+      {
+       "value": "performed_no_exception",
+       "label": {
+        "en": "Performed, no exception",
+        "ar": "نُفذ دون استثناء"
+       }
+      },
+      {
+       "value": "performed_exception",
+       "label": {
+        "en": "Performed, exception noted",
+        "ar": "نُفذ مع ملاحظة استثناء"
+       }
+      },
+      {
+       "value": "not_applicable",
+       "label": {
+        "en": "Not applicable, reason stated",
+        "ar": "لا ينطبق، مع بيان السبب"
+       }
+      }
+     ]
+    }
+   ],
+   "note": {
+    "en": "Obtain evidence over borrowings, their terms, classification and covenant compliance.",
+    "ar": "Obtain evidence over borrowings, their terms, classification and covenant compliance."
+   }
+  },
+  {
+   "id": "p_tre_006",
+   "title": {
+    "en": "P-TRE-006 Interest income and expense recalculation",
+    "ar": "P-TRE-006 إعادة احتساب إيرادات ومصروفات الفوائد"
+   },
+   "fields": [
+    {
+     "id": "p_tre_006_work",
+     "label": {
+      "en": "Work performed",
+      "ar": "العمل المنفذ"
+     },
+     "type": "textarea",
+     "required": true
+    },
+    {
+     "id": "p_tre_006_result",
+     "label": {
+      "en": "Results and exceptions",
+      "ar": "النتائج والاستثناءات"
+     },
+     "type": "textarea",
+     "required": true
+    },
+    {
+     "id": "p_tre_006_samples",
+     "label": {
+      "en": "Samples recorded for this procedure",
+      "ar": "العينات المسجلة لهذا الإجراء"
+     },
+     "type": "integer",
+     "required": false,
+     "autofill": "records.RK-SAMPLE.for.P-TRE-006",
+     "readonly": true
+    },
+    {
+     "id": "p_tre_006_evidence",
+     "label": {
+      "en": "Evidence links citing this procedure",
+      "ar": "روابط الأدلة التي تستشهد بهذا الإجراء"
+     },
+     "type": "integer",
+     "required": false,
+     "autofill": "records.RK-EVIDENCE-LINK.for.P-TRE-006",
+     "readonly": true
+    },
+    {
+     "id": "p_tre_006_flagged",
+     "label": {
+      "en": "Lines flagged by the analytical review paper",
+      "ar": "البنود المعلَّمة في ورقة الفحص التحليلي"
+     },
+     "type": "integer",
+     "required": false,
+     "autofill": "paper.analytical_review.lines_flagged",
+     "readonly": true
+    },
+    {
+     "id": "p_tre_006_conclusion",
+     "label": {
+      "en": "Conclusion",
+      "ar": "الاستنتاج"
+     },
+     "type": "select",
+     "required": true,
+     "options": [
+      {
+       "value": "performed_no_exception",
+       "label": {
+        "en": "Performed, no exception",
+        "ar": "نُفذ دون استثناء"
+       }
+      },
+      {
+       "value": "performed_exception",
+       "label": {
+        "en": "Performed, exception noted",
+        "ar": "نُفذ مع ملاحظة استثناء"
+       }
+      },
+      {
+       "value": "not_applicable",
+       "label": {
+        "en": "Not applicable, reason stated",
+        "ar": "لا ينطبق، مع بيان السبب"
+       }
+      }
+     ]
+    }
+   ],
+   "note": {
+    "en": "Obtain evidence over finance income and costs through recalculation.",
+    "ar": "Obtain evidence over finance income and costs through recalculation."
+   }
+  },
+  {
+   "id": "p_tre_007",
+   "title": {
+    "en": "P-TRE-007 Lease liabilities recalculation",
+    "ar": "P-TRE-007 إعادة احتساب التزامات عقود الإيجار"
+   },
+   "fields": [
+    {
+     "id": "p_tre_007_work",
+     "label": {
+      "en": "Work performed",
+      "ar": "العمل المنفذ"
+     },
+     "type": "textarea",
+     "required": true
+    },
+    {
+     "id": "p_tre_007_result",
+     "label": {
+      "en": "Results and exceptions",
+      "ar": "النتائج والاستثناءات"
+     },
+     "type": "textarea",
+     "required": true
+    },
+    {
+     "id": "p_tre_007_samples",
+     "label": {
+      "en": "Samples recorded for this procedure",
+      "ar": "العينات المسجلة لهذا الإجراء"
+     },
+     "type": "integer",
+     "required": false,
+     "autofill": "records.RK-SAMPLE.for.P-TRE-007",
+     "readonly": true
+    },
+    {
+     "id": "p_tre_007_evidence",
+     "label": {
+      "en": "Evidence links citing this procedure",
+      "ar": "روابط الأدلة التي تستشهد بهذا الإجراء"
+     },
+     "type": "integer",
+     "required": false,
+     "autofill": "records.RK-EVIDENCE-LINK.for.P-TRE-007",
+     "readonly": true
+    },
+    {
+     "id": "p_tre_007_conclusion",
+     "label": {
+      "en": "Conclusion",
+      "ar": "الاستنتاج"
+     },
+     "type": "select",
+     "required": true,
+     "options": [
+      {
+       "value": "performed_no_exception",
+       "label": {
+        "en": "Performed, no exception",
+        "ar": "نُفذ دون استثناء"
+       }
+      },
+      {
+       "value": "performed_exception",
+       "label": {
+        "en": "Performed, exception noted",
+        "ar": "نُفذ مع ملاحظة استثناء"
+       }
+      },
+      {
+       "value": "not_applicable",
+       "label": {
+        "en": "Not applicable, reason stated",
+        "ar": "لا ينطبق، مع بيان السبب"
+       }
+      }
+     ]
+    }
+   ],
+   "note": {
+    "en": "Obtain evidence over the measurement and classification of lease liabilities.",
+    "ar": "Obtain evidence over the measurement and classification of lease liabilities."
+   }
+  },
+  {
+   "id": "p_tre_008",
+   "title": {
+    "en": "P-TRE-008 Investments existence and valuation",
+    "ar": "P-TRE-008 وجود الاستثمارات وتقييمها"
+   },
+   "fields": [
+    {
+     "id": "p_tre_008_work",
+     "label": {
+      "en": "Work performed",
+      "ar": "العمل المنفذ"
+     },
+     "type": "textarea",
+     "required": true
+    },
+    {
+     "id": "p_tre_008_result",
+     "label": {
+      "en": "Results and exceptions",
+      "ar": "النتائج والاستثناءات"
+     },
+     "type": "textarea",
+     "required": true
+    },
+    {
+     "id": "p_tre_008_samples",
+     "label": {
+      "en": "Samples recorded for this procedure",
+      "ar": "العينات المسجلة لهذا الإجراء"
+     },
+     "type": "integer",
+     "required": false,
+     "autofill": "records.RK-SAMPLE.for.P-TRE-008",
+     "readonly": true
+    },
+    {
+     "id": "p_tre_008_evidence",
+     "label": {
+      "en": "Evidence links citing this procedure",
+      "ar": "روابط الأدلة التي تستشهد بهذا الإجراء"
+     },
+     "type": "integer",
+     "required": false,
+     "autofill": "records.RK-EVIDENCE-LINK.for.P-TRE-008",
+     "readonly": true
+    },
+    {
+     "id": "p_tre_008_conclusion",
+     "label": {
+      "en": "Conclusion",
+      "ar": "الاستنتاج"
+     },
+     "type": "select",
+     "required": true,
+     "options": [
+      {
+       "value": "performed_no_exception",
+       "label": {
+        "en": "Performed, no exception",
+        "ar": "نُفذ دون استثناء"
+       }
+      },
+      {
+       "value": "performed_exception",
+       "label": {
+        "en": "Performed, exception noted",
+        "ar": "نُفذ مع ملاحظة استثناء"
+       }
+      },
+      {
+       "value": "not_applicable",
+       "label": {
+        "en": "Not applicable, reason stated",
+        "ar": "لا ينطبق، مع بيان السبب"
+       }
+      }
+     ]
+    }
+   ],
+   "note": {
+    "en": "Obtain evidence over investments and other financial assets.",
+    "ar": "Obtain evidence over investments and other financial assets."
+   }
+  },
+  {
+   "id": "p_tre_009",
+   "title": {
+    "en": "P-TRE-009 Foreign currency translation and derivatives",
+    "ar": "P-TRE-009 ترجمة العملات الأجنبية والمشتقات"
+   },
+   "fields": [
+    {
+     "id": "p_tre_009_work",
+     "label": {
+      "en": "Work performed",
+      "ar": "العمل المنفذ"
+     },
+     "type": "textarea",
+     "required": true
+    },
+    {
+     "id": "p_tre_009_result",
+     "label": {
+      "en": "Results and exceptions",
+      "ar": "النتائج والاستثناءات"
+     },
+     "type": "textarea",
+     "required": true
+    },
+    {
+     "id": "p_tre_009_samples",
+     "label": {
+      "en": "Samples recorded for this procedure",
+      "ar": "العينات المسجلة لهذا الإجراء"
+     },
+     "type": "integer",
+     "required": false,
+     "autofill": "records.RK-SAMPLE.for.P-TRE-009",
+     "readonly": true
+    },
+    {
+     "id": "p_tre_009_evidence",
+     "label": {
+      "en": "Evidence links citing this procedure",
+      "ar": "روابط الأدلة التي تستشهد بهذا الإجراء"
+     },
+     "type": "integer",
+     "required": false,
+     "autofill": "records.RK-EVIDENCE-LINK.for.P-TRE-009",
+     "readonly": true
+    },
+    {
+     "id": "p_tre_009_conclusion",
+     "label": {
+      "en": "Conclusion",
+      "ar": "الاستنتاج"
+     },
+     "type": "select",
+     "required": true,
+     "options": [
+      {
+       "value": "performed_no_exception",
+       "label": {
+        "en": "Performed, no exception",
+        "ar": "نُفذ دون استثناء"
+       }
+      },
+      {
+       "value": "performed_exception",
+       "label": {
+        "en": "Performed, exception noted",
+        "ar": "نُفذ مع ملاحظة استثناء"
+       }
+      },
+      {
+       "value": "not_applicable",
+       "label": {
+        "en": "Not applicable, reason stated",
+        "ar": "لا ينطبق، مع بيان السبب"
+       }
+      }
+     ]
+    }
+   ],
+   "note": {
+    "en": "Obtain evidence over translation of foreign balances and derivative accounting.",
+    "ar": "Obtain evidence over translation of foreign balances and derivative accounting."
+   }
+  },
+  {
+   "id": "p_tre_010",
+   "title": {
+    "en": "P-TRE-010 Cash flow statement and liquidity disclosures",
+    "ar": "P-TRE-010 قائمة التدفقات النقدية وإفصاحات السيولة"
+   },
+   "fields": [
+    {
+     "id": "p_tre_010_work",
+     "label": {
+      "en": "Work performed",
+      "ar": "العمل المنفذ"
+     },
+     "type": "textarea",
+     "required": true
+    },
+    {
+     "id": "p_tre_010_result",
+     "label": {
+      "en": "Results and exceptions",
+      "ar": "النتائج والاستثناءات"
+     },
+     "type": "textarea",
+     "required": true
+    },
+    {
+     "id": "p_tre_010_samples",
+     "label": {
+      "en": "Samples recorded for this procedure",
+      "ar": "العينات المسجلة لهذا الإجراء"
+     },
+     "type": "integer",
+     "required": false,
+     "autofill": "records.RK-SAMPLE.for.P-TRE-010",
+     "readonly": true
+    },
+    {
+     "id": "p_tre_010_evidence",
+     "label": {
+      "en": "Evidence links citing this procedure",
+      "ar": "روابط الأدلة التي تستشهد بهذا الإجراء"
+     },
+     "type": "integer",
+     "required": false,
+     "autofill": "records.RK-EVIDENCE-LINK.for.P-TRE-010",
+     "readonly": true
+    },
+    {
+     "id": "p_tre_010_conclusion",
+     "label": {
+      "en": "Conclusion",
+      "ar": "الاستنتاج"
+     },
+     "type": "select",
+     "required": true,
+     "options": [
+      {
+       "value": "performed_no_exception",
+       "label": {
+        "en": "Performed, no exception",
+        "ar": "نُفذ دون استثناء"
+       }
+      },
+      {
+       "value": "performed_exception",
+       "label": {
+        "en": "Performed, exception noted",
+        "ar": "نُفذ مع ملاحظة استثناء"
+       }
+      },
+      {
+       "value": "not_applicable",
+       "label": {
+        "en": "Not applicable, reason stated",
+        "ar": "لا ينطبق، مع بيان السبب"
+       }
+      }
+     ]
+    }
+   ],
+   "note": {
+    "en": "Obtain evidence that the cash flow statement and liquidity disclosures are correct.",
+    "ar": "Obtain evidence that the cash flow statement and liquidity disclosures are correct."
+   }
+  }
+ ],
+ "signoff": {
+  "prepare": [
+   "partner",
+   "manager",
+   "senior",
+   "staff"
+  ],
+  "review": [
+   "partner",
+   "manager"
+  ],
+  "approve": [
+   "partner"
+  ]
+ },
+ "version": 1,
+ "ar_status": "draft_pending_review"
+}

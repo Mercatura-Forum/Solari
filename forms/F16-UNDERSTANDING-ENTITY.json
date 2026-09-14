@@ -1,0 +1,504 @@
+{
+ "id": "F16-UNDERSTANDING-ENTITY",
+ "number": 16,
+ "kind": "worksheet",
+ "phase": "planning",
+ "title": {
+  "en": "Understanding the entity and its environment",
+  "ar": "فهم المنشأة وبيئتها"
+ },
+ "purpose": {
+  "en": "Record the understanding of the entity, its environment and the applicable framework, the preliminary analytical review, service organisations, the internal audit function and, on an initial engagement, the opening balances.",
+  "ar": "توثيق فهم المنشأة وبيئتها والإطار المطبق، والفحص التحليلي الأولي، ومؤسسات الخدمة، ووظيفة المراجعة الداخلية، والأرصدة الافتتاحية في ارتباط المراجعة الأولي."
+ },
+ "procedures": [
+  "P-FSL-008",
+  "P-FSL-009",
+  "P-FSL-017",
+  "P-FSL-018",
+  "P-FSL-020"
+ ],
+ "standards": [
+  "ISA-315",
+  "ISA-520",
+  "ISA-402",
+  "ISA-610",
+  "ISA-510"
+ ],
+ "computation": "trend",
+ "sections": [
+  {
+   "id": "engagement",
+   "title": {
+    "en": "Engagement",
+    "ar": "الارتباط"
+   },
+   "fields": [
+    {
+     "id": "client",
+     "label": {
+      "en": "Entity audited",
+      "ar": "المنشأة محل المراجعة"
+     },
+     "type": "text",
+     "required": false,
+     "autofill": "engagement.client",
+     "readonly": true
+    },
+    {
+     "id": "period_start",
+     "label": {
+      "en": "Period from",
+      "ar": "الفترة من"
+     },
+     "type": "date",
+     "required": false,
+     "autofill": "engagement.period_start",
+     "readonly": true
+    },
+    {
+     "id": "period_end",
+     "label": {
+      "en": "Period to",
+      "ar": "الفترة إلى"
+     },
+     "type": "date",
+     "required": false,
+     "autofill": "engagement.period_end",
+     "readonly": true
+    },
+    {
+     "id": "framework",
+     "label": {
+      "en": "Financial reporting framework",
+      "ar": "إطار التقرير المالي"
+     },
+     "type": "text",
+     "required": false,
+     "autofill": "engagement.framework",
+     "readonly": true
+    }
+   ]
+  },
+  {
+   "id": "entity",
+   "title": {
+    "en": "The entity",
+    "ar": "المنشأة"
+   },
+   "fields": [
+    {
+     "id": "nature",
+     "label": {
+      "en": "Nature of the business: operations, products, markets, customers and suppliers",
+      "ar": "طبيعة النشاط: العمليات والمنتجات والأسواق والعملاء والموردون"
+     },
+     "type": "textarea",
+     "required": true
+    },
+    {
+     "id": "ownership",
+     "label": {
+      "en": "Ownership, governance structure and key management",
+      "ar": "الملكية وهيكل الحوكمة والإدارة الرئيسة"
+     },
+     "type": "textarea",
+     "required": true
+    },
+    {
+     "id": "industry",
+     "label": {
+      "en": "Industry, regulatory and other external factors",
+      "ar": "عوامل الصناعة والتنظيم والعوامل الخارجية الأخرى"
+     },
+     "type": "textarea",
+     "required": true
+    },
+    {
+     "id": "financing",
+     "label": {
+      "en": "Financing, investments and related-party structure",
+      "ar": "التمويل والاستثمارات وهيكل الأطراف ذات العلاقة"
+     },
+     "type": "textarea",
+     "required": true
+    },
+    {
+     "id": "it_environment",
+     "label": {
+      "en": "Information technology environment",
+      "ar": "بيئة تقنية المعلومات"
+     },
+     "type": "textarea",
+     "required": true
+    },
+    {
+     "id": "policies",
+     "label": {
+      "en": "Accounting policies and changes, and areas of judgement",
+      "ar": "السياسات المحاسبية والتغيرات فيها ومجالات الحكم"
+     },
+     "type": "textarea",
+     "required": true
+    }
+   ]
+  },
+  {
+   "id": "analytics",
+   "title": {
+    "en": "Preliminary analytical review",
+    "ar": "الفحص التحليلي الأولي"
+   },
+   "fields": [
+    {
+     "id": "series",
+     "label": {
+      "en": "Series for the line analysed (period and value, oldest first, the current period last)",
+      "ar": "سلسلة البند محل التحليل (الفترة والقيمة، من الأقدم إلى الأحدث، والفترة الحالية أخيرًا)"
+     },
+     "type": "table",
+     "required": true,
+     "columns": [
+      {
+       "id": "period",
+       "label": {
+        "en": "Period",
+        "ar": "الفترة"
+       },
+       "type": "text",
+       "required": true
+      },
+      {
+       "id": "value",
+       "label": {
+        "en": "Value",
+        "ar": "القيمة"
+       },
+       "type": "money",
+       "required": true
+      }
+     ]
+    },
+    {
+     "id": "method",
+     "label": {
+      "en": "Expectation method",
+      "ar": "طريقة التوقع"
+     },
+     "type": "select",
+     "required": true,
+     "options": [
+      {
+       "value": "linear",
+       "label": {
+        "en": "Linear trend",
+        "ar": "اتجاه خطي"
+       }
+      },
+      {
+       "value": "mean",
+       "label": {
+        "en": "Mean of prior periods",
+        "ar": "متوسط الفترات السابقة"
+       }
+      }
+     ]
+    },
+    {
+     "id": "precision_pct",
+     "label": {
+      "en": "Precision (percent of the expectation)",
+      "ar": "الدقة (نسبة من التوقع)"
+     },
+     "type": "percent",
+     "required": true
+    },
+    {
+     "id": "expected",
+     "label": {
+      "en": "Expected value",
+      "ar": "القيمة المتوقعة"
+     },
+     "type": "money",
+     "required": false,
+     "autofill": "paper.trend.expected",
+     "readonly": true
+    },
+    {
+     "id": "actual",
+     "label": {
+      "en": "Actual value",
+      "ar": "القيمة الفعلية"
+     },
+     "type": "money",
+     "required": false,
+     "autofill": "paper.trend.actual",
+     "readonly": true
+    },
+    {
+     "id": "difference",
+     "label": {
+      "en": "Difference",
+      "ar": "الفرق"
+     },
+     "type": "money",
+     "required": false,
+     "autofill": "paper.trend.difference",
+     "readonly": true
+    },
+    {
+     "id": "outside_range",
+     "label": {
+      "en": "Outside the expected range",
+      "ar": "خارج النطاق المتوقع"
+     },
+     "type": "text",
+     "required": false,
+     "autofill": "paper.trend.outside_range",
+     "readonly": true
+    },
+    {
+     "id": "analytics_notes",
+     "label": {
+      "en": "Unusual relationships noted and their effect on the risk assessment",
+      "ar": "العلاقات غير العادية الملاحظة وأثرها على تقييم المخاطر"
+     },
+     "type": "textarea",
+     "required": true
+    }
+   ],
+   "note": {
+    "en": "Compute the trend paper from the series before signing; the results are frozen when the form is prepared.",
+    "ar": "يُحتسب الاتجاه من السلسلة قبل التوقيع؛ وتُثبت النتائج عند إعداد النموذج."
+   }
+  },
+  {
+   "id": "service",
+   "title": {
+    "en": "Service organisations and internal audit",
+    "ar": "مؤسسات الخدمة والمراجعة الداخلية"
+   },
+   "fields": [
+    {
+     "id": "service_orgs",
+     "label": {
+      "en": "Service organisations used",
+      "ar": "مؤسسات الخدمة المستخدمة"
+     },
+     "type": "table",
+     "required": false,
+     "columns": [
+      {
+       "id": "name",
+       "label": {
+        "en": "Organisation",
+        "ar": "المؤسسة"
+       },
+       "type": "text",
+       "required": true
+      },
+      {
+       "id": "service",
+       "label": {
+        "en": "Service",
+        "ar": "الخدمة"
+       },
+       "type": "text",
+       "required": true
+      },
+      {
+       "id": "report",
+       "label": {
+        "en": "Assurance report obtained",
+        "ar": "تقرير التأكيد الذي تم الحصول عليه"
+       },
+       "type": "select",
+       "required": false,
+       "options": [
+        {
+         "value": "type1",
+         "label": {
+          "en": "Type 1",
+          "ar": "النوع الأول"
+         }
+        },
+        {
+         "value": "type2",
+         "label": {
+          "en": "Type 2",
+          "ar": "النوع الثاني"
+         }
+        },
+        {
+         "value": "none",
+         "label": {
+          "en": "None",
+          "ar": "لا يوجد"
+         }
+        }
+       ]
+      },
+      {
+       "id": "reliance",
+       "label": {
+        "en": "Planned reliance and complementary controls",
+        "ar": "الاعتماد المخطط والضوابط التكميلية"
+       },
+       "type": "textarea",
+       "required": false
+      }
+     ]
+    },
+    {
+     "id": "internal_audit",
+     "label": {
+      "en": "Does the entity have an internal audit function?",
+      "ar": "هل لدى المنشأة وظيفة مراجعة داخلية؟"
+     },
+     "type": "yesno",
+     "required": true
+    },
+    {
+     "id": "internal_audit_eval",
+     "label": {
+      "en": "Evaluation of its objectivity, competence and approach, and the planned use of its work",
+      "ar": "تقييم موضوعيتها وكفاءتها ومنهجها، والاستخدام المخطط لعملها"
+     },
+     "type": "textarea",
+     "required": false
+    }
+   ]
+  },
+  {
+   "id": "opening",
+   "title": {
+    "en": "Opening balances (initial engagement)",
+    "ar": "الأرصدة الافتتاحية (ارتباط المراجعة الأولي)"
+   },
+   "fields": [
+    {
+     "id": "initial",
+     "label": {
+      "en": "Initial audit engagement",
+      "ar": "ارتباط مراجعة أولي"
+     },
+     "type": "select",
+     "required": true,
+     "options": [
+      {
+       "value": "yes",
+       "label": {
+        "en": "Yes",
+        "ar": "نعم"
+       }
+      },
+      {
+       "value": "no",
+       "label": {
+        "en": "No",
+        "ar": "لا"
+       }
+      },
+      {
+       "value": "na",
+       "label": {
+        "en": "Not applicable",
+        "ar": "لا ينطبق"
+       }
+      }
+     ]
+    },
+    {
+     "id": "predecessor_papers",
+     "label": {
+      "en": "Predecessor auditor's working papers reviewed",
+      "ar": "تم فحص أوراق عمل المراجع السابق"
+     },
+     "type": "select",
+     "required": false,
+     "options": [
+      {
+       "value": "yes",
+       "label": {
+        "en": "Yes",
+        "ar": "نعم"
+       }
+      },
+      {
+       "value": "no",
+       "label": {
+        "en": "No",
+        "ar": "لا"
+       }
+      },
+      {
+       "value": "na",
+       "label": {
+        "en": "Not applicable",
+        "ar": "لا ينطبق"
+       }
+      }
+     ]
+    },
+    {
+     "id": "opening_agreed",
+     "label": {
+      "en": "Opening balances agreed to the prior closing balances",
+      "ar": "تمت مطابقة الأرصدة الافتتاحية مع أرصدة الإقفال السابقة"
+     },
+     "type": "select",
+     "required": false,
+     "options": [
+      {
+       "value": "yes",
+       "label": {
+        "en": "Yes",
+        "ar": "نعم"
+       }
+      },
+      {
+       "value": "no",
+       "label": {
+        "en": "No",
+        "ar": "لا"
+       }
+      },
+      {
+       "value": "na",
+       "label": {
+        "en": "Not applicable",
+        "ar": "لا ينطبق"
+       }
+      }
+     ]
+    },
+    {
+     "id": "opening_matters",
+     "label": {
+      "en": "Misstatements in opening balances and consistency of policies",
+      "ar": "التحريفات في الأرصدة الافتتاحية واتساق السياسات"
+     },
+     "type": "textarea",
+     "required": false
+    }
+   ]
+  }
+ ],
+ "signoff": {
+  "prepare": [
+   "partner",
+   "manager",
+   "senior",
+   "staff"
+  ],
+  "review": [
+   "partner",
+   "manager"
+  ],
+  "approve": [
+   "partner"
+  ]
+ },
+ "version": 1,
+ "ar_status": "draft_pending_review"
+}

@@ -32,7 +32,7 @@ module {
   public type R = { #ok : J; #err : Text };
 
   public type HttpRequest = { method : Text; url : Text; headers : [(Text, Text)]; body : Blob };
-  /// The IC standard shape the chain's engine decodes (`crates/egypt-wasm/src/types.rs`).
+  /// The reply shape the engine decodes.
   public type HttpResponse = { status_code : Nat16; headers : [(Text, Text)]; body : Blob };
 
   public let PREFIX : Text = "/api/v1";

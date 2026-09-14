@@ -1,0 +1,379 @@
+{
+ "id": "F29-ACCOUNTING-ESTIMATES",
+ "number": 29,
+ "kind": "worksheet",
+ "phase": "fieldwork",
+ "title": {
+  "en": "Accounting estimates",
+  "ar": "التقديرات المحاسبية"
+ },
+ "purpose": {
+  "en": "Record the understanding of each significant accounting estimate, the retrospective review of the prior period's estimates, the testing approach and results, and the evaluation of management bias and disclosure.",
+  "ar": "توثيق فهم كل تقدير محاسبي مهم، والفحص بأثر رجعي لتقديرات الفترة السابقة، ومنهج الاختبار ونتائجه، وتقييم تحيز الإدارة والإفصاح."
+ },
+ "procedures": [
+  "P-FSL-030",
+  "P-FSL-031"
+ ],
+ "standards": [
+  "ISA-540",
+  "ISA-240",
+  "ISA-620"
+ ],
+ "sections": [
+  {
+   "id": "engagement",
+   "title": {
+    "en": "Engagement",
+    "ar": "الارتباط"
+   },
+   "fields": [
+    {
+     "id": "client",
+     "label": {
+      "en": "Entity audited",
+      "ar": "المنشأة محل المراجعة"
+     },
+     "type": "text",
+     "required": false,
+     "autofill": "engagement.client",
+     "readonly": true
+    },
+    {
+     "id": "period_start",
+     "label": {
+      "en": "Period from",
+      "ar": "الفترة من"
+     },
+     "type": "date",
+     "required": false,
+     "autofill": "engagement.period_start",
+     "readonly": true
+    },
+    {
+     "id": "period_end",
+     "label": {
+      "en": "Period to",
+      "ar": "الفترة إلى"
+     },
+     "type": "date",
+     "required": false,
+     "autofill": "engagement.period_end",
+     "readonly": true
+    },
+    {
+     "id": "framework",
+     "label": {
+      "en": "Financial reporting framework",
+      "ar": "إطار التقرير المالي"
+     },
+     "type": "text",
+     "required": false,
+     "autofill": "engagement.framework",
+     "readonly": true
+    }
+   ]
+  },
+  {
+   "id": "understanding",
+   "title": {
+    "en": "Understanding",
+    "ar": "الفهم"
+   },
+   "fields": [
+    {
+     "id": "estimates",
+     "label": {
+      "en": "Significant accounting estimates",
+      "ar": "التقديرات المحاسبية المهمة"
+     },
+     "type": "table",
+     "required": true,
+     "columns": [
+      {
+       "id": "estimate",
+       "label": {
+        "en": "Estimate",
+        "ar": "التقدير"
+       },
+       "type": "text",
+       "required": true
+      },
+      {
+       "id": "leadsheet",
+       "label": {
+        "en": "Leadsheet",
+        "ar": "كشف الحساب"
+       },
+       "type": "text",
+       "required": false
+      },
+      {
+       "id": "method",
+       "label": {
+        "en": "Method, assumptions and data",
+        "ar": "الطريقة والافتراضات والبيانات"
+       },
+       "type": "textarea",
+       "required": true
+      },
+      {
+       "id": "uncertainty",
+       "label": {
+        "en": "Estimation uncertainty",
+        "ar": "عدم التأكد في التقدير"
+       },
+       "type": "select",
+       "required": true,
+       "options": [
+        {
+         "value": "low",
+         "label": {
+          "en": "Low",
+          "ar": "منخفض"
+         }
+        },
+        {
+         "value": "high",
+         "label": {
+          "en": "High",
+          "ar": "مرتفع"
+         }
+        }
+       ]
+      },
+      {
+       "id": "inherent_risk",
+       "label": {
+        "en": "Inherent risk",
+        "ar": "الخطر الملازم"
+       },
+       "type": "select",
+       "required": true,
+       "options": [
+        {
+         "value": "low",
+         "label": {
+          "en": "Low",
+          "ar": "منخفض"
+         }
+        },
+        {
+         "value": "moderate",
+         "label": {
+          "en": "Moderate",
+          "ar": "متوسط"
+         }
+        },
+        {
+         "value": "high",
+         "label": {
+          "en": "High",
+          "ar": "مرتفع"
+         }
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "id": "retrospective",
+     "label": {
+      "en": "Retrospective review of the prior period's estimates",
+      "ar": "الفحص بأثر رجعي لتقديرات الفترة السابقة"
+     },
+     "type": "table",
+     "required": true,
+     "columns": [
+      {
+       "id": "estimate",
+       "label": {
+        "en": "Estimate",
+        "ar": "التقدير"
+       },
+       "type": "text",
+       "required": true
+      },
+      {
+       "id": "prior",
+       "label": {
+        "en": "Prior estimate",
+        "ar": "التقدير السابق"
+       },
+       "type": "money",
+       "required": true
+      },
+      {
+       "id": "outcome",
+       "label": {
+        "en": "Outcome",
+        "ar": "النتيجة الفعلية"
+       },
+       "type": "money",
+       "required": true
+      },
+      {
+       "id": "bias",
+       "label": {
+        "en": "Indication of bias",
+        "ar": "مؤشر على التحيز"
+       },
+       "type": "yesno",
+       "required": true
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "testing",
+   "title": {
+    "en": "Testing",
+    "ar": "الاختبار"
+   },
+   "fields": [
+    {
+     "id": "testing",
+     "label": {
+      "en": "Approach and results per estimate",
+      "ar": "المنهج والنتائج لكل تقدير"
+     },
+     "type": "table",
+     "required": true,
+     "columns": [
+      {
+       "id": "estimate",
+       "label": {
+        "en": "Estimate",
+        "ar": "التقدير"
+       },
+       "type": "text",
+       "required": true
+      },
+      {
+       "id": "approach",
+       "label": {
+        "en": "Approach",
+        "ar": "المنهج"
+       },
+       "type": "select",
+       "required": true,
+       "options": [
+        {
+         "value": "process",
+         "label": {
+          "en": "Test how management made the estimate",
+          "ar": "اختبار كيفية إعداد الإدارة للتقدير"
+         }
+        },
+        {
+         "value": "own",
+         "label": {
+          "en": "Develop a point estimate or range",
+          "ar": "وضع تقدير نقطي أو نطاق"
+         }
+        },
+        {
+         "value": "events",
+         "label": {
+          "en": "Events up to the report date",
+          "ar": "الأحداث حتى تاريخ التقرير"
+         }
+        }
+       ]
+      },
+      {
+       "id": "work",
+       "label": {
+        "en": "Work performed",
+        "ar": "العمل المنفذ"
+       },
+       "type": "textarea",
+       "required": true
+      },
+      {
+       "id": "result",
+       "label": {
+        "en": "Result: point estimate or range, and management's amount",
+        "ar": "النتيجة: التقدير النقطي أو النطاق ومبلغ الإدارة"
+       },
+       "type": "textarea",
+       "required": true
+      },
+      {
+       "id": "misstatement",
+       "label": {
+        "en": "Misstatement, if any",
+        "ar": "التحريف، إن وجد"
+       },
+       "type": "money",
+       "required": false
+      }
+     ]
+    },
+    {
+     "id": "experts",
+     "label": {
+      "en": "Use of experts and specialised skills",
+      "ar": "الاستعانة بالخبراء والمهارات المتخصصة"
+     },
+     "type": "textarea",
+     "required": false
+    }
+   ]
+  },
+  {
+   "id": "conclusion",
+   "title": {
+    "en": "Bias, disclosure and conclusion",
+    "ar": "التحيز والإفصاح والاستنتاج"
+   },
+   "fields": [
+    {
+     "id": "bias",
+     "label": {
+      "en": "Indicators of possible management bias across the estimates",
+      "ar": "مؤشرات التحيز المحتمل للإدارة عبر التقديرات"
+     },
+     "type": "textarea",
+     "required": true
+    },
+    {
+     "id": "disclosure",
+     "label": {
+      "en": "Disclosures of estimation uncertainty adequate",
+      "ar": "إفصاحات عدم التأكد في التقدير كافية"
+     },
+     "type": "yesno",
+     "required": true
+    },
+    {
+     "id": "conclusion",
+     "label": {
+      "en": "Conclusion",
+      "ar": "الاستنتاج"
+     },
+     "type": "textarea",
+     "required": true
+    }
+   ]
+  }
+ ],
+ "signoff": {
+  "prepare": [
+   "partner",
+   "manager",
+   "senior",
+   "staff"
+  ],
+  "review": [
+   "partner",
+   "manager"
+  ],
+  "approve": [
+   "partner"
+  ]
+ },
+ "version": 1,
+ "ar_status": "draft_pending_review"
+}

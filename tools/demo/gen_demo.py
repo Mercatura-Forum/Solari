@@ -17,8 +17,15 @@ import hospitality as H  # noqa: E402
 import journals as J  # noqa: E402
 import textiles_a as A  # noqa: E402
 import textiles_b as B  # noqa: E402
+import textiles_c as C  # noqa: E402
 
 OUT = os.path.join(ROOT, 'motoko', 'src', 'Demo.mo')
+FORMS_BY_ID = {}
+for _f in sorted(os.listdir(os.path.join(ROOT, 'forms'))):
+    if _f.startswith('F') and _f.endswith('.json'):
+        _d = json.load(open(os.path.join(ROOT, 'forms', _f), encoding='utf-8'))
+        FORMS_BY_ID[_d['id']] = _d
+FORM_IDS = sorted(FORMS_BY_ID)
 TEST = os.path.join(ROOT, 'motoko', 'test', 'DemoSeed.test.mo')
 
 
@@ -38,7 +45,7 @@ def expr(obj, eng):
         kind, arg = (m.group(1), m.group(2)) if m.group(1) else (m.group(3), m.group(4))
         a = arg.split(':')
         if kind == 'LIVE':
-            parts.append(f'live(s, {eng}, {mo(a[0])}, {mo(a[1])})')
+            parts.append(f'live(s, ff, {eng}, {mo(a[0])}, {mo(a[1])})')
         elif kind == 'PAPER':
             parts.append(f'paper(s, {eng}, {mo(a[0])}, {mo(a[1])})')
         elif kind == 'PAPERNUM':
@@ -65,12 +72,12 @@ class Step:
         self.add(f'let {var} = engId(s, {mo(client)}, {mo(period_end)});')
 
     def save(self, who, e, form, values, label=None):
-        self.ok(label or f'save {form}', f'F.save(s, {who}, false, at, {e}, {mo(form)}, j({expr({"values": values}, e)}))')
+        self.ok(label or f'save {form}', f'F.save(s, ff, {who}, false, at, {e}, {mo(form)}, j({expr({"values": values}, e)}))')
 
     def sign(self, e, plan):
         for form, stages in plan:
             for stage, who, when in stages:
-                self.ok(f'{stage} {form}', f'F.sign(s, {who}, at, {e}, {mo(form)}, {mo(stage)}, {mo(when)})')
+                self.ok(f'{stage} {form}', f'F.sign(s, ff, {who}, at, {e}, {mo(form)}, {mo(stage)}, {mo(when)})')
 
     def compute(self, who, e, kind, inp, proc=''):
         self.ok(f'compute {kind}', f'E.compute(s, {who}, false, at, {e}, j({expr({"kind": kind, "procedure_id": proc, "input": inp}, e)}))')
@@ -83,6 +90,15 @@ class Step:
 
     def summary(self, text):
         self.add(f'{mo(text)}')
+
+
+def chain(st, e, form, prep, dates, eqr=None, reviewer=None):
+    """Save nothing; sign prepare, review, approve (and the quality review) at rising dates."""
+    stages = [('prepare', prep, dates[0]), ('review', reviewer or ('P2' if prep != 'P2' else 'P1'), dates[1])]
+    if eqr:
+        stages.append(('eqr', eqr, dates[2]))
+    stages.append(('approve', 'P1', dates[-1]))
+    st.sign(e, [(form, stages)])
 
 
 def team(st, e, members):
@@ -119,6 +135,14 @@ def steps():
     st.compute('P3', 'a', 'materiality', ca['materiality'], 'P-FSL-006')
     st.record('P2', 'a', 'RK-REVIEW-NOTE', B.REVIEW_NOTES[0])
     st.sign('a', B.SIGNING_PLANNING)
+    # the planning forms beyond the fourteen: independence, understanding, control, the budget
+    st.compute('P3', 'a', 'trend', ca['trend'], 'P-FSL-009')
+    st.compute('P3', 'a', 'attribute_sample_size', {'tolerable_rate': '0.05', 'beta': '0.10', 'expected_rate': '0'}, 'P-REV-002')
+    st.compute('P3', 'a', 'attribute_evaluate', {'sample_size': 45, 'deviations': 0, 'beta': '0.10'}, 'P-REV-002')
+    for form, v, who, d in (('F15-INDEPENDENCE', C.F15, 'P4', '2025-10-30T09'), ('F16-UNDERSTANDING-ENTITY', C.F16, 'P3', '2025-10-30T12'),
+                            ('F17-INTERNAL-CONTROL', C.F17, 'P3', '2025-10-31T09'), ('F28-TIME-BUDGET', C.F28, 'P2', '2025-10-31T12')):
+        st.save(who, 'a', form, v)
+        chain(st, 'a', form, who, (d + ':00', d + ':30', d + ':50'))
     st.record('P2', 'a', 'RK-COMMUNICATION', B.COMMUNICATIONS[0])
     st.advance('P1', 'a', 'fieldwork')
     st.summary('Wadi Qamar planning: six forms approved through four eyes, materiality computed')
@@ -145,10 +169,20 @@ def steps():
     st.record('P2', 'a', 'RK-REVIEW-NOTE', B.REVIEW_NOTES[1])
     st.save('P4', 'a', 'F08-CONFIRMATIONS', B.F08)
     st.compute('P3', 'a', 'analytical_review', ca['analytical_review'])
-    st.compute('P3', 'a', 'trend', ca['trend'])
     for ev in B.EVIDENCE_LINKS:
         st.record('P3', 'a', 'RK-EVIDENCE-LINK', ev)
     st.sign('a', B.SIGNING_FIELDWORK)
+    # the fieldwork forms beyond the fourteen and the eight cycle working papers
+    day = 20
+    for form, v in (('F18-JOURNAL-ENTRY-TESTING', C.F18), ('F19-RELATED-PARTIES', C.F19), ('F20-LAWS-AND-REGULATIONS', C.F20), ('F21-AUDITORS-EXPERT', C.F21),
+                    ('F23-INVENTORY-COUNT', C.F23), ('F24-LITIGATION-AND-PROVISIONS', C.F24), ('F29-ACCOUNTING-ESTIMATES', C.F29)):
+        st.save('P3', 'a', form, v)
+        chain(st, 'a', form, 'P3', (f'2026-02-{day}T09:00', f'2026-02-{day}T11:00', f'2026-02-{day}T15:00'))
+        day += 1
+    for n, d in zip(range(31, 39), ('2026-02-27', '2026-02-28', '2026-03-01', '2026-03-02', '2026-03-03', '2026-03-04', '2026-03-05', '2026-03-06')):
+        form = [f for f in FORM_IDS if f.startswith(f'F{n}-')][0]
+        st.save('P3', 'a', form, C.cycle_values(FORMS_BY_ID[form]))
+        chain(st, 'a', form, 'P3', (f'{d}T09:00', f'{d}T11:00', f'{d}T15:00'))
     st.advance('P1', 'a', 'completion')
     st.summary('Wadi Qamar fieldwork: MUS on export receivables, confirmations, analytics, trend')
     out.append(st)
@@ -184,18 +218,32 @@ def steps():
     st.add('dItems #= "]";')
     st.add('ignore ok("answer the disclosure checklist", Dc.answerMany(s, P3, false, at, a, j(dItems)));')
     st.n += 1
-    st.sign('a', B.SIGNING_COMPLETION)
+    # a single entity: the group procedures are concluded not applicable, so the group plan is inapplicable
+    st.ok('conclude the group procedures not applicable', 'Pg.concludeMany(s, P3, false, at, a, j("[{\\"procedure\\":\\"P-FSL-021\\",\\"conclusion\\":\\"not_applicable\\",\\"rationale\\":\\"A single legal entity: no group, no components.\\",\\"performed_at\\":\\"2026-03-07T09:00\\"},{\\"procedure\\":\\"P-FSL-048\\",\\"conclusion\\":\\"not_applicable\\",\\"rationale\\":\\"A single legal entity: no group audit to complete.\\",\\"performed_at\\":\\"2026-03-07T09:05\\"}]"))')
+    # the completion forms of the fourteen first: their approvals close procedures, and the two
+    # forms that read the programme's open count are prepared after that, before completion itself
+    st.sign('a', [x for x in B.SIGNING_COMPLETION if x[0] != 'F14-COMPLETION'])
+    for form, v, who, dates, eqr in (('F30-STATEMENTS-REVIEW', C.F30, 'P3', ('2026-03-24T17:05', '2026-03-24T17:10', '2026-03-24T17:15'), None),
+                                     ('F25-MANAGEMENT-LETTER', C.F25, 'P2', ('2026-03-24T17:20', '2026-03-24T17:25', '2026-03-24T17:30'), None),
+                                     ('F26-KAM-AND-REPORT', C.F26, 'P2', ('2026-03-24T17:32', '2026-03-24T17:36', '2026-03-24T17:40', '2026-03-24T17:44'), 'P5'),
+                                     ('F27-QUALITY-REVIEW', C.F27, 'P5', ('2026-03-24T17:46', '2026-03-24T17:50', '2026-03-24T17:54'), None)):
+        st.save(who, 'a', form, v)
+        chain(st, 'a', form, who, dates, eqr, reviewer='P1' if form == 'F27-QUALITY-REVIEW' else None)
+    st.sign('a', [x for x in B.SIGNING_COMPLETION if x[0] == 'F14-COMPLETION'])
     # close the audit programme before assembly (ISA 230.14): every open procedure concluded by the
     # senior and reviewed by the manager, dated between the completion sign-off and the assembly
-    st.add('let openA = Pg.open(s, a);')
+    st.add('let openA = Pg.open(s, ff, a);')
     st.add('var itemsA = "[";')
     st.add('var firstA = true;')
     st.add('for (pid in openA.vals()) { itemsA #= (if (firstA) "" else ",") # "{\\"procedure\\":\\"" # pid # "\\",\\"conclusion\\":\\"performed_no_exception\\",\\"rationale\\":\\"Performed as planned; see the working papers of the cycle. No exception noted.\\",\\"performed_at\\":\\"2026-03-26T09:00\\"}"; firstA := false };')
     st.add('itemsA #= "]";')
-    st.add('let concludedA = ok("close the audit programme", Pg.concludeMany(s, P3, false, at, a, j(itemsA)));')
+    # with every form approved, the programme may already be closed; what is left is concluded and reviewed
+    st.add('if (openA.size() > 0) {')
+    st.add('  let concludedA = ok("close the audit programme", Pg.concludeMany(s, P3, false, at, a, j(itemsA)));')
+    st.add('  for (c in Py.items(concludedA).vals()) { ignore ok("review a conclusion", Pg.review(s, P2, false, at, a, Py.natOr(c, "id", 0), "2026-03-26T10:00")) };')
+    st.add('};')
     st.n += 1
-    st.add('for (c in Py.items(concludedA).vals()) { ignore ok("review a conclusion", Pg.review(s, P2, false, at, a, Py.natOr(c, "id", 0), "2026-03-26T10:00")) };')
-    st.ok('assemble the file', f'F.assembleFile(s, P1, false, at, a, {mo(B.REPORT_DATE)}, {mo(B.ASSEMBLED_AT)})')
+    st.ok('assemble the file', f'F.assembleFile(s, ff, P1, false, at, a, {mo(B.REPORT_DATE)}, {mo(B.ASSEMBLED_AT)})')
     st.record('P1', 'a', 'RK-POST-ASSEMBLY-CHANGE', B.POST_ASSEMBLY)
     st.ok('roll forward to FY2026', f'F.rollForward(s, P1, true, at, a, j({mo(js({"period_start": "2026-01-01", "period_end": "2026-12-31"}))}))')
     st.eng('a26', A.CLIENT, '2026-12-31')
@@ -303,6 +351,7 @@ PREAMBLE = r'''/// Demo.mo — GENERATED by tools/demo/gen_demo.py. Do not edit.
 
 import E "Engine";
 import F "Forms";
+import FF "FirmForms";
 import Pg "Programme";
 import Dc "Disclosures";
 import Gr "Group";
@@ -333,8 +382,8 @@ HELPERS = r'''
   };
 
   /// A form's live value, as the form would show it.
-  func live(s : E.State, eng : Nat, form : Text, field : Text) : Text {
-    let v = ok("view " # form, F.view(s, admin(), true, eng, form));
+  func live(s : E.State, ff : FF.State, eng : Nat, form : Text, field : Text) : Text {
+    let v = ok("view " # form, F.view(s, ff, admin(), true, eng, form));
     let x = Py.scalar(Py.optJ(Json.get(Py.optJ(Json.get(v, "live")), field)));
     if (x == "") Runtime.trap("demo: no live " # form # "." # field) else x
   };
@@ -378,7 +427,7 @@ def main():
             f'  let JE_HOTEL : Text = {mo(js(je_b))};',
             HELPERS,
             '  /// Run one seeding step; the reply summarises it.',
-            '  public func step(s : E.State, n : Nat, at : Int) : Text {',
+            '  public func step(s : E.State, ff : FF.State, n : Nat, at : Int) : Text {',
             team_lets,
             '    switch (n) {']
     for i, st in enumerate(sts):
@@ -400,6 +449,7 @@ def write_test():
 // Attribution: Thebes Core Team. Licence: Apache 2.0.
 import E "../src/Engine";
 import F "../src/Forms";
+import FF "../src/FirmForms";
 import Demo "../src/Demo";
 import Json "../src/Json";
 import Py "../src/Py";
@@ -409,11 +459,12 @@ import Principal "mo:core/Principal";
 import Runtime "mo:core/Runtime";
 
 let s = E.init();
+let ff = FF.init();
 var checks = 0;
 var failed = 0;
 func check(name : Text, c : Bool) {{ checks += 1; if (not c) {{ failed += 1; Debug.print("FAIL " # name) }} }};
 var n = 0;
-while (n < Demo.STEPS) {{ Debug.print("step " # Nat.toText(n) # ": " # Demo.step(s, n, 1000 + n)); n += 1 }};
+while (n < Demo.STEPS) {{ Debug.print("step " # Nat.toText(n) # ": " # Demo.step(s, ff, n, 1000 + n)); n += 1 }};
 
 let admin = Principal.fromBlob("\\D1");
 func ok(r : E.R) : Json.J {{ switch (r) {{ case (#ok(v)) v; case (#err(m)) Runtime.trap(m) }} }};
@@ -423,7 +474,7 @@ func eng(client : Text, pe : Text) : Nat {{
   Runtime.trap("no engagement " # client)
 }};
 func view(e : Nat) : Json.J {{ ok(E.engagementView(s, admin, true, e)) }};
-func formStatus(e : Nat, f : Text) : Text {{ Py.textOr(ok(F.view(s, admin, true, e, f)), "status", "") }};
+func formStatus(e : Nat, f : Text) : Text {{ Py.textOr(ok(F.view(s, ff, admin, true, e, f)), "status", "") }};
 func latest(e : Nat, kind : Text) : Json.J {{
   var found : Json.J = #null_;
   for (p in Py.items(field(view(e), ["papers"])).vals()) {{ if (Py.textOr(p, "kind", "") == kind) found := p }};
@@ -438,7 +489,7 @@ check("Wadi Qamar FY2025 is assembled", field(view(a), ["engagement", "status"])
 check("Wadi Qamar FY2026 is at planning", field(view(a26), ["engagement", "status"]) == #str("planning"));
 check("Shams El-Bahr is in fieldwork", field(view(b), ["engagement", "status"]) == #str("fieldwork"));
 for (f in [{forms14}].vals()) check("Wadi Qamar " # f # " approved", formStatus(a, f) == "approved");
-check("the carried continuance form was reviewed and saved", formStatus(a26, "F01-ACCEPTANCE") == "draft" and field(ok(F.view(s, admin, true, a26, "F01-ACCEPTANCE")), ["values", "_carried"]) == #null_);
+check("the carried continuance form was reviewed and saved", formStatus(a26, "F01-ACCEPTANCE") == "draft" and field(ok(F.view(s, ff, admin, true, a26, "F01-ACCEPTANCE")), ["values", "_carried"]) == #null_);
 for (f in ["F01-ACCEPTANCE", "F02-ENGAGEMENT-LETTER", "F03-PLANNING-MEMO", "F04-RISK-REGISTER", "F05-FRAUD-DISCUSSION", "F06-MATERIALITY"].vals()) check("Shams El-Bahr " # f # " approved", formStatus(b, f) == "approved");
 check("Shams El-Bahr sampling plan prepared, awaiting review", formStatus(b, "F07-SAMPLING-PLAN") == "prepared");
 check("Shams El-Bahr confirmations in draft", formStatus(b, "F08-CONFIRMATIONS") == "draft");

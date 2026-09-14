@@ -6,7 +6,7 @@ one workbook a qualified Egyptian auditor can mark row by row.
 
 Sources, all read from the tree (nothing is typed in by hand here):
   frontend/src/lib/i18n.ts   the application's own interface strings
-  forms/*.json               the fourteen forms: titles, purposes, sections, fields, letters
+  forms/*.json               the forms: titles, purposes, sections, fields, letters
   <standards>/seed/*.json    any *_ar column of the standards model that holds text
 
 An "Inconsistencies" sheet lists every English string drafted in Arabic more than one way,

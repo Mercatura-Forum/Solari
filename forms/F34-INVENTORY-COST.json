@@ -1,0 +1,713 @@
+{
+ "id": "F34-INVENTORY-COST",
+ "number": 34,
+ "kind": "worksheet",
+ "phase": "fieldwork",
+ "title": {
+  "en": "Inventory and cost of sales working paper",
+  "ar": "ورقة عمل المخزون وتكلفة المبيعات"
+ },
+ "purpose": {
+  "en": "Document every substantive procedure of the inventory and cost of sales cycle: the work, the results, the evidence and the conclusion, against the balances the trial balance holds.",
+  "ar": "توثيق كل إجراء أساسي في دورة المخزون وتكلفة المبيعات: العمل والنتائج والأدلة والاستنتاج، مقابل الأرصدة الواردة في ميزان المراجعة."
+ },
+ "procedures": [
+  "P-INV-005",
+  "P-INV-006",
+  "P-INV-007",
+  "P-INV-008",
+  "P-INV-009"
+ ],
+ "standards": [
+  "ISA-330",
+  "ISA-501",
+  "ISA-520",
+  "ISA-530",
+  "ISA-540"
+ ],
+ "sections": [
+  {
+   "id": "engagement",
+   "title": {
+    "en": "Engagement",
+    "ar": "الارتباط"
+   },
+   "fields": [
+    {
+     "id": "client",
+     "label": {
+      "en": "Entity audited",
+      "ar": "المنشأة محل المراجعة"
+     },
+     "type": "text",
+     "required": false,
+     "autofill": "engagement.client",
+     "readonly": true
+    },
+    {
+     "id": "period_start",
+     "label": {
+      "en": "Period from",
+      "ar": "الفترة من"
+     },
+     "type": "date",
+     "required": false,
+     "autofill": "engagement.period_start",
+     "readonly": true
+    },
+    {
+     "id": "period_end",
+     "label": {
+      "en": "Period to",
+      "ar": "الفترة إلى"
+     },
+     "type": "date",
+     "required": false,
+     "autofill": "engagement.period_end",
+     "readonly": true
+    },
+    {
+     "id": "framework",
+     "label": {
+      "en": "Financial reporting framework",
+      "ar": "إطار التقرير المالي"
+     },
+     "type": "text",
+     "required": false,
+     "autofill": "engagement.framework",
+     "readonly": true
+    }
+   ]
+  },
+  {
+   "id": "balances",
+   "title": {
+    "en": "Balances, materiality and risks",
+    "ar": "الأرصدة والأهمية النسبية والمخاطر"
+   },
+   "fields": [
+    {
+     "id": "performance_materiality",
+     "label": {
+      "en": "Performance materiality",
+      "ar": "مادية الأداء"
+     },
+     "type": "money",
+     "required": false,
+     "autofill": "paper.materiality.performance",
+     "readonly": true
+    },
+    {
+     "id": "clearly_trivial",
+     "label": {
+      "en": "Clearly trivial threshold",
+      "ar": "حد المبالغ التافهة بشكل واضح"
+     },
+     "type": "money",
+     "required": false,
+     "autofill": "paper.materiality.clearly_trivial",
+     "readonly": true
+    },
+    {
+     "id": "ls_inv",
+     "label": {
+      "en": "Inventories (LS-INV)",
+      "ar": "Inventories (LS-INV)"
+     },
+     "type": "money",
+     "required": false,
+     "autofill": "tb.leadsheet.LS-INV",
+     "readonly": true
+    },
+    {
+     "id": "ls_inv_prior",
+     "label": {
+      "en": "Inventories, prior period",
+      "ar": "Inventories، الفترة السابقة"
+     },
+     "type": "money",
+     "required": false,
+     "autofill": "tb.leadsheet.LS-INV.prior",
+     "readonly": true
+    },
+    {
+     "id": "ls_cos",
+     "label": {
+      "en": "Cost of sales (LS-COS)",
+      "ar": "Cost of sales (LS-COS)"
+     },
+     "type": "money",
+     "required": false,
+     "autofill": "tb.leadsheet.LS-COS",
+     "readonly": true
+    },
+    {
+     "id": "ls_cos_prior",
+     "label": {
+      "en": "Cost of sales, prior period",
+      "ar": "Cost of sales، الفترة السابقة"
+     },
+     "type": "money",
+     "required": false,
+     "autofill": "tb.leadsheet.LS-COS.prior",
+     "readonly": true
+    },
+    {
+     "id": "risks",
+     "label": {
+      "en": "Risks placed on this cycle by the risk register",
+      "ar": "المخاطر الموضوعة على هذه الدورة في سجل المخاطر"
+     },
+     "type": "table",
+     "required": false,
+     "autofill": "form.F04-RISK-REGISTER.risks",
+     "readonly": true,
+     "columns": [
+      {
+       "id": "risk",
+       "label": {
+        "en": "Risk",
+        "ar": "الخطر"
+       },
+       "type": "text",
+       "required": true
+      },
+      {
+       "id": "level",
+       "label": {
+        "en": "Level",
+        "ar": "المستوى"
+       },
+       "type": "text",
+       "required": false
+      },
+      {
+       "id": "assertions",
+       "label": {
+        "en": "Assertions affected",
+        "ar": "الإقرارات المتأثرة"
+       },
+       "type": "text",
+       "required": false
+      },
+      {
+       "id": "inherent_risk",
+       "label": {
+        "en": "Inherent risk",
+        "ar": "الخطر الملازم"
+       },
+       "type": "text",
+       "required": false
+      },
+      {
+       "id": "significant",
+       "label": {
+        "en": "Significant risk",
+        "ar": "خطر مهم"
+       },
+       "type": "text",
+       "required": false
+      },
+      {
+       "id": "control_risk",
+       "label": {
+        "en": "Control risk",
+        "ar": "خطر الرقابة"
+       },
+       "type": "text",
+       "required": false
+      },
+      {
+       "id": "response",
+       "label": {
+        "en": "Planned response",
+        "ar": "الاستجابة المخططة"
+       },
+       "type": "textarea",
+       "required": false
+      }
+     ]
+    }
+   ],
+   "note": {
+    "en": "Balances are read from the latest accepted trial balance and frozen when the paper is prepared; a later import marks them as drifted.",
+    "ar": "تُقرأ الأرصدة من أحدث ميزان مراجعة مقبول وتُثبت عند إعداد الورقة؛ ويؤدي استيراد لاحق إلى وسمها بأنها تغيرت."
+   }
+  },
+  {
+   "id": "p_inv_005",
+   "title": {
+    "en": "P-INV-005 Cost testing of inventory",
+    "ar": "P-INV-005 اختبار تكلفة المخزون"
+   },
+   "fields": [
+    {
+     "id": "p_inv_005_work",
+     "label": {
+      "en": "Work performed",
+      "ar": "العمل المنفذ"
+     },
+     "type": "textarea",
+     "required": true
+    },
+    {
+     "id": "p_inv_005_result",
+     "label": {
+      "en": "Results and exceptions",
+      "ar": "النتائج والاستثناءات"
+     },
+     "type": "textarea",
+     "required": true
+    },
+    {
+     "id": "p_inv_005_samples",
+     "label": {
+      "en": "Samples recorded for this procedure",
+      "ar": "العينات المسجلة لهذا الإجراء"
+     },
+     "type": "integer",
+     "required": false,
+     "autofill": "records.RK-SAMPLE.for.P-INV-005",
+     "readonly": true
+    },
+    {
+     "id": "p_inv_005_evidence",
+     "label": {
+      "en": "Evidence links citing this procedure",
+      "ar": "روابط الأدلة التي تستشهد بهذا الإجراء"
+     },
+     "type": "integer",
+     "required": false,
+     "autofill": "records.RK-EVIDENCE-LINK.for.P-INV-005",
+     "readonly": true
+    },
+    {
+     "id": "p_inv_005_sample_size",
+     "label": {
+      "en": "Sample size from the sampling plan",
+      "ar": "حجم العينة من خطة العينة"
+     },
+     "type": "integer",
+     "required": false,
+     "autofill": "paper.mus_sample_size.sample_size",
+     "readonly": true
+    },
+    {
+     "id": "p_inv_005_upper_limit",
+     "label": {
+      "en": "Upper misstatement limit from the evaluation",
+      "ar": "الحد الأعلى للتحريف من التقييم"
+     },
+     "type": "money",
+     "required": false,
+     "autofill": "paper.mus_evaluate.upper_misstatement_limit",
+     "readonly": true
+    },
+    {
+     "id": "p_inv_005_conclusion",
+     "label": {
+      "en": "Conclusion",
+      "ar": "الاستنتاج"
+     },
+     "type": "select",
+     "required": true,
+     "options": [
+      {
+       "value": "performed_no_exception",
+       "label": {
+        "en": "Performed, no exception",
+        "ar": "نُفذ دون استثناء"
+       }
+      },
+      {
+       "value": "performed_exception",
+       "label": {
+        "en": "Performed, exception noted",
+        "ar": "نُفذ مع ملاحظة استثناء"
+       }
+      },
+      {
+       "value": "not_applicable",
+       "label": {
+        "en": "Not applicable, reason stated",
+        "ar": "لا ينطبق، مع بيان السبب"
+       }
+      }
+     ]
+    }
+   ],
+   "note": {
+    "en": "Obtain evidence that inventory is carried at cost determined under the framework.",
+    "ar": "Obtain evidence that inventory is carried at cost determined under the framework."
+   }
+  },
+  {
+   "id": "p_inv_006",
+   "title": {
+    "en": "P-INV-006 Net realisable value and obsolescence",
+    "ar": "P-INV-006 صافي القيمة القابلة للتحقق والتقادم"
+   },
+   "fields": [
+    {
+     "id": "p_inv_006_work",
+     "label": {
+      "en": "Work performed",
+      "ar": "العمل المنفذ"
+     },
+     "type": "textarea",
+     "required": true
+    },
+    {
+     "id": "p_inv_006_result",
+     "label": {
+      "en": "Results and exceptions",
+      "ar": "النتائج والاستثناءات"
+     },
+     "type": "textarea",
+     "required": true
+    },
+    {
+     "id": "p_inv_006_samples",
+     "label": {
+      "en": "Samples recorded for this procedure",
+      "ar": "العينات المسجلة لهذا الإجراء"
+     },
+     "type": "integer",
+     "required": false,
+     "autofill": "records.RK-SAMPLE.for.P-INV-006",
+     "readonly": true
+    },
+    {
+     "id": "p_inv_006_evidence",
+     "label": {
+      "en": "Evidence links citing this procedure",
+      "ar": "روابط الأدلة التي تستشهد بهذا الإجراء"
+     },
+     "type": "integer",
+     "required": false,
+     "autofill": "records.RK-EVIDENCE-LINK.for.P-INV-006",
+     "readonly": true
+    },
+    {
+     "id": "p_inv_006_conclusion",
+     "label": {
+      "en": "Conclusion",
+      "ar": "الاستنتاج"
+     },
+     "type": "select",
+     "required": true,
+     "options": [
+      {
+       "value": "performed_no_exception",
+       "label": {
+        "en": "Performed, no exception",
+        "ar": "نُفذ دون استثناء"
+       }
+      },
+      {
+       "value": "performed_exception",
+       "label": {
+        "en": "Performed, exception noted",
+        "ar": "نُفذ مع ملاحظة استثناء"
+       }
+      },
+      {
+       "value": "not_applicable",
+       "label": {
+        "en": "Not applicable, reason stated",
+        "ar": "لا ينطبق، مع بيان السبب"
+       }
+      }
+     ]
+    }
+   ],
+   "note": {
+    "en": "Evaluate whether inventory is written down where required.",
+    "ar": "Evaluate whether inventory is written down where required."
+   }
+  },
+  {
+   "id": "p_inv_007",
+   "title": {
+    "en": "P-INV-007 Inventory cut-off",
+    "ar": "P-INV-007 الفصل الزمني للمخزون"
+   },
+   "fields": [
+    {
+     "id": "p_inv_007_work",
+     "label": {
+      "en": "Work performed",
+      "ar": "العمل المنفذ"
+     },
+     "type": "textarea",
+     "required": true
+    },
+    {
+     "id": "p_inv_007_result",
+     "label": {
+      "en": "Results and exceptions",
+      "ar": "النتائج والاستثناءات"
+     },
+     "type": "textarea",
+     "required": true
+    },
+    {
+     "id": "p_inv_007_samples",
+     "label": {
+      "en": "Samples recorded for this procedure",
+      "ar": "العينات المسجلة لهذا الإجراء"
+     },
+     "type": "integer",
+     "required": false,
+     "autofill": "records.RK-SAMPLE.for.P-INV-007",
+     "readonly": true
+    },
+    {
+     "id": "p_inv_007_evidence",
+     "label": {
+      "en": "Evidence links citing this procedure",
+      "ar": "روابط الأدلة التي تستشهد بهذا الإجراء"
+     },
+     "type": "integer",
+     "required": false,
+     "autofill": "records.RK-EVIDENCE-LINK.for.P-INV-007",
+     "readonly": true
+    },
+    {
+     "id": "p_inv_007_conclusion",
+     "label": {
+      "en": "Conclusion",
+      "ar": "الاستنتاج"
+     },
+     "type": "select",
+     "required": true,
+     "options": [
+      {
+       "value": "performed_no_exception",
+       "label": {
+        "en": "Performed, no exception",
+        "ar": "نُفذ دون استثناء"
+       }
+      },
+      {
+       "value": "performed_exception",
+       "label": {
+        "en": "Performed, exception noted",
+        "ar": "نُفذ مع ملاحظة استثناء"
+       }
+      },
+      {
+       "value": "not_applicable",
+       "label": {
+        "en": "Not applicable, reason stated",
+        "ar": "لا ينطبق، مع بيان السبب"
+       }
+      }
+     ]
+    }
+   ],
+   "note": {
+    "en": "Ensure receipts and dispatches are recorded in the correct period consistently with payables and revenue.",
+    "ar": "Ensure receipts and dispatches are recorded in the correct period consistently with payables and revenue."
+   }
+  },
+  {
+   "id": "p_inv_008",
+   "title": {
+    "en": "P-INV-008 Cost of sales analytical procedures",
+    "ar": "P-INV-008 الإجراءات التحليلية لتكلفة المبيعات"
+   },
+   "fields": [
+    {
+     "id": "p_inv_008_work",
+     "label": {
+      "en": "Work performed",
+      "ar": "العمل المنفذ"
+     },
+     "type": "textarea",
+     "required": true
+    },
+    {
+     "id": "p_inv_008_result",
+     "label": {
+      "en": "Results and exceptions",
+      "ar": "النتائج والاستثناءات"
+     },
+     "type": "textarea",
+     "required": true
+    },
+    {
+     "id": "p_inv_008_samples",
+     "label": {
+      "en": "Samples recorded for this procedure",
+      "ar": "العينات المسجلة لهذا الإجراء"
+     },
+     "type": "integer",
+     "required": false,
+     "autofill": "records.RK-SAMPLE.for.P-INV-008",
+     "readonly": true
+    },
+    {
+     "id": "p_inv_008_evidence",
+     "label": {
+      "en": "Evidence links citing this procedure",
+      "ar": "روابط الأدلة التي تستشهد بهذا الإجراء"
+     },
+     "type": "integer",
+     "required": false,
+     "autofill": "records.RK-EVIDENCE-LINK.for.P-INV-008",
+     "readonly": true
+    },
+    {
+     "id": "p_inv_008_flagged",
+     "label": {
+      "en": "Lines flagged by the analytical review paper",
+      "ar": "البنود المعلَّمة في ورقة الفحص التحليلي"
+     },
+     "type": "integer",
+     "required": false,
+     "autofill": "paper.analytical_review.lines_flagged",
+     "readonly": true
+    },
+    {
+     "id": "p_inv_008_conclusion",
+     "label": {
+      "en": "Conclusion",
+      "ar": "الاستنتاج"
+     },
+     "type": "select",
+     "required": true,
+     "options": [
+      {
+       "value": "performed_no_exception",
+       "label": {
+        "en": "Performed, no exception",
+        "ar": "نُفذ دون استثناء"
+       }
+      },
+      {
+       "value": "performed_exception",
+       "label": {
+        "en": "Performed, exception noted",
+        "ar": "نُفذ مع ملاحظة استثناء"
+       }
+      },
+      {
+       "value": "not_applicable",
+       "label": {
+        "en": "Not applicable, reason stated",
+        "ar": "لا ينطبق، مع بيان السبب"
+       }
+      }
+     ]
+    }
+   ],
+   "note": {
+    "en": "Obtain evidence over cost of sales through gross margin expectations.",
+    "ar": "Obtain evidence over cost of sales through gross margin expectations."
+   }
+  },
+  {
+   "id": "p_inv_009",
+   "title": {
+    "en": "P-INV-009 Inventory presentation and pledges",
+    "ar": "P-INV-009 عرض المخزون والرهون"
+   },
+   "fields": [
+    {
+     "id": "p_inv_009_work",
+     "label": {
+      "en": "Work performed",
+      "ar": "العمل المنفذ"
+     },
+     "type": "textarea",
+     "required": true
+    },
+    {
+     "id": "p_inv_009_result",
+     "label": {
+      "en": "Results and exceptions",
+      "ar": "النتائج والاستثناءات"
+     },
+     "type": "textarea",
+     "required": true
+    },
+    {
+     "id": "p_inv_009_samples",
+     "label": {
+      "en": "Samples recorded for this procedure",
+      "ar": "العينات المسجلة لهذا الإجراء"
+     },
+     "type": "integer",
+     "required": false,
+     "autofill": "records.RK-SAMPLE.for.P-INV-009",
+     "readonly": true
+    },
+    {
+     "id": "p_inv_009_evidence",
+     "label": {
+      "en": "Evidence links citing this procedure",
+      "ar": "روابط الأدلة التي تستشهد بهذا الإجراء"
+     },
+     "type": "integer",
+     "required": false,
+     "autofill": "records.RK-EVIDENCE-LINK.for.P-INV-009",
+     "readonly": true
+    },
+    {
+     "id": "p_inv_009_conclusion",
+     "label": {
+      "en": "Conclusion",
+      "ar": "الاستنتاج"
+     },
+     "type": "select",
+     "required": true,
+     "options": [
+      {
+       "value": "performed_no_exception",
+       "label": {
+        "en": "Performed, no exception",
+        "ar": "نُفذ دون استثناء"
+       }
+      },
+      {
+       "value": "performed_exception",
+       "label": {
+        "en": "Performed, exception noted",
+        "ar": "نُفذ مع ملاحظة استثناء"
+       }
+      },
+      {
+       "value": "not_applicable",
+       "label": {
+        "en": "Not applicable, reason stated",
+        "ar": "لا ينطبق، مع بيان السبب"
+       }
+      }
+     ]
+    }
+   ],
+   "note": {
+    "en": "Evaluate disclosure and rights over inventory.",
+    "ar": "Evaluate disclosure and rights over inventory."
+   }
+  }
+ ],
+ "signoff": {
+  "prepare": [
+   "partner",
+   "manager",
+   "senior",
+   "staff"
+  ],
+  "review": [
+   "partner",
+   "manager"
+  ],
+  "approve": [
+   "partner"
+  ]
+ },
+ "version": 1,
+ "ar_status": "draft_pending_review"
+}

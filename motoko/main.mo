@@ -47,6 +47,7 @@ import Population "src/Population";
 import Programme "src/Programme";
 import Disclosures "src/Disclosures";
 import Group "src/Group";
+import Adjustments "src/Adjustments";
 import Api "src/Api";
 import Dates "src/Dates";
 import Dec "src/Dec";
@@ -59,6 +60,7 @@ import RouteB "src/RouteB";
 import Media "mo:thebes-lib/Media";
 import Py "src/Py";
 import Forms "src/Forms";
+import FirmForms "src/FirmForms";
 import Json "src/Json";
 import Seed "src/Seed";
 
@@ -118,6 +120,10 @@ shared (install) persistent actor class AuditEngine() = self {
 
   // PUBLIC READ API (src/Api.mo): keys known only by the SHA-256 of their secret.
   var apiKeys = Api.init();
+
+  // THE FIRM'S OWN FORMS (src/FirmForms.mo): definitions validated, versioned and never edited
+  // in place; rendered, signed and counted in the programme like the product's. A new variable.
+  var firmForms = FirmForms.init();
   // Exchange rates fetched through HTTP outcalls (src/Rates.mo, P-TRE-009): one fetch in
   // flight at a time, each source a v2 request agreed by quorum.
   type RateFetch = {
@@ -208,7 +214,7 @@ shared (install) persistent actor class AuditEngine() = self {
   func identifyRaw(token : Text) : async* { #ok : Principal; #err : Text } {
     if (memphisAudience == "") return #err("the app's web origin is not configured; the owner must call setMemphisAudience");
     let bytes = switch (tokenBytes(token)) { case (?b) b; case null return #err("the session token must be hex") };
-    // A failed call to Memphis (unreachable, stopped, out of cycles) is a refusal
+    // A failed call to Memphis (unreachable or stopped) is a refusal
     // with a reason, never a trap: the caller learns why, and nothing is accepted.
     try {
       switch (await* MemphisAuth.verifyWithAudience(memphisGate, bytes, memphisAudience)) {
@@ -336,7 +342,7 @@ shared (install) persistent actor class AuditEngine() = self {
     if (step != demoStep) return refuse("the next seeding step is " # Nat.toText(demoStep));
     if (step >= Demo.STEPS) return refuse("the demonstration firm is fully seeded");
     if (step == 0) { for ((p, name, title) in Demo.team().vals()) Map.add(directory, Principal.compare, p, (name, title)) };
-    let summary = Demo.step(engine, step, now());
+    let summary = Demo.step(engine, firmForms, step, now());
     demoStep += 1;
     // Instructions this step used, against the chain's per-call ceiling.
     let used = Nat64.toNat(Prim.performanceCounter(0));
@@ -567,20 +573,46 @@ shared (install) persistent actor class AuditEngine() = self {
 
   // ------------------------------------------------------------------ forms
 
-  /// The fourteen forms: identity, title, kind, phase, and the procedures and
+  /// The product's forms: identity, title, kind, phase, and the procedures and
   /// standards each serves (public).
-  public query func formCatalogue() : async Reply { answer(true, Json.toText(Forms.catalogue())) };
+  public query func formCatalogue() : async Reply { answer(true, Json.toText(Forms.catalogue(firmForms))) };
+
+  /// One form's definition as the renderer receives it (public): a product form, or the latest
+  /// version of a firm form.
+  public query func formDefinition(formId : Text) : async Reply {
+    switch (Forms.spec(firmForms, formId)) { case (?sp) answer(true, Json.toText(sp)); case null refuse("unknown form " # formId) };
+  };
+
+  /// The file map: every form's state and drift, the sources, every edge of the dependency graph.
+  public query func fileMap(token : Text, engagementId : Nat) : async Reply {
+    switch (cached(token)) { case (#ok(p)) reply(observed(p, Forms.fileMap(engine, firmForms, p, reads(p), engagementId))); case (#err(m)) refuse(m) };
+  };
+
+  /// What stands between the completion form and its approval.
+  public query func completionReadiness(token : Text, engagementId : Nat) : async Reply {
+    switch (cached(token)) { case (#ok(p)) reply(observed(p, Forms.readiness(engine, firmForms, p, reads(p), engagementId))); case (#err(m)) refuse(m) };
+  };
+
+  /// The trail entries whose target is one object, oldest first (the sign-off chain).
+  public query func trailFor(token : Text, target : Text) : async Reply {
+    switch (cached(token)) { case (#ok(p)) { if (reads(p) or Engine.holdsAnyRole(engine, p)) answer(true, Json.toText(#arr(Engine.trailFor(engine, target)))) else refuse("not permitted") }; case (#err(m)) refuse(m) };
+  };
+
+  /// Every form's state on an engagement in one call: status, version, signed figures moved.
+  public query func formStatuses(token : Text, engagementId : Nat) : async Reply {
+    switch (cached(token)) { case (#ok(p)) reply(observed(p, Forms.statuses(engine, firmForms, p, reads(p), engagementId))); case (#err(m)) refuse(m) };
+  };
 
   /// A form on an engagement: definition, values, live and frozen values, the stale
   /// fields, status, version and sign-offs.
   public query func formView(token : Text, engagementId : Nat, formId : Text) : async Reply {
-    switch (cached(token)) { case (#ok(p)) reply(Forms.view(engine, p, reads(p), engagementId, formId)); case (#err(m)) refuse(m) };
+    switch (cached(token)) { case (#ok(p)) reply(Forms.view(engine, firmForms, p, reads(p), engagementId, formId)); case (#err(m)) refuse(m) };
   };
 
   /// Save a form's values: {values}.
   public shared func saveForm(token : Text, engagementId : Nat, formId : Text, json : Text) : async Reply {
     switch (await* identify(token), Json.parse(json)) {
-      case (#ok(p), #ok(j)) commit(Forms.save(engine, p, isAdmin(p), now(), engagementId, formId, j));
+      case (#ok(p), #ok(j)) commit(Forms.save(engine, firmForms, p, isAdmin(p), now(), engagementId, formId, j));
       case (#err(m), _) refuse(m);
       case (_, #err(m)) refuse("invalid JSON: " # m);
     }
@@ -588,13 +620,54 @@ shared (install) persistent actor class AuditEngine() = self {
 
   /// Sign a form at a stage: prepare, review, eqr or approve.
   public shared func signForm(token : Text, engagementId : Nat, formId : Text, stage : Text, signedOn : Text) : async Reply {
-    switch (await* identify(token)) { case (#ok(p)) commit(Forms.sign(engine, p, now(), engagementId, formId, stage, signedOn)); case (#err(m)) refuse(m) };
+    switch (await* identify(token)) { case (#ok(p)) commit(Forms.sign(engine, firmForms, p, now(), engagementId, formId, stage, signedOn)); case (#err(m)) refuse(m) };
   };
 
   /// A partner assembles the final file for the approved completion form's report date. The
   /// audit programme must be closed first: every applicable procedure reviewed (ISA 230.14).
   public shared func assembleFile(token : Text, engagementId : Nat, reportDate : Text, assembledOn : Text) : async Reply {
-    switch (await* identify(token)) { case (#ok(p)) commit(Forms.assembleFile(engine, p, isAdmin(p), now(), engagementId, reportDate, assembledOn)); case (#err(m)) refuse(m) };
+    switch (await* identify(token)) { case (#ok(p)) commit(Forms.assembleFile(engine, firmForms, p, isAdmin(p), now(), engagementId, reportDate, assembledOn)); case (#err(m)) refuse(m) };
+  };
+
+  // ------------------------------------------------------------------ the firm's own forms (src/FirmForms.mo)
+
+  /// Validate a definition without storing it (the builder's live check).
+  public query func firmFormCheck(token : Text, json : Text) : async Reply {
+    switch (cached(token), Json.parse(json)) {
+      case (#ok(_), #ok(j)) reply(FirmForms.check(firmForms, j));
+      case (#err(m), _) refuse(m);
+      case (_, #err(m)) refuse("invalid JSON: " # m);
+    }
+  };
+
+  /// Publish a firm form definition (firm administrators): version 1, or the next version.
+  public shared func firmFormPublish(token : Text, json : Text) : async Reply {
+    switch (await* identify(token), Json.parse(json)) {
+      case (#ok(p), #ok(j)) commit(FirmForms.publish(firmForms, engine, p, isAdmin(p), now(), j));
+      case (#err(m), _) refuse(m);
+      case (_, #err(m)) refuse("invalid JSON: " # m);
+    }
+  };
+
+  public shared func firmFormRetire(token : Text, formId : Text, reason : Text) : async Reply {
+    switch (await* identify(token)) { case (#ok(p)) commit(FirmForms.retire(firmForms, engine, p, isAdmin(p), now(), formId, reason)); case (#err(m)) refuse(m) };
+  };
+
+  public shared func firmFormRestore(token : Text, formId : Text) : async Reply {
+    switch (await* identify(token)) { case (#ok(p)) commit(FirmForms.restore(firmForms, engine, p, isAdmin(p), now(), formId)); case (#err(m)) refuse(m) };
+  };
+
+  /// The firm's forms: latest version, hash, retired, every version's hash.
+  public query func firmFormList(token : Text) : async Reply {
+    switch (cached(token)) { case (#ok(_)) answer(true, Json.toText(FirmForms.list(firmForms))); case (#err(m)) refuse(m) };
+  };
+
+  /// One version of a firm form, as kept.
+  public query func firmFormVersion(token : Text, formId : Text, version : Nat) : async Reply {
+    switch (cached(token)) {
+      case (#ok(_)) { switch (FirmForms.versionText(firmForms, formId, version)) { case (?t) answer(true, t); case null refuse("no version " # Nat.toText(version) # " of " # formId) } };
+      case (#err(m)) refuse(m);
+    }
   };
 
   // ------------------------------------------------------------------ the audit programme (src/Programme.mo)
@@ -634,6 +707,34 @@ shared (install) persistent actor class AuditEngine() = self {
       case (#ok(p), #ok(j)) commit(Disclosures.answerMany(engine, p, isAdmin(p), now(), engagementId, j));
       case (#err(m), _) refuse(m);
       case (_, #err(m)) refuse("invalid JSON: " # m);
+    }
+  };
+
+  // ------------------------------------------------------------------ adjusting entries (src/Adjustments.mo)
+
+  /// Propose an adjusting entry, or record one the client has booked: {description, type, source, legs: [{account_code, account_name?, leadsheet_id?, debit, credit}], misstatement_type, procedure, proposed_at, communicated_at?}.
+  public shared func proposeAdjustment(token : Text, engagementId : Nat, json : Text) : async Reply {
+    switch (await* identify(token), Json.parse(json)) {
+      case (#ok(p), #ok(j)) commit(Adjustments.propose(engine, p, isAdmin(p), now(), engagementId, j));
+      case (#err(m), _) refuse(m);
+      case (_, #err(m)) refuse("invalid JSON: " # m);
+    }
+  };
+
+  /// Decide an entry: {state: agreed|booked|waived, decided_at, reason?}. Waiving takes a lead and a reason.
+  public shared func decideAdjustment(token : Text, engagementId : Nat, recordId : Nat, json : Text) : async Reply {
+    switch (await* identify(token), Json.parse(json)) {
+      case (#ok(p), #ok(j)) commit(Adjustments.decide(engine, p, isAdmin(p), now(), engagementId, recordId, j));
+      case (#err(m), _) refuse(m);
+      case (_, #err(m)) refuse("invalid JSON: " # m);
+    }
+  };
+
+  /// The entries with their projected misstatements, and the adjusted trial balance.
+  public query func adjustmentsView(token : Text, engagementId : Nat) : async Reply {
+    switch (cached(token)) {
+      case (#ok(p)) reply(observed(p, Adjustments.view(engine, p, reads(p), engagementId)));
+      case (#err(m)) refuse(m);
     }
   };
 
@@ -688,7 +789,7 @@ shared (install) persistent actor class AuditEngine() = self {
   /// The audit programme: every procedure's state on the engagement, the summary, what is open.
   public query func programmeView(token : Text, engagementId : Nat) : async Reply {
     switch (cached(token)) {
-      case (#ok(p)) reply(observed(p, Programme.view(engine, p, reads(p), engagementId)));
+      case (#ok(p)) reply(observed(p, Programme.view(engine, firmForms, p, reads(p), engagementId)));
       case (#err(m)) refuse(m);
     }
   };
@@ -1466,7 +1567,7 @@ shared (install) persistent actor class AuditEngine() = self {
 
   transient let PULL_QUORUM : Nat32 = 4;
   /// Parts fed to the population per collect call, so a call stays well inside the
-  /// instruction limit (each part is parsed twice: mapped, then ingested).
+  /// per-message budget (each part is parsed twice: mapped, then ingested).
   transient let PARTS_PER_COLLECT : Nat = 2;
 
   func pullOf(id : Nat) : ?Odoo.Pull { Odoo.get(pulls, id) };
@@ -1624,7 +1725,7 @@ shared (install) persistent actor class AuditEngine() = self {
 
   // `transient`, so every build states its own label: a plain `let` here is a stable field,
   // and an upgrade would restore the previous build's label over the new code's.
-  transient let THIS_BUILD : Text = "2026-09-12.13 many firms: the registry, devices, JE testing (26), programme, disclosures, group";
+  transient let THIS_BUILD : Text = "2026-09-13.15 adjusting entries and the adjusted trial balance: every leadsheet unadjusted, adjustments, adjusted; the entry that is also the misstatement";
   func buildJ() : Json.J { #obj([("build", #str(THIS_BUILD)), ("rulebook", #str(Seed.SOURCE_COMMIT))]) };
 
   func scopeOf(json : Text) : ?[Nat] {

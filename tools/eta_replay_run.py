@@ -236,8 +236,8 @@ state_dir = "{out}/state"
 cert = "{out}/cert.pem"
 key = "{out}/key.pem"
 [capability]
-rp_id = "memphis.mercaturaforum.com"
-origins = ["https://memphis.mercaturaforum.com"]
+rp_id = "<thebes-gateway>"
+origins = ["https://<thebes-gateway>"]
 client_public_key = "BF"
 [adapter]
 kind = "eta-einvoicing"

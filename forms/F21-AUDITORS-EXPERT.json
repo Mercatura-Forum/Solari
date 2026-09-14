@@ -1,0 +1,282 @@
+{
+ "id": "F21-AUDITORS-EXPERT",
+ "number": 21,
+ "kind": "worksheet",
+ "phase": "fieldwork",
+ "title": {
+  "en": "Use of an auditor's expert and management's expert",
+  "ar": "استخدام خبير المراجع وخبير الإدارة"
+ },
+ "purpose": {
+  "en": "Document the need for an expert, the evaluation of the expert's competence, capabilities and objectivity, the terms of the work, and the evaluation of its adequacy for the auditor's purposes.",
+  "ar": "توثيق الحاجة إلى خبير، وتقييم كفاءته وقدراته وموضوعيته، وشروط العمل، وتقييم كفاية عمله لأغراض المراجع."
+ },
+ "procedures": [
+  "P-FSL-019"
+ ],
+ "standards": [
+  "ISA-620",
+  "ISA-500",
+  "ISA-540"
+ ],
+ "sections": [
+  {
+   "id": "engagement",
+   "title": {
+    "en": "Engagement",
+    "ar": "الارتباط"
+   },
+   "fields": [
+    {
+     "id": "client",
+     "label": {
+      "en": "Entity audited",
+      "ar": "المنشأة محل المراجعة"
+     },
+     "type": "text",
+     "required": false,
+     "autofill": "engagement.client",
+     "readonly": true
+    },
+    {
+     "id": "period_start",
+     "label": {
+      "en": "Period from",
+      "ar": "الفترة من"
+     },
+     "type": "date",
+     "required": false,
+     "autofill": "engagement.period_start",
+     "readonly": true
+    },
+    {
+     "id": "period_end",
+     "label": {
+      "en": "Period to",
+      "ar": "الفترة إلى"
+     },
+     "type": "date",
+     "required": false,
+     "autofill": "engagement.period_end",
+     "readonly": true
+    },
+    {
+     "id": "framework",
+     "label": {
+      "en": "Financial reporting framework",
+      "ar": "إطار التقرير المالي"
+     },
+     "type": "text",
+     "required": false,
+     "autofill": "engagement.framework",
+     "readonly": true
+    }
+   ]
+  },
+  {
+   "id": "need",
+   "title": {
+    "en": "The need",
+    "ar": "الحاجة"
+   },
+   "fields": [
+    {
+     "id": "matter",
+     "label": {
+      "en": "Matter requiring expertise and the assertions affected",
+      "ar": "الأمر الذي يتطلب خبرة والإقرارات المتأثرة"
+     },
+     "type": "textarea",
+     "required": true
+    },
+    {
+     "id": "kind",
+     "label": {
+      "en": "Kind of expert",
+      "ar": "نوع الخبير"
+     },
+     "type": "select",
+     "required": true,
+     "options": [
+      {
+       "value": "auditor_internal",
+       "label": {
+        "en": "Auditor's expert, from the firm",
+        "ar": "خبير المراجع من داخل المكتب"
+       }
+      },
+      {
+       "value": "auditor_external",
+       "label": {
+        "en": "Auditor's expert, engaged",
+        "ar": "خبير المراجع المتعاقد معه"
+       }
+      },
+      {
+       "value": "management",
+       "label": {
+        "en": "Management's expert",
+        "ar": "خبير الإدارة"
+       }
+      }
+     ]
+    },
+    {
+     "id": "name",
+     "label": {
+      "en": "Expert",
+      "ar": "الخبير"
+     },
+     "type": "text",
+     "required": true
+    },
+    {
+     "id": "field",
+     "label": {
+      "en": "Field of expertise",
+      "ar": "مجال الخبرة"
+     },
+     "type": "text",
+     "required": true
+    }
+   ]
+  },
+  {
+   "id": "evaluation",
+   "title": {
+    "en": "Competence, capabilities and objectivity",
+    "ar": "الكفاءة والقدرات والموضوعية"
+   },
+   "fields": [
+    {
+     "id": "competence",
+     "label": {
+      "en": "Competence and capabilities: qualifications, experience and reputation",
+      "ar": "الكفاءة والقدرات: المؤهلات والخبرة والسمعة"
+     },
+     "type": "textarea",
+     "required": true
+    },
+    {
+     "id": "objectivity",
+     "label": {
+      "en": "Objectivity: interests, relationships and threats, and safeguards",
+      "ar": "الموضوعية: المصالح والعلاقات والتهديدات والضمانات"
+     },
+     "type": "textarea",
+     "required": true
+    },
+    {
+     "id": "terms",
+     "label": {
+      "en": "Terms agreed: nature, scope and objectives, roles, communication, confidentiality",
+      "ar": "الشروط المتفق عليها: الطبيعة والنطاق والأهداف والأدوار والاتصال والسرية"
+     },
+     "type": "textarea",
+     "required": true
+    }
+   ]
+  },
+  {
+   "id": "work",
+   "title": {
+    "en": "The work and its evaluation",
+    "ar": "العمل وتقييمه"
+   },
+   "fields": [
+    {
+     "id": "work",
+     "label": {
+      "en": "Work performed by the expert",
+      "ar": "العمل الذي نفذه الخبير"
+     },
+     "type": "textarea",
+     "required": true
+    },
+    {
+     "id": "adequacy",
+     "label": {
+      "en": "Evaluation of relevance and reasonableness of findings, assumptions, methods and source data",
+      "ar": "تقييم ملاءمة النتائج ومعقوليتها والافتراضات والطرق والبيانات المصدرية"
+     },
+     "type": "textarea",
+     "required": true
+    },
+    {
+     "id": "conclusion",
+     "label": {
+      "en": "Conclusion",
+      "ar": "الاستنتاج"
+     },
+     "type": "select",
+     "required": true,
+     "options": [
+      {
+       "value": "adequate",
+       "label": {
+        "en": "Adequate for the auditor's purposes",
+        "ar": "كافٍ لأغراض المراجع"
+       }
+      },
+      {
+       "value": "additional",
+       "label": {
+        "en": "Additional procedures required",
+        "ar": "يلزم إجراءات إضافية"
+       }
+      },
+      {
+       "value": "not_adequate",
+       "label": {
+        "en": "Not adequate",
+        "ar": "غير كافٍ"
+       }
+      }
+     ]
+    },
+    {
+     "id": "reference",
+     "label": {
+      "en": "Reference to the expert in the auditor's report",
+      "ar": "الإشارة إلى الخبير في تقرير المراجع"
+     },
+     "type": "select",
+     "required": true,
+     "options": [
+      {
+       "value": "no",
+       "label": {
+        "en": "No reference",
+        "ar": "لا إشارة"
+       }
+      },
+      {
+       "value": "yes",
+       "label": {
+        "en": "Referred to, without reducing responsibility (reason recorded)",
+        "ar": "تمت الإشارة إليه دون تخفيف المسؤولية (مع تسجيل السبب)"
+       }
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "signoff": {
+  "prepare": [
+   "partner",
+   "manager",
+   "senior",
+   "staff"
+  ],
+  "review": [
+   "partner",
+   "manager"
+  ],
+  "approve": [
+   "partner"
+  ]
+ },
+ "version": 1,
+ "ar_status": "draft_pending_review"
+}

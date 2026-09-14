@@ -16,7 +16,7 @@ let engine = E.init();
 let s = G.init();
 let DOC = "612becafc2519a2c2bf0a293551d75f88a8a0d6441e2b6c807f38c6027acc59f";
 var doc = DOC;
-let c : G.Ctx = { engine; contract = "test-contract"; origin = "https://memphis.mercaturaforum.com";
+let c : G.Ctx = { engine; contract = "test-contract"; origin = "https://<thebes-gateway>";
   lookup = func(p : Principal, t : Text) : ?Text { if (t == "evidence:7" and (Principal.equal(p, client) or Principal.equal(p, other))) ?doc else null } };
 
 var checks = 0;
@@ -62,7 +62,7 @@ check("the signature records the hash and the signer", Py.textOr(sg, "doc_hash",
 try_("a challenge is used once", n1, "CmqYPRb_BNWS_WsQ2yKmYwFpXdexYjlz1xc6bS5y0nE", ("FzW5fhRIxH+dWz0aYBrheT9Q3siRxzThHIIJxG6+ANMFAAAAAQ==", "eyJ0eXBlIjoid2ViYXV0aG4uZ2V0IiwiY2hhbGxlbmdlIjoieXhlNzFEQ1F1ZS16RS1LUlgxOENzemhndzBxekRFb3VmNWZ5UXNWOG8xcyIsIm9yaWdpbiI6Imh0dHBzOi8vbWVtcGhpcy5tZXJjYXR1cmFmb3J1bS5jb20iLCJjcm9zc09yaWdpbiI6ZmFsc2V9", "MEQCIDi0mLC2Qj3j7YBa1oM+UlnuOFf0pu7mX7eNLoPFVkUDAiBRlcxhG5WeWZtLGZD7lrArao3hcVxD1sr5YhT9JOUePg=="), "was used or withdrawn");
 check("the signature is listed on the document", Py.items(must("signatures", G.signaturesOn(s, c, client, "evidence:7"))).size() == 1);
 let bd = must("the bundle for verification off the chain", G.bundle(s, c, client, 1));
-check("the bundle carries the public key and the origin", Py.textOr(bd, "public_key_spki", "") == "MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEXvVggflIZCmNNx6SqBpQcRX1Ifk+qiG1xPrjAW/vgSgxJ9DV0aG5w+jf7FZ4x3fpnTwBuaCYm7kKdD++cGvHPQ==" and Py.textOr(bd, "origin", "") == "https://memphis.mercaturaforum.com");
+check("the bundle carries the public key and the origin", Py.textOr(bd, "public_key_spki", "") == "MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEXvVggflIZCmNNx6SqBpQcRX1Ifk+qiG1xPrjAW/vgSgxJ9DV0aG5w+jf7FZ4x3fpnTwBuaCYm7kKdD++cGvHPQ==" and Py.textOr(bd, "origin", "") == "https://<thebes-gateway>");
 check("the trail records the key registrations and the signature, intact", Json.get(E.verifyTrail(engine), "intact") == ?#bool(true) and Py.natOr(E.verifyTrail(engine), "entries_examined", 0) == 3);
 ignore must("the client revokes the passkey", G.revokeKey(s, c, client, 12, 1));
 refused("a revoked passkey cannot start a signature", G.begin(s, c, client, 13, "evidence:7"), "register a signing passkey first");

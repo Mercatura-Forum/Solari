@@ -113,6 +113,19 @@ module {
     List.toArray(comps)
   };
 
+  /// The ladder as table rows, for a form's live value (`group.components`): name, entity,
+  /// component auditor, scope and state.
+  public func components(s : Engine.State, eng : Nat) : [J] {
+    Array.map<Comp, J>(build(s, eng), func(c) {
+      let f = parse(c.rec.fields);
+      #obj([
+        ("name", Py.optJ(Json.get(f, "name"))), ("entity", Py.optJ(Json.get(f, "entity"))),
+        ("component_auditor", Py.optJ(Json.get(f, "component_auditor"))), ("scope", Py.optJ(Json.get(f, "scope"))),
+        ("status", #str(c.status)),
+      ])
+    })
+  };
+
   public func view(s : Engine.State, by : Principal, isAdmin : Bool, eng : Nat) : R {
     let e = switch (Engine.engagement(s, eng)) { case (#ok(e)) e; case (#err(m)) return #err(m) };
     let role = Engine.memberRole(e, by);

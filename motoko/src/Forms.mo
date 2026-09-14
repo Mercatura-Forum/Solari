@@ -1,4 +1,5 @@
-/// Forms.mo — the fourteen fill-in forms on an engagement.
+/// Forms.mo — the fill-in forms on an engagement: the product's catalogue (forms 1 to 14 in
+/// FormsSeed, 15 onwards in FormsSeedExt).
 ///
 ///  LIVE VALUES   A field with an `autofill` expression reads the engagement's
 ///                current data whenever the form is viewed: engagement details, a
@@ -32,7 +33,12 @@ import Engine "Engine";
 import Programme "Programme";
 import Disclosures "Disclosures";
 import Group "Group";
+import Adjustments "Adjustments";
 import FormsSeed "FormsSeed";
+import FormsSeedExt "FormsSeedExt";
+import FirmForms "FirmForms";
+import FormGraph "FormGraph";
+import Map "mo:core/Map";
 import Json "Json";
 import Py "Py";
 import Seed "Seed";
@@ -46,16 +52,36 @@ module {
   func parse(t : Text) : J { switch (Json.parse(t)) { case (#ok(j)) j; case (#err(_)) #null_ } };
   func get(o : J, k : Text) : J { Py.optJ(Json.get(o, k)) };
 
-  public func spec(id : Text) : ?J { switch (FormsSeed.get(id)) { case (?t) ?parse(t); case null null } };
+  /// A form's definition: the product's seeds, then the firm's own (latest version).
+  public func spec(ff : FirmForms.State, id : Text) : ?J {
+    switch (FormsSeed.get(id)) { case (?t) return ?parse(t); case null {} };
+    switch (FormsSeedExt.get(id)) { case (?t) return ?parse(t); case null {} };
+    switch (FirmForms.latest(ff, id)) { case (?t) ?parse(t); case null null }
+  };
+  /// The definition an instance renders under: the version stamped at prepare for a firm form,
+  /// the latest otherwise.
+  func specFor(ff : FirmForms.State, id : Text, values : J) : ?J {
+    switch (Json.get(get(values, "_definition"), "version")) {
+      case (?#num(n)) { switch (Nat.fromText(n)) { case (?v) { switch (FirmForms.versionText(ff, id, v)) { case (?t) return ?parse(t); case null {} } }; case null {} } };
+      case _ {};
+    };
+    spec(ff, id)
+  };
+  /// The whole catalogue: the product's forms, then the firm's active forms.
+  public func all(ff : FirmForms.State) : [(Text, Text)] { Array.concat(seeds(), FirmForms.active(ff)) };
+
+  /// (form id, definition text) of every product form, in catalogue order.
+  public func seeds() : [(Text, Text)] { Array.concat(FormsSeed.FORMS, FormsSeedExt.FORMS) };
 
   /// Every form's identity, title, kind, phase and the procedures and standards it serves.
-  public func catalogue() : J {
-    #arr(Array.map<(Text, Text), J>(FormsSeed.FORMS, func((_, t)) {
+  public func catalogue(ff : FirmForms.State) : J {
+    #arr(Array.map<(Text, Text), J>(all(ff), func((id, t)) {
       let f = parse(t);
       #obj([
         ("id", get(f, "id")), ("number", get(f, "number")), ("kind", get(f, "kind")), ("phase", get(f, "phase")),
         ("title", get(f, "title")), ("purpose", get(f, "purpose")), ("procedures", get(f, "procedures")),
         ("standards", get(f, "standards")), ("ar_status", get(f, "ar_status")),
+        ("firm", #bool(Py.truthy(Json.get(f, "firm")))), ("version", get(f, "version")), ("retired", #bool(FirmForms.isRetired(ff, id))),
       ])
     }))
   };
@@ -127,7 +153,17 @@ module {
     #str(Dec.toText(Dec.money(value, 2)))
   };
 
-  let CLOSED_STATES : [Text] = ["cleared", "closed"];
+  /// A leadsheet's net (debit positive) from the latest accepted trial balance, current or
+  /// prior period, as the mapping records it.
+  func leadsheetNet(s : Engine.State, eng : Nat, id : Text, prior : Bool) : J {
+    let tb = switch (Engine.latestTb(s, eng)) { case (?t) t; case null return #null_ };
+    for (l in Py.list(parse(tb.mapping), "leadsheets").vals()) {
+      if (Py.textOr(l, "leadsheet_id", "") == id) return #str(Dec.toText(Dec.money(Py.decOr(l, if (prior) "prior_net" else "net", "0"), 2)));
+    };
+    #null_
+  };
+
+  let CLOSED_STATES : [Text] = ["cleared", "closed", "booked", "waived"];
 
   func recordsOf(s : Engine.State, eng : Nat, kind : Text) : [J] {
     let out = List.empty<J>();
@@ -158,11 +194,12 @@ module {
   };
 
   /// Resolve one autofill expression against the engagement's current data.
-  func resolve(s : Engine.State, e : Engine.Engagement, expr : Text, values : J) : J {
+  func resolve(s : Engine.State, ff : FirmForms.State, e : Engine.Engagement, expr : Text, values : J) : J {
     let parts = Iter_toArray(Text.split(expr, #char '.'));
     if (parts.size() < 2) return #null_;
     switch (parts[0]) {
       case "engagement" switch (parts[1]) {
+        case "members" #arr(Array.map<(Principal, Engine.Role), J>(e.members, func((p, r)) { #obj([("principal", #str(Principal.toText(p))), ("role", #str(Engine.roleText(r)))]) }));
         case "client" #str(e.client);
         case "period_start" #str(e.periodStart);
         case "period_end" #str(e.periodEnd);
@@ -172,6 +209,15 @@ module {
         case _ #null_;
       };
       case "tb" {
+        // A leadsheet's figure is the adjusted one: the imported net plus the booked
+        // adjusting entries. The prior period, the unadjusted net and the adjustments
+        // alone are read by name.
+        if (parts[1] == "leadsheet" and parts.size() >= 3) {
+          let which = if (parts.size() >= 4) parts[3] else "adjusted";
+          if (which == "prior") return leadsheetNet(s, e.id, parts[2], true);
+          if (which != "adjusted" and which != "unadjusted" and which != "adjustments") return #null_;
+          return Adjustments.leadsheetFigure(s, e.id, parts[2], which);
+        };
         if (parts[1] != "benchmark" or parts.size() < 3) return #null_;
         var name = parts[2];
         if (Text.startsWith(name, #char '{') and Text.endsWith(name, #char '}')) {
@@ -192,6 +238,11 @@ module {
       };
       case "records" {
         let rows = recordsOf(s, e.id, parts[1]);
+        if (parts.size() == 4 and parts[2] == "for") {
+          var n = 0;
+          for (r in rows.vals()) { if (Py.textOr(r, "procedure", "") == parts[3]) n += 1 };
+          return Json.nat(n);
+        };
         if (parts.size() == 3 and parts[2] == "open") {
           var n = 0;
           for (r in rows.vals()) {
@@ -205,6 +256,29 @@ module {
       };
       case "seed" if (parts[1] == "presumed_risks") presumedRisks() else #null_;
       case "disclosures" if (parts[1] == "open") Json.nat(Disclosures.openCount(s, e.id)) else #null_;
+      case "programme" if (parts[1] == "open") Json.nat(Programme.open(s, ff, e.id).size()) else #null_;
+      case "group" if (parts[1] == "components") #arr(Group.components(s, e.id)) else #null_;
+      case "adjustments" switch (parts[1]) {
+        case "open" Json.nat(Adjustments.openCount(s, e.id));
+        case "waived" Json.nat(Adjustments.waivedCount(s, e.id));
+        case "leadsheets" #arr(Py.list(Adjustments.adjusted(s, e.id), "leadsheets"));
+        case _ #null_;
+      };
+      // Another form's effective value: what it was signed on when prepared or beyond, the
+      // value entered otherwise, null when nothing was entered. Never that form's live
+      // values, so a chain of forms cannot read itself.
+      case "form" {
+        if (parts.size() != 3) return #null_;
+        switch (instance(s, e.id, parts[1])) {
+          case null #null_;
+          case (?i) {
+            let vs = parse(i.values);
+            let frozen = get(vs, "_frozen");
+            if (i.status != "draft") { switch (Json.get(frozen, parts[2])) { case (?v) return v; case null {} } };
+            switch (Json.get(vs, parts[2])) { case (?v) v; case null #null_ }
+          };
+        }
+      };
       case _ #null_;
     }
   };
@@ -214,12 +288,19 @@ module {
     loop { switch (it.next()) { case (?x) List.add(out, x); case null return List.toArray(out) } };
   };
 
+  /// A live indicator is a count of open items (procedures, disclosure items, review notes):
+  /// shown live, never frozen, since signing a form is not signing a to-do list and approving
+  /// a form closes procedures itself.
+  func liveOnly(expr : Text) : Bool {
+    expr == "programme.open" or expr == "disclosures.open" or expr == "adjustments.open" or (Text.startsWith(expr, #text "records.") and Text.endsWith(expr, #text ".open"))
+  };
+
   /// Every autofill field's live value.
-  func liveValues(s : Engine.State, e : Engine.Engagement, sp : J, values : J) : [(Text, J)] {
+  func liveValues(s : Engine.State, ff : FirmForms.State, e : Engine.Engagement, sp : J, values : J) : [(Text, J)] {
     let out = List.empty<(Text, J)>();
     for (f in fieldsOf(sp).vals()) {
       switch (Json.get(f, "autofill"), Json.get(f, "default")) {
-        case (?#str(expr), _) List.add(out, (Py.textOr(f, "id", ""), resolve(s, e, expr, values)));
+        case (?#str(expr), _) List.add(out, (Py.textOr(f, "id", ""), resolve(s, ff, e, expr, values)));
         // A field's stated default is its live value: shown until someone enters one, and
         // what preparing freezes if nobody does (a read-only default can be entered by no one).
         case (_, ?d) { if (d != #null_) List.add(out, (Py.textOr(f, "id", ""), d)) };
@@ -305,15 +386,55 @@ module {
 
   /// The form with its definition, stored values, live values, frozen values, the
   /// stale fields, status, version and sign-offs. Clients see no forms.
-  public func view(s : Engine.State, by : Principal, isAdmin : Bool, eng : Nat, formId : Text) : R {
+  public func view(s : Engine.State, ff : FirmForms.State, by : Principal, isAdmin : Bool, eng : Nat, formId : Text) : R {
     let e = switch (Engine.authorise(s, eng, by, isAdmin, [#partner, #manager, #senior, #staff, #eqr], true)) { case (#ok(e)) e; case (#err(m)) return #err(m) };
-    let sp = switch (spec(formId)) { case (?f) f; case null return #err("unknown form " # Py.repr(formId)) };
     let (values, status, version, signoffs) = switch (instance(s, eng, formId)) {
       case (?i) (parse(i.values), i.status, i.version, i.signoffs);
       case null (#obj([]), "not_started", 0, []);
     };
-    let live = liveValues(s, e, sp, values);
+    let sp = switch (specFor(ff, formId, values)) { case (?f) f; case null return #err("unknown form " # Py.repr(formId)) };
+    let live = liveValues(s, ff, e, sp, values);
     let frozen = get(values, "_frozen");
+    let stale = staleOf(live, frozen);
+    // drift: every moved figure with the node it comes from (the graph names the source form
+    // and field; a source outside the graph is the expression's own root)
+    let edges = edgesInto(ff, formId);
+    let drift = List.empty<J>();
+    for (k in stale.vals()) {
+      var src : J = #null_;
+      var via = "";
+      for (f in fieldsOf(sp).vals()) { if (Py.textOr(f, "id", "") == k) via := Py.textOr(f, "autofill", "") };
+      for (ed in edges.vals()) { if (Py.textOr(ed, "to_field", "") == k and Py.textOr(ed, "kind", "") != "declared" and src == #null_) src := #obj([("node", get(ed, "from")), ("field", get(ed, "from_field")), ("kind", get(ed, "kind"))]) };
+      if (src == #null_) { let root = switch (Text.split(via, #char '.').next()) { case (?r) r; case null "" }; src := #obj([("node", #str(root)), ("field", #null_), ("kind", #str(root))]) };
+      var fv : J = #null_;
+      var lv : J = #null_;
+      for ((lk, x) in live.vals()) { if (lk == k) lv := x };
+      switch (Json.get(frozen, k)) { case (?x) fv := x; case null {} };
+      List.add(drift, #obj([("field", #str(k)), ("via", #str(via)), ("source", src), ("frozen", fv), ("live", lv)]));
+    };
+    // upstream: every form this form depends on, with its state now
+    let upstream = List.empty<J>();
+    let seenUp = Map.empty<Text, Bool>();
+    for (ed in edges.vals()) {
+      let from = Py.textOr(ed, "from", "");
+      if (Map.get(seenUp, Text.compare, from) == null and spec(ff, from) != null) {
+        Map.add(seenUp, Text.compare, from, true);
+        let (st, ver) = switch (instance(s, eng, from)) { case (?i) (i.status, i.version); case null ("not_started", 0) };
+        var moved = false;
+        for (k in stale.vals()) { if (Py.textOr(ed, "to_field", "") == k) moved := true };
+        List.add(upstream, #obj([("form", #str(from)), ("field", get(ed, "from_field")), ("status", #str(st)), ("version", Json.nat(ver)), ("kind", get(ed, "kind")), ("drifted", #bool(moved))]));
+      };
+    };
+    #ok(#obj([
+      ("form", sp), ("engagement", Engine.engagementJ(e)), ("status", #str(status)), ("version", Json.nat(version)),
+      ("definition", get(values, "_definition")),
+      ("values", without(without(values, "_frozen"), "_definition")), ("frozen", frozen), ("live", #obj(live)),
+      ("stale", Json.texts(stale)), ("drift", #arr(List.toArray(drift))), ("upstream", #arr(List.toArray(upstream))),
+      ("signoffs", #arr(Array.map<Engine.Signoff, J>(signoffs, signoffJ))),
+    ]))
+  };
+
+  func staleOf(live : [(Text, J)], frozen : J) : [Text] {
     var stale : [Text] = [];
     switch (frozen) {
       case (#obj(kvs)) {
@@ -323,29 +444,199 @@ module {
       };
       case _ {};
     };
-    #ok(#obj([
-      ("form", sp), ("engagement", Engine.engagementJ(e)), ("status", #str(status)), ("version", Json.nat(version)),
-      ("values", without(values, "_frozen")), ("frozen", frozen), ("live", #obj(live)),
-      ("stale", Json.texts(stale)), ("signoffs", #arr(Array.map<Engine.Signoff, J>(signoffs, signoffJ))),
-    ]))
+    stale
+  };
+
+  // ------------------------------------------------------------------ the graph
+
+  func graph() : J { parse(FormGraph.GRAPH) };
+
+  /// The edges of a firm form, derived at read time from its autofill expressions with the
+  /// same rules the generator applies to the product's forms.
+  func firmEdges(ff : FirmForms.State) : [J] {
+    let out = List.empty<J>();
+    for ((id, t) in FirmForms.active(ff).vals()) {
+      let sp = parse(t);
+      for (f in fieldsOf(sp).vals()) {
+        switch (Json.get(f, "autofill")) {
+          case (?#str(expr)) {
+            let parts = Iter_toArray(Text.split(expr, #char '.'));
+            if (parts.size() >= 2 and parts[0] != "engagement") {
+              let fid = Py.textOr(f, "id", "");
+              let (from, fromField, kind) : (Text, J, Text) = switch (parts[0]) {
+                case "form" (parts[1], #str(parts[2]), "form");
+                case "paper" {
+                  var owner = "";
+                  for ((oid, ot) in seeds().vals()) { if (Py.textOr(parse(ot), "computation", "") == parts[1]) owner := oid };
+                  if (owner != "") (owner, #null_, "computed") else ("paper:" # parts[1], #null_, "paper")
+                };
+                case "records" ("records:" # parts[1], #null_, "records");
+                case "tb" ("tb", #null_, "trial_balance");
+                case "seed" ("seed", #null_, "model");
+                case "disclosures" ("disclosures", #null_, "checklist");
+                case "programme" ("programme", #null_, "programme");
+                case "group" ("group", #null_, "group");
+                case "adjustments" ("tb", #null_, "trial_balance");
+                case _ ("", #null_, "");
+              };
+              if (from != "" and from != id) List.add(out, #obj([("from", #str(from)), ("from_field", fromField), ("to", #str(id)), ("to_field", #str(fid)), ("via", #str(expr)), ("kind", #str(kind))]));
+            };
+          };
+          case _ {};
+        };
+      };
+    };
+    List.toArray(out)
+  };
+
+  func allEdges(ff : FirmForms.State) : [J] { Array.concat(Py.list(graph(), "edges"), firmEdges(ff)) };
+
+  func edgesInto(ff : FirmForms.State, formId : Text) : [J] {
+    Array.filter<J>(allEdges(ff), func(ed) { Py.textOr(ed, "to", "") == formId })
+  };
+
+  /// Whether a form applies on the engagement: it does unless it serves at least one procedure
+  /// and every one of them is concluded not applicable.
+  func applicable(sp : J, statuses : Map.Map<Text, Text>) : Bool {
+    let procs = Py.list(sp, "procedures");
+    if (procs.size() == 0) return true;
+    for (p in procs.vals()) { if (Map.get(statuses, Text.compare, Py.scalar(p)) != ?"not_applicable") return true };
+    false
+  };
+
+  /// What stands between the completion form and its approval: every form upstream of it,
+  /// transitively, that applies and is unsigned or drifted. Completion's own moved figures
+  /// count too.
+  public func blocking(s : Engine.State, ff : FirmForms.State, e : Engine.Engagement) : [J] {
+    let edges = allEdges(ff);
+    let statuses = Programme.statusMap(s, ff, e.id);
+    let out = List.empty<J>();
+    let seen = Map.empty<Text, Bool>();
+    let queue = List.empty<Text>();
+    List.add(queue, "F14-COMPLETION");
+    Map.add(seen, Text.compare, "F14-COMPLETION", true);
+    while (List.size(queue) > 0) {
+      let cur = switch (List.removeLast(queue)) { case (?x) x; case null "" };
+      // the node itself
+      switch (spec(ff, cur)) {
+        case (?sp) {
+          if (cur == "F14-COMPLETION" or applicable(sp, statuses)) {
+            let (st, values) = switch (instance(s, e.id, cur)) { case (?i) (i.status, parse(i.values)); case null ("not_started", #obj([])) };
+            if (cur != "F14-COMPLETION" and st != "prepared" and st != "reviewed" and st != "approved") {
+              List.add(out, #obj([("form", #str(cur)), ("status", #str(st)), ("reason", #str("unsigned"))]));
+            } else {
+              let live = liveValues(s, ff, e, sp, values);
+              for (k in staleOf(live, get(values, "_frozen")).vals()) {
+                var src = "";
+                for (ed in edges.vals()) { if (Py.textOr(ed, "to", "") == cur and Py.textOr(ed, "to_field", "") == k and src == "") src := Py.textOr(ed, "from", "") # (switch (Json.get(ed, "from_field")) { case (?#str(f)) "." # f; case _ "" }) };
+                // a figure the form computes for itself has no edge: its source is the expression
+                if (src == "") { for (f in fieldsOf(sp).vals()) { if (Py.textOr(f, "id", "") == k) src := Py.textOr(f, "autofill", "") } };
+                List.add(out, #obj([("form", #str(cur)), ("status", #str(st)), ("reason", #str("drifted")), ("field", #str(k)), ("source", #str(src))]));
+              };
+            };
+          };
+        };
+        case null {};
+      };
+      for (ed in edges.vals()) {
+        if (Py.textOr(ed, "to", "") == cur) {
+          let from = Py.textOr(ed, "from", "");
+          if (Map.get(seen, Text.compare, from) == null and spec(ff, from) != null) { Map.add(seen, Text.compare, from, true); List.add(queue, from) };
+        };
+      };
+    };
+    List.toArray(out)
+  };
+
+  public func readiness(s : Engine.State, ff : FirmForms.State, by : Principal, isAdmin : Bool, eng : Nat) : R {
+    let e = switch (Engine.authorise(s, eng, by, isAdmin, [#partner, #manager, #senior, #staff, #eqr], true)) { case (#ok(e)) e; case (#err(m)) return #err(m) };
+    let b = blocking(s, ff, e);
+    #ok(#obj([("ready", #bool(b.size() == 0)), ("blocking", #arr(b))]))
+  };
+
+  func describe(b : J) : Text {
+    let form = Py.textOr(b, "form", "");
+    if (Py.textOr(b, "reason", "") == "unsigned") form # " is " # Py.textOr(b, "status", "") # " (unsigned)"
+    else form # "." # Py.textOr(b, "field", "") # " drifted from " # Py.textOr(b, "source", "")
+  };
+
+  /// The file map: every form's state and drift on the engagement, the sources, and every
+  /// edge with whether its downstream field has moved.
+  public func fileMap(s : Engine.State, ff : FirmForms.State, by : Principal, isAdmin : Bool, eng : Nat) : R {
+    let e = switch (Engine.authorise(s, eng, by, isAdmin, [#partner, #manager, #senior, #staff, #eqr], true)) { case (#ok(e)) e; case (#err(m)) return #err(m) };
+    let g = graph();
+    let statuses = Programme.statusMap(s, ff, e.id);
+    let staleBy = Map.empty<Text, [Text]>();
+    let nodes = List.empty<J>();
+    for ((id, t) in all(ff).vals()) {
+      let (st, ver, values) = switch (instance(s, e.id, id)) { case (?i) (i.status, i.version, parse(i.values)); case null ("not_started", 0, #obj([])) };
+      let sp = switch (specFor(ff, id, values)) { case (?x) x; case null parse(t) };
+      let stale = if (st == "not_started") [] else staleOf(liveValues(s, ff, e, sp, values), get(values, "_frozen"));
+      Map.add(staleBy, Text.compare, id, stale);
+      List.add(nodes, #obj([
+        ("id", #str(id)), ("kind", #str("form")), ("number", get(sp, "number")), ("phase", get(sp, "phase")), ("title", get(sp, "title")),
+        ("status", #str(st)), ("version", Json.nat(ver)), ("drift", Json.nat(stale.size())), ("applicable", #bool(applicable(sp, statuses))),
+        ("firm", #bool(Py.truthy(Json.get(sp, "firm")))),
+      ]));
+    };
+    for (n in Py.list(g, "nodes").vals()) { if (Py.textOr(n, "kind", "") != "form") List.add(nodes, n) };
+    let edges = Array.map<J, J>(allEdges(ff), func(ed) {
+      let to = Py.textOr(ed, "to", "");
+      let toField = Py.textOr(ed, "to_field", "");
+      var moved = false;
+      switch (Map.get(staleBy, Text.compare, to)) { case (?ks) { for (k in ks.vals()) { if (k == toField) moved := true } }; case null {} };
+      let up = switch (instance(s, e.id, Py.textOr(ed, "from", ""))) { case (?i) i.status; case null "not_started" };
+      switch (ed) { case (#obj(kvs)) #obj(Array.concat(kvs, [("drifted", #bool(moved)), ("upstream_status", #str(up))])); case x x }
+    });
+    #ok(#obj([("engagement", Json.nat(eng)), ("nodes", #arr(List.toArray(nodes))), ("edges", #arr(edges)), ("informs", get(g, "informs"))]))
+  };
+
+  /// Every catalogued form's state on the engagement, for the file index: status, version and
+  /// how many signed figures have moved. Clients see no forms.
+  public func statuses(s : Engine.State, ff : FirmForms.State, by : Principal, isAdmin : Bool, eng : Nat) : R {
+    let e = switch (Engine.authorise(s, eng, by, isAdmin, [#partner, #manager, #senior, #staff, #eqr], true)) { case (#ok(e)) e; case (#err(m)) return #err(m) };
+    let out = List.empty<J>();
+    for ((id, t) in all(ff).vals()) {
+      switch (instance(s, eng, id)) {
+        case null List.add(out, #obj([("form", #str(id)), ("status", #str("not_started")), ("version", Json.nat(0)), ("stale", Json.nat(0))]));
+        case (?i) {
+          let values = parse(i.values);
+          let sp = switch (specFor(ff, id, values)) { case (?x) x; case null parse(t) };
+          let live = liveValues(s, ff, e, sp, values);
+          var stale = 0;
+          switch (get(values, "_frozen")) {
+            case (#obj(kvs)) { for ((k, fv) in kvs.vals()) { for ((lk, lv) in live.vals()) { if (lk == k and Json.toText(lv) != Json.toText(fv)) stale += 1 } } };
+            case _ {};
+          };
+          List.add(out, #obj([("form", #str(id)), ("status", #str(i.status)), ("version", Json.nat(i.version)), ("stale", Json.nat(stale))]));
+        };
+      };
+    };
+    #ok(#arr(List.toArray(out)))
   };
 
   /// Save the form's values (a whole new value set). Saving a prepared or reviewed
   /// form returns it to draft and clears its sign-offs; an approved form refuses.
   /// Input: {values}.
-  public func save(s : Engine.State, by : Principal, isAdmin : Bool, at : Int, eng : Nat, formId : Text, inp : J) : R {
-    ignore switch (Engine.authorise(s, eng, by, isAdmin, Engine.PREPARERS, false)) { case (#ok(e)) e; case (#err(m)) return #err(m) };
-    let sp = switch (spec(formId)) { case (?f) f; case null return #err("unknown form " # Py.repr(formId)) };
+  public func save(s : Engine.State, ff : FirmForms.State, by : Principal, isAdmin : Bool, at : Int, eng : Nat, formId : Text, inp : J) : R {
+    let existing = instance(s, eng, formId);
+    let sp = switch (specFor(ff, formId, switch (existing) { case (?i) parse(i.values); case null #obj([]) })) { case (?f) f; case null return #err("unknown form " # Py.repr(formId)) };
+    switch (existing) { case null { if (FirmForms.isRetired(ff, formId)) return #err("the firm has retired " # formId # "; no new instance is started") }; case (?_) {} };
+    // the preparing roles of the file, and any role the form itself names as a preparer (the
+    // quality reviewer fills the quality review)
+    var allowed = Engine.PREPARERS;
+    for (r in rolesOf(sp, "prepare").vals()) { switch (Engine.roleOf(r)) { case (?role) allowed := Array.concat(allowed, [role]); case null {} } };
+    ignore switch (Engine.authorise(s, eng, by, isAdmin, allowed, false)) { case (#ok(e)) e; case (#err(m)) return #err(m) };
     let values = get(inp, "values");
     let kvs = switch (values) { case (#obj(kvs)) kvs; case _ return #err("values must be an object") };
     for ((k, v) in kvs.vals()) {
-      if (k == "_frozen") return #err("frozen values are set by signing, never by saving");
+      if (k == "_frozen" or k == "_definition") return #err("frozen values and the definition stamp are set by signing, never by saving");
       switch (fieldById(sp, k)) {
         case null return #err("unknown field " # Py.repr(k));
         case (?f) switch (valueProblem(f, v)) { case (?p) return #err(p); case null {} };
       };
     };
-    let inst = switch (instance(s, eng, formId)) {
+    let inst = switch (existing) {
       case (?i) i;
       case null {
         let i : Engine.FormInstance = { engagementId = eng; formId; var version = 0; var values = "{}"; var status = "draft"; var signoffs = []; var updatedBy = by; var updatedAt = at; var contentHash = "" };
@@ -355,7 +646,10 @@ module {
     };
     if (inst.status == "approved") return #err("an approved form is locked; a partner must reopen it with a reason");
     let cleared = inst.signoffs.size() > 0;
-    inst.values := Json.toText(values);
+    // a firm form instance keeps the definition it was prepared under across saves; a draft never prepared follows the latest
+    let stamp = get(parse(inst.values), "_definition");
+    let values2 = if (stamp == #null_) values else (switch (values) { case (#obj(kvs2)) #obj(Array.concat(kvs2, [("_definition", stamp)])); case v v });
+    inst.values := Json.toText(values2);
     inst.status := "draft";
     inst.signoffs := [];
     inst.version += 1;
@@ -376,13 +670,13 @@ module {
   /// Sign the form at a stage: "prepare", "review", "eqr" or "approve", at the date and
   /// time `signedOn` stated by the signer (YYYY-MM-DDTHH:MM, not earlier than the
   /// file's latest).
-  public func sign(s : Engine.State, by : Principal, at : Int, eng : Nat, formId : Text, stage : Text, signedOn : Text) : R {
+  public func sign(s : Engine.State, ff : FirmForms.State, by : Principal, at : Int, eng : Nat, formId : Text, stage : Text, signedOn : Text) : R {
     let e = switch (Engine.engagement(s, eng)) { case (#ok(e)) e; case (#err(m)) return #err(m) };
     if (e.status == "assembled") return #err("the engagement file is assembled; changes need a post-assembly change record");
     switch (Engine.statedDateProblem(e, signedOn)) { case (?p) return #err(p); case null {} };
     let role = switch (Engine.memberRole(e, by)) { case (?r) Engine.roleText(r); case null return #err("not permitted: only an engagement member signs") };
-    let sp = switch (spec(formId)) { case (?f) f; case null return #err("unknown form " # Py.repr(formId)) };
     let i = switch (instance(s, eng, formId)) { case (?i) i; case null return #err("the form has not been started") };
+    let sp = switch (specFor(ff, formId, parse(i.values))) { case (?f) f; case null return #err("unknown form " # Py.repr(formId)) };
     let target = "form:" # formId;
     switch (stage) {
       case "prepare" {
@@ -390,7 +684,7 @@ module {
         if (not contains(rolesOf(sp, "prepare"), role)) return #err("not permitted: a " # role # " does not prepare this form");
         if (Json.has(parse(i.values), "_carried")) return #err("this form was carried forward from the prior period: review its values and save it before preparing it");
         var values = parse(i.values);
-        let live = liveValues(s, e, sp, values);
+        let live = liveValues(s, ff, e, sp, values);
         for (f in fieldsOf(sp).vals()) {
           let id = Py.textOr(f, "id", "");
           var v = get(values, id);
@@ -398,7 +692,21 @@ module {
           switch (requiredProblem(f, v)) { case (?p) return #err("cannot prepare: " # p); case null {} };
         };
         let kvs = switch (values) { case (#obj(kvs)) kvs; case _ [] };
-        values := #obj(Array.concat(Array.filter<(Text, J)>(kvs, func((k, _)) { k != "_frozen" }), [("_frozen", #obj(live))]));
+        // a firm form is stamped with the exact definition it is prepared under (id, version, SHA-256)
+        let stampKv : [(Text, J)] = if (Py.truthy(Json.get(sp, "firm"))) {
+          switch (Json.get(values, "_definition")) {
+            case (?d) [("_definition", d)];
+            case null { switch (FirmForms.latestStamp(ff, formId)) { case (?d) [("_definition", d)]; case null [] } };
+          }
+        } else [];
+        // the frozen figures: every live value but the live indicators
+        var frozenKvs : [(Text, J)] = [];
+        for ((k, v) in live.vals()) {
+          var expr = "";
+          for (f in fieldsOf(sp).vals()) { if (Py.textOr(f, "id", "") == k) expr := Py.textOr(f, "autofill", "") };
+          if (not liveOnly(expr)) frozenKvs := Array.concat(frozenKvs, [(k, v)]);
+        };
+        values := #obj(Array.concat(Array.filter<(Text, J)>(kvs, func((k, _)) { k != "_frozen" and k != "_definition" }), Array.concat([("_frozen", #obj(frozenKvs))], stampKv)));
         i.values := Json.toText(values);
         i.status := "prepared";
         i.signoffs := Array.concat(i.signoffs, [{ role = "preparer"; by; at; on = signedOn; version = i.version }]);
@@ -434,6 +742,14 @@ module {
           // the disclosure checklist is closed before completion is approved (ISA 700.13)
           let openD = Disclosures.openCount(s, eng);
           if (openD > 0) return #err("the disclosure checklist has " # Nat.toText(openD) # " applicable item(s) not yet disclosed or answered");
+          // nothing upstream is unsigned or drifted: every form completion depends on, transitively
+          let b = blocking(s, ff, e);
+          if (b.size() > 0) {
+            var first = "";
+            var n = 0;
+            for (x in b.vals()) { if (n < 6) first #= (if (n == 0) "" else "; ") # describe(x); n += 1 };
+            return #err("completion cannot be approved: " # Nat.toText(b.size()) # " item(s) upstream: " # first # (if (b.size() > 6) "; …" else ""));
+          };
         };
         i.status := "approved";
         i.signoffs := Array.concat(i.signoffs, [{ role = "engagement_partner"; by; at; on = signedOn; version = i.version }]);
@@ -463,7 +779,7 @@ module {
     if (cs.size() < 10) at else Text.fromArray(Array.tabulate<Char>(10, func(i) { cs[i] }))
   };
 
-  public func assembleFile(s : Engine.State, by : Principal, isAdmin : Bool, at : Int, eng : Nat, reportDate : Text, assembledOn : Text) : R {
+  public func assembleFile(s : Engine.State, ff : FirmForms.State, by : Principal, isAdmin : Bool, at : Int, eng : Nat, reportDate : Text, assembledOn : Text) : R {
     let e = switch (Engine.authorise(s, eng, by, isAdmin, [#partner], false)) { case (#ok(e)) e; case (#err(m)) return #err(m) };
     if (e.status != "completion") return #err("the file is assembled at completion; the engagement is at " # e.status);
     let completion = switch (instance(s, eng, "F14-COMPLETION")) {
@@ -484,7 +800,7 @@ module {
       return #err("the group audit is not closed: " # Nat.toText(openG.size()) # " component(s) without sufficient evidence (" # first # ")");
     };
     // the audit programme is closed first: every applicable procedure has a reviewed conclusion
-    let open = Programme.open(s, eng);
+    let open = Programme.open(s, ff, eng);
     if (open.size() > 0) {
       var first = "";
       var i = 0;

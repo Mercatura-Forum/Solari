@@ -1,23 +1,19 @@
+# Deployment manifest. Replace every placeholder with your own network before deploying;
+# the values are yours, not this repository's.
 [project]
 name = "solari-registry"
 default_network = "wan"
-chain_id = 2026
+chain_id = 0                       # your network's chain id
 
 [networks.wan]
-gateway = "https://memphis.mercaturaforum.com"
-validators = [
-    "https://memphis.mercaturaforum.com/deploy-api/v0",
-    "https://memphis.mercaturaforum.com/deploy-api/v1",
-    "https://memphis.mercaturaforum.com/deploy-api/v2",
-    "https://memphis.mercaturaforum.com/deploy-api/v3",
-]
-boundary = "https://memphis.mercaturaforum.com"
+# one entry per validator of the network you deploy to
+validators = ["https://<validator>/deploy-api"]
+boundary = "https://<thebes-gateway>"
 routing = "smart"
 
 [canisters.registry]
 type = "backend-motoko"
-cid = "auto"
+cid = "auto"                      # or the id of the contract you deploy onto
+identity = "<your-identity>"
 wasm = "../build/registry.wasm"
-source = "../motoko/registry/main.mo"
 build = "cd ../motoko && ${MOC:-moc} --legacy-persistence $(mops sources) -o ../build/registry.wasm registry/main.mo"
-init = "()"

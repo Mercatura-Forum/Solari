@@ -14,7 +14,7 @@ from cryptography.hazmat.primitives import hashes, serialization
 from cryptography.hazmat.primitives.asymmetric import ec
 
 OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'motoko', 'test', 'Signing.test.mo')
-CONTRACT, ORIGIN, RP = 'test-contract', 'https://memphis.mercaturaforum.com', 'memphis.mercaturaforum.com'
+CONTRACT, ORIGIN, RP = 'test-contract', 'https://<thebes-gateway>', '<thebes-gateway>'
 DOC = hashlib.sha256(b'representation letter, 31 December 2025').hexdigest()
 TARGET = 'evidence:7'
 

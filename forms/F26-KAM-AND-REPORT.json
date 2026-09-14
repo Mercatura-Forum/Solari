@@ -1,0 +1,490 @@
+{
+ "id": "F26-KAM-AND-REPORT",
+ "number": 26,
+ "kind": "worksheet",
+ "phase": "completion",
+ "title": {
+  "en": "Key audit matters and the auditor's report",
+  "ar": "الأمور الرئيسة للمراجعة وتقرير المراجع"
+ },
+ "purpose": {
+  "en": "Form the opinion from the conclusions of the file, determine the key audit matters, draft the report, and record the response to facts that become known after the report date.",
+  "ar": "تكوين الرأي من استنتاجات الملف، وتحديد الأمور الرئيسة للمراجعة، وصياغة التقرير، وتوثيق الاستجابة للحقائق التي تُعرف بعد تاريخ التقرير."
+ },
+ "procedures": [
+  "P-FSL-045",
+  "P-FSL-046",
+  "P-FSL-053",
+  "P-FSL-055"
+ ],
+ "standards": [
+  "ISA-700",
+  "ISA-701",
+  "ISA-705",
+  "ISA-706",
+  "ISA-560",
+  "ISA-570",
+  "ISA-800",
+  "ISA-805",
+  "ISA-810"
+ ],
+ "sections": [
+  {
+   "id": "engagement",
+   "title": {
+    "en": "Engagement",
+    "ar": "الارتباط"
+   },
+   "fields": [
+    {
+     "id": "client",
+     "label": {
+      "en": "Entity audited",
+      "ar": "المنشأة محل المراجعة"
+     },
+     "type": "text",
+     "required": false,
+     "autofill": "engagement.client",
+     "readonly": true
+    },
+    {
+     "id": "period_start",
+     "label": {
+      "en": "Period from",
+      "ar": "الفترة من"
+     },
+     "type": "date",
+     "required": false,
+     "autofill": "engagement.period_start",
+     "readonly": true
+    },
+    {
+     "id": "period_end",
+     "label": {
+      "en": "Period to",
+      "ar": "الفترة إلى"
+     },
+     "type": "date",
+     "required": false,
+     "autofill": "engagement.period_end",
+     "readonly": true
+    },
+    {
+     "id": "framework",
+     "label": {
+      "en": "Financial reporting framework",
+      "ar": "إطار التقرير المالي"
+     },
+     "type": "text",
+     "required": false,
+     "autofill": "engagement.framework",
+     "readonly": true
+    }
+   ]
+  },
+  {
+   "id": "basis",
+   "title": {
+    "en": "The conclusions the opinion rests on",
+    "ar": "الاستنتاجات التي يقوم عليها الرأي"
+   },
+   "fields": [
+    {
+     "id": "going_concern_conclusion",
+     "label": {
+      "en": "Going concern conclusion",
+      "ar": "استنتاج الاستمرارية"
+     },
+     "type": "text",
+     "required": false,
+     "autofill": "form.F09-GOING-CONCERN.conclusion",
+     "readonly": true
+    },
+    {
+     "id": "misstatement_conclusion",
+     "label": {
+      "en": "Misstatement evaluation",
+      "ar": "تقييم التحريفات"
+     },
+     "type": "text",
+     "required": false,
+     "autofill": "form.F10-MISSTATEMENTS.conclusion",
+     "readonly": true
+    },
+    {
+     "id": "uncorrected",
+     "label": {
+      "en": "Uncorrected misstatements, effect on profit",
+      "ar": "التحريفات غير المصححة، الأثر على الربح"
+     },
+     "type": "money",
+     "required": false,
+     "autofill": "paper.aggregation.uncorrected.profit",
+     "readonly": true
+    },
+    {
+     "id": "subsequent_events",
+     "label": {
+      "en": "Subsequent events conclusion",
+      "ar": "استنتاج الأحداث اللاحقة"
+     },
+     "type": "text",
+     "required": false,
+     "autofill": "form.F11-SUBSEQUENT-EVENTS.conclusion",
+     "readonly": true
+    },
+    {
+     "id": "open_procedures",
+     "label": {
+      "en": "Procedures of the programme still open",
+      "ar": "إجراءات البرنامج التي لا تزال مفتوحة"
+     },
+     "type": "integer",
+     "required": false,
+     "autofill": "programme.open",
+     "readonly": true
+    },
+    {
+     "id": "open_disclosures",
+     "label": {
+      "en": "Disclosure checklist items still open",
+      "ar": "بنود قائمة الإفصاحات التي لا تزال مفتوحة"
+     },
+     "type": "integer",
+     "required": false,
+     "autofill": "disclosures.open",
+     "readonly": true
+    }
+   ],
+   "note": {
+    "en": "These figures are read from the forms and papers they come from and frozen when this form is prepared; a change upstream marks them as drifted.",
+    "ar": "تُقرأ هذه الأرقام من النماذج والأوراق التي تأتي منها وتُثبت عند إعداد هذا النموذج؛ وأي تغيير في المصدر يسمها بأنها تغيرت."
+   }
+  },
+  {
+   "id": "kam",
+   "title": {
+    "en": "Key audit matters",
+    "ar": "الأمور الرئيسة للمراجعة"
+   },
+   "fields": [
+    {
+     "id": "listed",
+     "label": {
+      "en": "Key audit matters are communicated (listed entity or required by law or engagement terms)",
+      "ar": "يتم الإبلاغ عن الأمور الرئيسة للمراجعة (منشأة مدرجة أو مطلوب بموجب القانون أو شروط الارتباط)"
+     },
+     "type": "select",
+     "required": true,
+     "options": [
+      {
+       "value": "yes",
+       "label": {
+        "en": "Yes",
+        "ar": "نعم"
+       }
+      },
+      {
+       "value": "no",
+       "label": {
+        "en": "No",
+        "ar": "لا"
+       }
+      },
+      {
+       "value": "na",
+       "label": {
+        "en": "Not applicable",
+        "ar": "لا ينطبق"
+       }
+      }
+     ]
+    },
+    {
+     "id": "candidates",
+     "label": {
+      "en": "Matters communicated to those charged with governance that required significant attention",
+      "ar": "الأمور المبلغة للمكلفين بالحوكمة والتي تطلبت اهتمامًا كبيرًا"
+     },
+     "type": "table",
+     "required": false,
+     "columns": [
+      {
+       "id": "matter",
+       "label": {
+        "en": "Matter",
+        "ar": "الأمر"
+       },
+       "type": "text",
+       "required": true
+      },
+      {
+       "id": "why",
+       "label": {
+        "en": "Why it was of most significance",
+        "ar": "لماذا كان من أكثر الأمور أهمية"
+       },
+       "type": "textarea",
+       "required": true
+      },
+      {
+       "id": "how",
+       "label": {
+        "en": "How it was addressed in the audit",
+        "ar": "كيف تمت معالجته في المراجعة"
+       },
+       "type": "textarea",
+       "required": true
+      },
+      {
+       "id": "kam",
+       "label": {
+        "en": "Key audit matter",
+        "ar": "أمر رئيس للمراجعة"
+       },
+       "type": "yesno",
+       "required": true
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "report",
+   "title": {
+    "en": "The report",
+    "ar": "التقرير"
+   },
+   "fields": [
+    {
+     "id": "opinion",
+     "label": {
+      "en": "Opinion",
+      "ar": "الرأي"
+     },
+     "type": "select",
+     "required": true,
+     "options": [
+      {
+       "value": "unmodified",
+       "label": {
+        "en": "Unmodified",
+        "ar": "غير معدل"
+       }
+      },
+      {
+       "value": "qualified",
+       "label": {
+        "en": "Qualified",
+        "ar": "متحفظ"
+       }
+      },
+      {
+       "value": "adverse",
+       "label": {
+        "en": "Adverse",
+        "ar": "معارض"
+       }
+      },
+      {
+       "value": "disclaimer",
+       "label": {
+        "en": "Disclaimer of opinion",
+        "ar": "امتناع عن إبداء الرأي"
+       }
+      }
+     ]
+    },
+    {
+     "id": "basis_for_modification",
+     "label": {
+      "en": "Basis for any modification",
+      "ar": "أساس أي تعديل"
+     },
+     "type": "textarea",
+     "required": false
+    },
+    {
+     "id": "material_uncertainty",
+     "label": {
+      "en": "Material uncertainty related to going concern paragraph",
+      "ar": "فقرة عدم التأكد الجوهري المتعلق بالاستمرارية"
+     },
+     "type": "select",
+     "required": true,
+     "options": [
+      {
+       "value": "yes",
+       "label": {
+        "en": "Yes",
+        "ar": "نعم"
+       }
+      },
+      {
+       "value": "no",
+       "label": {
+        "en": "No",
+        "ar": "لا"
+       }
+      },
+      {
+       "value": "na",
+       "label": {
+        "en": "Not applicable",
+        "ar": "لا ينطبق"
+       }
+      }
+     ]
+    },
+    {
+     "id": "emphasis",
+     "label": {
+      "en": "Emphasis of matter and other matter paragraphs",
+      "ar": "فقرات لفت الانتباه وفقرات أمور أخرى"
+     },
+     "type": "textarea",
+     "required": false
+    },
+    {
+     "id": "framework_kind",
+     "label": {
+      "en": "Kind of engagement",
+      "ar": "نوع الارتباط"
+     },
+     "type": "select",
+     "required": true,
+     "options": [
+      {
+       "value": "general",
+       "label": {
+        "en": "General purpose financial statements",
+        "ar": "قوائم مالية ذات غرض عام"
+       }
+      },
+      {
+       "value": "special",
+       "label": {
+        "en": "Special purpose framework",
+        "ar": "إطار ذو غرض خاص"
+       }
+      },
+      {
+       "value": "single",
+       "label": {
+        "en": "Single financial statement or element",
+        "ar": "قائمة مالية واحدة أو عنصر"
+       }
+      },
+      {
+       "value": "summary",
+       "label": {
+        "en": "Summary financial statements",
+        "ar": "قوائم مالية ملخصة"
+       }
+      }
+     ]
+    },
+    {
+     "id": "draft",
+     "label": {
+      "en": "Report drafted and reviewed against the file",
+      "ar": "تمت صياغة التقرير وفحصه مقابل الملف"
+     },
+     "type": "select",
+     "required": true,
+     "options": [
+      {
+       "value": "yes",
+       "label": {
+        "en": "Yes",
+        "ar": "نعم"
+       }
+      },
+      {
+       "value": "no",
+       "label": {
+        "en": "No",
+        "ar": "لا"
+       }
+      },
+      {
+       "value": "na",
+       "label": {
+        "en": "Not applicable",
+        "ar": "لا ينطبق"
+       }
+      }
+     ]
+    },
+    {
+     "id": "report_date",
+     "label": {
+      "en": "Date of the auditor's report",
+      "ar": "تاريخ تقرير المراجع"
+     },
+     "type": "date",
+     "required": true
+    }
+   ]
+  },
+  {
+   "id": "after",
+   "title": {
+    "en": "Facts that become known after the report date",
+    "ar": "الحقائق التي تُعرف بعد تاريخ التقرير"
+   },
+   "fields": [
+    {
+     "id": "facts",
+     "label": {
+      "en": "Facts known after the report date",
+      "ar": "حقائق عُرفت بعد تاريخ التقرير"
+     },
+     "type": "select",
+     "required": true,
+     "options": [
+      {
+       "value": "none",
+       "label": {
+        "en": "None",
+        "ar": "لا يوجد"
+       }
+      },
+      {
+       "value": "yes",
+       "label": {
+        "en": "Yes, recorded below",
+        "ar": "نعم، مسجلة أدناه"
+       }
+      }
+     ]
+    },
+    {
+     "id": "facts_response",
+     "label": {
+      "en": "Nature, discussion with management, effect on the statements and on the report, and action taken",
+      "ar": "الطبيعة والمناقشة مع الإدارة والأثر على القوائم وعلى التقرير والإجراء المتخذ"
+     },
+     "type": "textarea",
+     "required": false
+    }
+   ]
+  }
+ ],
+ "signoff": {
+  "prepare": [
+   "partner",
+   "manager"
+  ],
+  "review": [
+   "partner",
+   "manager"
+  ],
+  "approve": [
+   "partner"
+  ],
+  "eqr": true
+ },
+ "version": 1,
+ "ar_status": "draft_pending_review"
+}

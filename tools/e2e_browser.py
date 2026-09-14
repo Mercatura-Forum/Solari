@@ -30,7 +30,7 @@ WEB, AUDIT, OUT = sys.argv[1], int(sys.argv[2]), sys.argv[3]
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(HERE)
 TD = os.environ.get('THEBES_DEPLOY', 'thebes-deploy')
-URL = f'https://memphis.mercaturaforum.com/_/raw/{WEB}/index.html'
+URL = f'https://<thebes-gateway>/_/raw/{WEB}/index.html'
 FIXTURE = os.environ.get('TB_FIXTURE', f'{ROOT}/../thebes-audit-standards/adapters/fixtures/spreadsheet-basic.csv')
 os.makedirs(OUT, exist_ok=True)
 
@@ -60,7 +60,7 @@ def authenticator(ctx, page):
         try:
             # the signing passkey is harvested without its rpId (it is minted on the app origin,
             # not in the Memphis popup); the authenticator needs one to hold it
-            s.send('WebAuthn.addCredential', {'authenticatorId': aid, 'credential': {**c, 'rpId': c.get('rpId') or 'memphis.mercaturaforum.com'}})
+            s.send('WebAuthn.addCredential', {'authenticatorId': aid, 'credential': {**c, 'rpId': c.get('rpId') or '<thebes-gateway>'}})
         except Exception as e:
             print('  note  could not import a saved passkey:', str(e)[:120], flush=True)
     authenticators.append((s, aid))
@@ -244,7 +244,7 @@ def main():
         shot(pg, '03-engagement')
 
         # ── import the trial balance ───────────────────────────────────────
-        pg.get_by_role('button', name='Trial balance').click()
+        pg.get_by_role('link', name='Trial balance').click()
         pg.locator('input[type=file]').set_input_files(FIXTURE)
         pg.get_by_role('button', name='Import', exact=True).click()
         try:
@@ -258,7 +258,7 @@ def main():
         shot(pg, '04-trial-balance')
 
         # ── a working paper ────────────────────────────────────────────────
-        pg.get_by_role('button', name='Working papers').click()
+        pg.get_by_role('link', name='Working papers').click()
         pg.get_by_role('button', name='Compute', exact=True).click()
         try:
             pg.locator('text=/^#\\d+ · /').first.wait_for(timeout=120000)
@@ -268,7 +268,7 @@ def main():
         shot(pg, '05-paper')
 
         # ── a review note, tracked to clearance ─────────────────────────────
-        pg.get_by_role('button', name='Records').click()
+        pg.get_by_role('link', name='Records').click()
         pg.get_by_role('button', name=re.compile(r'^All \(')).first.click()
         note_text = f'Explain the movement in revenue ({handle[10:16]}-{RUN})'
         pg.get_by_placeholder('Note').fill(note_text)
@@ -290,10 +290,11 @@ def main():
         shot(pg, '05b-review-note')
 
         # ── the forms ──────────────────────────────────────────────────────
-        pg.get_by_role('button', name='Forms').click()
-        pg.locator('a[href*="/f/F14-COMPLETION"]').wait_for(timeout=60000)
-        row('the fourteen forms are listed', pg.locator('a[href*="/f/F"]').count() == 14, pg.locator('a[href*="/f/F"]').count())
-        pg.locator('a[href*="/f/F06-MATERIALITY"]').click()
+        pg.goto(pg.url.split('#')[0] + '#/e/' + pg.url.split('/e/')[1].split('/')[0] + '/forms', wait_until='load')
+        pg.locator('a[href*="/f/F14-COMPLETION"]').first.wait_for(timeout=60000)
+        n_forms = pg.locator('a[href*="/f/F"]').count()
+        row('every form of the catalogue is listed (38 product forms, once in the list and once in the rail)', n_forms >= 38, n_forms)
+        pg.locator('a[href*="/f/F06-MATERIALITY"]').first.click()
         pg.get_by_role('button', name='Word').wait_for(timeout=60000)
         live = pg.locator('text=/^live: /i').all_inner_texts()
         row('the materiality form is pre-filled with the engagement', any('2025' in t for t in live), live[:4])
@@ -301,7 +302,7 @@ def main():
 
         # Fill it as an auditor does. The trial-balance amount is derived from the saved
         # benchmark, so it appears after the first save; preparing freezes it.
-        pg.get_by_label('Benchmark', exact=True).select_option('revenue')
+        pg.locator('#f-benchmark').select_option('revenue')
         pg.get_by_label('Percentage applied').fill('1')
         pg.get_by_label('Why this benchmark and percentage').fill('Revenue is the stable measure users of these statements follow; 1% is within the firm range for a trading company.')
         pg.get_by_label('Performance materiality factor').select_option('0.75')
@@ -361,10 +362,10 @@ def main():
 
         # ── the trail ──────────────────────────────────────────────────────
         pg.go_back()
-        pg.get_by_role('button', name='Trail').wait_for(timeout=60000)
+        pg.get_by_role('link', name='Trail').wait_for(timeout=60000)
 
         # ── the financial statements, drawn from the trial balance ─────────
-        pg.get_by_role('button', name='Statements', exact=True).click()
+        pg.get_by_role('link', name='Statements', exact=True).click()
         try:
             pg.get_by_role('heading', name=re.compile('^Statement of financial position')).wait_for(timeout=120000)
             pg.get_by_text('Total assets', exact=True).wait_for(timeout=60000)
@@ -378,7 +379,7 @@ def main():
         shot(pg, '08a-statements')
 
         # ── a group audit component, checked against group materiality ─────
-        pg.get_by_role('button', name='Group', exact=True).click()
+        pg.get_by_role('link', name='Group', exact=True).click()
         try:
             pg.get_by_role('heading', name='Components').wait_for(timeout=60000)
             pg.get_by_label('Component', exact=True).fill('Delta Mills')
@@ -397,7 +398,7 @@ def main():
         shot(pg, '08b-group')
 
         # ── evidence: encrypted in the browser, stored on the chain, read back exactly ──
-        pg.get_by_role('button', name='Evidence', exact=True).click()
+        pg.get_by_role('link', name='Evidence', exact=True).click()
         csv_name = os.path.basename(FIXTURE)
         pdf_path = os.path.join(OUT, 'F06-en.pdf')
         idle = '() => !document.querySelector("[role=status]")'
@@ -446,7 +447,7 @@ def main():
         shot(pg, '08c-evidence')
 
         # ── the whole journal population, in parts, reconciled and screened on the contract ──
-        pg.get_by_role('button', name='Journals', exact=True).click()
+        pg.get_by_role('link', name='Journals', exact=True).click()
         try:
             pg.get_by_role('heading', name=re.compile('^Journal-entry population')).wait_for(timeout=60000)
             fx = json.load(open(os.path.join(os.path.dirname(FIXTURE), 'journal-population.json')))['lines']
@@ -466,7 +467,7 @@ def main():
             pop_row = pg.locator('tr', has_text='screened').first
             pop_row.wait_for(timeout=120000)
             row('the whole journal population is imported in parts, reconciled and screened on the contract', f'{len(fx)} lines' in pop_row.inner_text(), error_line(pg) or pop_row.inner_text()[:200])
-            pg.get_by_role('button', name='Working papers').click()
+            pg.get_by_role('link', name='Working papers').click()
             # the paper titles read '#<id> · journal_screen · P-FSL-034'; the Compute list also holds
             # a hidden option with that name, which must not be the element waited on
             pg.locator('text=/#\\d+ · journal_screen/').first.wait_for(timeout=120000)
@@ -479,7 +480,7 @@ def main():
         # ── exchange rates through HTTP outcalls: each source agreed by the validators, then reduced ──
         RATES = "today's exchange rate is fetched through outcalls, agreed by the validators and kept as a working paper"
         try:
-            pg.get_by_role('button', name='Rates', exact=True).click()
+            pg.get_by_role('link', name='Rates', exact=True).click()
             pg.get_by_role('heading', name=re.compile('^Exchange rates')).wait_for(timeout=60000)
             pg.get_by_label('Rate as of').select_option('today')
             pg.get_by_role('button', name='Fetch the rates').click()
@@ -494,13 +495,13 @@ def main():
         # ── the client's books pulled from Odoo through outcalls at quorum, screened as a population ──
         # Needs ODOO_DEMO: a JSON file { host, database, ro_api_key } for a demo.odoo.com database
         # (tools/odoo_connector_oracle.py documents the flow); skipped, and said so, without it.
-        PULL = "the client's books are pulled from Odoo at full quorum, fingerprinted on the chain, reconciled to Odoo's balances and screened"
+        PULL = "the client's books are pulled from Odoo at quorum 4, fingerprinted on the chain, reconciled to Odoo's balances and screened"
         odoo = os.environ.get('ODOO_DEMO')
         pulled_population = 0
         if odoo:
             try:
                 info = json.load(open(odoo))
-                pg.get_by_role('button', name='Connectors', exact=True).click()
+                pg.get_by_role('link', name='Connectors', exact=True).click()
                 pg.get_by_role('heading', name=re.compile('^Pull the client')).wait_for(timeout=60000)
                 pg.get_by_label('Odoo address (https://…)', exact=True).fill(info['host'])
                 pg.get_by_label('Database', exact=True).fill(info['database'])
@@ -538,7 +539,7 @@ def main():
                 pg.get_by_role('button', name='Keep the agreed pages as evidence').first.click()
                 pg.locator('text=/\\d+ pages kept as evidence/').first.wait_for(timeout=600000)
                 row('the agreed raw pages are kept as encrypted evidence documents', True)
-                pg.get_by_role('button', name='Working papers').click()
+                pg.get_by_role('link', name='Working papers').click()
                 pg.locator('text=/connector_pull/').first.wait_for(timeout=60000)
                 row('the pull is a working paper (connector_pull) beside the completeness and screening papers', pg.locator('text=/connector_pull/').count() >= 1)
             except Exception as e:
@@ -558,7 +559,7 @@ def main():
             try:
                 man = json.load(open(os.path.join(rb, 'manifest.json')))
                 spki_fp = hashlib.sha256(__import__('base64').b64decode(open(os.path.join(rb, 'manifest.spki')).read().strip())).hexdigest()
-                pg.get_by_role('button', name='Connectors', exact=True).click()
+                pg.get_by_role('link', name='Connectors', exact=True).click()
                 pg.get_by_role('heading', name=re.compile('^Systems on the client')).wait_for(timeout=60000)
                 pg.get_by_label('Agent hostname', exact=True).fill(man['agent'])
                 pg.get_by_label(re.compile('^TLS public-key fingerprint')).fill(spki_fp)
@@ -584,7 +585,7 @@ def main():
                         break
                     time.sleep(5)
                 shot(pg, '08g-route-b-after')
-                pg.get_by_role('button', name='Journals', exact=True).click()
+                pg.get_by_role('link', name='Journals', exact=True).click()
                 rows_ = pg.locator('tr', has_text='screened').filter(has_text=f'{man["lines"]:,} lines')
                 try:
                     rows_.first.wait_for(timeout=120000)
@@ -601,13 +602,13 @@ def main():
         else:
             print('  SKIP  ' + RB + '   (set ROUTE_B to an export directory)', flush=True)
 
-        pg.get_by_role('button', name='Trail').click()
+        pg.get_by_role('link', name='Trail').click()
         pg.get_by_role('button', name='Verify the trail').click()
         try:
             pg.get_by_text('Intact', exact=True).wait_for(timeout=60000)
             row('the hash-chained trail verifies intact', True)
             today = time.strftime('%Y-%m-%d', time.gmtime())
-            pg.get_by_role('button', name='Records').click()
+            pg.get_by_role('link', name='Records').click()
             pg.locator('text=/RK-SIGNOFF/').first.wait_for(timeout=60000)
             signoff = pg.locator('text=/RK-SIGNOFF/').first.inner_text()
             row('the sign-off carries the date the signer stated (today by default)', f'"signed_at":"{today}T' in signoff, signoff[:200])
@@ -700,7 +701,7 @@ def main():
                 row('the Route B paper names the route, the agent, the verified signature and the control totals', bool(rbp) and str((rbp[-1].get('input') or {}).get('route', '')).startswith('B') and (rbp[-1].get('output') or {}).get('signature_verified') is True and (rbp[-1].get('output') or {}).get('control_totals_met') is True, str(rbp)[:300])
             ok3, prob = client.call(AUDIT, 'tak_not-a-key', '/api/v1/engagements')[:2]
             row('an unknown key is refused with RFC 9457 problem details (401)', not ok3 and prob.get('status') == 401, prob)
-            spec = json.loads(urllib.request.urlopen(f'https://memphis.mercaturaforum.com/_/raw/{AUDIT}/api/v1/openapi.json', timeout=60).read())
+            spec = json.loads(urllib.request.urlopen(f'https://<thebes-gateway>/_/raw/{AUDIT}/api/v1/openapi.json', timeout=60).read())
             row('the OpenAPI 3.1 description is served over plain HTTP through the gateway', spec.get('openapi') == '3.1.0' and len(spec.get('paths', {})) >= 10, str(spec)[:160])
             pg.get_by_role('button', name='I have copied it').click()
             pg.locator('li', has_text='e2e reporting tool').get_by_role('button', name='Revoke').click()

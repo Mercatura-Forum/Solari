@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """The outside verifier: every firm the registry knows, checked against the chain.
 
-For each registered firm with a contract: the module hash from EVERY validator of the subnet (the
+For each registered firm with a contract: the module hash from every validator (the
 management interface's canister_status) must be one value, equal to the registry's pin and
 to the hash the registry recorded for the firm; the contract must be running and reachable
 on every validator; its `registryStatus` must name this registry and carry no backlog. The

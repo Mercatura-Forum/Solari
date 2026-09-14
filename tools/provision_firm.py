@@ -9,7 +9,7 @@ the next pass and never leaves a contract the registry does not know about:
      a manifest on disk is the durable record that this firm owns that id;
   2. the pinned release module installed on it (thebes-deploy, chunked,
      --legacy-persistence) — skipped when every validator already reports a module;
-  3. the module hash read from every validator of the subnet must equal the pinned hash;
+  3. the module hash read from every validator must equal the pinned hash;
   4. setMemphisAudience, setRegistry (the installing key, before an owner exists);
   5. nameOwner(the person who redeemed the invitation) — once; a resumed pass reads
      `firmOwner` and refuses to continue if a DIFFERENT owner is already named;

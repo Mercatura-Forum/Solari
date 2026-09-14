@@ -1,0 +1,344 @@
+{
+ "id": "F19-RELATED-PARTIES",
+ "number": 19,
+ "kind": "worksheet",
+ "phase": "fieldwork",
+ "title": {
+  "en": "Related parties",
+  "ar": "الأطراف ذات العلاقة"
+ },
+ "purpose": {
+  "en": "Identify the entity's related parties and relationships, test the transactions and balances with them, and evaluate their accounting and disclosure.",
+  "ar": "تحديد الأطراف ذات العلاقة بالمنشأة وعلاقاتها، واختبار المعاملات والأرصدة معها، وتقييم معالجتها المحاسبية والإفصاح عنها."
+ },
+ "procedures": [
+  "P-FSL-014",
+  "P-FSL-036",
+  "P-REV-014",
+  "P-PAY-007"
+ ],
+ "standards": [
+  "ISA-550",
+  "ISA-330",
+  "ISA-240"
+ ],
+ "sections": [
+  {
+   "id": "engagement",
+   "title": {
+    "en": "Engagement",
+    "ar": "الارتباط"
+   },
+   "fields": [
+    {
+     "id": "client",
+     "label": {
+      "en": "Entity audited",
+      "ar": "المنشأة محل المراجعة"
+     },
+     "type": "text",
+     "required": false,
+     "autofill": "engagement.client",
+     "readonly": true
+    },
+    {
+     "id": "period_start",
+     "label": {
+      "en": "Period from",
+      "ar": "الفترة من"
+     },
+     "type": "date",
+     "required": false,
+     "autofill": "engagement.period_start",
+     "readonly": true
+    },
+    {
+     "id": "period_end",
+     "label": {
+      "en": "Period to",
+      "ar": "الفترة إلى"
+     },
+     "type": "date",
+     "required": false,
+     "autofill": "engagement.period_end",
+     "readonly": true
+    },
+    {
+     "id": "framework",
+     "label": {
+      "en": "Financial reporting framework",
+      "ar": "إطار التقرير المالي"
+     },
+     "type": "text",
+     "required": false,
+     "autofill": "engagement.framework",
+     "readonly": true
+    }
+   ]
+  },
+  {
+   "id": "identification",
+   "title": {
+    "en": "Identification",
+    "ar": "التحديد"
+   },
+   "fields": [
+    {
+     "id": "sources",
+     "label": {
+      "en": "Sources inquired of and records inspected",
+      "ar": "مصادر الاستفسار والسجلات التي تم فحصها"
+     },
+     "type": "table",
+     "required": true,
+     "columns": [
+      {
+       "id": "source",
+       "label": {
+        "en": "Source",
+        "ar": "المصدر"
+       },
+       "type": "text",
+       "required": true
+      },
+      {
+       "id": "date",
+       "label": {
+        "en": "Date",
+        "ar": "التاريخ"
+       },
+       "type": "date",
+       "required": true
+      },
+      {
+       "id": "result",
+       "label": {
+        "en": "Result",
+        "ar": "النتيجة"
+       },
+       "type": "textarea",
+       "required": true
+      }
+     ]
+    },
+    {
+     "id": "register",
+     "label": {
+      "en": "Related parties and relationships",
+      "ar": "الأطراف ذات العلاقة والعلاقات"
+     },
+     "type": "table",
+     "required": true,
+     "columns": [
+      {
+       "id": "party",
+       "label": {
+        "en": "Related party",
+        "ar": "الطرف ذو العلاقة"
+       },
+       "type": "text",
+       "required": true
+      },
+      {
+       "id": "relationship",
+       "label": {
+        "en": "Relationship",
+        "ar": "العلاقة"
+       },
+       "type": "text",
+       "required": true
+      },
+      {
+       "id": "nature",
+       "label": {
+        "en": "Nature of transactions during the period",
+        "ar": "طبيعة المعاملات خلال الفترة"
+       },
+       "type": "textarea",
+       "required": false
+      }
+     ]
+    },
+    {
+     "id": "undisclosed",
+     "label": {
+      "en": "Related parties or transactions identified that management had not disclosed",
+      "ar": "الأطراف أو المعاملات المحددة التي لم تفصح عنها الإدارة"
+     },
+     "type": "textarea",
+     "required": false
+    }
+   ]
+  },
+  {
+   "id": "transactions",
+   "title": {
+    "en": "Transactions and balances",
+    "ar": "المعاملات والأرصدة"
+   },
+   "fields": [
+    {
+     "id": "transactions",
+     "label": {
+      "en": "Significant related-party transactions tested",
+      "ar": "معاملات الأطراف ذات العلاقة المهمة المختبرة"
+     },
+     "type": "table",
+     "required": true,
+     "columns": [
+      {
+       "id": "party",
+       "label": {
+        "en": "Party",
+        "ar": "الطرف"
+       },
+       "type": "text",
+       "required": true
+      },
+      {
+       "id": "transaction",
+       "label": {
+        "en": "Transaction",
+        "ar": "المعاملة"
+       },
+       "type": "text",
+       "required": true
+      },
+      {
+       "id": "amount",
+       "label": {
+        "en": "Amount",
+        "ar": "المبلغ"
+       },
+       "type": "money",
+       "required": true
+      },
+      {
+       "id": "arms_length",
+       "label": {
+        "en": "Terms equivalent to an arm's-length transaction",
+        "ar": "شروط معادلة لمعاملة بين أطراف مستقلة"
+       },
+       "type": "yesno",
+       "required": true
+      },
+      {
+       "id": "authorised",
+       "label": {
+        "en": "Authorised and approved",
+        "ar": "معتمدة ومصرح بها"
+       },
+       "type": "yesno",
+       "required": true
+      },
+      {
+       "id": "disclosed",
+       "label": {
+        "en": "Disclosed",
+        "ar": "مفصح عنها"
+       },
+       "type": "yesno",
+       "required": true
+      }
+     ]
+    },
+    {
+     "id": "balances",
+     "label": {
+      "en": "Balances with related parties at the period end",
+      "ar": "الأرصدة مع الأطراف ذات العلاقة في نهاية الفترة"
+     },
+     "type": "money",
+     "required": false
+    },
+    {
+     "id": "directors_remuneration",
+     "label": {
+      "en": "Directors' remuneration",
+      "ar": "مكافآت أعضاء مجلس الإدارة"
+     },
+     "type": "money",
+     "required": false
+    },
+    {
+     "id": "key_management",
+     "label": {
+      "en": "Key management personnel compensation",
+      "ar": "تعويضات كبار موظفي الإدارة"
+     },
+     "type": "money",
+     "required": false
+    },
+    {
+     "id": "remuneration_evidence",
+     "label": {
+      "en": "Remuneration agreed to minutes, contracts and payroll",
+      "ar": "مطابقة المكافآت مع المحاضر والعقود وكشوف الرواتب"
+     },
+     "type": "textarea",
+     "required": true
+    }
+   ]
+  },
+  {
+   "id": "conclusion",
+   "title": {
+    "en": "Conclusion",
+    "ar": "الاستنتاج"
+   },
+   "fields": [
+    {
+     "id": "conclusion",
+     "label": {
+      "en": "Conclusion",
+      "ar": "الاستنتاج"
+     },
+     "type": "select",
+     "required": true,
+     "options": [
+      {
+       "value": "appropriate",
+       "label": {
+        "en": "Accounted for and disclosed appropriately",
+        "ar": "محاسبة وإفصاح مناسبان"
+       }
+      },
+      {
+       "value": "exceptions",
+       "label": {
+        "en": "Exceptions noted, recorded as misstatements or deficiencies",
+        "ar": "استثناءات ملاحظة ومسجلة كتحريفات أو أوجه قصور"
+       }
+      }
+     ]
+    },
+    {
+     "id": "rationale",
+     "label": {
+      "en": "Rationale",
+      "ar": "المبررات"
+     },
+     "type": "textarea",
+     "required": true
+    }
+   ]
+  }
+ ],
+ "signoff": {
+  "prepare": [
+   "partner",
+   "manager",
+   "senior",
+   "staff"
+  ],
+  "review": [
+   "partner",
+   "manager"
+  ],
+  "approve": [
+   "partner"
+  ]
+ },
+ "version": 1,
+ "ar_status": "draft_pending_review"
+}

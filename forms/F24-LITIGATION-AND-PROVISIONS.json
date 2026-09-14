@@ -1,0 +1,431 @@
+{
+ "id": "F24-LITIGATION-AND-PROVISIONS",
+ "number": 24,
+ "kind": "worksheet",
+ "phase": "fieldwork",
+ "title": {
+  "en": "Litigation, claims and provisions",
+  "ar": "الدعاوى القضائية والمطالبات والمخصصات"
+ },
+ "purpose": {
+  "en": "Identify litigation and claims, obtain and evaluate legal letters, and test the provisions and contingent liabilities recognised or disclosed.",
+  "ar": "تحديد الدعاوى القضائية والمطالبات، والحصول على خطابات المستشارين القانونيين وتقييمها، واختبار المخصصات والالتزامات المحتملة المثبتة أو المفصح عنها."
+ },
+ "procedures": [
+  "P-FSL-033",
+  "P-PUR-009"
+ ],
+ "standards": [
+  "ISA-501",
+  "ISA-540",
+  "ISA-560",
+  "ISA-505"
+ ],
+ "sections": [
+  {
+   "id": "engagement",
+   "title": {
+    "en": "Engagement",
+    "ar": "الارتباط"
+   },
+   "fields": [
+    {
+     "id": "client",
+     "label": {
+      "en": "Entity audited",
+      "ar": "المنشأة محل المراجعة"
+     },
+     "type": "text",
+     "required": false,
+     "autofill": "engagement.client",
+     "readonly": true
+    },
+    {
+     "id": "period_start",
+     "label": {
+      "en": "Period from",
+      "ar": "الفترة من"
+     },
+     "type": "date",
+     "required": false,
+     "autofill": "engagement.period_start",
+     "readonly": true
+    },
+    {
+     "id": "period_end",
+     "label": {
+      "en": "Period to",
+      "ar": "الفترة إلى"
+     },
+     "type": "date",
+     "required": false,
+     "autofill": "engagement.period_end",
+     "readonly": true
+    },
+    {
+     "id": "framework",
+     "label": {
+      "en": "Financial reporting framework",
+      "ar": "إطار التقرير المالي"
+     },
+     "type": "text",
+     "required": false,
+     "autofill": "engagement.framework",
+     "readonly": true
+    }
+   ]
+  },
+  {
+   "id": "inquiries",
+   "title": {
+    "en": "Inquiries and legal letters",
+    "ar": "الاستفسارات وخطابات المستشارين القانونيين"
+   },
+   "fields": [
+    {
+     "id": "inquiries",
+     "label": {
+      "en": "Inquiries of management and others",
+      "ar": "الاستفسارات من الإدارة وغيرها"
+     },
+     "type": "table",
+     "required": true,
+     "columns": [
+      {
+       "id": "who",
+       "label": {
+        "en": "Person inquired of",
+        "ar": "الشخص المستفسر منه"
+       },
+       "type": "text",
+       "required": true
+      },
+      {
+       "id": "date",
+       "label": {
+        "en": "Date",
+        "ar": "التاريخ"
+       },
+       "type": "date",
+       "required": true
+      },
+      {
+       "id": "response",
+       "label": {
+        "en": "Response",
+        "ar": "الرد"
+       },
+       "type": "textarea",
+       "required": true
+      }
+     ]
+    },
+    {
+     "id": "legal_letters",
+     "label": {
+      "en": "Legal letters",
+      "ar": "خطابات المستشارين القانونيين"
+     },
+     "type": "table",
+     "required": false,
+     "columns": [
+      {
+       "id": "counsel",
+       "label": {
+        "en": "Counsel",
+        "ar": "المستشار"
+       },
+       "type": "text",
+       "required": true
+      },
+      {
+       "id": "sent",
+       "label": {
+        "en": "Sent",
+        "ar": "تاريخ الإرسال"
+       },
+       "type": "date",
+       "required": true
+      },
+      {
+       "id": "received",
+       "label": {
+        "en": "Received",
+        "ar": "تاريخ الاستلام"
+       },
+       "type": "date",
+       "required": false
+      },
+      {
+       "id": "matters",
+       "label": {
+        "en": "Matters reported and counsel's assessment",
+        "ar": "الأمور المبلغ عنها وتقييم المستشار"
+       },
+       "type": "textarea",
+       "required": false
+      }
+     ]
+    },
+    {
+     "id": "minutes_reviewed",
+     "label": {
+      "en": "Minutes and legal expense accounts reviewed",
+      "ar": "تم فحص المحاضر وحسابات المصروفات القانونية"
+     },
+     "type": "yesno",
+     "required": true
+    }
+   ]
+  },
+  {
+   "id": "matters",
+   "title": {
+    "en": "Matters identified",
+    "ar": "الأمور المحددة"
+   },
+   "fields": [
+    {
+     "id": "matters",
+     "label": {
+      "en": "Litigation, claims and assessments",
+      "ar": "الدعاوى والمطالبات والتقديرات"
+     },
+     "type": "table",
+     "required": true,
+     "columns": [
+      {
+       "id": "matter",
+       "label": {
+        "en": "Matter",
+        "ar": "الأمر"
+       },
+       "type": "text",
+       "required": true
+      },
+      {
+       "id": "nature",
+       "label": {
+        "en": "Nature",
+        "ar": "الطبيعة"
+       },
+       "type": "select",
+       "required": true,
+       "options": [
+        {
+         "value": "litigation",
+         "label": {
+          "en": "Litigation",
+          "ar": "دعوى قضائية"
+         }
+        },
+        {
+         "value": "claim",
+         "label": {
+          "en": "Claim",
+          "ar": "مطالبة"
+         }
+        },
+        {
+         "value": "regulatory",
+         "label": {
+          "en": "Regulatory",
+          "ar": "تنظيمية"
+         }
+        },
+        {
+         "value": "other",
+         "label": {
+          "en": "Other",
+          "ar": "أخرى"
+         }
+        }
+       ]
+      },
+      {
+       "id": "probability",
+       "label": {
+        "en": "Probability of outflow",
+        "ar": "احتمال التدفق الخارج"
+       },
+       "type": "select",
+       "required": true,
+       "options": [
+        {
+         "value": "remote",
+         "label": {
+          "en": "Remote",
+          "ar": "بعيد الاحتمال"
+         }
+        },
+        {
+         "value": "possible",
+         "label": {
+          "en": "Possible",
+          "ar": "ممكن"
+         }
+        },
+        {
+         "value": "probable",
+         "label": {
+          "en": "Probable",
+          "ar": "مرجح"
+         }
+        }
+       ]
+      },
+      {
+       "id": "estimate",
+       "label": {
+        "en": "Estimated amount",
+        "ar": "المبلغ المقدر"
+       },
+       "type": "money",
+       "required": false
+      },
+      {
+       "id": "provision",
+       "label": {
+        "en": "Provision recognised",
+        "ar": "المخصص المثبت"
+       },
+       "type": "money",
+       "required": false
+      },
+      {
+       "id": "disclosed",
+       "label": {
+        "en": "Disclosed",
+        "ar": "مفصح عنه"
+       },
+       "type": "yesno",
+       "required": true
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "provisions",
+   "title": {
+    "en": "Provisions",
+    "ar": "المخصصات"
+   },
+   "fields": [
+    {
+     "id": "provisions_current",
+     "label": {
+      "en": "Provisions, current (trial balance)",
+      "ar": "المخصصات المتداولة (ميزان المراجعة)"
+     },
+     "type": "money",
+     "required": false,
+     "autofill": "tb.leadsheet.LS-PROVC",
+     "readonly": true
+    },
+    {
+     "id": "provisions_noncurrent",
+     "label": {
+      "en": "Provisions, non-current (trial balance)",
+      "ar": "المخصصات غير المتداولة (ميزان المراجعة)"
+     },
+     "type": "money",
+     "required": false,
+     "autofill": "tb.leadsheet.LS-PROVNC",
+     "readonly": true
+    },
+    {
+     "id": "provisions",
+     "label": {
+      "en": "Movement and basis by class",
+      "ar": "الحركة والأساس حسب الفئة"
+     },
+     "type": "table",
+     "required": false,
+     "columns": [
+      {
+       "id": "class",
+       "label": {
+        "en": "Class",
+        "ar": "الفئة"
+       },
+       "type": "text",
+       "required": true
+      },
+      {
+       "id": "opening",
+       "label": {
+        "en": "Opening",
+        "ar": "الرصيد الافتتاحي"
+       },
+       "type": "money",
+       "required": true
+      },
+      {
+       "id": "additions",
+       "label": {
+        "en": "Additions",
+        "ar": "الإضافات"
+       },
+       "type": "money",
+       "required": true
+      },
+      {
+       "id": "used",
+       "label": {
+        "en": "Used or released",
+        "ar": "المستخدم أو المعكوس"
+       },
+       "type": "money",
+       "required": true
+      },
+      {
+       "id": "closing",
+       "label": {
+        "en": "Closing",
+        "ar": "الرصيد الختامي"
+       },
+       "type": "money",
+       "required": true
+      },
+      {
+       "id": "basis",
+       "label": {
+        "en": "Basis of the estimate tested",
+        "ar": "أساس التقدير المختبر"
+       },
+       "type": "textarea",
+       "required": true
+      }
+     ]
+    },
+    {
+     "id": "conclusion",
+     "label": {
+      "en": "Conclusion on completeness, measurement and disclosure",
+      "ar": "الاستنتاج بشأن الاكتمال والقياس والإفصاح"
+     },
+     "type": "textarea",
+     "required": true
+    }
+   ]
+  }
+ ],
+ "signoff": {
+  "prepare": [
+   "partner",
+   "manager",
+   "senior",
+   "staff"
+  ],
+  "review": [
+   "partner",
+   "manager"
+  ],
+  "approve": [
+   "partner"
+  ]
+ },
+ "version": 1,
+ "ar_status": "draft_pending_review"
+}

@@ -1,0 +1,319 @@
+{
+ "id": "F20-LAWS-AND-REGULATIONS",
+ "number": 20,
+ "kind": "checklist",
+ "phase": "fieldwork",
+ "title": {
+  "en": "Laws and regulations",
+  "ar": "القوانين واللوائح"
+ },
+ "purpose": {
+  "en": "Record the legal and regulatory framework, the inquiries and inspections made about compliance, and the response to any non-compliance identified or suspected.",
+  "ar": "توثيق الإطار القانوني والتنظيمي، والاستفسارات والفحوصات المتعلقة بالالتزام، والاستجابة لأي عدم التزام محدد أو مشتبه به."
+ },
+ "procedures": [
+  "P-FSL-013",
+  "P-FSL-051"
+ ],
+ "standards": [
+  "ISA-250",
+  "ISA-240",
+  "ISA-260"
+ ],
+ "sections": [
+  {
+   "id": "engagement",
+   "title": {
+    "en": "Engagement",
+    "ar": "الارتباط"
+   },
+   "fields": [
+    {
+     "id": "client",
+     "label": {
+      "en": "Entity audited",
+      "ar": "المنشأة محل المراجعة"
+     },
+     "type": "text",
+     "required": false,
+     "autofill": "engagement.client",
+     "readonly": true
+    },
+    {
+     "id": "period_start",
+     "label": {
+      "en": "Period from",
+      "ar": "الفترة من"
+     },
+     "type": "date",
+     "required": false,
+     "autofill": "engagement.period_start",
+     "readonly": true
+    },
+    {
+     "id": "period_end",
+     "label": {
+      "en": "Period to",
+      "ar": "الفترة إلى"
+     },
+     "type": "date",
+     "required": false,
+     "autofill": "engagement.period_end",
+     "readonly": true
+    },
+    {
+     "id": "framework",
+     "label": {
+      "en": "Financial reporting framework",
+      "ar": "إطار التقرير المالي"
+     },
+     "type": "text",
+     "required": false,
+     "autofill": "engagement.framework",
+     "readonly": true
+    }
+   ]
+  },
+  {
+   "id": "framework",
+   "title": {
+    "en": "The framework",
+    "ar": "الإطار"
+   },
+   "fields": [
+    {
+     "id": "direct",
+     "label": {
+      "en": "Laws and regulations with a direct effect on material amounts and disclosures",
+      "ar": "القوانين واللوائح ذات الأثر المباشر على المبالغ والإفصاحات الجوهرية"
+     },
+     "type": "textarea",
+     "required": true
+    },
+    {
+     "id": "other",
+     "label": {
+      "en": "Other laws and regulations fundamental to the business",
+      "ar": "القوانين واللوائح الأخرى الأساسية للنشاط"
+     },
+     "type": "textarea",
+     "required": true
+    },
+    {
+     "id": "inquiries",
+     "label": {
+      "en": "Inquiries of management and those charged with governance",
+      "ar": "الاستفسارات من الإدارة والمكلفين بالحوكمة"
+     },
+     "type": "table",
+     "required": true,
+     "columns": [
+      {
+       "id": "who",
+       "label": {
+        "en": "Person inquired of",
+        "ar": "الشخص المستفسر منه"
+       },
+       "type": "text",
+       "required": true
+      },
+      {
+       "id": "date",
+       "label": {
+        "en": "Date",
+        "ar": "التاريخ"
+       },
+       "type": "date",
+       "required": true
+      },
+      {
+       "id": "response",
+       "label": {
+        "en": "Response",
+        "ar": "الرد"
+       },
+       "type": "textarea",
+       "required": true
+      }
+     ]
+    },
+    {
+     "id": "correspondence",
+     "label": {
+      "en": "Correspondence with licensing and regulatory authorities inspected",
+      "ar": "تم فحص المراسلات مع جهات الترخيص والجهات الرقابية"
+     },
+     "type": "yesno",
+     "required": true
+    },
+    {
+     "id": "minutes",
+     "label": {
+      "en": "Minutes of governance meetings inspected for legal matters",
+      "ar": "تم فحص محاضر اجتماعات الحوكمة بحثًا عن الأمور القانونية"
+     },
+     "type": "yesno",
+     "required": true
+    }
+   ]
+  },
+  {
+   "id": "noncompliance",
+   "title": {
+    "en": "Non-compliance",
+    "ar": "عدم الالتزام"
+   },
+   "fields": [
+    {
+     "id": "status",
+     "label": {
+      "en": "Outcome",
+      "ar": "النتيجة"
+     },
+     "type": "select",
+     "required": true,
+     "options": [
+      {
+       "value": "none",
+       "label": {
+        "en": "No non-compliance identified or suspected",
+        "ar": "لم يُحدد عدم التزام ولم يُشتبه به"
+       }
+      },
+      {
+       "value": "suspected",
+       "label": {
+        "en": "Suspected",
+        "ar": "مشتبه به"
+       }
+      },
+      {
+       "value": "identified",
+       "label": {
+        "en": "Identified",
+        "ar": "محدد"
+       }
+      }
+     ]
+    },
+    {
+     "id": "nature",
+     "label": {
+      "en": "Nature and circumstances",
+      "ar": "الطبيعة والظروف"
+     },
+     "type": "textarea",
+     "required": false
+    },
+    {
+     "id": "effect",
+     "label": {
+      "en": "Effect on the financial statements and on the audit",
+      "ar": "الأثر على القوائم المالية وعلى المراجعة"
+     },
+     "type": "textarea",
+     "required": false
+    },
+    {
+     "id": "response",
+     "label": {
+      "en": "Procedures performed, discussion with management and legal advice obtained",
+      "ar": "الإجراءات المنفذة والمناقشة مع الإدارة والمشورة القانونية التي تم الحصول عليها"
+     },
+     "type": "textarea",
+     "required": false
+    },
+    {
+     "id": "tcwg",
+     "label": {
+      "en": "Communicated to those charged with governance",
+      "ar": "تم إبلاغ المكلفين بالحوكمة"
+     },
+     "type": "select",
+     "required": false,
+     "options": [
+      {
+       "value": "yes",
+       "label": {
+        "en": "Yes",
+        "ar": "نعم"
+       }
+      },
+      {
+       "value": "no",
+       "label": {
+        "en": "No",
+        "ar": "لا"
+       }
+      },
+      {
+       "value": "na",
+       "label": {
+        "en": "Not applicable",
+        "ar": "لا ينطبق"
+       }
+      }
+     ]
+    },
+    {
+     "id": "reporting",
+     "label": {
+      "en": "Reporting to an appropriate authority",
+      "ar": "الإبلاغ إلى جهة مختصة"
+     },
+     "type": "select",
+     "required": false,
+     "options": [
+      {
+       "value": "none",
+       "label": {
+        "en": "Not required",
+        "ar": "غير مطلوب"
+       }
+      },
+      {
+       "value": "considered",
+       "label": {
+        "en": "Considered, with the conclusion recorded",
+        "ar": "تم النظر فيه مع تسجيل الاستنتاج"
+       }
+      },
+      {
+       "value": "reported",
+       "label": {
+        "en": "Reported",
+        "ar": "تم الإبلاغ"
+       }
+      }
+     ]
+    },
+    {
+     "id": "conclusion",
+     "label": {
+      "en": "Conclusion",
+      "ar": "الاستنتاج"
+     },
+     "type": "textarea",
+     "required": true
+    }
+   ]
+  }
+ ],
+ "signoff": {
+  "prepare": [
+   "partner",
+   "manager",
+   "senior",
+   "staff"
+  ],
+  "review": [
+   "partner",
+   "manager"
+  ],
+  "approve": [
+   "partner"
+  ]
+ },
+ "version": 1,
+ "ar_status": "draft_pending_review"
+}

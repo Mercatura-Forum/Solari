@@ -16,7 +16,7 @@ Attribution: Thebes Core Team. Licence: Apache 2.0.
 """
 import json, os, secrets, sys, urllib.request
 
-GATEWAY = os.environ.get('THEBES_GATEWAY', 'https://memphis.mercaturaforum.com')
+GATEWAY = os.environ.get('THEBES_GATEWAY', 'https://<thebes-gateway>')
 
 
 def uleb(n):

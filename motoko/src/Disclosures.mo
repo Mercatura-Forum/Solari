@@ -64,7 +64,7 @@ module {
 
   func answers(s : Engine.State, eng : Nat) : (Map.Map<Text, Answer>, List.List<J>) {
     let byItem = Map.empty<Text, Answer>();
-    let free = List.empty<J>();
+    let others = List.empty<J>();
     for (r in List.values(s.records)) {
       if (r.engagementId == eng and r.kind == KIND) {
         let f = parse(r.fields);
@@ -76,10 +76,10 @@ module {
         if (Text.startsWith(item, #text "DR-")) {
           // the latest record for an item wins (records are mutable; a re-answer is an update)
           switch (Map.get(byItem, Text.compare, item)) { case (?prev) { if (r.id > prev.id) Map.add(byItem, Text.compare, item, a) }; case null Map.add(byItem, Text.compare, item, a) };
-        } else List.add(free, Engine.recordJ(r));
+        } else List.add(others, Engine.recordJ(r));
       };
     };
-    (byItem, free)
+    (byItem, others)
   };
 
   func statusOf(trigger : Text, pop : Map.Map<Text, Bool>, a : ?Answer) : (Text, Bool) {

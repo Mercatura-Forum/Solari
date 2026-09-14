@@ -18,7 +18,7 @@ from playwright.sync_api import sync_playwright
 path, who = sys.argv[1], sys.argv[2]
 doc = json.load(open(path))
 p = doc['people'][who]
-URL = f'https://memphis.mercaturaforum.com/_/raw/{doc["web"]}/index.html'
+URL = f'https://<thebes-gateway>/_/raw/{doc["web"]}/index.html'
 
 
 def authenticator(ctx, page, creds):
@@ -29,7 +29,7 @@ def authenticator(ctx, page, creds):
         'hasUserVerification': True, 'isUserVerified': True, 'automaticPresenceSimulation': True}})['authenticatorId']
     for c in creds:
         try:
-            s.send('WebAuthn.addCredential', {'authenticatorId': aid, 'credential': {**c, 'rpId': c.get('rpId') or 'memphis.mercaturaforum.com'}})
+            s.send('WebAuthn.addCredential', {'authenticatorId': aid, 'credential': {**c, 'rpId': c.get('rpId') or '<thebes-gateway>'}})
         except Exception as e:
             print('note: could not import a passkey:', str(e)[:100], file=sys.stderr)
     return s, aid

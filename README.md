@@ -28,10 +28,10 @@ accounting system. Written in Motoko. Apache 2.0.
 | | |
 |---|---|
 | Standards | ISA 220, 230, 240, 260, 265, 300, 315, 320, 330, 450, 505, 520, 530, 560, 570, 580, 600, 700; ISQM 1, 2 |
-| Forms | fourteen forms of the audit cycle, 120 procedures, sixteen record kinds; PDF, Word and Excel in English and Arabic |
+| Forms | fifty forms of the audit cycle serving all 120 procedures, twenty-six record kinds; PDF, Word and Excel in English and Arabic |
 | Sources | spreadsheet, QuickBooks Online, Sage 50, SAP FAGL, Odoo, ETA e-invoices, `thebes-ledger-core` with inclusion proofs |
 | Identity | Memphis passkeys; no wallets, no seed phrases |
-| Status | live on a Thebes network for a demonstration firm and a first audit firm |
+| Status | live on a Thebes network for a demonstration firm and a first audit firm; not independently audited |
 
 Solari is written in Motoko for the Thebes substrate, with a web application in
 English and Arabic on the Thebes SDK and a connector agent in Rust that runs
@@ -112,8 +112,21 @@ substrate changes what that record is:
 | **Connectors** | The client's books read live: Odoo through the substrate's HTTP outcalls with a declared quorum of validators agreeing on every reply; any system through the connector agent, a signed, read-only service beside the client's system with adapters for Odoo, Tally and the Egyptian Tax Authority e-invoicing API, pulled by the contract or delivered as a signed export for machines that must never be reachable; exchange rates from public sources, agreed by quorum and reduced across independent publishers. |
 | **Computations** | ISA 320 and 600 materiality; ISA 530 monetary-unit and attribute sampling; ISA 520 analytical review; ISA 315 trend expectation; ISA 450 misstatement aggregation with rollover and iron-curtain effects; ISA 330/700 tie-out; ISA 570 going concern; digit analysis; ISA 240 journal-entry testing. Each run is a working paper carrying the fingerprint of its input. |
 | **Journal-entry testing** | The whole population, imported in parts and screened in bounded steps against 26 stated criteria, every flagged entry naming its rules; byte-identical to the reference over millions of lines. |
-| **Forms, programme, disclosures, group** | The fourteen forms of the audit cycle with pre-fill, staleness after signing and four-eyes sign-off; every one of the 120 procedures with its derived state and reviewed conclusion; a catalogue of 74 disclosure requirements scoped to the engagement; components and component auditors under ISA 600. The file is not assembled while any of them is short. |
-| **Records and file assembly** | The sixteen record kinds of the standards model, validated against their declared fields, immutable kinds refusing change; assembly by a partner after the completion form is approved, with the sixty-day deadline, the object count and the trail head recorded, and only post-assembly change records accepted afterwards. |
+| **Forms, programme, disclosures, group** | The thirty-eight forms of the audit cycle with pre-fill, staleness after signing and four-eyes sign-off; every one of the 120 procedures with its derived state and reviewed conclusion; a catalogue of 74 disclosure requirements scoped to the engagement; components and component auditors under ISA 600. The file is not assembled while any of them is short. |
+| **Adjusting entries** | Balanced legs over the trial balance's accounts, four types, proposed by the auditor or booked by the client, agreed, booked or waived with management's reason; every entry projects the misstatement it corrects, so the summary of misstatements and the aggregation read the same record the leadsheets read; the adjusted trial balance per account and leadsheet (unadjusted, adjustments, adjusted), read by every form and tied out by the statements review. |
+| **Per-balance analytical procedures** | One paper instantiated for every populated leadsheet, the four steps of ISA 520.5 recorded and the expectation, threshold and difference read from the paper's own computation; a difference beyond the acceptable amount cannot be prepared until it is investigated, and the completion gate names every populated leadsheet whose paper is unsigned. |
+| **Biological assets count** | The count attendance for livestock, crops and bearer plants with its measurement basis and the IAS 41.50 movement schedule tied to the biological assets leadsheet; applicable only where the trial balance populates it. |
+| **Component auditors and consolidation** | The evaluation of a component auditor before any instruction, refused without it; the group plan reading the evaluations and the consolidation eliminations booked, by leadsheet. |
+| **Consultation and withdrawal** | A consultation open until its conclusion is agreed or a difference of opinion resolved, never cited as resolving a matter before; the withdrawal memorandum citing it, and the partner's withdrawal on the approved memorandum closing the engagement with its written communication to governance. |
+| **Minutes, meetings and matters carried forward** | The minutes read, the meetings noted and the matters for next year as records of the model; a significant matter without its resolution holds the file, the completion form reads them live, and an open matter is carried when the file is rolled forward. |
+| **Applicability from the trial balance** | A procedure whose every leadsheet of the model is unpopulated on the trial balance is proposed not applicable with that reason; accepting records the conclusions for the reviewer's sign-off, an override is a conclusion with a reason, and a proposal the trial balance later contradicts opens the procedure again and holds the file. |
+| **Programme steps** | One step per requirement the procedure discharges, generated from the model into every cycle working paper, each with its own conclusion, evidence and tick marks; a step concluded with an exception cites a misstatement, a review note or a communication, checked against the file before the paper is prepared. |
+| **Letter templates** | Nine bilingual letters generated from the file (seven confirmation kinds, the planning letter to those charged with governance, the deliverables letter); sending a prepared letter records the communication and opens the request it makes, linked to its procedure. |
+| **Risk views** | Eight reports generated from the risk register and the controls: by cycle, fraud, business, the control-risk summary, all, addressed, controls not designed or implemented, and risks with no response, which block the assembly of the file until answered. |
+| **Controls as data** | Every control a record with its cycle, assertions, type, design, implementation, walkthrough, test and reliance; the internal control form reads the register, and the control matrix and the report of reliance without an effective test are queries over the same records. |
+| **Movement schedules** | The reconciliation the framework requires for each balance, carried by the cycle working paper that owns it and rolled forward by the contract: a component whose closing is not what its movements give is refused, and the closing total is compared with the leadsheet's adjusted balance, the difference frozen with the paper. |
+| **Versioned forms** | A form's definition is never edited once an instance was signed under it: a revision is the next version in a new module, a prepared form carries the id, version and SHA-256 of the definition it was prepared under, and renders under that text until it is reopened. |
+| **Records and file assembly** | The twenty record kinds of the standards model, validated against their declared fields, immutable kinds refusing change; assembly by a partner after the completion form is approved, with the sixty-day deadline, the object count and the trail head recorded, and only post-assembly change records accepted afterwards. |
 | **Evidence and signatures** | Documents fingerprinted, inspected, compressed and encrypted in the browser, stored by fingerprint in stable memory with keys wrapped to registered devices; electronic signatures by passkey (WebAuthn, ES256) over one-time challenges the contract verifies itself, recorded in the trail with everything needed to verify them again. |
 | **Client portal and read API** | A client sees exactly what the contract's client-scoped queries let them see; an OpenAPI 3.1 read API over keyed routes with declared scopes, served by the contract itself. |
 
@@ -153,12 +166,11 @@ motoko/
   src/FormsSeed.mo        the forms (generated)
   test/                   the battery, run under WASI
 agent/                    the connector agent (Rust): Odoo, Tally, ETA e-invoicing adapters
-forms/                    the fourteen form definitions (generated)
+forms/                    the form definitions and the dependency graph (generated)
 frontend/                 the web application (React, Vite, Tailwind, Thebes SDK);
                           public/config.js carries a deployment's contract ids
 tools/                    generators, oracle harnesses, the fleet tools, the end-to-end runs
 registry/                 the registry's manifest
-docs/                     the architecture overview
 ```
 
 ## Building and testing
@@ -197,7 +209,6 @@ every other, with a negative control that must go red.
 
 ## Design
 
-`docs/ARCHITECTURE.md` describes the engagement model, the trail, the
 stated-date rule, the population and evidence stores, the connectors, the
 many-firms registry and how each part is proven.
 

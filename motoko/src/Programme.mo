@@ -23,6 +23,8 @@ import Principal "mo:core/Principal";
 import Text "mo:core/Text";
 import Engine "Engine";
 import FormsSeed "FormsSeed";
+import FormsSeedExt "FormsSeedExt";
+import FirmForms "FirmForms";
 import Json "Json";
 import Py "Py";
 import Seed "Seed";
@@ -39,7 +41,11 @@ module {
   func parse(t : Text) : J { switch (Json.parse(t)) { case (#ok(j)) j; case (#err(_)) #null_ } };
   /// A form's definition (the Forms module reads the same seed; this module cannot import it,
   /// since Forms imports this one for the assembly gate).
-  func formSpec(id : Text) : ?J { switch (FormsSeed.get(id)) { case (?t) ?parse(t); case null null } };
+  func formSpec(ff : FirmForms.State, id : Text) : ?J {
+    switch (FormsSeed.get(id)) { case (?t) return ?parse(t); case null {} };
+    switch (FormsSeedExt.get(id)) { case (?t) return ?parse(t); case null {} };
+    switch (FirmForms.latest(ff, id)) { case (?t) ?parse(t); case null null }
+  };
   func rows(table : Text) : [J] {
     switch (Seed.table(table)) { case (?t) switch (Json.parse(t)) { case (#ok(#arr(xs))) xs; case _ [] }; case null [] }
   };
@@ -59,7 +65,7 @@ module {
   };
 
   /// The state of every procedure on the engagement.
-  func build(s : Engine.State, eng : Nat) : (Map.Map<Text, Row>, [J]) {
+  func build(s : Engine.State, ff : FirmForms.State, eng : Nat) : (Map.Map<Text, Row>, [J]) {
     let procs = rows("procedures");
     let m = Map.empty<Text, Row>();
     for (p in procs.vals()) {
@@ -72,7 +78,7 @@ module {
     // forms that serve procedures: draft → in_progress, prepared/reviewed → concluded, approved → reviewed
     for (f in List.values(s.forms)) {
       if (f.engagementId == eng) {
-        switch (formSpec(f.formId)) {
+        switch (formSpec(ff, f.formId)) {
           case (?sp) {
             let to = switch (f.status) { case "approved" "reviewed"; case "prepared" "concluded"; case "reviewed" "concluded"; case _ "in_progress" };
             for (pj in Py.list(sp, "procedures").vals()) {
@@ -144,12 +150,12 @@ module {
 
   /// The programme as the app shows it: one row per procedure (the rulebook's own columns are
   /// joined client-side), a summary by status and by cycle, and `open`.
-  public func view(s : Engine.State, by : Principal, isAdmin : Bool, eng : Nat) : R {
+  public func view(s : Engine.State, ff : FirmForms.State, by : Principal, isAdmin : Bool, eng : Nat) : R {
     let e = switch (Engine.engagement(s, eng)) { case (#ok(e)) e; case (#err(m)) return #err(m) };
     let role = Engine.memberRole(e, by);
     if (role == null and not isAdmin) return #err("not permitted: not a member of this engagement");
     if (role == ?#client) return #err("not permitted: the audit programme is the auditor's");
-    let (m, procs) = build(s, eng);
+    let (m, procs) = build(s, ff, eng);
     let out = List.empty<J>();
     let byStatus = Map.empty<Text, Nat>();
     let byCycle = Map.empty<Text, (Nat, Nat)>(); // cycle → (procedures, reviewed-or-na)
@@ -188,9 +194,18 @@ module {
     ]))
   };
 
+  /// Every procedure's status on the engagement, for the forms' applicability: a form whose
+  /// every procedure is concluded not applicable is inapplicable.
+  public func statusMap(s : Engine.State, ff : FirmForms.State, eng : Nat) : Map.Map<Text, Text> {
+    let (m, _) = build(s, ff, eng);
+    let out = Map.empty<Text, Text>();
+    for ((pid, r) in Map.entries(m)) Map.add(out, Text.compare, pid, r.status);
+    out
+  };
+
   /// Applicable procedures not yet reviewed — what stands between the file and its assembly.
-  public func open(s : Engine.State, eng : Nat) : [Text] {
-    let (m, procs) = build(s, eng);
+  public func open(s : Engine.State, ff : FirmForms.State, eng : Nat) : [Text] {
+    let (m, procs) = build(s, ff, eng);
     let out = List.empty<Text>();
     for (p in procs.vals()) {
       let pid = Py.textOr(p, "id", "");

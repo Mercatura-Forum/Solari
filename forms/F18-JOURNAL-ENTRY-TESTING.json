@@ -1,0 +1,380 @@
+{
+ "id": "F18-JOURNAL-ENTRY-TESTING",
+ "number": 18,
+ "kind": "worksheet",
+ "phase": "fieldwork",
+ "title": {
+  "en": "Journal-entry testing and significant unusual transactions",
+  "ar": "اختبار قيود اليومية والمعاملات غير العادية المهمة"
+ },
+ "purpose": {
+  "en": "Document the testing of journal entries and other adjustments for management override, the significant unusual transactions examined, and the response to any fraud identified or suspected.",
+  "ar": "توثيق اختبار قيود اليومية والتسويات الأخرى لتجاوز الإدارة، والمعاملات غير العادية المهمة التي تم فحصها، والاستجابة لأي غش محدد أو مشتبه به."
+ },
+ "procedures": [
+  "P-FSL-034",
+  "P-FSL-035",
+  "P-FSL-052"
+ ],
+ "standards": [
+  "ISA-240",
+  "ISA-330",
+  "ISA-550"
+ ],
+ "sections": [
+  {
+   "id": "engagement",
+   "title": {
+    "en": "Engagement",
+    "ar": "الارتباط"
+   },
+   "fields": [
+    {
+     "id": "client",
+     "label": {
+      "en": "Entity audited",
+      "ar": "المنشأة محل المراجعة"
+     },
+     "type": "text",
+     "required": false,
+     "autofill": "engagement.client",
+     "readonly": true
+    },
+    {
+     "id": "period_start",
+     "label": {
+      "en": "Period from",
+      "ar": "الفترة من"
+     },
+     "type": "date",
+     "required": false,
+     "autofill": "engagement.period_start",
+     "readonly": true
+    },
+    {
+     "id": "period_end",
+     "label": {
+      "en": "Period to",
+      "ar": "الفترة إلى"
+     },
+     "type": "date",
+     "required": false,
+     "autofill": "engagement.period_end",
+     "readonly": true
+    },
+    {
+     "id": "framework",
+     "label": {
+      "en": "Financial reporting framework",
+      "ar": "إطار التقرير المالي"
+     },
+     "type": "text",
+     "required": false,
+     "autofill": "engagement.framework",
+     "readonly": true
+    }
+   ]
+  },
+  {
+   "id": "population",
+   "title": {
+    "en": "The population screened",
+    "ar": "المجتمع الذي تم فحصه"
+   },
+   "fields": [
+    {
+     "id": "lines",
+     "label": {
+      "en": "Lines in the population",
+      "ar": "السطور في المجتمع"
+     },
+     "type": "integer",
+     "required": false,
+     "autofill": "paper.journal_completeness.lines_examined",
+     "readonly": true
+    },
+    {
+     "id": "entries",
+     "label": {
+      "en": "Entries in the population",
+      "ar": "القيود في المجتمع"
+     },
+     "type": "integer",
+     "required": false,
+     "autofill": "paper.journal_completeness.entries_examined",
+     "readonly": true
+    },
+    {
+     "id": "accounts_failed",
+     "label": {
+      "en": "Accounts that did not reconcile to the trial balance",
+      "ar": "الحسابات التي لم تتطابق مع ميزان المراجعة"
+     },
+     "type": "integer",
+     "required": false,
+     "autofill": "paper.journal_completeness.accounts_failed",
+     "readonly": true
+    },
+    {
+     "id": "criteria_applied",
+     "label": {
+      "en": "Screening criteria applied",
+      "ar": "معايير الفحص المطبقة"
+     },
+     "type": "integer",
+     "required": false,
+     "autofill": "paper.journal_screen.criteria_applied",
+     "readonly": true
+    },
+    {
+     "id": "flagged",
+     "label": {
+      "en": "Entries flagged",
+      "ar": "القيود المعلَّمة"
+     },
+     "type": "integer",
+     "required": false,
+     "autofill": "paper.journal_screen.flagged_entries",
+     "readonly": true
+    },
+    {
+     "id": "selection",
+     "label": {
+      "en": "Selection basis: criteria weighted, thresholds, and how the flagged entries were sampled",
+      "ar": "أساس الاختيار: المعايير ووزنها والحدود وكيفية اختيار عينة من القيود المعلَّمة"
+     },
+     "type": "textarea",
+     "required": true
+    }
+   ],
+   "note": {
+    "en": "The population is imported and screened on the Journals page; its papers are read here and frozen when the form is prepared.",
+    "ar": "يُستورد المجتمع ويُفحص في صفحة القيود؛ وتُقرأ أوراقه هنا وتُثبت عند إعداد النموذج."
+   }
+  },
+  {
+   "id": "tested",
+   "title": {
+    "en": "Entries tested",
+    "ar": "القيود المختبرة"
+   },
+   "fields": [
+    {
+     "id": "tested",
+     "label": {
+      "en": "Entries examined against supporting evidence",
+      "ar": "القيود التي تم فحصها مقابل الأدلة المؤيدة"
+     },
+     "type": "table",
+     "required": true,
+     "columns": [
+      {
+       "id": "entry",
+       "label": {
+        "en": "Entry",
+        "ar": "القيد"
+       },
+       "type": "text",
+       "required": true
+      },
+      {
+       "id": "criteria",
+       "label": {
+        "en": "Criteria met",
+        "ar": "المعايير المستوفاة"
+       },
+       "type": "text",
+       "required": false
+      },
+      {
+       "id": "amount",
+       "label": {
+        "en": "Amount",
+        "ar": "المبلغ"
+       },
+       "type": "money",
+       "required": true
+      },
+      {
+       "id": "explanation",
+       "label": {
+        "en": "Business rationale and support obtained",
+        "ar": "المبرر التجاري والدليل المؤيد"
+       },
+       "type": "textarea",
+       "required": true
+      },
+      {
+       "id": "supported",
+       "label": {
+        "en": "Appropriately supported and authorised",
+        "ar": "مدعوم ومعتمد بشكل مناسب"
+       },
+       "type": "yesno",
+       "required": true
+      },
+      {
+       "id": "misstatement",
+       "label": {
+        "en": "Misstatement, if any",
+        "ar": "التحريف، إن وجد"
+       },
+       "type": "money",
+       "required": false
+      }
+     ]
+    },
+    {
+     "id": "estimates_bias",
+     "label": {
+      "en": "Retrospective review of estimates for bias and evaluation of business rationale of significant transactions",
+      "ar": "الفحص بأثر رجعي للتقديرات بحثًا عن التحيز وتقييم المبرر التجاري للمعاملات المهمة"
+     },
+     "type": "textarea",
+     "required": true
+    }
+   ]
+  },
+  {
+   "id": "unusual",
+   "title": {
+    "en": "Significant unusual transactions",
+    "ar": "المعاملات غير العادية المهمة"
+   },
+   "fields": [
+    {
+     "id": "unusual",
+     "label": {
+      "en": "Transactions outside the normal course of business",
+      "ar": "المعاملات خارج السياق العادي للنشاط"
+     },
+     "type": "table",
+     "required": false,
+     "columns": [
+      {
+       "id": "description",
+       "label": {
+        "en": "Transaction",
+        "ar": "المعاملة"
+       },
+       "type": "text",
+       "required": true
+      },
+      {
+       "id": "date",
+       "label": {
+        "en": "Date",
+        "ar": "التاريخ"
+       },
+       "type": "date",
+       "required": true
+      },
+      {
+       "id": "amount",
+       "label": {
+        "en": "Amount",
+        "ar": "المبلغ"
+       },
+       "type": "money",
+       "required": true
+      },
+      {
+       "id": "counterparty",
+       "label": {
+        "en": "Counterparty and relationship",
+        "ar": "الطرف الآخر والعلاقة"
+       },
+       "type": "text",
+       "required": false
+      },
+      {
+       "id": "rationale",
+       "label": {
+        "en": "Business rationale and accounting evaluated",
+        "ar": "المبرر التجاري والمعالجة المحاسبية المقيّمة"
+       },
+       "type": "textarea",
+       "required": true
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "fraud",
+   "title": {
+    "en": "Fraud identified or suspected",
+    "ar": "الغش المحدد أو المشتبه به"
+   },
+   "fields": [
+    {
+     "id": "fraud",
+     "label": {
+      "en": "Outcome",
+      "ar": "النتيجة"
+     },
+     "type": "select",
+     "required": true,
+     "options": [
+      {
+       "value": "none",
+       "label": {
+        "en": "No fraud identified or suspected",
+        "ar": "لم يُحدد غش ولم يُشتبه به"
+       }
+      },
+      {
+       "value": "suspected",
+       "label": {
+        "en": "Fraud suspected",
+        "ar": "اشتباه في غش"
+       }
+      },
+      {
+       "value": "identified",
+       "label": {
+        "en": "Fraud identified",
+        "ar": "تم تحديد غش"
+       }
+      }
+     ]
+    },
+    {
+     "id": "response",
+     "label": {
+      "en": "Response: procedures, effect on the risk assessment, and communications with management, those charged with governance and authorities",
+      "ar": "الاستجابة: الإجراءات والأثر على تقييم المخاطر والاتصالات مع الإدارة والمكلفين بالحوكمة والجهات المختصة"
+     },
+     "type": "textarea",
+     "required": false
+    },
+    {
+     "id": "conclusion",
+     "label": {
+      "en": "Conclusion",
+      "ar": "الاستنتاج"
+     },
+     "type": "textarea",
+     "required": true
+    }
+   ]
+  }
+ ],
+ "signoff": {
+  "prepare": [
+   "partner",
+   "manager",
+   "senior",
+   "staff"
+  ],
+  "review": [
+   "partner",
+   "manager"
+  ],
+  "approve": [
+   "partner"
+  ]
+ },
+ "version": 1,
+ "ar_status": "draft_pending_review"
+}

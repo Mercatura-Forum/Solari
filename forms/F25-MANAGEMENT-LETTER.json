@@ -1,0 +1,258 @@
+{
+ "id": "F25-MANAGEMENT-LETTER",
+ "number": 25,
+ "kind": "letter",
+ "phase": "completion",
+ "title": {
+  "en": "Management letter and control deficiencies",
+  "ar": "خطاب الإدارة وأوجه القصور في الرقابة"
+ },
+ "purpose": {
+  "en": "Communicate to management, in writing, the deficiencies in internal control identified during the audit that merit their attention, with the responses agreed.",
+  "ar": "إبلاغ الإدارة كتابيًا بأوجه القصور في الرقابة الداخلية التي حُددت خلال المراجعة وتستحق اهتمامها، مع الردود المتفق عليها."
+ },
+ "procedures": [
+  "P-FSL-047"
+ ],
+ "standards": [
+  "ISA-265",
+  "ISA-260"
+ ],
+ "sections": [
+  {
+   "id": "engagement",
+   "title": {
+    "en": "Engagement",
+    "ar": "الارتباط"
+   },
+   "fields": [
+    {
+     "id": "client",
+     "label": {
+      "en": "Entity audited",
+      "ar": "المنشأة محل المراجعة"
+     },
+     "type": "text",
+     "required": false,
+     "autofill": "engagement.client",
+     "readonly": true
+    },
+    {
+     "id": "period_start",
+     "label": {
+      "en": "Period from",
+      "ar": "الفترة من"
+     },
+     "type": "date",
+     "required": false,
+     "autofill": "engagement.period_start",
+     "readonly": true
+    },
+    {
+     "id": "period_end",
+     "label": {
+      "en": "Period to",
+      "ar": "الفترة إلى"
+     },
+     "type": "date",
+     "required": false,
+     "autofill": "engagement.period_end",
+     "readonly": true
+    },
+    {
+     "id": "framework",
+     "label": {
+      "en": "Financial reporting framework",
+      "ar": "إطار التقرير المالي"
+     },
+     "type": "text",
+     "required": false,
+     "autofill": "engagement.framework",
+     "readonly": true
+    }
+   ]
+  },
+  {
+   "id": "content",
+   "title": {
+    "en": "Content",
+    "ar": "المحتوى"
+   },
+   "fields": [
+    {
+     "id": "addressee",
+     "label": {
+      "en": "Addressed to",
+      "ar": "موجه إلى"
+     },
+     "type": "text",
+     "required": true
+    },
+    {
+     "id": "firm_name",
+     "label": {
+      "en": "Audit firm",
+      "ar": "مكتب المراجعة"
+     },
+     "type": "text",
+     "required": true
+    },
+    {
+     "id": "letter_date",
+     "label": {
+      "en": "Date of the letter",
+      "ar": "تاريخ الخطاب"
+     },
+     "type": "date",
+     "required": true
+    },
+    {
+     "id": "deficiencies",
+     "label": {
+      "en": "Deficiencies identified on the internal control form",
+      "ar": "أوجه القصور المحددة في نموذج الرقابة الداخلية"
+     },
+     "type": "table",
+     "required": false,
+     "autofill": "form.F17-INTERNAL-CONTROL.deficiencies",
+     "readonly": true,
+     "columns": [
+      {
+       "id": "deficiency",
+       "label": {
+        "en": "Deficiency",
+        "ar": "القصور"
+       },
+       "type": "text",
+       "required": false
+      },
+      {
+       "id": "significant",
+       "label": {
+        "en": "Significant",
+        "ar": "جوهري"
+       },
+       "type": "text",
+       "required": false
+      },
+      {
+       "id": "effect",
+       "label": {
+        "en": "Potential effect",
+        "ar": "الأثر المحتمل"
+       },
+       "type": "text",
+       "required": false
+      },
+      {
+       "id": "recommendation",
+       "label": {
+        "en": "Recommendation",
+        "ar": "التوصية"
+       },
+       "type": "text",
+       "required": false
+      }
+     ]
+    },
+    {
+     "id": "other_matters",
+     "label": {
+      "en": "Other matters brought to management's attention",
+      "ar": "أمور أخرى لُفت انتباه الإدارة إليها"
+     },
+     "type": "textarea",
+     "required": false
+    },
+    {
+     "id": "responses",
+     "label": {
+      "en": "Management's responses",
+      "ar": "ردود الإدارة"
+     },
+     "type": "table",
+     "required": false,
+     "columns": [
+      {
+       "id": "deficiency",
+       "label": {
+        "en": "Deficiency",
+        "ar": "القصور"
+       },
+       "type": "text",
+       "required": true
+      },
+      {
+       "id": "response",
+       "label": {
+        "en": "Response and action",
+        "ar": "الرد والإجراء"
+       },
+       "type": "textarea",
+       "required": true
+      },
+      {
+       "id": "owner",
+       "label": {
+        "en": "Responsible",
+        "ar": "المسؤول"
+       },
+       "type": "text",
+       "required": false
+      },
+      {
+       "id": "due",
+       "label": {
+        "en": "Target date",
+        "ar": "التاريخ المستهدف"
+       },
+       "type": "date",
+       "required": false
+      }
+     ]
+    }
+   ],
+   "note": {
+    "en": "The deficiencies are read from the internal control form and frozen when this letter is prepared; a change there marks them as drifted here.",
+    "ar": "تُقرأ أوجه القصور من نموذج الرقابة الداخلية وتُثبت عند إعداد هذا الخطاب؛ وأي تغيير هناك يسمها هنا بأنها تغيرت."
+   }
+  }
+ ],
+ "letter": {
+  "en": [
+   "To {{field:addressee}}",
+   "In planning and performing our audit of the financial statements of {{engagement.client}} for the period ended {{engagement.period_end}}, we considered the entity's internal control in order to design audit procedures appropriate in the circumstances, and not to express an opinion on the effectiveness of internal control. Our consideration would not necessarily identify all deficiencies that might exist.",
+   "The deficiencies below came to our attention during the audit and, in our judgement, merit management's attention. A deficiency marked significant is one that, in our judgement, is of sufficient importance to merit the attention of those charged with governance as well.",
+   "{{table:deficiencies}}",
+   "{{field:other_matters}}",
+   "Management's responses: {{table:responses}}",
+   "This letter is intended solely for the information and use of management and those charged with governance and is not intended to be and should not be used by anyone else.",
+   "Yours faithfully, {{field:firm_name}}, {{field:letter_date}}"
+  ],
+  "ar": [
+   "إلى {{field:addressee}}",
+   "عند تخطيط وتنفيذ مراجعتنا للقوائم المالية لـ {{engagement.client}} عن الفترة المنتهية في {{engagement.period_end}}، أخذنا في الاعتبار الرقابة الداخلية للمنشأة بغرض تصميم إجراءات مراجعة مناسبة للظروف، وليس بغرض إبداء رأي في فعالية الرقابة الداخلية. ولا يؤدي هذا الاعتبار بالضرورة إلى تحديد جميع أوجه القصور التي قد تكون موجودة.",
+   "لفتت أوجه القصور التالية انتباهنا خلال المراجعة، ونرى أنها تستحق اهتمام الإدارة. والقصور الموسوم بأنه جوهري هو، في تقديرنا، من الأهمية بحيث يستحق اهتمام المكلفين بالحوكمة أيضًا.",
+   "{{table:deficiencies}}",
+   "{{field:other_matters}}",
+   "ردود الإدارة: {{table:responses}}",
+   "هذا الخطاب موجه حصرًا لمعلومات الإدارة والمكلفين بالحوكمة واستخدامهم، وليس معدًا ليستخدمه أي طرف آخر ولا ينبغي ذلك.",
+   "وتفضلوا بقبول فائق الاحترام، {{field:firm_name}}، {{field:letter_date}}"
+  ]
+ },
+ "signoff": {
+  "prepare": [
+   "partner",
+   "manager"
+  ],
+  "review": [
+   "partner",
+   "manager"
+  ],
+  "approve": [
+   "partner"
+  ]
+ },
+ "version": 1,
+ "ar_status": "draft_pending_review"
+}

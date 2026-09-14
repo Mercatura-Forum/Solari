@@ -1,0 +1,502 @@
+{
+ "id": "F30-STATEMENTS-REVIEW",
+ "number": 30,
+ "kind": "worksheet",
+ "phase": "completion",
+ "title": {
+  "en": "Financial statements review",
+  "ar": "فحص القوائم المالية"
+ },
+ "purpose": {
+  "en": "Review the financial statements as a whole: the final analytical review, the tie-out of the statements to the leadsheets, the comparatives, the other information, the closing process and presentation, and the disclosure checklist.",
+  "ar": "فحص القوائم المالية ككل: الفحص التحليلي النهائي، ومطابقة القوائم مع كشوف الحسابات، والمعلومات المقارنة، والمعلومات الأخرى، وعملية الإقفال والعرض، وقائمة الإفصاحات."
+ },
+ "procedures": [
+  "P-FSL-040",
+  "P-FSL-041",
+  "P-FSL-042",
+  "P-FSL-043",
+  "P-FSL-057"
+ ],
+ "standards": [
+  "ISA-520",
+  "ISA-700",
+  "ISA-710",
+  "ISA-720",
+  "ISA-330",
+  "ISA-450"
+ ],
+ "computation": "analytical_review",
+ "sections": [
+  {
+   "id": "engagement",
+   "title": {
+    "en": "Engagement",
+    "ar": "الارتباط"
+   },
+   "fields": [
+    {
+     "id": "client",
+     "label": {
+      "en": "Entity audited",
+      "ar": "المنشأة محل المراجعة"
+     },
+     "type": "text",
+     "required": false,
+     "autofill": "engagement.client",
+     "readonly": true
+    },
+    {
+     "id": "period_start",
+     "label": {
+      "en": "Period from",
+      "ar": "الفترة من"
+     },
+     "type": "date",
+     "required": false,
+     "autofill": "engagement.period_start",
+     "readonly": true
+    },
+    {
+     "id": "period_end",
+     "label": {
+      "en": "Period to",
+      "ar": "الفترة إلى"
+     },
+     "type": "date",
+     "required": false,
+     "autofill": "engagement.period_end",
+     "readonly": true
+    },
+    {
+     "id": "framework",
+     "label": {
+      "en": "Financial reporting framework",
+      "ar": "إطار التقرير المالي"
+     },
+     "type": "text",
+     "required": false,
+     "autofill": "engagement.framework",
+     "readonly": true
+    }
+   ]
+  },
+  {
+   "id": "analytics",
+   "title": {
+    "en": "Final analytical review",
+    "ar": "الفحص التحليلي النهائي"
+   },
+   "fields": [
+    {
+     "id": "lines",
+     "label": {
+      "en": "Lines reviewed against an expectation from the prior period and its growth",
+      "ar": "البنود المفحوصة مقابل توقع من الفترة السابقة ونموها"
+     },
+     "type": "table",
+     "required": true,
+     "columns": [
+      {
+       "id": "name",
+       "label": {
+        "en": "Line",
+        "ar": "البند"
+       },
+       "type": "text",
+       "required": true
+      },
+      {
+       "id": "recorded",
+       "label": {
+        "en": "Recorded",
+        "ar": "المسجل"
+       },
+       "type": "money",
+       "required": true
+      },
+      {
+       "id": "prior",
+       "label": {
+        "en": "Prior period",
+        "ar": "الفترة السابقة"
+       },
+       "type": "money",
+       "required": true
+      },
+      {
+       "id": "growth_pct",
+       "label": {
+        "en": "Expected growth (percent)",
+        "ar": "النمو المتوقع (نسبة)"
+       },
+       "type": "percent",
+       "required": true
+      }
+     ]
+    },
+    {
+     "id": "performance_materiality",
+     "label": {
+      "en": "Performance materiality",
+      "ar": "مادية الأداء"
+     },
+     "type": "money",
+     "required": false,
+     "autofill": "paper.materiality.performance",
+     "readonly": true
+    },
+    {
+     "id": "lines_examined",
+     "label": {
+      "en": "Lines examined",
+      "ar": "البنود المفحوصة"
+     },
+     "type": "integer",
+     "required": false,
+     "autofill": "paper.analytical_review.lines_examined",
+     "readonly": true
+    },
+    {
+     "id": "lines_flagged",
+     "label": {
+      "en": "Lines to investigate",
+      "ar": "البنود الواجب استقصاؤها"
+     },
+     "type": "integer",
+     "required": false,
+     "autofill": "paper.analytical_review.lines_flagged",
+     "readonly": true
+    },
+    {
+     "id": "explanations",
+     "label": {
+      "en": "Explanations obtained and corroborated for the lines flagged",
+      "ar": "التفسيرات التي تم الحصول عليها وتأييدها للبنود المعلَّمة"
+     },
+     "type": "textarea",
+     "required": true
+    }
+   ],
+   "note": {
+    "en": "Compute the paper from the lines before signing; the analytical review and, when statement lines are entered, the tie-out are computed together.",
+    "ar": "تُحتسب الورقة من البنود قبل التوقيع؛ ويُحتسب الفحص التحليلي، وعند إدخال بنود القوائم، المطابقة معًا."
+   }
+  },
+  {
+   "id": "tieout",
+   "title": {
+    "en": "Tie-out of the statements",
+    "ar": "مطابقة القوائم"
+   },
+   "fields": [
+    {
+     "id": "statement_lines",
+     "label": {
+      "en": "Statement lines and the leadsheets they present",
+      "ar": "بنود القوائم وكشوف الحسابات التي تعرضها"
+     },
+     "type": "table",
+     "required": false,
+     "columns": [
+      {
+       "id": "line_id",
+       "label": {
+        "en": "Line",
+        "ar": "البند"
+       },
+       "type": "text",
+       "required": true
+      },
+      {
+       "id": "caption",
+       "label": {
+        "en": "Caption",
+        "ar": "العنوان"
+       },
+       "type": "text",
+       "required": true
+      },
+      {
+       "id": "presented",
+       "label": {
+        "en": "Amount presented",
+        "ar": "المبلغ المعروض"
+       },
+       "type": "money",
+       "required": true
+      },
+      {
+       "id": "leadsheets",
+       "label": {
+        "en": "Leadsheets (comma separated)",
+        "ar": "كشوف الحسابات (مفصولة بفواصل)"
+       },
+       "type": "text",
+       "required": true
+      },
+      {
+       "id": "sign",
+       "label": {
+        "en": "Sign",
+        "ar": "الإشارة"
+       },
+       "type": "select",
+       "required": true,
+       "options": [
+        {
+         "value": "1",
+         "label": {
+          "en": "Debit positive",
+          "ar": "المدين موجب"
+         }
+        },
+        {
+         "value": "-1",
+         "label": {
+          "en": "Credit positive",
+          "ar": "الدائن موجب"
+         }
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "id": "agrees",
+     "label": {
+      "en": "Every line agrees to its leadsheets",
+      "ar": "كل بند يتطابق مع كشوف حساباته"
+     },
+     "type": "text",
+     "required": false,
+     "autofill": "paper.tieout.agrees",
+     "readonly": true
+    },
+    {
+     "id": "lines_differing",
+     "label": {
+      "en": "Lines that differ",
+      "ar": "البنود المختلفة"
+     },
+     "type": "integer",
+     "required": false,
+     "autofill": "paper.tieout.lines_differing",
+     "readonly": true
+    },
+    {
+     "id": "closing_process",
+     "label": {
+      "en": "Evaluation of the closing process, the consolidation and the presentation",
+      "ar": "تقييم عملية الإقفال والتوحيد والعرض"
+     },
+     "type": "textarea",
+     "required": true
+    }
+   ]
+  },
+  {
+   "id": "comparatives",
+   "title": {
+    "en": "Comparatives and other information",
+    "ar": "المعلومات المقارنة والمعلومات الأخرى"
+   },
+   "fields": [
+    {
+     "id": "prior_auditor",
+     "label": {
+      "en": "Prior period audited by",
+      "ar": "الفترة السابقة راجعها"
+     },
+     "type": "select",
+     "required": true,
+     "options": [
+      {
+       "value": "us",
+       "label": {
+        "en": "This firm",
+        "ar": "هذا المكتب"
+       }
+      },
+      {
+       "value": "predecessor",
+       "label": {
+        "en": "A predecessor auditor",
+        "ar": "مراجع سابق"
+       }
+      },
+      {
+       "value": "unaudited",
+       "label": {
+        "en": "Not audited",
+        "ar": "لم تُراجع"
+       }
+      }
+     ]
+    },
+    {
+     "id": "comparatives_agree",
+     "label": {
+      "en": "Comparatives agree to the prior period's statements and policies are consistent",
+      "ar": "المعلومات المقارنة تتطابق مع قوائم الفترة السابقة والسياسات متسقة"
+     },
+     "type": "yesno",
+     "required": true
+    },
+    {
+     "id": "prior_modified",
+     "label": {
+      "en": "Prior period report modified",
+      "ar": "تقرير الفترة السابقة معدل"
+     },
+     "type": "select",
+     "required": true,
+     "options": [
+      {
+       "value": "yes",
+       "label": {
+        "en": "Yes",
+        "ar": "نعم"
+       }
+      },
+      {
+       "value": "no",
+       "label": {
+        "en": "No",
+        "ar": "لا"
+       }
+      },
+      {
+       "value": "na",
+       "label": {
+        "en": "Not applicable",
+        "ar": "لا ينطبق"
+       }
+      }
+     ]
+    },
+    {
+     "id": "other_information",
+     "label": {
+      "en": "Other information read and considered",
+      "ar": "المعلومات الأخرى التي تمت قراءتها والنظر فيها"
+     },
+     "type": "table",
+     "required": false,
+     "columns": [
+      {
+       "id": "document",
+       "label": {
+        "en": "Document",
+        "ar": "المستند"
+       },
+       "type": "text",
+       "required": true
+      },
+      {
+       "id": "read",
+       "label": {
+        "en": "Read",
+        "ar": "تمت قراءته"
+       },
+       "type": "yesno",
+       "required": true
+      },
+      {
+       "id": "inconsistencies",
+       "label": {
+        "en": "Material inconsistencies and their resolution",
+        "ar": "التناقضات الجوهرية وكيفية حلها"
+       },
+       "type": "textarea",
+       "required": false
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "checklist",
+   "title": {
+    "en": "Disclosure checklist and open items",
+    "ar": "قائمة الإفصاحات والبنود المفتوحة"
+   },
+   "fields": [
+    {
+     "id": "open_disclosures",
+     "label": {
+      "en": "Disclosure checklist items open",
+      "ar": "بنود قائمة الإفصاحات المفتوحة"
+     },
+     "type": "integer",
+     "required": false,
+     "autofill": "disclosures.open",
+     "readonly": true
+    },
+    {
+     "id": "open_review_notes",
+     "label": {
+      "en": "Review notes open",
+      "ar": "ملاحظات الفحص المفتوحة"
+     },
+     "type": "integer",
+     "required": false,
+     "autofill": "records.RK-REVIEW-NOTE.open",
+     "readonly": true
+    },
+    {
+     "id": "open_procedures",
+     "label": {
+      "en": "Procedures of the programme open",
+      "ar": "إجراءات البرنامج المفتوحة"
+     },
+     "type": "integer",
+     "required": false,
+     "autofill": "programme.open",
+     "readonly": true
+    },
+    {
+     "id": "conclusion",
+     "label": {
+      "en": "Conclusion on the financial statements as a whole",
+      "ar": "الاستنتاج بشأن القوائم المالية ككل"
+     },
+     "type": "select",
+     "required": true,
+     "options": [
+      {
+       "value": "appropriate",
+       "label": {
+        "en": "Prepared, in all material respects, in accordance with the framework",
+        "ar": "معدة، من جميع الجوانب الجوهرية، وفقًا للإطار"
+       }
+      },
+      {
+       "value": "exceptions",
+       "label": {
+        "en": "Exceptions carried to the misstatement evaluation and the report",
+        "ar": "استثناءات مرحّلة إلى تقييم التحريفات والتقرير"
+       }
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "signoff": {
+  "prepare": [
+   "partner",
+   "manager",
+   "senior"
+  ],
+  "review": [
+   "partner",
+   "manager"
+  ],
+  "approve": [
+   "partner"
+  ]
+ },
+ "version": 1,
+ "ar_status": "draft_pending_review"
+}

@@ -16,7 +16,7 @@ import urllib.request
 
 CID = sys.argv[1]
 DIST = sys.argv[2] if len(sys.argv) > 2 else os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'frontend', 'dist')
-BASE = f'https://memphis.mercaturaforum.com/_/raw/{CID}'
+BASE = f'https://<thebes-gateway>/_/raw/{CID}'
 
 
 def fetch(path):

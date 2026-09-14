@@ -531,7 +531,14 @@ module {
     } else {
       ignore switch (authorise(s, id, by, isAdmin, PREPARERS, kind == "RK-POST-ASSEMBLY-CHANGE")) { case (#ok(e)) e; case (#err(m)) return #err(m) };
     };
-    let fields = Py.optJ(Json.get(inp, "fields"));
+    if (kind == "RK-ADJUSTMENT") return #err("an adjusting entry is proposed through the adjustments act, which checks its legs against the trial balance");
+    createRecord(s, by, at, id, kind, Py.optJ(Json.get(inp, "fields")))
+  };
+
+  /// Create a checked record on behalf of an act that has already authorised the caller
+  /// (the adjustments act keeps the misstatement each entry projects this way).
+  public func createRecord(s : State, by : Principal, at : Int, id : Nat, kind : Text, fields : J) : R {
+    let spec = switch (kindSpec(kind)) { case (?k) k; case null return #err("unknown record kind " # Py.repr(kind)) };
     switch (validateFields(spec, fields)) { case (?p) return #err(kind # ": " # p); case null {} };
     let rid = nextId(s);
     let text = Json.toText(fields);
@@ -541,15 +548,50 @@ module {
     #ok(recordJ(r))
   };
 
+  public func findRecord(s : State, recordId : Nat) : ?Record {
+    for (r in List.values(s.records)) { if (r.id == recordId) return ?r };
+    null
+  };
+
+  /// The adjusting entry, if any, whose projected misstatement this record is.
+  public func adjustmentOf(s : State, misstatementId : Nat) : ?Record {
+    for (r in List.values(s.records)) {
+      if (r.kind == "RK-ADJUSTMENT") {
+        switch (Json.parse(r.fields)) {
+          case (#ok(f)) { if (Py.textOr(f, "misstatement", "") == Nat.toText(misstatementId)) return ?r };
+          case (#err(_)) {};
+        };
+      };
+    };
+    null
+  };
+
+  /// Replace a record's fields, checked against its kind, with a trail entry. The caller
+  /// has authorised the change.
+  public func setRecordFields(s : State, by : Principal, at : Int, r : Record, fields : J) : R {
+    let spec = switch (kindSpec(r.kind)) { case (?k) k; case null return #err("unknown record kind") };
+    switch (validateFields(spec, fields)) { case (?p) return #err(r.kind # ": " # p); case null {} };
+    r.fields := Json.toText(fields);
+    r.version += 1;
+    r.updatedAt := at;
+    r.contentHash := append(s, by, at, "record.update", "engagement:" # Nat.toText(r.engagementId) # "/record:" # Nat.toText(r.id), r.kind # "\n" # r.fields);
+    #ok(recordJ(r))
+  };
+
   /// Change a mutable record (review notes, requests, misstatements …). Immutable
   /// kinds refuse. A client may change only the state and evidence of a request
   /// addressed to it. Input: {fields} (the whole new field set).
   public func updateRecord(s : State, by : Principal, isAdmin : Bool, at : Int, recordId : Nat, inp : J) : R {
-    var found : ?Record = null;
-    for (r in List.values(s.records)) { if (r.id == recordId) found := ?r };
-    let r = switch (found) { case (?r) r; case null return #err("no record " # Nat.toText(recordId)) };
+    let r = switch (findRecord(s, recordId)) { case (?r) r; case null return #err("no record " # Nat.toText(recordId)) };
     let spec = switch (kindSpec(r.kind)) { case (?k) k; case null return #err("unknown record kind") };
     if (spec.immutable) return #err(r.kind # " records are immutable once made");
+    if (r.kind == "RK-ADJUSTMENT") return #err("an adjusting entry changes only by a decision on it (agreed, booked or waived)");
+    if (r.kind == "RK-MISSTATEMENT") {
+      switch (adjustmentOf(s, r.id)) {
+        case (?a) return #err("this misstatement is the projection of adjusting entry " # Nat.toText(a.id) # " and follows its decisions");
+        case null {};
+      };
+    };
     let fields = Py.optJ(Json.get(inp, "fields"));
     switch (validateFields(spec, fields)) { case (?p) return #err(r.kind # ": " # p); case null {} };
     if (r.engagementId == 0) {
@@ -572,11 +614,7 @@ module {
         case null { if (not isAdmin) return #err("not permitted: not a member of this engagement") };
       };
     };
-    r.fields := Json.toText(fields);
-    r.version += 1;
-    r.updatedAt := at;
-    r.contentHash := append(s, by, at, "record.update", "engagement:" # Nat.toText(r.engagementId) # "/record:" # Nat.toText(r.id), r.kind # "\n" # r.fields);
-    #ok(recordJ(r))
+    setRecordFields(s, by, at, r, fields)
   };
 
   /// Record a sign-off (RK-SIGNOFF) for a signed object. Called only by the form
@@ -667,6 +705,14 @@ module {
   public func firmRecords(s : State) : [J] {
     let out = List.empty<J>();
     for (r in List.values(s.records)) { if (r.engagementId == 0) List.add(out, recordJ(r)) };
+    List.toArray(out)
+  };
+
+  /// The entries whose target is one object (a form, a record, a paper), oldest first: the
+  /// chain a signed form shows and the browser recomputes.
+  public func trailFor(s : State, target : Text) : [J] {
+    let out = List.empty<J>();
+    for (e in List.values(s.trail)) { if (e.target == target) List.add(out, trailJ(e)) };
     List.toArray(out)
   };
 

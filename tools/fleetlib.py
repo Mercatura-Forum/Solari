@@ -3,7 +3,7 @@ validators' management interface for a contract's real module hash, cid allocati
 per-firm manifest directory. Used by provision_firm.py, verify_fleet.py, fleet_upgrade.py and
 issue_invitation.py.
 
-Every chain fact here is read from EVERY validator of the subnet and must agree; a disagreement is a
+Every chain fact here is read from every validator and must agree; a disagreement is a
 finding (the Sep-11 demo contract held a stale module on one node), never averaged away.
 Attribution: Thebes Core Team. Licence: Apache 2.0.
 """
@@ -31,7 +31,7 @@ FLEET_DIR = os.environ.get('FLEET_DIR', f'{R}/fleet')
 REGISTRY_MANIFEST = os.environ.get('REGISTRY_MANIFEST', f'{R}/registry/thebes.toml')
 RELEASE_WASM = os.environ.get('RELEASE_WASM', f'{R}/build/audit.wasm')
 # Every firm contract uses the app's one web origin (all Thebes apps share it).
-AUDIENCE = os.environ.get('AUDIT_AUDIENCE', 'https://memphis.mercaturaforum.com')
+AUDIENCE = os.environ.get('AUDIT_AUDIENCE', 'https://<thebes-gateway>')
 
 
 def log(*a):
@@ -125,7 +125,7 @@ def write_firm_manifest(firm_id, cid):
     text = f'''[project]
 name = "thebes-audit-firm-{firm_id}"
 default_network = "wan"
-chain_id = 2026
+chain_id = {os.environ.get("THEBES_CHAIN_ID", "0")}
 
 {network_block()}
 

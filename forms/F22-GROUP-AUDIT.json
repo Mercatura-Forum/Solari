@@ -1,0 +1,383 @@
+{
+ "id": "F22-GROUP-AUDIT",
+ "number": 22,
+ "kind": "worksheet",
+ "phase": "planning",
+ "title": {
+  "en": "Group audit plan and instructions to component auditors",
+  "ar": "خطة مراجعة المجموعة والتعليمات إلى مراجعي المكونات"
+ },
+ "purpose": {
+  "en": "Set the group audit strategy: the components and their scope, component performance materiality checked against the group's, the significant risks at group level, the instructions and communications with component auditors, and the group completion.",
+  "ar": "وضع استراتيجية مراجعة المجموعة: المكونات ونطاقها، ومادية الأداء للمكونات مقابل مادية المجموعة، والمخاطر المهمة على مستوى المجموعة، والتعليمات والاتصالات مع مراجعي المكونات، وإنجاز مراجعة المجموعة."
+ },
+ "procedures": [
+  "P-FSL-021",
+  "P-FSL-048"
+ ],
+ "standards": [
+  "ISA-600",
+  "ISA-320",
+  "ISA-330"
+ ],
+ "computation": "component_materiality",
+ "sections": [
+  {
+   "id": "engagement",
+   "title": {
+    "en": "Engagement",
+    "ar": "الارتباط"
+   },
+   "fields": [
+    {
+     "id": "client",
+     "label": {
+      "en": "Entity audited",
+      "ar": "المنشأة محل المراجعة"
+     },
+     "type": "text",
+     "required": false,
+     "autofill": "engagement.client",
+     "readonly": true
+    },
+    {
+     "id": "period_start",
+     "label": {
+      "en": "Period from",
+      "ar": "الفترة من"
+     },
+     "type": "date",
+     "required": false,
+     "autofill": "engagement.period_start",
+     "readonly": true
+    },
+    {
+     "id": "period_end",
+     "label": {
+      "en": "Period to",
+      "ar": "الفترة إلى"
+     },
+     "type": "date",
+     "required": false,
+     "autofill": "engagement.period_end",
+     "readonly": true
+    },
+    {
+     "id": "framework",
+     "label": {
+      "en": "Financial reporting framework",
+      "ar": "إطار التقرير المالي"
+     },
+     "type": "text",
+     "required": false,
+     "autofill": "engagement.framework",
+     "readonly": true
+    }
+   ]
+  },
+  {
+   "id": "group",
+   "title": {
+    "en": "The group",
+    "ar": "المجموعة"
+   },
+   "fields": [
+    {
+     "id": "structure",
+     "label": {
+      "en": "Group structure, consolidation process and the components identified",
+      "ar": "هيكل المجموعة وعملية التوحيد والمكونات المحددة"
+     },
+     "type": "textarea",
+     "required": true
+    },
+    {
+     "id": "ladder",
+     "label": {
+      "en": "Components on this file and their state",
+      "ar": "المكونات في هذا الملف وحالتها"
+     },
+     "type": "table",
+     "required": false,
+     "autofill": "group.components",
+     "readonly": true,
+     "columns": [
+      {
+       "id": "name",
+       "label": {
+        "en": "Component",
+        "ar": "المكون"
+       },
+       "type": "text",
+       "required": false
+      },
+      {
+       "id": "entity",
+       "label": {
+        "en": "Entity",
+        "ar": "الكيان"
+       },
+       "type": "text",
+       "required": false
+      },
+      {
+       "id": "component_auditor",
+       "label": {
+        "en": "Component auditor",
+        "ar": "مراجع المكون"
+       },
+       "type": "text",
+       "required": false
+      },
+      {
+       "id": "scope",
+       "label": {
+        "en": "Scope",
+        "ar": "النطاق"
+       },
+       "type": "text",
+       "required": false
+      },
+      {
+       "id": "status",
+       "label": {
+        "en": "State",
+        "ar": "الحالة"
+       },
+       "type": "text",
+       "required": false
+      }
+     ]
+    },
+    {
+     "id": "group_overall",
+     "label": {
+      "en": "Group overall materiality",
+      "ar": "الأهمية النسبية الإجمالية للمجموعة"
+     },
+     "type": "money",
+     "required": false,
+     "autofill": "paper.materiality.overall",
+     "readonly": true
+    },
+    {
+     "id": "group_performance",
+     "label": {
+      "en": "Group performance materiality",
+      "ar": "مادية الأداء للمجموعة"
+     },
+     "type": "money",
+     "required": false,
+     "autofill": "paper.materiality.performance",
+     "readonly": true
+    },
+    {
+     "id": "group_clearly_trivial",
+     "label": {
+      "en": "Group clearly trivial threshold",
+      "ar": "حد المبالغ التافهة للمجموعة"
+     },
+     "type": "money",
+     "required": false,
+     "autofill": "paper.materiality.clearly_trivial",
+     "readonly": true
+    }
+   ]
+  },
+  {
+   "id": "materiality",
+   "title": {
+    "en": "Component materiality",
+    "ar": "الأهمية النسبية للمكونات"
+   },
+   "fields": [
+    {
+     "id": "components",
+     "label": {
+      "en": "Component performance materiality and communication thresholds",
+      "ar": "مادية الأداء للمكونات وحدود الإبلاغ"
+     },
+     "type": "table",
+     "required": true,
+     "columns": [
+      {
+       "id": "id",
+       "label": {
+        "en": "Component",
+        "ar": "المكون"
+       },
+       "type": "text",
+       "required": true
+      },
+      {
+       "id": "name",
+       "label": {
+        "en": "Entity",
+        "ar": "الكيان"
+       },
+       "type": "text",
+       "required": true
+      },
+      {
+       "id": "performance",
+       "label": {
+        "en": "Component performance materiality",
+        "ar": "مادية الأداء للمكون"
+       },
+       "type": "money",
+       "required": true
+      },
+      {
+       "id": "threshold",
+       "label": {
+        "en": "Threshold for communicating misstatements",
+        "ar": "حد الإبلاغ عن التحريفات"
+       },
+       "type": "money",
+       "required": true
+      }
+     ]
+    },
+    {
+     "id": "all_compliant",
+     "label": {
+      "en": "Every component below the group's performance materiality and within the clearly trivial threshold",
+      "ar": "كل المكونات دون مادية الأداء للمجموعة وضمن حد المبالغ التافهة"
+     },
+     "type": "text",
+     "required": false,
+     "autofill": "paper.component_materiality.all_compliant",
+     "readonly": true
+    },
+    {
+     "id": "components_examined",
+     "label": {
+      "en": "Components checked",
+      "ar": "المكونات التي تم فحصها"
+     },
+     "type": "integer",
+     "required": false,
+     "autofill": "paper.component_materiality.components_examined",
+     "readonly": true
+    }
+   ],
+   "note": {
+    "en": "Compute the component materiality paper from the table; the check is frozen when the plan is prepared.",
+    "ar": "تُحتسب ورقة الأهمية النسبية للمكونات من الجدول؛ ويُثبت الفحص عند إعداد الخطة."
+   }
+  },
+  {
+   "id": "instructions",
+   "title": {
+    "en": "Instructions and communication",
+    "ar": "التعليمات والاتصال"
+   },
+   "fields": [
+    {
+     "id": "significant_risks",
+     "label": {
+      "en": "Significant risks of material misstatement of the group financial statements",
+      "ar": "المخاطر المهمة للتحريف الجوهري في القوائم المالية للمجموعة"
+     },
+     "type": "textarea",
+     "required": true
+    },
+    {
+     "id": "work_requested",
+     "label": {
+      "en": "Work requested from component auditors, by component",
+      "ar": "العمل المطلوب من مراجعي المكونات، حسب المكون"
+     },
+     "type": "textarea",
+     "required": true
+    },
+    {
+     "id": "reporting_deadline",
+     "label": {
+      "en": "Reporting deadline for component auditors",
+      "ar": "الموعد النهائي لتقارير مراجعي المكونات"
+     },
+     "type": "date",
+     "required": true
+    },
+    {
+     "id": "involvement",
+     "label": {
+      "en": "Group team's involvement in the component auditors' work",
+      "ar": "مشاركة فريق المجموعة في عمل مراجعي المكونات"
+     },
+     "type": "textarea",
+     "required": true
+    }
+   ]
+  },
+  {
+   "id": "completion",
+   "title": {
+    "en": "Group completion",
+    "ar": "إنجاز مراجعة المجموعة"
+   },
+   "fields": [
+    {
+     "id": "evaluation",
+     "label": {
+      "en": "Evaluation of component auditors' reports and the sufficiency of group evidence",
+      "ar": "تقييم تقارير مراجعي المكونات وكفاية أدلة المجموعة"
+     },
+     "type": "textarea",
+     "required": false
+    },
+    {
+     "id": "consolidation",
+     "label": {
+      "en": "Consolidation adjustments and reclassifications tested",
+      "ar": "تسويات التوحيد وإعادة التبويب المختبرة"
+     },
+     "type": "textarea",
+     "required": false
+    },
+    {
+     "id": "conclusion",
+     "label": {
+      "en": "Conclusion",
+      "ar": "الاستنتاج"
+     },
+     "type": "select",
+     "required": false,
+     "options": [
+      {
+       "value": "sufficient",
+       "label": {
+        "en": "Sufficient appropriate evidence obtained for the group opinion",
+        "ar": "تم الحصول على ما يكفي من الأدلة المناسبة لرأي المجموعة"
+       }
+      },
+      {
+       "value": "not_yet",
+       "label": {
+        "en": "Not yet: component work outstanding",
+        "ar": "ليس بعد: عمل المكونات لم يكتمل"
+       }
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "signoff": {
+  "prepare": [
+   "partner",
+   "manager",
+   "senior"
+  ],
+  "review": [
+   "partner",
+   "manager"
+  ],
+  "approve": [
+   "partner"
+  ]
+ },
+ "version": 1,
+ "ar_status": "draft_pending_review"
+}

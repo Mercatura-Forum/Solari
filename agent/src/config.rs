@@ -12,8 +12,8 @@
 //! key = "/var/lib/thebes-agent/key.pem"            # generated here, never leaves this machine
 //!
 //! [capability]
-//! rp_id = "memphis.mercaturaforum.com"             # the app's relying party
-//! origins = ["https://memphis.mercaturaforum.com"]
+//! rp_id = "<thebes-gateway>"             # the app's relying party
+//! origins = ["https://<thebes-gateway>"]
 //! client_public_key = "BF…"                        # the client's passkey public key, base64url
 //!
 //! [adapter]

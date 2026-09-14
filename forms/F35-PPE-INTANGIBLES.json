@@ -1,0 +1,1220 @@
+{
+ "id": "F35-PPE-INTANGIBLES",
+ "number": 35,
+ "kind": "worksheet",
+ "phase": "fieldwork",
+ "title": {
+  "en": "Property, plant, equipment and intangibles working paper",
+  "ar": "ورقة عمل الممتلكات والآلات والمعدات والأصول غير الملموسة"
+ },
+ "purpose": {
+  "en": "Document every substantive procedure of the property, plant, equipment and intangibles cycle: the work, the results, the evidence and the conclusion, against the balances the trial balance holds.",
+  "ar": "توثيق كل إجراء أساسي في دورة الممتلكات والآلات والمعدات والأصول غير الملموسة: العمل والنتائج والأدلة والاستنتاج، مقابل الأرصدة الواردة في ميزان المراجعة."
+ },
+ "procedures": [
+  "P-PPE-001",
+  "P-PPE-002",
+  "P-PPE-003",
+  "P-PPE-004",
+  "P-PPE-005",
+  "P-PPE-006",
+  "P-PPE-007",
+  "P-PPE-008",
+  "P-PPE-009",
+  "P-PPE-010"
+ ],
+ "standards": [
+  "ISA-330",
+  "ISA-500",
+  "ISA-530",
+  "ISA-540",
+  "ISA-620"
+ ],
+ "sections": [
+  {
+   "id": "engagement",
+   "title": {
+    "en": "Engagement",
+    "ar": "الارتباط"
+   },
+   "fields": [
+    {
+     "id": "client",
+     "label": {
+      "en": "Entity audited",
+      "ar": "المنشأة محل المراجعة"
+     },
+     "type": "text",
+     "required": false,
+     "autofill": "engagement.client",
+     "readonly": true
+    },
+    {
+     "id": "period_start",
+     "label": {
+      "en": "Period from",
+      "ar": "الفترة من"
+     },
+     "type": "date",
+     "required": false,
+     "autofill": "engagement.period_start",
+     "readonly": true
+    },
+    {
+     "id": "period_end",
+     "label": {
+      "en": "Period to",
+      "ar": "الفترة إلى"
+     },
+     "type": "date",
+     "required": false,
+     "autofill": "engagement.period_end",
+     "readonly": true
+    },
+    {
+     "id": "framework",
+     "label": {
+      "en": "Financial reporting framework",
+      "ar": "إطار التقرير المالي"
+     },
+     "type": "text",
+     "required": false,
+     "autofill": "engagement.framework",
+     "readonly": true
+    }
+   ]
+  },
+  {
+   "id": "balances",
+   "title": {
+    "en": "Balances, materiality and risks",
+    "ar": "الأرصدة والأهمية النسبية والمخاطر"
+   },
+   "fields": [
+    {
+     "id": "performance_materiality",
+     "label": {
+      "en": "Performance materiality",
+      "ar": "مادية الأداء"
+     },
+     "type": "money",
+     "required": false,
+     "autofill": "paper.materiality.performance",
+     "readonly": true
+    },
+    {
+     "id": "clearly_trivial",
+     "label": {
+      "en": "Clearly trivial threshold",
+      "ar": "حد المبالغ التافهة بشكل واضح"
+     },
+     "type": "money",
+     "required": false,
+     "autofill": "paper.materiality.clearly_trivial",
+     "readonly": true
+    },
+    {
+     "id": "ls_ppe",
+     "label": {
+      "en": "Property, plant and equipment (LS-PPE)",
+      "ar": "Property, plant and equipment (LS-PPE)"
+     },
+     "type": "money",
+     "required": false,
+     "autofill": "tb.leadsheet.LS-PPE",
+     "readonly": true
+    },
+    {
+     "id": "ls_ppe_prior",
+     "label": {
+      "en": "Property, plant and equipment, prior period",
+      "ar": "Property, plant and equipment، الفترة السابقة"
+     },
+     "type": "money",
+     "required": false,
+     "autofill": "tb.leadsheet.LS-PPE.prior",
+     "readonly": true
+    },
+    {
+     "id": "ls_invp",
+     "label": {
+      "en": "Investment property (LS-INVP)",
+      "ar": "Investment property (LS-INVP)"
+     },
+     "type": "money",
+     "required": false,
+     "autofill": "tb.leadsheet.LS-INVP",
+     "readonly": true
+    },
+    {
+     "id": "ls_invp_prior",
+     "label": {
+      "en": "Investment property, prior period",
+      "ar": "Investment property، الفترة السابقة"
+     },
+     "type": "money",
+     "required": false,
+     "autofill": "tb.leadsheet.LS-INVP.prior",
+     "readonly": true
+    },
+    {
+     "id": "ls_intg",
+     "label": {
+      "en": "Intangible assets and goodwill (LS-INTG)",
+      "ar": "Intangible assets and goodwill (LS-INTG)"
+     },
+     "type": "money",
+     "required": false,
+     "autofill": "tb.leadsheet.LS-INTG",
+     "readonly": true
+    },
+    {
+     "id": "ls_intg_prior",
+     "label": {
+      "en": "Intangible assets and goodwill, prior period",
+      "ar": "Intangible assets and goodwill، الفترة السابقة"
+     },
+     "type": "money",
+     "required": false,
+     "autofill": "tb.leadsheet.LS-INTG.prior",
+     "readonly": true
+    },
+    {
+     "id": "ls_rou",
+     "label": {
+      "en": "Right-of-use assets (LS-ROU)",
+      "ar": "Right-of-use assets (LS-ROU)"
+     },
+     "type": "money",
+     "required": false,
+     "autofill": "tb.leadsheet.LS-ROU",
+     "readonly": true
+    },
+    {
+     "id": "ls_rou_prior",
+     "label": {
+      "en": "Right-of-use assets, prior period",
+      "ar": "Right-of-use assets، الفترة السابقة"
+     },
+     "type": "money",
+     "required": false,
+     "autofill": "tb.leadsheet.LS-ROU.prior",
+     "readonly": true
+    },
+    {
+     "id": "ls_depr",
+     "label": {
+      "en": "Depreciation and amortisation (LS-DEPR)",
+      "ar": "Depreciation and amortisation (LS-DEPR)"
+     },
+     "type": "money",
+     "required": false,
+     "autofill": "tb.leadsheet.LS-DEPR",
+     "readonly": true
+    },
+    {
+     "id": "ls_depr_prior",
+     "label": {
+      "en": "Depreciation and amortisation, prior period",
+      "ar": "Depreciation and amortisation، الفترة السابقة"
+     },
+     "type": "money",
+     "required": false,
+     "autofill": "tb.leadsheet.LS-DEPR.prior",
+     "readonly": true
+    },
+    {
+     "id": "ls_imp",
+     "label": {
+      "en": "Impairment losses (LS-IMP)",
+      "ar": "Impairment losses (LS-IMP)"
+     },
+     "type": "money",
+     "required": false,
+     "autofill": "tb.leadsheet.LS-IMP",
+     "readonly": true
+    },
+    {
+     "id": "ls_imp_prior",
+     "label": {
+      "en": "Impairment losses, prior period",
+      "ar": "Impairment losses، الفترة السابقة"
+     },
+     "type": "money",
+     "required": false,
+     "autofill": "tb.leadsheet.LS-IMP.prior",
+     "readonly": true
+    },
+    {
+     "id": "risks",
+     "label": {
+      "en": "Risks placed on this cycle by the risk register",
+      "ar": "المخاطر الموضوعة على هذه الدورة في سجل المخاطر"
+     },
+     "type": "table",
+     "required": false,
+     "autofill": "form.F04-RISK-REGISTER.risks",
+     "readonly": true,
+     "columns": [
+      {
+       "id": "risk",
+       "label": {
+        "en": "Risk",
+        "ar": "الخطر"
+       },
+       "type": "text",
+       "required": true
+      },
+      {
+       "id": "level",
+       "label": {
+        "en": "Level",
+        "ar": "المستوى"
+       },
+       "type": "text",
+       "required": false
+      },
+      {
+       "id": "assertions",
+       "label": {
+        "en": "Assertions affected",
+        "ar": "الإقرارات المتأثرة"
+       },
+       "type": "text",
+       "required": false
+      },
+      {
+       "id": "inherent_risk",
+       "label": {
+        "en": "Inherent risk",
+        "ar": "الخطر الملازم"
+       },
+       "type": "text",
+       "required": false
+      },
+      {
+       "id": "significant",
+       "label": {
+        "en": "Significant risk",
+        "ar": "خطر مهم"
+       },
+       "type": "text",
+       "required": false
+      },
+      {
+       "id": "control_risk",
+       "label": {
+        "en": "Control risk",
+        "ar": "خطر الرقابة"
+       },
+       "type": "text",
+       "required": false
+      },
+      {
+       "id": "response",
+       "label": {
+        "en": "Planned response",
+        "ar": "الاستجابة المخططة"
+       },
+       "type": "textarea",
+       "required": false
+      }
+     ]
+    }
+   ],
+   "note": {
+    "en": "Balances are read from the latest accepted trial balance and frozen when the paper is prepared; a later import marks them as drifted.",
+    "ar": "تُقرأ الأرصدة من أحدث ميزان مراجعة مقبول وتُثبت عند إعداد الورقة؛ ويؤدي استيراد لاحق إلى وسمها بأنها تغيرت."
+   }
+  },
+  {
+   "id": "p_ppe_001",
+   "title": {
+    "en": "P-PPE-001 Fixed asset register reconciliation",
+    "ar": "P-PPE-001 مطابقة سجل الأصول الثابتة"
+   },
+   "fields": [
+    {
+     "id": "p_ppe_001_work",
+     "label": {
+      "en": "Work performed",
+      "ar": "العمل المنفذ"
+     },
+     "type": "textarea",
+     "required": true
+    },
+    {
+     "id": "p_ppe_001_result",
+     "label": {
+      "en": "Results and exceptions",
+      "ar": "النتائج والاستثناءات"
+     },
+     "type": "textarea",
+     "required": true
+    },
+    {
+     "id": "p_ppe_001_samples",
+     "label": {
+      "en": "Samples recorded for this procedure",
+      "ar": "العينات المسجلة لهذا الإجراء"
+     },
+     "type": "integer",
+     "required": false,
+     "autofill": "records.RK-SAMPLE.for.P-PPE-001",
+     "readonly": true
+    },
+    {
+     "id": "p_ppe_001_evidence",
+     "label": {
+      "en": "Evidence links citing this procedure",
+      "ar": "روابط الأدلة التي تستشهد بهذا الإجراء"
+     },
+     "type": "integer",
+     "required": false,
+     "autofill": "records.RK-EVIDENCE-LINK.for.P-PPE-001",
+     "readonly": true
+    },
+    {
+     "id": "p_ppe_001_conclusion",
+     "label": {
+      "en": "Conclusion",
+      "ar": "الاستنتاج"
+     },
+     "type": "select",
+     "required": true,
+     "options": [
+      {
+       "value": "performed_no_exception",
+       "label": {
+        "en": "Performed, no exception",
+        "ar": "نُفذ دون استثناء"
+       }
+      },
+      {
+       "value": "performed_exception",
+       "label": {
+        "en": "Performed, exception noted",
+        "ar": "نُفذ مع ملاحظة استثناء"
+       }
+      },
+      {
+       "value": "not_applicable",
+       "label": {
+        "en": "Not applicable, reason stated",
+        "ar": "لا ينطبق، مع بيان السبب"
+       }
+      }
+     ]
+    }
+   ],
+   "note": {
+    "en": "Agree the register to the ledger and the movements schedule.",
+    "ar": "Agree the register to the ledger and the movements schedule."
+   }
+  },
+  {
+   "id": "p_ppe_002",
+   "title": {
+    "en": "P-PPE-002 Additions vouching and capitalisation review",
+    "ar": "P-PPE-002 التحقق المستندي من الإضافات وفحص الرسملة"
+   },
+   "fields": [
+    {
+     "id": "p_ppe_002_work",
+     "label": {
+      "en": "Work performed",
+      "ar": "العمل المنفذ"
+     },
+     "type": "textarea",
+     "required": true
+    },
+    {
+     "id": "p_ppe_002_result",
+     "label": {
+      "en": "Results and exceptions",
+      "ar": "النتائج والاستثناءات"
+     },
+     "type": "textarea",
+     "required": true
+    },
+    {
+     "id": "p_ppe_002_samples",
+     "label": {
+      "en": "Samples recorded for this procedure",
+      "ar": "العينات المسجلة لهذا الإجراء"
+     },
+     "type": "integer",
+     "required": false,
+     "autofill": "records.RK-SAMPLE.for.P-PPE-002",
+     "readonly": true
+    },
+    {
+     "id": "p_ppe_002_evidence",
+     "label": {
+      "en": "Evidence links citing this procedure",
+      "ar": "روابط الأدلة التي تستشهد بهذا الإجراء"
+     },
+     "type": "integer",
+     "required": false,
+     "autofill": "records.RK-EVIDENCE-LINK.for.P-PPE-002",
+     "readonly": true
+    },
+    {
+     "id": "p_ppe_002_sample_size",
+     "label": {
+      "en": "Sample size from the sampling plan",
+      "ar": "حجم العينة من خطة العينة"
+     },
+     "type": "integer",
+     "required": false,
+     "autofill": "paper.mus_sample_size.sample_size",
+     "readonly": true
+    },
+    {
+     "id": "p_ppe_002_upper_limit",
+     "label": {
+      "en": "Upper misstatement limit from the evaluation",
+      "ar": "الحد الأعلى للتحريف من التقييم"
+     },
+     "type": "money",
+     "required": false,
+     "autofill": "paper.mus_evaluate.upper_misstatement_limit",
+     "readonly": true
+    },
+    {
+     "id": "p_ppe_002_conclusion",
+     "label": {
+      "en": "Conclusion",
+      "ar": "الاستنتاج"
+     },
+     "type": "select",
+     "required": true,
+     "options": [
+      {
+       "value": "performed_no_exception",
+       "label": {
+        "en": "Performed, no exception",
+        "ar": "نُفذ دون استثناء"
+       }
+      },
+      {
+       "value": "performed_exception",
+       "label": {
+        "en": "Performed, exception noted",
+        "ar": "نُفذ مع ملاحظة استثناء"
+       }
+      },
+      {
+       "value": "not_applicable",
+       "label": {
+        "en": "Not applicable, reason stated",
+        "ar": "لا ينطبق، مع بيان السبب"
+       }
+      }
+     ]
+    }
+   ],
+   "note": {
+    "en": "Obtain evidence of the occurrence, accuracy and classification of additions.",
+    "ar": "Obtain evidence of the occurrence, accuracy and classification of additions."
+   }
+  },
+  {
+   "id": "p_ppe_003",
+   "title": {
+    "en": "P-PPE-003 Disposals and derecognition",
+    "ar": "P-PPE-003 الاستبعادات وإلغاء الإثبات"
+   },
+   "fields": [
+    {
+     "id": "p_ppe_003_work",
+     "label": {
+      "en": "Work performed",
+      "ar": "العمل المنفذ"
+     },
+     "type": "textarea",
+     "required": true
+    },
+    {
+     "id": "p_ppe_003_result",
+     "label": {
+      "en": "Results and exceptions",
+      "ar": "النتائج والاستثناءات"
+     },
+     "type": "textarea",
+     "required": true
+    },
+    {
+     "id": "p_ppe_003_samples",
+     "label": {
+      "en": "Samples recorded for this procedure",
+      "ar": "العينات المسجلة لهذا الإجراء"
+     },
+     "type": "integer",
+     "required": false,
+     "autofill": "records.RK-SAMPLE.for.P-PPE-003",
+     "readonly": true
+    },
+    {
+     "id": "p_ppe_003_evidence",
+     "label": {
+      "en": "Evidence links citing this procedure",
+      "ar": "روابط الأدلة التي تستشهد بهذا الإجراء"
+     },
+     "type": "integer",
+     "required": false,
+     "autofill": "records.RK-EVIDENCE-LINK.for.P-PPE-003",
+     "readonly": true
+    },
+    {
+     "id": "p_ppe_003_conclusion",
+     "label": {
+      "en": "Conclusion",
+      "ar": "الاستنتاج"
+     },
+     "type": "select",
+     "required": true,
+     "options": [
+      {
+       "value": "performed_no_exception",
+       "label": {
+        "en": "Performed, no exception",
+        "ar": "نُفذ دون استثناء"
+       }
+      },
+      {
+       "value": "performed_exception",
+       "label": {
+        "en": "Performed, exception noted",
+        "ar": "نُفذ مع ملاحظة استثناء"
+       }
+      },
+      {
+       "value": "not_applicable",
+       "label": {
+        "en": "Not applicable, reason stated",
+        "ar": "لا ينطبق، مع بيان السبب"
+       }
+      }
+     ]
+    }
+   ],
+   "note": {
+    "en": "Obtain evidence that disposals are complete and gains or losses correct.",
+    "ar": "Obtain evidence that disposals are complete and gains or losses correct."
+   }
+  },
+  {
+   "id": "p_ppe_004",
+   "title": {
+    "en": "P-PPE-004 Physical verification and title",
+    "ar": "P-PPE-004 المعاينة الفعلية والملكية"
+   },
+   "fields": [
+    {
+     "id": "p_ppe_004_work",
+     "label": {
+      "en": "Work performed",
+      "ar": "العمل المنفذ"
+     },
+     "type": "textarea",
+     "required": true
+    },
+    {
+     "id": "p_ppe_004_result",
+     "label": {
+      "en": "Results and exceptions",
+      "ar": "النتائج والاستثناءات"
+     },
+     "type": "textarea",
+     "required": true
+    },
+    {
+     "id": "p_ppe_004_samples",
+     "label": {
+      "en": "Samples recorded for this procedure",
+      "ar": "العينات المسجلة لهذا الإجراء"
+     },
+     "type": "integer",
+     "required": false,
+     "autofill": "records.RK-SAMPLE.for.P-PPE-004",
+     "readonly": true
+    },
+    {
+     "id": "p_ppe_004_evidence",
+     "label": {
+      "en": "Evidence links citing this procedure",
+      "ar": "روابط الأدلة التي تستشهد بهذا الإجراء"
+     },
+     "type": "integer",
+     "required": false,
+     "autofill": "records.RK-EVIDENCE-LINK.for.P-PPE-004",
+     "readonly": true
+    },
+    {
+     "id": "p_ppe_004_conclusion",
+     "label": {
+      "en": "Conclusion",
+      "ar": "الاستنتاج"
+     },
+     "type": "select",
+     "required": true,
+     "options": [
+      {
+       "value": "performed_no_exception",
+       "label": {
+        "en": "Performed, no exception",
+        "ar": "نُفذ دون استثناء"
+       }
+      },
+      {
+       "value": "performed_exception",
+       "label": {
+        "en": "Performed, exception noted",
+        "ar": "نُفذ مع ملاحظة استثناء"
+       }
+      },
+      {
+       "value": "not_applicable",
+       "label": {
+        "en": "Not applicable, reason stated",
+        "ar": "لا ينطبق، مع بيان السبب"
+       }
+      }
+     ]
+    }
+   ],
+   "note": {
+    "en": "Obtain evidence of the existence of and rights to significant assets.",
+    "ar": "Obtain evidence of the existence of and rights to significant assets."
+   }
+  },
+  {
+   "id": "p_ppe_005",
+   "title": {
+    "en": "P-PPE-005 Depreciation and amortisation recalculation",
+    "ar": "P-PPE-005 إعادة احتساب الإهلاك والاستهلاك"
+   },
+   "fields": [
+    {
+     "id": "p_ppe_005_work",
+     "label": {
+      "en": "Work performed",
+      "ar": "العمل المنفذ"
+     },
+     "type": "textarea",
+     "required": true
+    },
+    {
+     "id": "p_ppe_005_result",
+     "label": {
+      "en": "Results and exceptions",
+      "ar": "النتائج والاستثناءات"
+     },
+     "type": "textarea",
+     "required": true
+    },
+    {
+     "id": "p_ppe_005_samples",
+     "label": {
+      "en": "Samples recorded for this procedure",
+      "ar": "العينات المسجلة لهذا الإجراء"
+     },
+     "type": "integer",
+     "required": false,
+     "autofill": "records.RK-SAMPLE.for.P-PPE-005",
+     "readonly": true
+    },
+    {
+     "id": "p_ppe_005_evidence",
+     "label": {
+      "en": "Evidence links citing this procedure",
+      "ar": "روابط الأدلة التي تستشهد بهذا الإجراء"
+     },
+     "type": "integer",
+     "required": false,
+     "autofill": "records.RK-EVIDENCE-LINK.for.P-PPE-005",
+     "readonly": true
+    },
+    {
+     "id": "p_ppe_005_conclusion",
+     "label": {
+      "en": "Conclusion",
+      "ar": "الاستنتاج"
+     },
+     "type": "select",
+     "required": true,
+     "options": [
+      {
+       "value": "performed_no_exception",
+       "label": {
+        "en": "Performed, no exception",
+        "ar": "نُفذ دون استثناء"
+       }
+      },
+      {
+       "value": "performed_exception",
+       "label": {
+        "en": "Performed, exception noted",
+        "ar": "نُفذ مع ملاحظة استثناء"
+       }
+      },
+      {
+       "value": "not_applicable",
+       "label": {
+        "en": "Not applicable, reason stated",
+        "ar": "لا ينطبق، مع بيان السبب"
+       }
+      }
+     ]
+    }
+   ],
+   "note": {
+    "en": "Obtain evidence over the accuracy of depreciation and amortisation.",
+    "ar": "Obtain evidence over the accuracy of depreciation and amortisation."
+   }
+  },
+  {
+   "id": "p_ppe_006",
+   "title": {
+    "en": "P-PPE-006 Impairment assessment",
+    "ar": "P-PPE-006 تقييم الاضمحلال"
+   },
+   "fields": [
+    {
+     "id": "p_ppe_006_work",
+     "label": {
+      "en": "Work performed",
+      "ar": "العمل المنفذ"
+     },
+     "type": "textarea",
+     "required": true
+    },
+    {
+     "id": "p_ppe_006_result",
+     "label": {
+      "en": "Results and exceptions",
+      "ar": "النتائج والاستثناءات"
+     },
+     "type": "textarea",
+     "required": true
+    },
+    {
+     "id": "p_ppe_006_samples",
+     "label": {
+      "en": "Samples recorded for this procedure",
+      "ar": "العينات المسجلة لهذا الإجراء"
+     },
+     "type": "integer",
+     "required": false,
+     "autofill": "records.RK-SAMPLE.for.P-PPE-006",
+     "readonly": true
+    },
+    {
+     "id": "p_ppe_006_evidence",
+     "label": {
+      "en": "Evidence links citing this procedure",
+      "ar": "روابط الأدلة التي تستشهد بهذا الإجراء"
+     },
+     "type": "integer",
+     "required": false,
+     "autofill": "records.RK-EVIDENCE-LINK.for.P-PPE-006",
+     "readonly": true
+    },
+    {
+     "id": "p_ppe_006_conclusion",
+     "label": {
+      "en": "Conclusion",
+      "ar": "الاستنتاج"
+     },
+     "type": "select",
+     "required": true,
+     "options": [
+      {
+       "value": "performed_no_exception",
+       "label": {
+        "en": "Performed, no exception",
+        "ar": "نُفذ دون استثناء"
+       }
+      },
+      {
+       "value": "performed_exception",
+       "label": {
+        "en": "Performed, exception noted",
+        "ar": "نُفذ مع ملاحظة استثناء"
+       }
+      },
+      {
+       "value": "not_applicable",
+       "label": {
+        "en": "Not applicable, reason stated",
+        "ar": "لا ينطبق، مع بيان السبب"
+       }
+      }
+     ]
+    }
+   ],
+   "note": {
+    "en": "Evaluate whether impairment indicators exist and any impairment test.",
+    "ar": "Evaluate whether impairment indicators exist and any impairment test."
+   }
+  },
+  {
+   "id": "p_ppe_007",
+   "title": {
+    "en": "P-PPE-007 Intangible assets and development costs",
+    "ar": "P-PPE-007 الأصول غير الملموسة وتكاليف التطوير"
+   },
+   "fields": [
+    {
+     "id": "p_ppe_007_work",
+     "label": {
+      "en": "Work performed",
+      "ar": "العمل المنفذ"
+     },
+     "type": "textarea",
+     "required": true
+    },
+    {
+     "id": "p_ppe_007_result",
+     "label": {
+      "en": "Results and exceptions",
+      "ar": "النتائج والاستثناءات"
+     },
+     "type": "textarea",
+     "required": true
+    },
+    {
+     "id": "p_ppe_007_samples",
+     "label": {
+      "en": "Samples recorded for this procedure",
+      "ar": "العينات المسجلة لهذا الإجراء"
+     },
+     "type": "integer",
+     "required": false,
+     "autofill": "records.RK-SAMPLE.for.P-PPE-007",
+     "readonly": true
+    },
+    {
+     "id": "p_ppe_007_evidence",
+     "label": {
+      "en": "Evidence links citing this procedure",
+      "ar": "روابط الأدلة التي تستشهد بهذا الإجراء"
+     },
+     "type": "integer",
+     "required": false,
+     "autofill": "records.RK-EVIDENCE-LINK.for.P-PPE-007",
+     "readonly": true
+    },
+    {
+     "id": "p_ppe_007_conclusion",
+     "label": {
+      "en": "Conclusion",
+      "ar": "الاستنتاج"
+     },
+     "type": "select",
+     "required": true,
+     "options": [
+      {
+       "value": "performed_no_exception",
+       "label": {
+        "en": "Performed, no exception",
+        "ar": "نُفذ دون استثناء"
+       }
+      },
+      {
+       "value": "performed_exception",
+       "label": {
+        "en": "Performed, exception noted",
+        "ar": "نُفذ مع ملاحظة استثناء"
+       }
+      },
+      {
+       "value": "not_applicable",
+       "label": {
+        "en": "Not applicable, reason stated",
+        "ar": "لا ينطبق، مع بيان السبب"
+       }
+      }
+     ]
+    }
+   ],
+   "note": {
+    "en": "Obtain evidence over recognition and measurement of intangibles.",
+    "ar": "Obtain evidence over recognition and measurement of intangibles."
+   }
+  },
+  {
+   "id": "p_ppe_008",
+   "title": {
+    "en": "P-PPE-008 Right-of-use assets and lease accounting",
+    "ar": "P-PPE-008 أصول حق الاستخدام ومحاسبة عقود الإيجار"
+   },
+   "fields": [
+    {
+     "id": "p_ppe_008_work",
+     "label": {
+      "en": "Work performed",
+      "ar": "العمل المنفذ"
+     },
+     "type": "textarea",
+     "required": true
+    },
+    {
+     "id": "p_ppe_008_result",
+     "label": {
+      "en": "Results and exceptions",
+      "ar": "النتائج والاستثناءات"
+     },
+     "type": "textarea",
+     "required": true
+    },
+    {
+     "id": "p_ppe_008_samples",
+     "label": {
+      "en": "Samples recorded for this procedure",
+      "ar": "العينات المسجلة لهذا الإجراء"
+     },
+     "type": "integer",
+     "required": false,
+     "autofill": "records.RK-SAMPLE.for.P-PPE-008",
+     "readonly": true
+    },
+    {
+     "id": "p_ppe_008_evidence",
+     "label": {
+      "en": "Evidence links citing this procedure",
+      "ar": "روابط الأدلة التي تستشهد بهذا الإجراء"
+     },
+     "type": "integer",
+     "required": false,
+     "autofill": "records.RK-EVIDENCE-LINK.for.P-PPE-008",
+     "readonly": true
+    },
+    {
+     "id": "p_ppe_008_conclusion",
+     "label": {
+      "en": "Conclusion",
+      "ar": "الاستنتاج"
+     },
+     "type": "select",
+     "required": true,
+     "options": [
+      {
+       "value": "performed_no_exception",
+       "label": {
+        "en": "Performed, no exception",
+        "ar": "نُفذ دون استثناء"
+       }
+      },
+      {
+       "value": "performed_exception",
+       "label": {
+        "en": "Performed, exception noted",
+        "ar": "نُفذ مع ملاحظة استثناء"
+       }
+      },
+      {
+       "value": "not_applicable",
+       "label": {
+        "en": "Not applicable, reason stated",
+        "ar": "لا ينطبق، مع بيان السبب"
+       }
+      }
+     ]
+    }
+   ],
+   "note": {
+    "en": "Obtain evidence over lessee accounting for right-of-use assets.",
+    "ar": "Obtain evidence over lessee accounting for right-of-use assets."
+   }
+  },
+  {
+   "id": "p_ppe_009",
+   "title": {
+    "en": "P-PPE-009 Investment property valuation",
+    "ar": "P-PPE-009 تقييم الاستثمارات العقارية"
+   },
+   "fields": [
+    {
+     "id": "p_ppe_009_work",
+     "label": {
+      "en": "Work performed",
+      "ar": "العمل المنفذ"
+     },
+     "type": "textarea",
+     "required": true
+    },
+    {
+     "id": "p_ppe_009_result",
+     "label": {
+      "en": "Results and exceptions",
+      "ar": "النتائج والاستثناءات"
+     },
+     "type": "textarea",
+     "required": true
+    },
+    {
+     "id": "p_ppe_009_samples",
+     "label": {
+      "en": "Samples recorded for this procedure",
+      "ar": "العينات المسجلة لهذا الإجراء"
+     },
+     "type": "integer",
+     "required": false,
+     "autofill": "records.RK-SAMPLE.for.P-PPE-009",
+     "readonly": true
+    },
+    {
+     "id": "p_ppe_009_evidence",
+     "label": {
+      "en": "Evidence links citing this procedure",
+      "ar": "روابط الأدلة التي تستشهد بهذا الإجراء"
+     },
+     "type": "integer",
+     "required": false,
+     "autofill": "records.RK-EVIDENCE-LINK.for.P-PPE-009",
+     "readonly": true
+    },
+    {
+     "id": "p_ppe_009_conclusion",
+     "label": {
+      "en": "Conclusion",
+      "ar": "الاستنتاج"
+     },
+     "type": "select",
+     "required": true,
+     "options": [
+      {
+       "value": "performed_no_exception",
+       "label": {
+        "en": "Performed, no exception",
+        "ar": "نُفذ دون استثناء"
+       }
+      },
+      {
+       "value": "performed_exception",
+       "label": {
+        "en": "Performed, exception noted",
+        "ar": "نُفذ مع ملاحظة استثناء"
+       }
+      },
+      {
+       "value": "not_applicable",
+       "label": {
+        "en": "Not applicable, reason stated",
+        "ar": "لا ينطبق، مع بيان السبب"
+       }
+      }
+     ]
+    }
+   ],
+   "note": {
+    "en": "Obtain evidence over the measurement of investment property.",
+    "ar": "Obtain evidence over the measurement of investment property."
+   }
+  },
+  {
+   "id": "p_ppe_010",
+   "title": {
+    "en": "P-PPE-010 Non-current asset presentation and commitments",
+    "ar": "P-PPE-010 عرض الأصول غير المتداولة والارتباطات الرأسمالية"
+   },
+   "fields": [
+    {
+     "id": "p_ppe_010_work",
+     "label": {
+      "en": "Work performed",
+      "ar": "العمل المنفذ"
+     },
+     "type": "textarea",
+     "required": true
+    },
+    {
+     "id": "p_ppe_010_result",
+     "label": {
+      "en": "Results and exceptions",
+      "ar": "النتائج والاستثناءات"
+     },
+     "type": "textarea",
+     "required": true
+    },
+    {
+     "id": "p_ppe_010_samples",
+     "label": {
+      "en": "Samples recorded for this procedure",
+      "ar": "العينات المسجلة لهذا الإجراء"
+     },
+     "type": "integer",
+     "required": false,
+     "autofill": "records.RK-SAMPLE.for.P-PPE-010",
+     "readonly": true
+    },
+    {
+     "id": "p_ppe_010_evidence",
+     "label": {
+      "en": "Evidence links citing this procedure",
+      "ar": "روابط الأدلة التي تستشهد بهذا الإجراء"
+     },
+     "type": "integer",
+     "required": false,
+     "autofill": "records.RK-EVIDENCE-LINK.for.P-PPE-010",
+     "readonly": true
+    },
+    {
+     "id": "p_ppe_010_conclusion",
+     "label": {
+      "en": "Conclusion",
+      "ar": "الاستنتاج"
+     },
+     "type": "select",
+     "required": true,
+     "options": [
+      {
+       "value": "performed_no_exception",
+       "label": {
+        "en": "Performed, no exception",
+        "ar": "نُفذ دون استثناء"
+       }
+      },
+      {
+       "value": "performed_exception",
+       "label": {
+        "en": "Performed, exception noted",
+        "ar": "نُفذ مع ملاحظة استثناء"
+       }
+      },
+      {
+       "value": "not_applicable",
+       "label": {
+        "en": "Not applicable, reason stated",
+        "ar": "لا ينطبق، مع بيان السبب"
+       }
+      }
+     ]
+    }
+   ],
+   "note": {
+    "en": "Evaluate disclosures of non-current assets.",
+    "ar": "Evaluate disclosures of non-current assets."
+   }
+  }
+ ],
+ "signoff": {
+  "prepare": [
+   "partner",
+   "manager",
+   "senior",
+   "staff"
+  ],
+  "review": [
+   "partner",
+   "manager"
+  ],
+  "approve": [
+   "partner"
+  ]
+ },
+ "version": 1,
+ "ar_status": "draft_pending_review"
+}

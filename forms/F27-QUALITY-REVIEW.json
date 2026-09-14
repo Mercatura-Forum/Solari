@@ -1,0 +1,290 @@
+{
+ "id": "F27-QUALITY-REVIEW",
+ "number": 27,
+ "kind": "checklist",
+ "phase": "completion",
+ "title": {
+  "en": "Engagement quality review",
+  "ar": "فحص جودة الارتباط"
+ },
+ "purpose": {
+  "en": "Document the engagement quality review: the reviewer's eligibility, the significant judgements and conclusions evaluated, the discussions held, and the reviewer's conclusion before the report is dated.",
+  "ar": "توثيق فحص جودة الارتباط: أهلية الفاحص، والأحكام والاستنتاجات المهمة التي تم تقييمها، والمناقشات التي جرت، واستنتاج الفاحص قبل تأريخ التقرير."
+ },
+ "procedures": [
+  "P-FSL-049"
+ ],
+ "standards": [
+  "ISQM-2",
+  "ISA-220",
+  "ISQM-1"
+ ],
+ "sections": [
+  {
+   "id": "engagement",
+   "title": {
+    "en": "Engagement",
+    "ar": "الارتباط"
+   },
+   "fields": [
+    {
+     "id": "client",
+     "label": {
+      "en": "Entity audited",
+      "ar": "المنشأة محل المراجعة"
+     },
+     "type": "text",
+     "required": false,
+     "autofill": "engagement.client",
+     "readonly": true
+    },
+    {
+     "id": "period_start",
+     "label": {
+      "en": "Period from",
+      "ar": "الفترة من"
+     },
+     "type": "date",
+     "required": false,
+     "autofill": "engagement.period_start",
+     "readonly": true
+    },
+    {
+     "id": "period_end",
+     "label": {
+      "en": "Period to",
+      "ar": "الفترة إلى"
+     },
+     "type": "date",
+     "required": false,
+     "autofill": "engagement.period_end",
+     "readonly": true
+    },
+    {
+     "id": "framework",
+     "label": {
+      "en": "Financial reporting framework",
+      "ar": "إطار التقرير المالي"
+     },
+     "type": "text",
+     "required": false,
+     "autofill": "engagement.framework",
+     "readonly": true
+    }
+   ]
+  },
+  {
+   "id": "reviewer",
+   "title": {
+    "en": "The reviewer",
+    "ar": "الفاحص"
+   },
+   "fields": [
+    {
+     "id": "reviewer",
+     "label": {
+      "en": "Engagement quality reviewer",
+      "ar": "فاحص جودة الارتباط"
+     },
+     "type": "text",
+     "required": true
+    },
+    {
+     "id": "appointed_on",
+     "label": {
+      "en": "Appointed on",
+      "ar": "تاريخ التعيين"
+     },
+     "type": "date",
+     "required": true
+    },
+    {
+     "id": "eligible",
+     "label": {
+      "en": "Eligible: not a member of the engagement team, cooling-off observed, competent and objective",
+      "ar": "مؤهل: ليس عضوًا في فريق الارتباط، مع مراعاة فترة الانقطاع، وكفء وموضوعي"
+     },
+     "type": "yesno",
+     "required": true
+    },
+    {
+     "id": "threats",
+     "label": {
+      "en": "Threats to the reviewer's objectivity and safeguards",
+      "ar": "التهديدات لموضوعية الفاحص والضمانات"
+     },
+     "type": "textarea",
+     "required": false
+    }
+   ]
+  },
+  {
+   "id": "review",
+   "title": {
+    "en": "The review",
+    "ar": "الفحص"
+   },
+   "fields": [
+    {
+     "id": "judgements",
+     "label": {
+      "en": "Significant judgements and conclusions evaluated",
+      "ar": "الأحكام والاستنتاجات المهمة التي تم تقييمها"
+     },
+     "type": "table",
+     "required": true,
+     "columns": [
+      {
+       "id": "area",
+       "label": {
+        "en": "Area",
+        "ar": "المجال"
+       },
+       "type": "text",
+       "required": true
+      },
+      {
+       "id": "judgement",
+       "label": {
+        "en": "Judgement made by the team",
+        "ar": "الحكم الذي اتخذه الفريق"
+       },
+       "type": "textarea",
+       "required": true
+      },
+      {
+       "id": "evaluation",
+       "label": {
+        "en": "Reviewer's evaluation",
+        "ar": "تقييم الفاحص"
+       },
+       "type": "textarea",
+       "required": true
+      }
+     ]
+    },
+    {
+     "id": "independence",
+     "label": {
+      "en": "The team's independence conclusions reviewed",
+      "ar": "تم فحص استنتاجات الفريق بشأن الاستقلال"
+     },
+     "type": "yesno",
+     "required": true
+    },
+    {
+     "id": "materiality",
+     "label": {
+      "en": "Materiality, significant risks and the responses reviewed",
+      "ar": "تم فحص الأهمية النسبية والمخاطر المهمة والاستجابات"
+     },
+     "type": "yesno",
+     "required": true
+    },
+    {
+     "id": "misstatements",
+     "label": {
+      "en": "Misstatements, going concern and the report reviewed",
+      "ar": "تم فحص التحريفات والاستمرارية والتقرير"
+     },
+     "type": "yesno",
+     "required": true
+    },
+    {
+     "id": "consultations",
+     "label": {
+      "en": "Consultations and differences of opinion reviewed",
+      "ar": "تم فحص المشاورات وخلافات الرأي"
+     },
+     "type": "yesno",
+     "required": true
+    },
+    {
+     "id": "statements",
+     "label": {
+      "en": "The financial statements and the proposed report read",
+      "ar": "تمت قراءة القوائم المالية والتقرير المقترح"
+     },
+     "type": "yesno",
+     "required": true
+    },
+    {
+     "id": "discussion_date",
+     "label": {
+      "en": "Discussion with the engagement partner",
+      "ar": "المناقشة مع شريك الارتباط"
+     },
+     "type": "date",
+     "required": true
+    },
+    {
+     "id": "matters",
+     "label": {
+      "en": "Matters raised and how they were resolved",
+      "ar": "الأمور المثارة وكيفية حلها"
+     },
+     "type": "textarea",
+     "required": true
+    }
+   ]
+  },
+  {
+   "id": "conclusion",
+   "title": {
+    "en": "Conclusion",
+    "ar": "الاستنتاج"
+   },
+   "fields": [
+    {
+     "id": "conclusion",
+     "label": {
+      "en": "The reviewer is not aware of any matter that would cause the reviewer to believe the significant judgements or conclusions were not appropriate",
+      "ar": "الفاحص ليس على علم بأي أمر يجعله يعتقد أن الأحكام أو الاستنتاجات المهمة لم تكن مناسبة"
+     },
+     "type": "select",
+     "required": true,
+     "options": [
+      {
+       "value": "complete",
+       "label": {
+        "en": "Yes, review complete",
+        "ar": "نعم، الفحص مكتمل"
+       }
+      },
+      {
+       "value": "pending",
+       "label": {
+        "en": "Not yet, matters outstanding",
+        "ar": "ليس بعد، أمور معلقة"
+       }
+      }
+     ]
+    },
+    {
+     "id": "completed_on",
+     "label": {
+      "en": "Review completed on",
+      "ar": "تاريخ اكتمال الفحص"
+     },
+     "type": "date",
+     "required": true
+    }
+   ]
+  }
+ ],
+ "signoff": {
+  "prepare": [
+   "eqr",
+   "partner",
+   "manager"
+  ],
+  "review": [
+   "partner"
+  ],
+  "approve": [
+   "partner"
+  ]
+ },
+ "version": 1,
+ "ar_status": "draft_pending_review"
+}

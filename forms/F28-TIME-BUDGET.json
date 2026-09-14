@@ -1,0 +1,365 @@
+{
+ "id": "F28-TIME-BUDGET",
+ "number": 28,
+ "kind": "worksheet",
+ "phase": "planning",
+ "title": {
+  "en": "Time budget and resources",
+  "ar": "موازنة الوقت والموارد"
+ },
+ "purpose": {
+  "en": "Plan the hours by phase and role, the fee and its basis, and compare with the hours recorded, so the resources the engagement needs are assigned and their use explained.",
+  "ar": "تخطيط الساعات حسب المرحلة والدور، والأتعاب وأساسها، ومقارنتها بالساعات المسجلة، بحيث تُخصص الموارد التي يحتاجها الارتباط ويُفسر استخدامها."
+ },
+ "procedures": [
+  "P-FSL-005"
+ ],
+ "standards": [
+  "ISA-300",
+  "ISQM-1",
+  "ISA-220"
+ ],
+ "sections": [
+  {
+   "id": "engagement",
+   "title": {
+    "en": "Engagement",
+    "ar": "الارتباط"
+   },
+   "fields": [
+    {
+     "id": "client",
+     "label": {
+      "en": "Entity audited",
+      "ar": "المنشأة محل المراجعة"
+     },
+     "type": "text",
+     "required": false,
+     "autofill": "engagement.client",
+     "readonly": true
+    },
+    {
+     "id": "period_start",
+     "label": {
+      "en": "Period from",
+      "ar": "الفترة من"
+     },
+     "type": "date",
+     "required": false,
+     "autofill": "engagement.period_start",
+     "readonly": true
+    },
+    {
+     "id": "period_end",
+     "label": {
+      "en": "Period to",
+      "ar": "الفترة إلى"
+     },
+     "type": "date",
+     "required": false,
+     "autofill": "engagement.period_end",
+     "readonly": true
+    },
+    {
+     "id": "framework",
+     "label": {
+      "en": "Financial reporting framework",
+      "ar": "إطار التقرير المالي"
+     },
+     "type": "text",
+     "required": false,
+     "autofill": "engagement.framework",
+     "readonly": true
+    }
+   ]
+  },
+  {
+   "id": "budget",
+   "title": {
+    "en": "Budget",
+    "ar": "الموازنة"
+   },
+   "fields": [
+    {
+     "id": "budget",
+     "label": {
+      "en": "Hours planned",
+      "ar": "الساعات المخططة"
+     },
+     "type": "table",
+     "required": true,
+     "columns": [
+      {
+       "id": "phase",
+       "label": {
+        "en": "Phase",
+        "ar": "المرحلة"
+       },
+       "type": "select",
+       "required": true,
+       "options": [
+        {
+         "value": "planning",
+         "label": {
+          "en": "Planning",
+          "ar": "التخطيط"
+         }
+        },
+        {
+         "value": "fieldwork",
+         "label": {
+          "en": "Fieldwork",
+          "ar": "العمل الميداني"
+         }
+        },
+        {
+         "value": "completion",
+         "label": {
+          "en": "Completion",
+          "ar": "الإنجاز"
+         }
+        }
+       ]
+      },
+      {
+       "id": "role",
+       "label": {
+        "en": "Role",
+        "ar": "الدور"
+       },
+       "type": "select",
+       "required": true,
+       "options": [
+        {
+         "value": "partner",
+         "label": {
+          "en": "Partner",
+          "ar": "شريك"
+         }
+        },
+        {
+         "value": "manager",
+         "label": {
+          "en": "Manager",
+          "ar": "مدير"
+         }
+        },
+        {
+         "value": "senior",
+         "label": {
+          "en": "Senior",
+          "ar": "مراجع أول"
+         }
+        },
+        {
+         "value": "staff",
+         "label": {
+          "en": "Staff",
+          "ar": "مراجع"
+         }
+        },
+        {
+         "value": "eqr",
+         "label": {
+          "en": "Quality reviewer",
+          "ar": "فاحص الجودة"
+         }
+        },
+        {
+         "value": "expert",
+         "label": {
+          "en": "Expert",
+          "ar": "خبير"
+         }
+        }
+       ]
+      },
+      {
+       "id": "hours",
+       "label": {
+        "en": "Hours",
+        "ar": "الساعات"
+       },
+       "type": "integer",
+       "required": true
+      },
+      {
+       "id": "rate",
+       "label": {
+        "en": "Rate",
+        "ar": "المعدل"
+       },
+       "type": "money",
+       "required": false
+      }
+     ]
+    },
+    {
+     "id": "fee",
+     "label": {
+      "en": "Agreed fee",
+      "ar": "الأتعاب المتفق عليها"
+     },
+     "type": "money",
+     "required": true
+    },
+    {
+     "id": "fee_basis",
+     "label": {
+      "en": "Basis of the fee and billing milestones",
+      "ar": "أساس الأتعاب ومراحل الفوترة"
+     },
+     "type": "textarea",
+     "required": true
+    },
+    {
+     "id": "specialists",
+     "label": {
+      "en": "Specialists and experts budgeted",
+      "ar": "المتخصصون والخبراء المدرجون في الموازنة"
+     },
+     "type": "textarea",
+     "required": false
+    }
+   ]
+  },
+  {
+   "id": "actual",
+   "title": {
+    "en": "Hours recorded",
+    "ar": "الساعات المسجلة"
+   },
+   "fields": [
+    {
+     "id": "actual",
+     "label": {
+      "en": "Hours recorded to date",
+      "ar": "الساعات المسجلة حتى تاريخه"
+     },
+     "type": "table",
+     "required": false,
+     "columns": [
+      {
+       "id": "phase",
+       "label": {
+        "en": "Phase",
+        "ar": "المرحلة"
+       },
+       "type": "select",
+       "required": true,
+       "options": [
+        {
+         "value": "planning",
+         "label": {
+          "en": "Planning",
+          "ar": "التخطيط"
+         }
+        },
+        {
+         "value": "fieldwork",
+         "label": {
+          "en": "Fieldwork",
+          "ar": "العمل الميداني"
+         }
+        },
+        {
+         "value": "completion",
+         "label": {
+          "en": "Completion",
+          "ar": "الإنجاز"
+         }
+        }
+       ]
+      },
+      {
+       "id": "role",
+       "label": {
+        "en": "Role",
+        "ar": "الدور"
+       },
+       "type": "select",
+       "required": true,
+       "options": [
+        {
+         "value": "partner",
+         "label": {
+          "en": "Partner",
+          "ar": "شريك"
+         }
+        },
+        {
+         "value": "manager",
+         "label": {
+          "en": "Manager",
+          "ar": "مدير"
+         }
+        },
+        {
+         "value": "senior",
+         "label": {
+          "en": "Senior",
+          "ar": "مراجع أول"
+         }
+        },
+        {
+         "value": "staff",
+         "label": {
+          "en": "Staff",
+          "ar": "مراجع"
+         }
+        },
+        {
+         "value": "eqr",
+         "label": {
+          "en": "Quality reviewer",
+          "ar": "فاحص الجودة"
+         }
+        },
+        {
+         "value": "expert",
+         "label": {
+          "en": "Expert",
+          "ar": "خبير"
+         }
+        }
+       ]
+      },
+      {
+       "id": "hours",
+       "label": {
+        "en": "Hours",
+        "ar": "الساعات"
+       },
+       "type": "integer",
+       "required": true
+      }
+     ]
+    },
+    {
+     "id": "variance",
+     "label": {
+      "en": "Variances against the budget and their explanation",
+      "ar": "الانحرافات عن الموازنة وتفسيرها"
+     },
+     "type": "textarea",
+     "required": false
+    }
+   ]
+  }
+ ],
+ "signoff": {
+  "prepare": [
+   "partner",
+   "manager"
+  ],
+  "review": [
+   "partner",
+   "manager"
+  ],
+  "approve": [
+   "partner"
+  ]
+ },
+ "version": 1,
+ "ar_status": "draft_pending_review"
+}

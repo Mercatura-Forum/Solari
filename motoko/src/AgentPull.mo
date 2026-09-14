@@ -22,7 +22,7 @@
 ///             screens it exactly as a file import.
 ///   done | failed   the token is overwritten the moment the pull ends.
 ///
-/// Every request is a GET at full quorum (every validator of the subnet) agreeing on the body only. Only the six `/v1/*`
+/// Every request is a GET at quorum 4 agreeing on the body only. Only the six `/v1/*`
 /// paths on the registered hostname can be built here. A page that fails is retried
 /// MAX_RETRIES times; a refused capability (401/403) or an agent that is not read-only
 /// ends the pull at once.

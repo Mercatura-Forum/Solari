@@ -74,7 +74,7 @@ check("every route is found, with its parameters", do {
 check("an unknown path matches no route", A.matchRoute(["engagements", "7", "secrets"]) == null);
 
 // the description and the router are one table
-let doc = A.openapi("https://memphis.mercaturaforum.com/_/raw/1", "2026-09-10.7");
+let doc = A.openapi("https://<thebes-gateway>/_/raw/1", "2026-09-10.7");
 let paths = switch (Json.get(doc, "paths")) { case (?#obj(kvs)) kvs; case _ [] };
 check("the OpenAPI document is version 3.1.0", Py.textOr(doc, "openapi", "") == "3.1.0");
 check("the OpenAPI document lists exactly the routes the router serves", paths.size() == A.ROUTES.size() and (do {
