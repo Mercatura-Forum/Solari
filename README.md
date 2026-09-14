@@ -167,8 +167,6 @@ motoko/
   test/                   the battery, run under WASI
 agent/                    the connector agent (Rust): Odoo, Tally, ETA e-invoicing adapters
 forms/                    the form definitions and the dependency graph (generated)
-frontend/                 the web application (React, Vite, Tailwind, Thebes SDK);
-                          public/config.js carries a deployment's contract ids
 tools/                    generators, oracle harnesses, the fleet tools, the end-to-end runs
 registry/                 the registry's manifest
 ```
@@ -189,7 +187,6 @@ moc --legacy-persistence $(mops sources) -o ../build/registry.wasm registry/main
 ./test/run.sh                              # every test must print a non-zero count of what it examined
 python3 tools/gen_dec_cases.py && python3 tools/gen_calc_cases.py && python3 tools/gen_import_cases.py
 cd agent && cargo test
-cd frontend && npm install && npm run build
 ```
 
 The generators take the reference implementation from `AUDIT_STANDARDS` (a
@@ -223,7 +220,6 @@ attributed to the team.
 
 ## Licence
 
-Apache License 2.0 (see `LICENSE`). The vendored Thebes SDK under
-`frontend/vendor/@thebes/sdk` carries its own notice.
+Apache License 2.0 (see `LICENSE`).
 
 Attribution: Thebes Core Team.
