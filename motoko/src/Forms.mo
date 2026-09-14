@@ -678,7 +678,12 @@ module {
 
   /// Whether a form applies on the engagement: it does unless it serves at least one procedure
   /// and every one of them is concluded not applicable.
-  func applicable(sp : J, statuses : Map.Map<Text, Text>) : Bool {
+  /// Whether a form applies on the engagement: it does unless it serves at least one procedure
+  /// and every one of them is concluded not applicable, or it names a leadsheet it requires
+  /// (`requires_leadsheet`) that the trial balance does not populate.
+  func applicable(sp : J, statuses : Map.Map<Text, Text>, populatedNow : [Text]) : Bool {
+    let needs = Py.textOr(sp, "requires_leadsheet", "");
+    if (needs != "") { var found = false; for (l in populatedNow.vals()) { if (l == needs) found := true }; if (not found) return false };
     let procs = Py.list(sp, "procedures");
     if (procs.size() == 0) return true;
     for (p in procs.vals()) { if (Map.get(statuses, Text.compare, Py.scalar(p)) != ?"not_applicable") return true };
@@ -691,6 +696,7 @@ module {
   public func blocking(s : Engine.State, ff : FirmForms.State, e : Engine.Engagement) : [J] {
     let edges = allEdges(ff);
     let statuses = Programme.statusMap(s, ff, e.id);
+    let pop = populated(s, e.id);
     let out = List.empty<J>();
     let seen = Map.empty<Text, Bool>();
     let queue = List.empty<Text>();
@@ -706,7 +712,7 @@ module {
       for (target in targets.vals()) {
         switch (spec(ff, target)) {
           case (?sp) {
-            if (target == "F14-COMPLETION" or applicable(sp, statuses)) {
+            if (target == "F14-COMPLETION" or applicable(sp, statuses, pop)) {
               let (st, values) = switch (instance(s, e.id, target)) { case (?i) (i.status, parse(i.values)); case null ("not_started", #obj([])) };
               if (target != "F14-COMPLETION" and st != "prepared" and st != "reviewed" and st != "approved") {
                 List.add(out, #obj([("form", #str(target)), ("status", #str(st)), ("reason", #str("unsigned"))]));
@@ -753,6 +759,7 @@ module {
     let e = switch (Engine.authorise(s, eng, by, isAdmin, [#partner, #manager, #senior, #staff, #eqr], true)) { case (#ok(e)) e; case (#err(m)) return #err(m) };
     let g = graph();
     let statuses = Programme.statusMap(s, ff, e.id);
+    let pop = populated(s, e.id);
     let staleBy = Map.empty<Text, [Text]>();
     let nodes = List.empty<J>();
     let rank = func(st : Text) : Nat { switch (st) { case "approved" 4; case "reviewed" 3; case "prepared" 2; case "draft" 1; case _ 0 } };
@@ -789,7 +796,7 @@ module {
         Map.add(staleBy, Text.compare, id, stale);
         List.add(nodes, #obj([
           ("id", #str(id)), ("kind", #str("form")), ("number", get(sp, "number")), ("phase", get(sp, "phase")), ("title", get(sp, "title")),
-          ("status", #str(st)), ("version", Json.nat(ver)), ("drift", Json.nat(stale.size())), ("applicable", #bool(applicable(sp, statuses))),
+          ("status", #str(st)), ("version", Json.nat(ver)), ("drift", Json.nat(stale.size())), ("applicable", #bool(applicable(sp, statuses, pop))),
           ("firm", #bool(Py.truthy(Json.get(sp, "firm")))),
         ]));
       };

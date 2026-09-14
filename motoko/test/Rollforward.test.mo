@@ -62,7 +62,7 @@ check("the leadsheet the entry touched is adjusted", A.leadsheetFigure(s, 1, "LS
 let cat = Py.items(F.catalogue(ff));
 check("the fixed assets paper is catalogued at version 3", field(rowWhere(cat, "id", "F35-PPE-INTANGIBLES"), ["version"]) == #num("3"));
 check("the payroll paper, revised once for its steps, is at version 2", field(rowWhere(cat, "id", "F33-PAYROLL"), ["version"]) == #num("2"));
-check("forty-nine forms are catalogued, each once", cat.size() == 49);
+check("fifty forms are catalogued, each once", cat.size() == 50);
 switch (PF.versionText("F35-PPE-INTANGIBLES", 1), PF.versionText("F35-PPE-INTANGIBLES", 2)) {
   case (?v1, ?v2) {
     check("version 1 has no schedule and version 2 has it", not hasField(j(v1), "sch_ppe") and hasField(j(v2), "sch_ppe"));

@@ -1,0 +1,599 @@
+{
+ "id": "F50-BIOLOGICAL-COUNT",
+ "number": 50,
+ "kind": "checklist",
+ "phase": "fieldwork",
+ "requires_leadsheet": "LS-BIO",
+ "title": {
+  "en": "Biological assets count attendance",
+  "ar": "حضور جرد الأصول الحيوية"
+ },
+ "purpose": {
+  "en": "Record attendance at the count of livestock, crops and bearer plants: the categories counted and how, the holdings with third parties, the basis on which they are measured, and the roll-forward of the carrying amount to the reporting date, agreed to the leadsheet.",
+  "ar": "توثيق حضور جرد الثروة الحيوانية والمحاصيل والنباتات المثمرة: الفئات المعدودة وطريقة العدّ، والموجودات لدى الغير، وأساس قياسها، وترحيل القيمة الدفترية إلى تاريخ التقرير ومطابقتها للورقة الرئيسية."
+ },
+ "procedures": [
+  "P-INV-002",
+  "P-INV-003",
+  "P-INV-004"
+ ],
+ "standards": [
+  "ISA-501",
+  "ISA-540",
+  "ISA-620",
+  "ISA-330"
+ ],
+ "sections": [
+  {
+   "id": "engagement",
+   "title": {
+    "en": "Engagement",
+    "ar": "الارتباط"
+   },
+   "fields": [
+    {
+     "id": "client",
+     "label": {
+      "en": "Entity audited",
+      "ar": "المنشأة محل المراجعة"
+     },
+     "type": "text",
+     "required": false,
+     "autofill": "engagement.client",
+     "readonly": true
+    },
+    {
+     "id": "period_start",
+     "label": {
+      "en": "Period from",
+      "ar": "الفترة من"
+     },
+     "type": "date",
+     "required": false,
+     "autofill": "engagement.period_start",
+     "readonly": true
+    },
+    {
+     "id": "period_end",
+     "label": {
+      "en": "Period to",
+      "ar": "الفترة إلى"
+     },
+     "type": "date",
+     "required": false,
+     "autofill": "engagement.period_end",
+     "readonly": true
+    },
+    {
+     "id": "framework",
+     "label": {
+      "en": "Financial reporting framework",
+      "ar": "إطار التقرير المالي"
+     },
+     "type": "text",
+     "required": false,
+     "autofill": "engagement.framework",
+     "readonly": true
+    }
+   ]
+  },
+  {
+   "id": "count",
+   "title": {
+    "en": "The count",
+    "ar": "الجرد"
+   },
+   "fields": [
+    {
+     "id": "categories",
+     "label": {
+      "en": "Categories counted",
+      "ar": "الفئات المعدودة"
+     },
+     "type": "table",
+     "required": true,
+     "columns": [
+      {
+       "id": "category",
+       "label": {
+        "en": "Category (herd, flock, crop, orchard)",
+        "ar": "الفئة (قطيع، سرب، محصول، بستان)"
+       },
+       "type": "text",
+       "required": true
+      },
+      {
+       "id": "location",
+       "label": {
+        "en": "Location",
+        "ar": "الموقع"
+       },
+       "type": "text",
+       "required": true
+      },
+      {
+       "id": "date",
+       "label": {
+        "en": "Count date",
+        "ar": "تاريخ الجرد"
+       },
+       "type": "date",
+       "required": true
+      },
+      {
+       "id": "method",
+       "label": {
+        "en": "Method",
+        "ar": "الطريقة"
+       },
+       "type": "select",
+       "required": true,
+       "options": [
+        {
+         "value": "physical_count",
+         "label": {
+          "en": "Physical count of the animals or plants",
+          "ar": "عدّ فعلي للحيوانات أو النباتات"
+         }
+        },
+        {
+         "value": "sample_of_plots",
+         "label": {
+          "en": "Count of a sample of plots or pens, extrapolated",
+          "ar": "عدّ عينة من القطع أو الحظائر مع التعميم"
+         }
+        },
+        {
+         "value": "survey",
+         "label": {
+          "en": "Survey by drone, satellite or an expert (ISA 620)",
+          "ar": "مسح بطائرة مسيّرة أو قمر صناعي أو خبير (معيار 620)"
+         }
+        },
+        {
+         "value": "registers",
+         "label": {
+          "en": "Registers and tags reconciled to the herd or plantation records",
+          "ar": "السجلات والعلامات مطابقة لسجلات القطيع أو المزرعة"
+         }
+        }
+       ]
+      },
+      {
+       "id": "recorded",
+       "label": {
+        "en": "Quantity per the records",
+        "ar": "الكمية وفق السجلات"
+       },
+       "type": "text",
+       "required": true
+      },
+      {
+       "id": "counted",
+       "label": {
+        "en": "Quantity counted or surveyed",
+        "ar": "الكمية المعدودة أو الممسوحة"
+       },
+       "type": "text",
+       "required": true
+      },
+      {
+       "id": "difference",
+       "label": {
+        "en": "Difference and resolution",
+        "ar": "الفرق وكيفية معالجته"
+       },
+       "type": "textarea",
+       "required": false
+      }
+     ]
+    },
+    {
+     "id": "instructions",
+     "label": {
+      "en": "Management's count instructions evaluated as adequate for a living population (movements, births and deaths during the count)",
+      "ar": "تم تقييم تعليمات الجرد على أنها كافية لعدّ مجموعة حية (الحركات والمواليد والنفوق أثناء الجرد)"
+     },
+     "type": "yesno",
+     "required": true
+    },
+    {
+     "id": "procedures_observed",
+     "label": {
+      "en": "Count procedures observed as performed per the instructions",
+      "ar": "تمت ملاحظة تنفيذ إجراءات الجرد وفقاً للتعليمات"
+     },
+     "type": "yesno",
+     "required": true
+    },
+    {
+     "id": "cutoff_recorded",
+     "label": {
+      "en": "Cut-off recorded: last sales, purchases, births, deaths and harvest before the count",
+      "ar": "تم تسجيل الفصل الزمني: آخر المبيعات والمشتريات والمواليد والنفوق والحصاد قبل الجرد"
+     },
+     "type": "yesno",
+     "required": true
+    },
+    {
+     "id": "expert",
+     "label": {
+      "en": "Expert relied on for the count or the valuation, and the evaluation of their work (ISA 620)",
+      "ar": "الخبير المعتمد عليه في الجرد أو التقييم وتقييم عمله (معيار 620)"
+     },
+     "type": "textarea",
+     "required": false
+    },
+    {
+     "id": "condition",
+     "label": {
+      "en": "Condition of the assets: disease, damage, immature stock noted",
+      "ar": "حالة الأصول: أمراض أو تلف أو أصول غير ناضجة"
+     },
+     "type": "textarea",
+     "required": false
+    }
+   ]
+  },
+  {
+   "id": "third_parties",
+   "title": {
+    "en": "Assets held by third parties",
+    "ar": "الأصول لدى الغير"
+   },
+   "fields": [
+    {
+     "id": "third_parties",
+     "label": {
+      "en": "Custodians and agisters",
+      "ar": "الأمناء والمراعي المستأجرة"
+     },
+     "type": "table",
+     "required": false,
+     "columns": [
+      {
+       "id": "holder",
+       "label": {
+        "en": "Third party",
+        "ar": "الطرف الثالث"
+       },
+       "type": "text",
+       "required": true
+      },
+      {
+       "id": "quantity",
+       "label": {
+        "en": "Quantity or value held",
+        "ar": "الكمية أو القيمة المحتفظ بها"
+       },
+       "type": "text",
+       "required": true
+      },
+      {
+       "id": "confirmed",
+       "label": {
+        "en": "Confirmation received directly",
+        "ar": "تم استلام مصادقة مباشرة"
+       },
+       "type": "yesno",
+       "required": true
+      },
+      {
+       "id": "alternative",
+       "label": {
+        "en": "Alternative procedures",
+        "ar": "إجراءات بديلة"
+       },
+       "type": "textarea",
+       "required": false
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "measurement",
+   "title": {
+    "en": "Measurement",
+    "ar": "القياس"
+   },
+   "fields": [
+    {
+     "id": "basis",
+     "label": {
+      "en": "Measurement basis",
+      "ar": "أساس القياس"
+     },
+     "type": "select",
+     "required": true,
+     "options": [
+      {
+       "value": "fair_value",
+       "label": {
+        "en": "Fair value less costs to sell (IAS 41.12)",
+        "ar": "القيمة العادلة ناقصاً تكاليف البيع (معيار المحاسبة الدولي 41 فقرة 12)"
+       }
+      },
+      {
+       "value": "cost",
+       "label": {
+        "en": "Cost less depreciation and impairment: fair value cannot be measured reliably (IAS 41.30)",
+        "ar": "التكلفة ناقصاً الإهلاك والاضمحلال: تعذر قياس القيمة العادلة بشكل موثوق (معيار 41 فقرة 30)"
+       }
+      }
+     ]
+    },
+    {
+     "id": "valuation",
+     "label": {
+      "en": "Valuation by category",
+      "ar": "التقييم حسب الفئة"
+     },
+     "type": "table",
+     "required": false,
+     "columns": [
+      {
+       "id": "category",
+       "label": {
+        "en": "Category",
+        "ar": "الفئة"
+       },
+       "type": "text",
+       "required": true
+      },
+      {
+       "id": "quantity",
+       "label": {
+        "en": "Quantity",
+        "ar": "الكمية"
+       },
+       "type": "text",
+       "required": true
+      },
+      {
+       "id": "unit_price",
+       "label": {
+        "en": "Price per unit and its source (active market, contract, expert)",
+        "ar": "سعر الوحدة ومصدره (سوق نشطة، عقد، خبير)"
+       },
+       "type": "text",
+       "required": true
+      },
+      {
+       "id": "costs_to_sell",
+       "label": {
+        "en": "Costs to sell",
+        "ar": "تكاليف البيع"
+       },
+       "type": "money",
+       "required": false
+      },
+      {
+       "id": "amount",
+       "label": {
+        "en": "Carrying amount",
+        "ar": "القيمة الدفترية"
+       },
+       "type": "money",
+       "required": true
+      }
+     ]
+    },
+    {
+     "id": "basis_note",
+     "label": {
+      "en": "Why the basis is appropriate, and the evidence for the prices used",
+      "ar": "لماذا يُعد الأساس مناسباً، والأدلة على الأسعار المستخدمة"
+     },
+     "type": "textarea",
+     "required": true
+    }
+   ]
+  },
+  {
+   "id": "sch_bio",
+   "title": {
+    "en": "Movement schedule: Biological assets (LS-BIO)",
+    "ar": "جدول الحركة: Biological assets (LS-BIO)"
+   },
+   "fields": [
+    {
+     "id": "sch_bio",
+     "label": {
+      "en": "Biological assets movement schedule",
+      "ar": "جدول حركة Biological assets"
+     },
+     "type": "table",
+     "required": false,
+     "columns": [
+      {
+       "id": "component",
+       "label": {
+        "en": "Component",
+        "ar": "المكوّن"
+       },
+       "type": "select",
+       "required": true,
+       "options": [
+        {
+         "value": "livestock",
+         "label": {
+          "en": "Livestock",
+          "ar": "الثروة الحيوانية"
+         }
+        },
+        {
+         "value": "crops",
+         "label": {
+          "en": "Crops and produce before harvest",
+          "ar": "المحاصيل والمنتجات قبل الحصاد"
+         }
+        },
+        {
+         "value": "bearer_plants",
+         "label": {
+          "en": "Bearer plants and orchards",
+          "ar": "النباتات المثمرة والبساتين"
+         }
+        }
+       ]
+      },
+      {
+       "id": "opening",
+       "label": {
+        "en": "Opening balance",
+        "ar": "الرصيد الافتتاحي"
+       },
+       "type": "money",
+       "required": true
+      },
+      {
+       "id": "additions",
+       "label": {
+        "en": "Purchases, births and new plantings",
+        "ar": "المشتريات والمواليد والزراعات الجديدة"
+       },
+       "type": "money",
+       "required": false
+      },
+      {
+       "id": "disposals",
+       "label": {
+        "en": "Sales, harvest and deaths",
+        "ar": "المبيعات والحصاد والنفوق"
+       },
+       "type": "money",
+       "required": false
+      },
+      {
+       "id": "transfers",
+       "label": {
+        "en": "Transfers and reclassifications",
+        "ar": "التحويلات وإعادة التبويب"
+       },
+       "type": "money",
+       "required": false
+      },
+      {
+       "id": "revaluation",
+       "label": {
+        "en": "Change in fair value less costs to sell",
+        "ar": "التغير في القيمة العادلة ناقصاً تكاليف البيع"
+       },
+       "type": "money",
+       "required": false
+      },
+      {
+       "id": "other",
+       "label": {
+        "en": "Other movements",
+        "ar": "حركات أخرى"
+       },
+       "type": "money",
+       "required": false
+      },
+      {
+       "id": "closing",
+       "label": {
+        "en": "Closing balance",
+        "ar": "الرصيد الختامي"
+       },
+       "type": "money",
+       "required": true
+      }
+     ]
+    },
+    {
+     "id": "sch_bio_difference",
+     "label": {
+      "en": "Difference between the closing total and the leadsheet",
+      "ar": "الفرق بين الإجمالي الختامي والورقة الرئيسية"
+     },
+     "type": "money",
+     "required": false,
+     "autofill": "paper.rollforward.schedules.SCH-BIO.difference",
+     "readonly": true
+    },
+    {
+     "id": "sch_bio_agrees",
+     "label": {
+      "en": "Schedule agrees to the leadsheet",
+      "ar": "الجدول يتفق مع الورقة الرئيسية"
+     },
+     "type": "text",
+     "required": false,
+     "autofill": "paper.rollforward.schedules.SCH-BIO.agrees",
+     "readonly": true
+    },
+    {
+     "id": "sch_bio_opening_difference",
+     "label": {
+      "en": "Difference between the opening total and the prior period",
+      "ar": "الفرق بين الإجمالي الافتتاحي والفترة السابقة"
+     },
+     "type": "money",
+     "required": false,
+     "autofill": "paper.rollforward.schedules.SCH-BIO.opening_difference",
+     "readonly": true
+    }
+   ],
+   "note": {
+    "en": "The reconciliation of the carrying amount of biological assets from the opening to the closing of the period: purchases, births and plantings, the gain or loss from changes in fair value less costs to sell, and the decreases from sales, harvest and deaths, by class of asset. Required by IAS 41.50. Closing balance = opening + additions - disposals + transfers + revaluation + other for every component. The closing total must equal the adjusted balance of Biological assets (LS-BIO) read above; the paper computes the schedule and shows the difference.",
+    "ar": "يشترطه IAS 41.50. الرصيد الختامي = الافتتاحي + الإضافات - الاستبعادات + التحويلات + إعادة التقييم + أخرى لكل مكوّن. يجب أن يساوي الإجمالي الختامي الرصيد المعدّل لـ Biological assets (LS-BIO) المقروء أعلاه؛ وتحسب الورقة الجدول وتعرض الفرق."
+   }
+  },
+  {
+   "id": "rollforward",
+   "title": {
+    "en": "Roll-forward and conclusion",
+    "ar": "الترحيل والاستنتاج"
+   },
+   "fields": [
+    {
+     "id": "count_date",
+     "label": {
+      "en": "Count date",
+      "ar": "تاريخ الجرد"
+     },
+     "type": "date",
+     "required": true
+    },
+    {
+     "id": "rollforward",
+     "label": {
+      "en": "Roll-forward from the count date to the reporting date: births, deaths, purchases, sales and harvest since the count",
+      "ar": "الترحيل من تاريخ الجرد إلى تاريخ التقرير: المواليد والنفوق والمشتريات والمبيعات والحصاد منذ الجرد"
+     },
+     "type": "textarea",
+     "required": true
+    },
+    {
+     "id": "conclusion",
+     "label": {
+      "en": "Conclusion on the existence, condition and measurement of the biological assets",
+      "ar": "الاستنتاج بشأن وجود الأصول الحيوية وحالتها وقياسها"
+     },
+     "type": "textarea",
+     "required": true
+    }
+   ]
+  }
+ ],
+ "signoff": {
+  "prepare": [
+   "partner",
+   "manager",
+   "senior",
+   "staff"
+  ],
+  "review": [
+   "partner",
+   "manager"
+  ],
+  "approve": [
+   "partner"
+  ]
+ },
+ "version": 1,
+ "ar_status": "draft_pending_review"
+}

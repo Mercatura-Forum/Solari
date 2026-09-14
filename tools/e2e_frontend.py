@@ -719,6 +719,19 @@ def main():
         except Exception as e:
             shot(pg, 'd5-11-group-plan-failed')
             row('the group plan workflow completes', False, e)
+
+        # ── the biological assets count: catalogued, its schedule tied to the leadsheet, applicable only where the leadsheet is populated ──
+        try:
+            pg.goto(f'{URL}#/e/{eid}/f/F50-BIOLOGICAL-COUNT', wait_until='load')
+            pg.get_by_test_id('signoff-panel').wait_for(timeout=120000)
+            row('the biological assets count carries its movement schedule and the difference to the leadsheet', pg.locator('[data-field=sch_bio]').count() == 1 and pg.locator('[data-field=sch_bio_difference]').count() == 1)
+            pg.goto(f'{URL}#/e/{eid}/map', wait_until='load')
+            pg.wait_for_function('() => document.body.innerText.includes("Biological assets count attendance")', timeout=120000)
+            row('the file map lists the count among the fieldwork forms', True)
+            shot(pg, 'd5-12-biological')
+        except Exception as e:
+            shot(pg, 'd5-12-biological-failed')
+            row('the biological assets workflow completes', False, e)
         return finish(ctx)
 
 

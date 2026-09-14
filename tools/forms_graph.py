@@ -48,6 +48,7 @@ DECLARED = [
     ('F24-LITIGATION-AND-PROVISIONS', 'conclusion', 'F14-COMPLETION', 'evidence_sufficient', 'Litigation and provisions work is complete before completion attests sufficiency.'),
     ('F29-ACCOUNTING-ESTIMATES', 'conclusion', 'F14-COMPLETION', 'evidence_sufficient', 'Estimates work is complete before completion attests sufficiency.'),
     ('F23-INVENTORY-COUNT', 'conclusion', 'F34-INVENTORY-COST', 'p_inv_005_work', 'The count attendance underlies the cost and valuation work.'),
+    ('F50-BIOLOGICAL-COUNT', 'conclusion', 'F34-INVENTORY-COST', 'p_inv_005_work', 'The count of the biological assets, where the trial balance carries them, underlies the cost and valuation work.'),
     ('F08-CONFIRMATIONS', 'log', 'F36-TREASURY', 'p_tre_002_work', 'Bank reconciliations are tested against the confirmed balances.'),
     ('F07-SAMPLING-PLAN', 'conclusion', 'F31-REVENUE-RECEIVABLES', 'p_rev_008_result', 'The receivables confirmation sample is the sampling plan\'s.'),
     ('F01-ACCEPTANCE', 'decision', 'F02-ENGAGEMENT-LETTER', 'letter_date', 'The engagement letter follows the acceptance decision.'),

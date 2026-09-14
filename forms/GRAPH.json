@@ -491,6 +491,16 @@
    }
   },
   {
+   "id": "F50-BIOLOGICAL-COUNT",
+   "kind": "form",
+   "number": 50,
+   "phase": "fieldwork",
+   "title": {
+    "en": "Biological assets count attendance",
+    "ar": "حضور جرد الأصول الحيوية"
+   }
+  },
+  {
    "id": "seed",
    "kind": "model",
    "title": {
@@ -1885,6 +1895,20 @@
    "to": "F34-INVENTORY-COST",
    "to_field": "ls_cos_prior",
    "via": "tb.leadsheet.LS-COS.prior",
+   "kind": "trial_balance"
+  },
+  {
+   "from": "tb",
+   "to": "F34-INVENTORY-COST",
+   "to_field": "ls_bio",
+   "via": "tb.leadsheet.LS-BIO",
+   "kind": "trial_balance"
+  },
+  {
+   "from": "tb",
+   "to": "F34-INVENTORY-COST",
+   "to_field": "ls_bio_prior",
+   "via": "tb.leadsheet.LS-BIO.prior",
    "kind": "trial_balance"
   },
   {
@@ -3408,6 +3432,15 @@
    "via": "declared",
    "kind": "declared",
    "reason": "The count attendance underlies the cost and valuation work."
+  },
+  {
+   "from": "F50-BIOLOGICAL-COUNT",
+   "from_field": "conclusion",
+   "to": "F34-INVENTORY-COST",
+   "to_field": "p_inv_005_work",
+   "via": "declared",
+   "kind": "declared",
+   "reason": "The count of the biological assets, where the trial balance carries them, underlies the cost and valuation work."
   },
   {
    "from": "F08-CONFIRMATIONS",

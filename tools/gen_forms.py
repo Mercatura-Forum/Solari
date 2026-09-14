@@ -821,7 +821,7 @@ def main():
     procedures = seed('procedures')
     leadsheets = seed('leadsheets')
     standards = seed('standards')
-    catalogue = FORMS + forms_families_a.FORMS + forms_families_b.FORMS + cycle_forms(procedures, leadsheets, seed('movement_schedules'), seed('procedure_requirements'), seed('requirements')) + forms_families_c.FORMS + forms_letters.FORMS
+    catalogue = FORMS + forms_families_a.FORMS + forms_families_b.FORMS + [forms_families_b.biological_count(seed('movement_schedules'), leadsheets)] + cycle_forms(procedures, leadsheets, seed('movement_schedules'), seed('procedure_requirements'), seed('requirements')) + forms_families_c.FORMS + forms_letters.FORMS
     catalogue.sort(key=lambda f: f['number'])
     controls_register(catalogue, seed('cycles'))
     for f in catalogue:

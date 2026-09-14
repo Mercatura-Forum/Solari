@@ -1,4 +1,5 @@
-"""Forms F23 to F30: the families the fourteen did not cover, second half. Authored from the
+"""Forms F23 to F30: the families the fourteen did not cover, second half, and the biological
+assets count attendance (F50), the variant of F23 for agricultural entities. Authored from the
 requirements of the standards each serves, in our own words. Arabic is a draft pending
 professional review.
 
@@ -350,3 +351,74 @@ FORMS.append({
     ],
     'signoff': signoff(prepare=['partner', 'manager', 'senior'], review=REVIEW, approve=APPROVE),
 })
+
+
+# 50 ---------------------------------------------------------------------------
+BASIS = [
+    opt('fair_value', 'Fair value less costs to sell (IAS 41.12)', 'القيمة العادلة ناقصاً تكاليف البيع (معيار المحاسبة الدولي 41 فقرة 12)'),
+    opt('cost', 'Cost less depreciation and impairment: fair value cannot be measured reliably (IAS 41.30)', 'التكلفة ناقصاً الإهلاك والاضمحلال: تعذر قياس القيمة العادلة بشكل موثوق (معيار 41 فقرة 30)'),
+]
+METHODS = [
+    opt('physical_count', 'Physical count of the animals or plants', 'عدّ فعلي للحيوانات أو النباتات'),
+    opt('sample_of_plots', 'Count of a sample of plots or pens, extrapolated', 'عدّ عينة من القطع أو الحظائر مع التعميم'),
+    opt('survey', 'Survey by drone, satellite or an expert (ISA 620)', 'مسح بطائرة مسيّرة أو قمر صناعي أو خبير (معيار 620)'),
+    opt('registers', 'Registers and tags reconciled to the herd or plantation records', 'السجلات والعلامات مطابقة لسجلات القطيع أو المزرعة'),
+]
+
+
+def biological_count(schedules, leadsheets):
+    """The count attendance for biological assets (ISA 501.4 to .8 on a living population; IAS
+    41.10 to .13 and .50): livestock and crops by category, the count method, third-party
+    holdings, the measurement basis, and the movement schedule tied to the leadsheet. Applies
+    only on an engagement whose trial balance populates the biological assets leadsheet."""
+    from forms_cycles import schedule_section
+    sh = next(x for x in schedules if x['id'] == 'SCH-BIO')
+    return {
+        'id': 'F50-BIOLOGICAL-COUNT', 'number': 50, 'kind': 'checklist', 'phase': 'fieldwork', 'requires_leadsheet': sh['leadsheet_id'],
+        'title': L('Biological assets count attendance', 'حضور جرد الأصول الحيوية'),
+        'purpose': L('Record attendance at the count of livestock, crops and bearer plants: the categories counted and how, the holdings with third parties, the basis on which they are measured, and the roll-forward of the carrying amount to the reporting date, agreed to the leadsheet.',
+                     'توثيق حضور جرد الثروة الحيوانية والمحاصيل والنباتات المثمرة: الفئات المعدودة وطريقة العدّ، والموجودات لدى الغير، وأساس قياسها، وترحيل القيمة الدفترية إلى تاريخ التقرير ومطابقتها للورقة الرئيسية.'),
+        'procedures': ['P-INV-002', 'P-INV-003', 'P-INV-004'], 'standards': ['ISA-501', 'ISA-540', 'ISA-620', 'ISA-330'],
+        'sections': [
+            ENGAGEMENT,
+            section('count', 'The count', 'الجرد', [
+                field('categories', 'Categories counted', 'الفئات المعدودة', 'table', True, columns=[
+                    field('category', 'Category (herd, flock, crop, orchard)', 'الفئة (قطيع، سرب، محصول، بستان)', required=True),
+                    field('location', 'Location', 'الموقع', required=True),
+                    field('date', 'Count date', 'تاريخ الجرد', 'date', True),
+                    field('method', 'Method', 'الطريقة', 'select', True, options=METHODS),
+                    field('recorded', 'Quantity per the records', 'الكمية وفق السجلات', 'text', True),
+                    field('counted', 'Quantity counted or surveyed', 'الكمية المعدودة أو الممسوحة', 'text', True),
+                    field('difference', 'Difference and resolution', 'الفرق وكيفية معالجته', 'textarea')]),
+                yesno('instructions', 'Management\'s count instructions evaluated as adequate for a living population (movements, births and deaths during the count)', 'تم تقييم تعليمات الجرد على أنها كافية لعدّ مجموعة حية (الحركات والمواليد والنفوق أثناء الجرد)'),
+                yesno('procedures_observed', 'Count procedures observed as performed per the instructions', 'تمت ملاحظة تنفيذ إجراءات الجرد وفقاً للتعليمات'),
+                yesno('cutoff_recorded', 'Cut-off recorded: last sales, purchases, births, deaths and harvest before the count', 'تم تسجيل الفصل الزمني: آخر المبيعات والمشتريات والمواليد والنفوق والحصاد قبل الجرد'),
+                field('expert', 'Expert relied on for the count or the valuation, and the evaluation of their work (ISA 620)', 'الخبير المعتمد عليه في الجرد أو التقييم وتقييم عمله (معيار 620)', 'textarea'),
+                field('condition', 'Condition of the assets: disease, damage, immature stock noted', 'حالة الأصول: أمراض أو تلف أو أصول غير ناضجة', 'textarea'),
+            ]),
+            section('third_parties', 'Assets held by third parties', 'الأصول لدى الغير', [
+                field('third_parties', 'Custodians and agisters', 'الأمناء والمراعي المستأجرة', 'table', columns=[
+                    field('holder', 'Third party', 'الطرف الثالث', required=True),
+                    field('quantity', 'Quantity or value held', 'الكمية أو القيمة المحتفظ بها', 'text', True),
+                    field('confirmed', 'Confirmation received directly', 'تم استلام مصادقة مباشرة', 'yesno', True),
+                    field('alternative', 'Alternative procedures', 'إجراءات بديلة', 'textarea')]),
+            ]),
+            section('measurement', 'Measurement', 'القياس', [
+                field('basis', 'Measurement basis', 'أساس القياس', 'select', True, options=BASIS),
+                field('valuation', 'Valuation by category', 'التقييم حسب الفئة', 'table', columns=[
+                    field('category', 'Category', 'الفئة', required=True),
+                    field('quantity', 'Quantity', 'الكمية', 'text', True),
+                    field('unit_price', 'Price per unit and its source (active market, contract, expert)', 'سعر الوحدة ومصدره (سوق نشطة، عقد، خبير)', 'text', True),
+                    field('costs_to_sell', 'Costs to sell', 'تكاليف البيع', 'money'),
+                    field('amount', 'Carrying amount', 'القيمة الدفترية', 'money', True)]),
+                field('basis_note', 'Why the basis is appropriate, and the evidence for the prices used', 'لماذا يُعد الأساس مناسباً، والأدلة على الأسعار المستخدمة', 'textarea', True),
+            ]),
+            schedule_section(sh, leadsheets),
+            section('rollforward', 'Roll-forward and conclusion', 'الترحيل والاستنتاج', [
+                field('count_date', 'Count date', 'تاريخ الجرد', 'date', True),
+                field('rollforward', 'Roll-forward from the count date to the reporting date: births, deaths, purchases, sales and harvest since the count', 'الترحيل من تاريخ الجرد إلى تاريخ التقرير: المواليد والنفوق والمشتريات والمبيعات والحصاد منذ الجرد', 'textarea', True),
+                field('conclusion', 'Conclusion on the existence, condition and measurement of the biological assets', 'الاستنتاج بشأن وجود الأصول الحيوية وحالتها وقياسها', 'textarea', True),
+            ]),
+        ],
+        'signoff': signoff(),
+    }

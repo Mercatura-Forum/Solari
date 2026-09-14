@@ -153,6 +153,28 @@
      "readonly": true
     },
     {
+     "id": "ls_bio",
+     "label": {
+      "en": "Biological assets (LS-BIO)",
+      "ar": "Biological assets (LS-BIO)"
+     },
+     "type": "money",
+     "required": false,
+     "autofill": "tb.leadsheet.LS-BIO",
+     "readonly": true
+    },
+    {
+     "id": "ls_bio_prior",
+     "label": {
+      "en": "Biological assets, prior period",
+      "ar": "Biological assets، الفترة السابقة"
+     },
+     "type": "money",
+     "required": false,
+     "autofill": "tb.leadsheet.LS-BIO.prior",
+     "readonly": true
+    },
+    {
      "id": "risks",
      "label": {
       "en": "Risks placed on this cycle by the risk register",
