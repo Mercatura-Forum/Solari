@@ -27,8 +27,7 @@ import Principal "mo:core/Principal";
 import Text "mo:core/Text";
 import Calc "calc/Calc";
 import Engine "Engine";
-import FormsSeed "FormsSeed";
-import FormsSeedExt "FormsSeedExt";
+import ProductForms "ProductForms";
 import Hash "Hash";
 import Json "Json";
 import Py "Py";
@@ -95,7 +94,7 @@ module {
 
   /// Whether a form id (product or firm) exists, with the field ids it carries.
   func fieldsOfAny(st : State, id : Text) : ?[Text] {
-    let text : ?Text = switch (FormsSeed.get(id)) { case (?t) ?t; case null switch (FormsSeedExt.get(id)) { case (?t) ?t; case null latest(st, id) } };
+    let text : ?Text = switch (ProductForms.latest(id)) { case (?t) ?t; case null latest(st, id) };
     switch (text) {
       case null null;
       case (?t) {

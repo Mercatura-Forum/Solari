@@ -12,7 +12,8 @@ Arabic procedure names are drafts pending professional review.
 
 Attribution: Thebes Core Team. Licence: Apache 2.0.
 """
-from forms_lib import CONCLUSIONS, ENGAGEMENT, L, field, section, signoff
+import json
+from forms_lib import opt, CONCLUSIONS, ENGAGEMENT, L, field, section, signoff
 
 CYCLE_FORMS = [
     ('REV', 'F31-REVENUE-RECEIVABLES', 31, 'Revenue and receivables working paper', 'ورقة عمل الإيرادات والمدينين'),
@@ -121,8 +122,43 @@ RISK_COLUMNS = [
 ]
 
 
-def cycle_forms(procedures, leadsheets):
-    """Build F31 to F38 from the model's procedures and leadsheets tables."""
+def schedule_section(sh, leadsheets):
+    """The movement schedule a cycle paper carries for a leadsheet it owns (CALC-ROLLFORWARD):
+    one row per component of the model's shape, the movements the framework's reconciliation
+    names, and the closing that must equal the leadsheet's adjusted balance."""
+    key = sh['id'].lower().replace('-', '_')
+    comps = json.loads(sh['components'])
+    labels = json.loads(sh['labels'])
+    ls = next(l for l in leadsheets if l['id'] == sh['leadsheet_id'])
+    columns = [
+        field('component', 'Component', 'المكوّن', 'select', True, options=[opt(c['id'], c['name'], c['name_ar']) for c in comps]),
+        field('opening', 'Opening balance', 'الرصيد الافتتاحي', 'money', True),
+    ]
+    for m in ('additions', 'disposals', 'transfers', 'revaluation', 'other'):
+        columns.append(field(m, labels[m]['en'], labels[m]['ar'], 'money'))
+    columns.append(field('closing', 'Closing balance', 'الرصيد الختامي', 'money', True))
+    contra = [c['name'] for c in comps if c.get('contra')]
+    note_en = (f"{sh['description']} Required by {sh['paragraphs']}. Closing balance = opening + additions - disposals + transfers + revaluation + other for every component"
+               + (f"; {', '.join(contra)} is stated positive and deducted" if contra else '')
+               + f". The closing total must equal the adjusted balance of {ls['name']} ({ls['id']}) read above; the paper computes the schedule and shows the difference.")
+    note_ar = (f"يشترطه {sh['paragraphs']}. الرصيد الختامي = الافتتاحي + الإضافات - الاستبعادات + التحويلات + إعادة التقييم + أخرى لكل مكوّن"
+               + ('؛ ويُذكر المكوّن المقابل موجباً ويُخصم' if contra else '')
+               + f". يجب أن يساوي الإجمالي الختامي الرصيد المعدّل لـ {ls['name']} ({ls['id']}) المقروء أعلاه؛ وتحسب الورقة الجدول وتعرض الفرق.")
+    fields = [
+        field(key, f"{sh['name']} movement schedule", f"جدول حركة {sh['name']}", 'table', columns=columns),
+        field(f'{key}_difference', 'Difference between the closing total and the leadsheet', 'الفرق بين الإجمالي الختامي والورقة الرئيسية', 'money',
+              autofill=f"paper.rollforward.schedules.{sh['id']}.difference", readonly=True),
+        field(f'{key}_agrees', 'Schedule agrees to the leadsheet', 'الجدول يتفق مع الورقة الرئيسية', 'text',
+              autofill=f"paper.rollforward.schedules.{sh['id']}.agrees", readonly=True),
+        field(f'{key}_opening_difference', 'Difference between the opening total and the prior period', 'الفرق بين الإجمالي الافتتاحي والفترة السابقة', 'money',
+              autofill=f"paper.rollforward.schedules.{sh['id']}.opening_difference", readonly=True),
+    ]
+    return section(key, f"Movement schedule: {sh['name']} ({sh['leadsheet_id']})", f"جدول الحركة: {sh['name']} ({sh['leadsheet_id']})", fields, note=L(note_en, note_ar))
+
+
+def cycle_forms(procedures, leadsheets, schedules=()):
+    """Build F31 to F38 from the model's procedures, leadsheets and movement schedules. A paper
+    that carries a schedule is version 2 of the paper; version 1 stays as it was signed."""
     out = []
     for cycle, fid, number, en, ar in CYCLE_FORMS:
         procs = [p for p in procedures if p['cycle_id'] == cycle and p['id'] not in OWNED_ELSEWHERE]
@@ -155,6 +191,9 @@ def cycle_forms(procedures, leadsheets):
                 fields.append(field(f'{key}_flagged', 'Lines flagged by the analytical review paper', 'البنود المعلَّمة في ورقة الفحص التحليلي', 'integer', autofill='paper.analytical_review.lines_flagged', readonly=True))
             fields.append(field(f'{key}_conclusion', 'Conclusion', 'الاستنتاج', 'select', True, options=CONCLUSIONS))
             sections.append(section(key, f"{pid} {p['name']}", f"{pid} {PROCEDURE_AR.get(pid, p['name'])}", fields, note=L(p['objective'], p['objective'])))
+        owned = [sh for sh in sorted(schedules, key=lambda x: x['sort_order']) if sh['form_id'] == fid]
+        for sh in owned:
+            sections.append(schedule_section(sh, leadsheets))
         out.append({
             'id': fid, 'number': number, 'kind': 'worksheet', 'phase': 'fieldwork',
             'title': L(en, ar),
@@ -163,5 +202,6 @@ def cycle_forms(procedures, leadsheets):
             'procedures': [p['id'] for p in procs], 'standards': CYCLE_STANDARDS[cycle],
             'sections': sections,
             'signoff': signoff(),
+            **({'computation': 'rollforward', 'version': 2} if owned else {}),
         })
     return out

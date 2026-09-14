@@ -34,8 +34,8 @@ import Programme "Programme";
 import Disclosures "Disclosures";
 import Group "Group";
 import Adjustments "Adjustments";
-import FormsSeed "FormsSeed";
-import FormsSeedExt "FormsSeedExt";
+import ProductForms "ProductForms";
+import Hash "Hash";
 import FirmForms "FirmForms";
 import FormGraph "FormGraph";
 import Map "mo:core/Map";
@@ -52,26 +52,40 @@ module {
   func parse(t : Text) : J { switch (Json.parse(t)) { case (#ok(j)) j; case (#err(_)) #null_ } };
   func get(o : J, k : Text) : J { Py.optJ(Json.get(o, k)) };
 
-  /// A form's definition: the product's seeds, then the firm's own (latest version).
+  /// A form's definition: the product's latest version, then the firm's own (latest version).
   public func spec(ff : FirmForms.State, id : Text) : ?J {
-    switch (FormsSeed.get(id)) { case (?t) return ?parse(t); case null {} };
-    switch (FormsSeedExt.get(id)) { case (?t) return ?parse(t); case null {} };
+    switch (ProductForms.latest(id)) { case (?t) return ?parse(t); case null {} };
     switch (FirmForms.latest(ff, id)) { case (?t) ?parse(t); case null null }
   };
-  /// The definition an instance renders under: the version stamped at prepare for a firm form,
-  /// the latest otherwise.
+  /// The definition an instance renders under: the version stamped when it was prepared (a
+  /// product form's or a firm form's), the latest otherwise.
   func specFor(ff : FirmForms.State, id : Text, values : J) : ?J {
     switch (Json.get(get(values, "_definition"), "version")) {
-      case (?#num(n)) { switch (Nat.fromText(n)) { case (?v) { switch (FirmForms.versionText(ff, id, v)) { case (?t) return ?parse(t); case null {} } }; case null {} } };
+      case (?#num(n)) {
+        switch (Nat.fromText(n)) {
+          case (?v) {
+            switch (ProductForms.versionText(id, v)) { case (?t) return ?parse(t); case null {} };
+            switch (FirmForms.versionText(ff, id, v)) { case (?t) return ?parse(t); case null {} };
+          };
+          case null {};
+        }
+      };
       case _ {};
     };
     spec(ff, id)
   };
+  /// The stamp of a product form's latest definition: id, version and the SHA-256 of its text.
+  func productStamp(id : Text) : ?J {
+    switch (ProductForms.latest(id)) {
+      case (?t) ?#obj([("id", #str(id)), ("version", Json.nat(ProductForms.latestVersion(id))), ("sha256", #str(Hash.sha256Hex(Text.encodeUtf8(t))))]);
+      case null null;
+    }
+  };
   /// The whole catalogue: the product's forms, then the firm's active forms.
   public func all(ff : FirmForms.State) : [(Text, Text)] { Array.concat(seeds(), FirmForms.active(ff)) };
 
-  /// (form id, definition text) of every product form, in catalogue order.
-  public func seeds() : [(Text, Text)] { Array.concat(FormsSeed.FORMS, FormsSeedExt.FORMS) };
+  /// (form id, latest definition text) of every product form, in catalogue order.
+  public func seeds() : [(Text, Text)] { ProductForms.catalogue() };
 
   /// Every form's identity, title, kind, phase and the procedures and standards it serves.
   public func catalogue(ff : FirmForms.State) : J {
@@ -103,6 +117,19 @@ module {
     var found : ?Engine.Paper = null;
     for (p in List.values(s.papers)) { if (p.engagementId == eng and p.kind == kind) found := ?p };
     found
+  };
+
+  /// The latest paper of a kind computed from a given form (its procedure marker).
+  func latestPaperFor(s : Engine.State, eng : Nat, kind : Text, formId : Text) : ?Engine.Paper {
+    var found : ?Engine.Paper = null;
+    for (p in List.values(s.papers)) { if (p.engagementId == eng and p.kind == kind and p.procedureId == formId) found := ?p };
+    found
+  };
+
+  /// The cycle paper that owns a movement schedule of the model.
+  public func scheduleOwner(scheduleId : Text) : ?Text {
+    for (r in seedRows("movement_schedules").vals()) { if (Py.textOr(r, "id", "") == scheduleId) return ?Py.textOr(r, "form_id", "") };
+    null
   };
 
   func seedRows(name : Text) : [J] {
@@ -226,7 +253,12 @@ module {
         benchmark(s, e.id, name)
       };
       case "paper" {
-        switch (latestPaper(s, e.id, parts[1])) {
+        // a movement schedule's paper is the one computed from the cycle paper that owns the
+        // schedule, never another paper's roll-forward
+        let paper = if (parts[1] == "rollforward" and parts.size() >= 4 and parts[2] == "schedules") {
+          switch (scheduleOwner(parts[3])) { case (?owner) latestPaperFor(s, e.id, "rollforward", owner); case null null }
+        } else latestPaper(s, e.id, parts[1]);
+        switch (paper) {
           case null #null_;
           case (?p) {
             var cur = parse(p.output);
@@ -467,7 +499,11 @@ module {
                 case "form" (parts[1], #str(parts[2]), "form");
                 case "paper" {
                   var owner = "";
-                  for ((oid, ot) in seeds().vals()) { if (Py.textOr(parse(ot), "computation", "") == parts[1]) owner := oid };
+                  if (parts[1] == "rollforward" and parts.size() >= 4 and parts[2] == "schedules") {
+                    switch (scheduleOwner(parts[3])) { case (?o) owner := o; case null {} };
+                  } else {
+                    for ((oid, ot) in seeds().vals()) { if (Py.textOr(parse(ot), "computation", "") == parts[1]) owner := oid };
+                  };
                   if (owner != "") (owner, #null_, "computed") else ("paper:" # parts[1], #null_, "paper")
                 };
                 case "records" ("records:" # parts[1], #null_, "records");
@@ -692,13 +728,14 @@ module {
           switch (requiredProblem(f, v)) { case (?p) return #err("cannot prepare: " # p); case null {} };
         };
         let kvs = switch (values) { case (#obj(kvs)) kvs; case _ [] };
-        // a firm form is stamped with the exact definition it is prepared under (id, version, SHA-256)
-        let stampKv : [(Text, J)] = if (Py.truthy(Json.get(sp, "firm"))) {
-          switch (Json.get(values, "_definition")) {
-            case (?d) [("_definition", d)];
-            case null { switch (FirmForms.latestStamp(ff, formId)) { case (?d) [("_definition", d)]; case null [] } };
-          }
-        } else [];
+        // the form is stamped with the exact definition it is prepared under (id, version, SHA-256):
+        // a firm form's published version, a product form's module version
+        let stampKv : [(Text, J)] = switch (Json.get(values, "_definition")) {
+          case (?d) [("_definition", d)];
+          case null {
+            switch (if (Py.truthy(Json.get(sp, "firm"))) FirmForms.latestStamp(ff, formId) else productStamp(formId)) { case (?d) [("_definition", d)]; case null [] }
+          };
+        };
         // the frozen figures: every live value but the live indicators
         var frozenKvs : [(Text, J)] = [];
         for ((k, v) in live.vals()) {
@@ -906,7 +943,8 @@ module {
     let i = switch (instance(s, eng, formId)) { case (?i) i; case null return #err("the form has not been started") };
     if (i.status == "draft") return #err("the form is already a draft");
     if (Text.trim(reason, #char ' ') == "") return #err("a reason is required to reopen a signed form");
-    i.values := Json.toText(without(parse(i.values), "_frozen"));
+    // a reopened form is a draft again, and a draft is under the latest definition
+    i.values := Json.toText(without(without(parse(i.values), "_frozen"), "_definition"));
     i.status := "draft";
     i.signoffs := [];
     i.version += 1;

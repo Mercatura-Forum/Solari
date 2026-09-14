@@ -227,11 +227,13 @@ def fuzz_trend():
 CALL.update({
     'aggregation': lambda i: c.aggregate_misstatements(**i),
     'tieout': lambda i: c.tieout(i['statement_lines'], i['leadsheet_totals']),
+    'rollforward': lambda i: c.rollforward(i['schedules']),
     'going_concern': lambda i: c.going_concern_assessment(**i),
 })
 VECTOR_KIND.update({
     'aggregation': lambda i: 'aggregation',
     'tieout': lambda i: 'tieout',
+    'rollforward': lambda i: 'rollforward',
     'going_concern': lambda i: 'going_concern',
 })
 
@@ -279,6 +281,31 @@ def fuzz_tieout():
         lines.append(line)
         done.append(lid)
     return {'statement_lines': lines, 'leadsheet_totals': ls}
+
+
+def fuzz_rollforward():
+    schedules = []
+    for j in range(R.randint(0, 4)):
+        comps = []
+        for k in range(R.randint(0, 4)):
+            comp = {'id': f'c{k}' if R.random() > 0.03 else ('c0' if k else ''), 'name': f'Component {k}',
+                    'opening': dec(-10 ** 6, 10 ** 7), 'additions': dec(0, 10 ** 6), 'disposals': dec(0, 10 ** 6),
+                    'transfers': dec(-10 ** 5, 10 ** 5), 'revaluation': dec(-10 ** 5, 10 ** 5), 'other': dec(-10 ** 5, 10 ** 5)}
+            if R.random() < 0.3:
+                comp['contra'] = R.choice([0, 1, '1', True])
+            if R.random() < 0.4:
+                closing = sum((Decimal(comp[x]).quantize(Decimal('0.01')) * (-1 if x == 'disposals' else 1) for x in ('opening', 'additions', 'disposals', 'transfers', 'revaluation', 'other')), Decimal(0))
+                comp['closing'] = str(closing if R.random() < 0.8 else closing + Decimal('0.01'))
+            for x in R.sample(['additions', 'disposals', 'transfers', 'revaluation', 'other'], R.randint(0, 2)):
+                del comp[x]
+            comps.append(comp)
+        sch = {'id': f'SCH-{j}' if R.random() > 0.03 else ('SCH-0' if j else ''), 'leadsheet_id': f'LS-{j}', 'leadsheet_balance': dec(-10 ** 7, 10 ** 7), 'components': comps}
+        if R.random() < 0.8:
+            sch['sign'] = R.choice(['1', '-1', '1', '-1'] + (['2'] if R.random() < 0.05 else []))
+        if R.random() < 0.5:
+            sch['prior_balance'] = dec(-10 ** 7, 10 ** 7)
+        schedules.append(sch)
+    return {'schedules': schedules}
 
 
 def fuzz_going_concern():
@@ -421,7 +448,7 @@ def fuzz_journal_screen():
 
 FUZZ = {
     'journal_completeness': (fuzz_journal_completeness, 250), 'journal_screen': (fuzz_journal_screen, 300),
-    'aggregation': (fuzz_aggregation, 250), 'tieout': (fuzz_tieout, 250), 'going_concern': (fuzz_going_concern, 200),
+    'aggregation': (fuzz_aggregation, 250), 'tieout': (fuzz_tieout, 250), 'rollforward': (fuzz_rollforward, 250), 'going_concern': (fuzz_going_concern, 200),
     'analytical_review': (fuzz_analytical_review, 200), 'ratio_set': (fuzz_ratio_set, 150), 'trend': (fuzz_trend, 200),
     'materiality': (fuzz_materiality, 300), 'component_materiality': (fuzz_component_materiality, 150),
     'poisson_table': (fuzz_poisson_table, 40), 'mus_sample_size': (fuzz_mus_sample_size, 120),

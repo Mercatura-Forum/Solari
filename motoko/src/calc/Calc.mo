@@ -12,6 +12,7 @@ import Sampling "Sampling";
 import Analytics "Analytics";
 import Aggregation "Aggregation";
 import Tieout "Tieout";
+import Rollforward "Rollforward";
 import GoingConcern "GoingConcern";
 import Journals "Journals";
 import Benford "Benford";
@@ -23,7 +24,7 @@ module {
     "poisson_table", "mus_sample_size", "mus_select", "mus_evaluate",
     "attribute_sample_size", "attribute_evaluate",
     "analytical_review", "ratio_set", "trend",
-    "aggregation", "tieout", "going_concern",
+    "aggregation", "tieout", "rollforward", "going_concern",
     "journal_completeness", "journal_screen",
     "benford",
   ];
@@ -43,6 +44,7 @@ module {
       case "trend" Analytics.trend(inp);
       case "aggregation" Aggregation.aggregate(inp);
       case "tieout" Tieout.tieout(inp);
+      case "rollforward" Rollforward.rollforward(inp);
       case "going_concern" GoingConcern.assess(inp);
       case "journal_completeness" Journals.completeness(inp);
       case "benford" Benford.analyse(inp);

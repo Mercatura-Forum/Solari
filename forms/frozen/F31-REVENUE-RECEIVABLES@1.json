@@ -1,34 +1,35 @@
 {
- "id": "F32-PURCHASES-PAYABLES",
- "number": 32,
+ "id": "F31-REVENUE-RECEIVABLES",
+ "number": 31,
  "kind": "worksheet",
  "phase": "fieldwork",
  "title": {
-  "en": "Purchases, payables and expenditure working paper",
-  "ar": "ورقة عمل المشتريات والدائنين والمصروفات"
+  "en": "Revenue and receivables working paper",
+  "ar": "ورقة عمل الإيرادات والمدينين"
  },
  "purpose": {
-  "en": "Document every substantive procedure of the purchases, payables and expenditure cycle: the work, the results, the evidence and the conclusion, against the balances the trial balance holds.",
-  "ar": "توثيق كل إجراء أساسي في دورة المشتريات والدائنين والمصروفات: العمل والنتائج والأدلة والاستنتاج، مقابل الأرصدة الواردة في ميزان المراجعة."
+  "en": "Document every substantive procedure of the revenue and receivables cycle: the work, the results, the evidence and the conclusion, against the balances the trial balance holds.",
+  "ar": "توثيق كل إجراء أساسي في دورة الإيرادات والمدينين: العمل والنتائج والأدلة والاستنتاج، مقابل الأرصدة الواردة في ميزان المراجعة."
  },
  "procedures": [
-  "P-PUR-003",
-  "P-PUR-004",
-  "P-PUR-005",
-  "P-PUR-006",
-  "P-PUR-007",
-  "P-PUR-008",
-  "P-PUR-010",
-  "P-PUR-011",
-  "P-PUR-012"
+  "P-REV-004",
+  "P-REV-005",
+  "P-REV-006",
+  "P-REV-007",
+  "P-REV-008",
+  "P-REV-009",
+  "P-REV-010",
+  "P-REV-011",
+  "P-REV-012",
+  "P-REV-013"
  ],
  "standards": [
   "ISA-330",
-  "ISA-500",
   "ISA-505",
   "ISA-520",
   "ISA-530",
-  "ISA-540"
+  "ISA-540",
+  "ISA-240"
  ],
  "sections": [
   {
@@ -114,157 +115,113 @@
      "readonly": true
     },
     {
-     "id": "ls_prep",
+     "id": "ls_recnc",
      "label": {
-      "en": "Prepayments (LS-PREP)",
-      "ar": "Prepayments (LS-PREP)"
+      "en": "Non-current receivables (LS-RECNC)",
+      "ar": "Non-current receivables (LS-RECNC)"
      },
      "type": "money",
      "required": false,
-     "autofill": "tb.leadsheet.LS-PREP",
+     "autofill": "tb.leadsheet.LS-RECNC",
      "readonly": true
     },
     {
-     "id": "ls_prep_prior",
+     "id": "ls_recnc_prior",
      "label": {
-      "en": "Prepayments, prior period",
-      "ar": "Prepayments، الفترة السابقة"
+      "en": "Non-current receivables, prior period",
+      "ar": "Non-current receivables، الفترة السابقة"
      },
      "type": "money",
      "required": false,
-     "autofill": "tb.leadsheet.LS-PREP.prior",
+     "autofill": "tb.leadsheet.LS-RECNC.prior",
      "readonly": true
     },
     {
-     "id": "ls_provnc",
+     "id": "ls_rec",
      "label": {
-      "en": "Provisions (non-current) (LS-PROVNC)",
-      "ar": "Provisions (non-current) (LS-PROVNC)"
+      "en": "Trade and other receivables (LS-REC)",
+      "ar": "Trade and other receivables (LS-REC)"
      },
      "type": "money",
      "required": false,
-     "autofill": "tb.leadsheet.LS-PROVNC",
+     "autofill": "tb.leadsheet.LS-REC",
      "readonly": true
     },
     {
-     "id": "ls_provnc_prior",
+     "id": "ls_rec_prior",
      "label": {
-      "en": "Provisions (non-current), prior period",
-      "ar": "Provisions (non-current)، الفترة السابقة"
+      "en": "Trade and other receivables, prior period",
+      "ar": "Trade and other receivables، الفترة السابقة"
      },
      "type": "money",
      "required": false,
-     "autofill": "tb.leadsheet.LS-PROVNC.prior",
+     "autofill": "tb.leadsheet.LS-REC.prior",
      "readonly": true
     },
     {
-     "id": "ls_oncl",
+     "id": "ls_ctra",
      "label": {
-      "en": "Other non-current liabilities (LS-ONCL)",
-      "ar": "Other non-current liabilities (LS-ONCL)"
+      "en": "Contract assets and accrued income (LS-CTRA)",
+      "ar": "Contract assets and accrued income (LS-CTRA)"
      },
      "type": "money",
      "required": false,
-     "autofill": "tb.leadsheet.LS-ONCL",
+     "autofill": "tb.leadsheet.LS-CTRA",
      "readonly": true
     },
     {
-     "id": "ls_oncl_prior",
+     "id": "ls_ctra_prior",
      "label": {
-      "en": "Other non-current liabilities, prior period",
-      "ar": "Other non-current liabilities، الفترة السابقة"
+      "en": "Contract assets and accrued income, prior period",
+      "ar": "Contract assets and accrued income، الفترة السابقة"
      },
      "type": "money",
      "required": false,
-     "autofill": "tb.leadsheet.LS-ONCL.prior",
+     "autofill": "tb.leadsheet.LS-CTRA.prior",
      "readonly": true
     },
     {
-     "id": "ls_ap",
+     "id": "ls_ctrl",
      "label": {
-      "en": "Trade payables (LS-AP)",
-      "ar": "Trade payables (LS-AP)"
+      "en": "Contract liabilities and deferred revenue (LS-CTRL)",
+      "ar": "Contract liabilities and deferred revenue (LS-CTRL)"
      },
      "type": "money",
      "required": false,
-     "autofill": "tb.leadsheet.LS-AP",
+     "autofill": "tb.leadsheet.LS-CTRL",
      "readonly": true
     },
     {
-     "id": "ls_ap_prior",
+     "id": "ls_ctrl_prior",
      "label": {
-      "en": "Trade payables, prior period",
-      "ar": "Trade payables، الفترة السابقة"
+      "en": "Contract liabilities and deferred revenue, prior period",
+      "ar": "Contract liabilities and deferred revenue، الفترة السابقة"
      },
      "type": "money",
      "required": false,
-     "autofill": "tb.leadsheet.LS-AP.prior",
+     "autofill": "tb.leadsheet.LS-CTRL.prior",
      "readonly": true
     },
     {
-     "id": "ls_accr",
+     "id": "ls_rev",
      "label": {
-      "en": "Accruals and other payables (LS-ACCR)",
-      "ar": "Accruals and other payables (LS-ACCR)"
+      "en": "Revenue (LS-REV)",
+      "ar": "Revenue (LS-REV)"
      },
      "type": "money",
      "required": false,
-     "autofill": "tb.leadsheet.LS-ACCR",
+     "autofill": "tb.leadsheet.LS-REV",
      "readonly": true
     },
     {
-     "id": "ls_accr_prior",
+     "id": "ls_rev_prior",
      "label": {
-      "en": "Accruals and other payables, prior period",
-      "ar": "Accruals and other payables، الفترة السابقة"
+      "en": "Revenue, prior period",
+      "ar": "Revenue، الفترة السابقة"
      },
      "type": "money",
      "required": false,
-     "autofill": "tb.leadsheet.LS-ACCR.prior",
-     "readonly": true
-    },
-    {
-     "id": "ls_provc",
-     "label": {
-      "en": "Provisions (current) (LS-PROVC)",
-      "ar": "Provisions (current) (LS-PROVC)"
-     },
-     "type": "money",
-     "required": false,
-     "autofill": "tb.leadsheet.LS-PROVC",
-     "readonly": true
-    },
-    {
-     "id": "ls_provc_prior",
-     "label": {
-      "en": "Provisions (current), prior period",
-      "ar": "Provisions (current)، الفترة السابقة"
-     },
-     "type": "money",
-     "required": false,
-     "autofill": "tb.leadsheet.LS-PROVC.prior",
-     "readonly": true
-    },
-    {
-     "id": "ls_opex",
-     "label": {
-      "en": "Operating expenses (LS-OPEX)",
-      "ar": "Operating expenses (LS-OPEX)"
-     },
-     "type": "money",
-     "required": false,
-     "autofill": "tb.leadsheet.LS-OPEX",
-     "readonly": true
-    },
-    {
-     "id": "ls_opex_prior",
-     "label": {
-      "en": "Operating expenses, prior period",
-      "ar": "Operating expenses، الفترة السابقة"
-     },
-     "type": "money",
-     "required": false,
-     "autofill": "tb.leadsheet.LS-OPEX.prior",
+     "autofill": "tb.leadsheet.LS-REV.prior",
      "readonly": true
     },
     {
@@ -350,14 +307,14 @@
    }
   },
   {
-   "id": "p_pur_003",
+   "id": "p_rev_004",
    "title": {
-    "en": "P-PUR-003 Search for unrecorded liabilities",
-    "ar": "P-PUR-003 البحث عن الالتزامات غير المسجلة"
+    "en": "P-REV-004 Substantive analytical procedure on revenue",
+    "ar": "P-REV-004 الإجراء التحليلي الأساسي للإيرادات"
    },
    "fields": [
     {
-     "id": "p_pur_003_work",
+     "id": "p_rev_004_work",
      "label": {
       "en": "Work performed",
       "ar": "العمل المنفذ"
@@ -366,7 +323,7 @@
      "required": true
     },
     {
-     "id": "p_pur_003_result",
+     "id": "p_rev_004_result",
      "label": {
       "en": "Results and exceptions",
       "ar": "النتائج والاستثناءات"
@@ -375,284 +332,29 @@
      "required": true
     },
     {
-     "id": "p_pur_003_samples",
+     "id": "p_rev_004_samples",
      "label": {
       "en": "Samples recorded for this procedure",
       "ar": "العينات المسجلة لهذا الإجراء"
      },
      "type": "integer",
      "required": false,
-     "autofill": "records.RK-SAMPLE.for.P-PUR-003",
+     "autofill": "records.RK-SAMPLE.for.P-REV-004",
      "readonly": true
     },
     {
-     "id": "p_pur_003_evidence",
+     "id": "p_rev_004_evidence",
      "label": {
       "en": "Evidence links citing this procedure",
       "ar": "روابط الأدلة التي تستشهد بهذا الإجراء"
      },
      "type": "integer",
      "required": false,
-     "autofill": "records.RK-EVIDENCE-LINK.for.P-PUR-003",
+     "autofill": "records.RK-EVIDENCE-LINK.for.P-REV-004",
      "readonly": true
     },
     {
-     "id": "p_pur_003_conclusion",
-     "label": {
-      "en": "Conclusion",
-      "ar": "الاستنتاج"
-     },
-     "type": "select",
-     "required": true,
-     "options": [
-      {
-       "value": "performed_no_exception",
-       "label": {
-        "en": "Performed, no exception",
-        "ar": "نُفذ دون استثناء"
-       }
-      },
-      {
-       "value": "performed_exception",
-       "label": {
-        "en": "Performed, exception noted",
-        "ar": "نُفذ مع ملاحظة استثناء"
-       }
-      },
-      {
-       "value": "not_applicable",
-       "label": {
-        "en": "Not applicable, reason stated",
-        "ar": "لا ينطبق، مع بيان السبب"
-       }
-      }
-     ]
-    }
-   ],
-   "note": {
-    "en": "Obtain evidence of the completeness of payables and accruals.",
-    "ar": "Obtain evidence of the completeness of payables and accruals."
-   }
-  },
-  {
-   "id": "p_pur_004",
-   "title": {
-    "en": "P-PUR-004 Supplier statement reconciliation",
-    "ar": "P-PUR-004 مطابقة كشوف حساب الموردين"
-   },
-   "fields": [
-    {
-     "id": "p_pur_004_work",
-     "label": {
-      "en": "Work performed",
-      "ar": "العمل المنفذ"
-     },
-     "type": "textarea",
-     "required": true
-    },
-    {
-     "id": "p_pur_004_result",
-     "label": {
-      "en": "Results and exceptions",
-      "ar": "النتائج والاستثناءات"
-     },
-     "type": "textarea",
-     "required": true
-    },
-    {
-     "id": "p_pur_004_samples",
-     "label": {
-      "en": "Samples recorded for this procedure",
-      "ar": "العينات المسجلة لهذا الإجراء"
-     },
-     "type": "integer",
-     "required": false,
-     "autofill": "records.RK-SAMPLE.for.P-PUR-004",
-     "readonly": true
-    },
-    {
-     "id": "p_pur_004_evidence",
-     "label": {
-      "en": "Evidence links citing this procedure",
-      "ar": "روابط الأدلة التي تستشهد بهذا الإجراء"
-     },
-     "type": "integer",
-     "required": false,
-     "autofill": "records.RK-EVIDENCE-LINK.for.P-PUR-004",
-     "readonly": true
-    },
-    {
-     "id": "p_pur_004_conclusion",
-     "label": {
-      "en": "Conclusion",
-      "ar": "الاستنتاج"
-     },
-     "type": "select",
-     "required": true,
-     "options": [
-      {
-       "value": "performed_no_exception",
-       "label": {
-        "en": "Performed, no exception",
-        "ar": "نُفذ دون استثناء"
-       }
-      },
-      {
-       "value": "performed_exception",
-       "label": {
-        "en": "Performed, exception noted",
-        "ar": "نُفذ مع ملاحظة استثناء"
-       }
-      },
-      {
-       "value": "not_applicable",
-       "label": {
-        "en": "Not applicable, reason stated",
-        "ar": "لا ينطبق، مع بيان السبب"
-       }
-      }
-     ]
-    }
-   ],
-   "note": {
-    "en": "Obtain evidence of the existence, completeness and accuracy of supplier balances.",
-    "ar": "Obtain evidence of the existence, completeness and accuracy of supplier balances."
-   }
-  },
-  {
-   "id": "p_pur_005",
-   "title": {
-    "en": "P-PUR-005 Purchases and expense cut-off",
-    "ar": "P-PUR-005 الفصل الزمني للمشتريات والمصروفات"
-   },
-   "fields": [
-    {
-     "id": "p_pur_005_work",
-     "label": {
-      "en": "Work performed",
-      "ar": "العمل المنفذ"
-     },
-     "type": "textarea",
-     "required": true
-    },
-    {
-     "id": "p_pur_005_result",
-     "label": {
-      "en": "Results and exceptions",
-      "ar": "النتائج والاستثناءات"
-     },
-     "type": "textarea",
-     "required": true
-    },
-    {
-     "id": "p_pur_005_samples",
-     "label": {
-      "en": "Samples recorded for this procedure",
-      "ar": "العينات المسجلة لهذا الإجراء"
-     },
-     "type": "integer",
-     "required": false,
-     "autofill": "records.RK-SAMPLE.for.P-PUR-005",
-     "readonly": true
-    },
-    {
-     "id": "p_pur_005_evidence",
-     "label": {
-      "en": "Evidence links citing this procedure",
-      "ar": "روابط الأدلة التي تستشهد بهذا الإجراء"
-     },
-     "type": "integer",
-     "required": false,
-     "autofill": "records.RK-EVIDENCE-LINK.for.P-PUR-005",
-     "readonly": true
-    },
-    {
-     "id": "p_pur_005_conclusion",
-     "label": {
-      "en": "Conclusion",
-      "ar": "الاستنتاج"
-     },
-     "type": "select",
-     "required": true,
-     "options": [
-      {
-       "value": "performed_no_exception",
-       "label": {
-        "en": "Performed, no exception",
-        "ar": "نُفذ دون استثناء"
-       }
-      },
-      {
-       "value": "performed_exception",
-       "label": {
-        "en": "Performed, exception noted",
-        "ar": "نُفذ مع ملاحظة استثناء"
-       }
-      },
-      {
-       "value": "not_applicable",
-       "label": {
-        "en": "Not applicable, reason stated",
-        "ar": "لا ينطبق، مع بيان السبب"
-       }
-      }
-     ]
-    }
-   ],
-   "note": {
-    "en": "Ensure purchases and expenses are recorded in the correct period.",
-    "ar": "Ensure purchases and expenses are recorded in the correct period."
-   }
-  },
-  {
-   "id": "p_pur_006",
-   "title": {
-    "en": "P-PUR-006 Substantive analytical procedures on operating expenses",
-    "ar": "P-PUR-006 الإجراءات التحليلية الأساسية لمصروفات التشغيل"
-   },
-   "fields": [
-    {
-     "id": "p_pur_006_work",
-     "label": {
-      "en": "Work performed",
-      "ar": "العمل المنفذ"
-     },
-     "type": "textarea",
-     "required": true
-    },
-    {
-     "id": "p_pur_006_result",
-     "label": {
-      "en": "Results and exceptions",
-      "ar": "النتائج والاستثناءات"
-     },
-     "type": "textarea",
-     "required": true
-    },
-    {
-     "id": "p_pur_006_samples",
-     "label": {
-      "en": "Samples recorded for this procedure",
-      "ar": "العينات المسجلة لهذا الإجراء"
-     },
-     "type": "integer",
-     "required": false,
-     "autofill": "records.RK-SAMPLE.for.P-PUR-006",
-     "readonly": true
-    },
-    {
-     "id": "p_pur_006_evidence",
-     "label": {
-      "en": "Evidence links citing this procedure",
-      "ar": "روابط الأدلة التي تستشهد بهذا الإجراء"
-     },
-     "type": "integer",
-     "required": false,
-     "autofill": "records.RK-EVIDENCE-LINK.for.P-PUR-006",
-     "readonly": true
-    },
-    {
-     "id": "p_pur_006_flagged",
+     "id": "p_rev_004_flagged",
      "label": {
       "en": "Lines flagged by the analytical review paper",
       "ar": "البنود المعلَّمة في ورقة الفحص التحليلي"
@@ -663,7 +365,7 @@
      "readonly": true
     },
     {
-     "id": "p_pur_006_conclusion",
+     "id": "p_rev_004_conclusion",
      "label": {
       "en": "Conclusion",
       "ar": "الاستنتاج"
@@ -696,19 +398,19 @@
     }
    ],
    "note": {
-    "en": "Obtain evidence over expense completeness and accuracy through expectations.",
-    "ar": "Obtain evidence over expense completeness and accuracy through expectations."
+    "en": "Obtain evidence over revenue occurrence, completeness and accuracy through a precise expectation.",
+    "ar": "Obtain evidence over revenue occurrence, completeness and accuracy through a precise expectation."
    }
   },
   {
-   "id": "p_pur_007",
+   "id": "p_rev_005",
    "title": {
-    "en": "P-PUR-007 Vouching of expenses and classification review",
-    "ar": "P-PUR-007 التحقق المستندي من المصروفات وفحص التبويب"
+    "en": "P-REV-005 Revenue cut-off testing",
+    "ar": "P-REV-005 اختبار الفصل الزمني للإيرادات"
    },
    "fields": [
     {
-     "id": "p_pur_007_work",
+     "id": "p_rev_005_work",
      "label": {
       "en": "Work performed",
       "ar": "العمل المنفذ"
@@ -717,7 +419,7 @@
      "required": true
     },
     {
-     "id": "p_pur_007_result",
+     "id": "p_rev_005_result",
      "label": {
       "en": "Results and exceptions",
       "ar": "النتائج والاستثناءات"
@@ -726,29 +428,284 @@
      "required": true
     },
     {
-     "id": "p_pur_007_samples",
+     "id": "p_rev_005_samples",
      "label": {
       "en": "Samples recorded for this procedure",
       "ar": "العينات المسجلة لهذا الإجراء"
      },
      "type": "integer",
      "required": false,
-     "autofill": "records.RK-SAMPLE.for.P-PUR-007",
+     "autofill": "records.RK-SAMPLE.for.P-REV-005",
      "readonly": true
     },
     {
-     "id": "p_pur_007_evidence",
+     "id": "p_rev_005_evidence",
      "label": {
       "en": "Evidence links citing this procedure",
       "ar": "روابط الأدلة التي تستشهد بهذا الإجراء"
      },
      "type": "integer",
      "required": false,
-     "autofill": "records.RK-EVIDENCE-LINK.for.P-PUR-007",
+     "autofill": "records.RK-EVIDENCE-LINK.for.P-REV-005",
      "readonly": true
     },
     {
-     "id": "p_pur_007_sample_size",
+     "id": "p_rev_005_conclusion",
+     "label": {
+      "en": "Conclusion",
+      "ar": "الاستنتاج"
+     },
+     "type": "select",
+     "required": true,
+     "options": [
+      {
+       "value": "performed_no_exception",
+       "label": {
+        "en": "Performed, no exception",
+        "ar": "نُفذ دون استثناء"
+       }
+      },
+      {
+       "value": "performed_exception",
+       "label": {
+        "en": "Performed, exception noted",
+        "ar": "نُفذ مع ملاحظة استثناء"
+       }
+      },
+      {
+       "value": "not_applicable",
+       "label": {
+        "en": "Not applicable, reason stated",
+        "ar": "لا ينطبق، مع بيان السبب"
+       }
+      }
+     ]
+    }
+   ],
+   "note": {
+    "en": "Ensure revenue is recorded in the period in which control transferred.",
+    "ar": "Ensure revenue is recorded in the period in which control transferred."
+   }
+  },
+  {
+   "id": "p_rev_006",
+   "title": {
+    "en": "P-REV-006 Revenue recognition policy and contract review",
+    "ar": "P-REV-006 سياسة إثبات الإيرادات وفحص العقود"
+   },
+   "fields": [
+    {
+     "id": "p_rev_006_work",
+     "label": {
+      "en": "Work performed",
+      "ar": "العمل المنفذ"
+     },
+     "type": "textarea",
+     "required": true
+    },
+    {
+     "id": "p_rev_006_result",
+     "label": {
+      "en": "Results and exceptions",
+      "ar": "النتائج والاستثناءات"
+     },
+     "type": "textarea",
+     "required": true
+    },
+    {
+     "id": "p_rev_006_samples",
+     "label": {
+      "en": "Samples recorded for this procedure",
+      "ar": "العينات المسجلة لهذا الإجراء"
+     },
+     "type": "integer",
+     "required": false,
+     "autofill": "records.RK-SAMPLE.for.P-REV-006",
+     "readonly": true
+    },
+    {
+     "id": "p_rev_006_evidence",
+     "label": {
+      "en": "Evidence links citing this procedure",
+      "ar": "روابط الأدلة التي تستشهد بهذا الإجراء"
+     },
+     "type": "integer",
+     "required": false,
+     "autofill": "records.RK-EVIDENCE-LINK.for.P-REV-006",
+     "readonly": true
+    },
+    {
+     "id": "p_rev_006_conclusion",
+     "label": {
+      "en": "Conclusion",
+      "ar": "الاستنتاج"
+     },
+     "type": "select",
+     "required": true,
+     "options": [
+      {
+       "value": "performed_no_exception",
+       "label": {
+        "en": "Performed, no exception",
+        "ar": "نُفذ دون استثناء"
+       }
+      },
+      {
+       "value": "performed_exception",
+       "label": {
+        "en": "Performed, exception noted",
+        "ar": "نُفذ مع ملاحظة استثناء"
+       }
+      },
+      {
+       "value": "not_applicable",
+       "label": {
+        "en": "Not applicable, reason stated",
+        "ar": "لا ينطبق، مع بيان السبب"
+       }
+      }
+     ]
+    }
+   ],
+   "note": {
+    "en": "Evaluate recognition against the five-step model for each revenue stream.",
+    "ar": "Evaluate recognition against the five-step model for each revenue stream."
+   }
+  },
+  {
+   "id": "p_rev_007",
+   "title": {
+    "en": "P-REV-007 Revenue fraud-risk responsive procedures",
+    "ar": "P-REV-007 الإجراءات المستجيبة لمخاطر الغش في الإيرادات"
+   },
+   "fields": [
+    {
+     "id": "p_rev_007_work",
+     "label": {
+      "en": "Work performed",
+      "ar": "العمل المنفذ"
+     },
+     "type": "textarea",
+     "required": true
+    },
+    {
+     "id": "p_rev_007_result",
+     "label": {
+      "en": "Results and exceptions",
+      "ar": "النتائج والاستثناءات"
+     },
+     "type": "textarea",
+     "required": true
+    },
+    {
+     "id": "p_rev_007_samples",
+     "label": {
+      "en": "Samples recorded for this procedure",
+      "ar": "العينات المسجلة لهذا الإجراء"
+     },
+     "type": "integer",
+     "required": false,
+     "autofill": "records.RK-SAMPLE.for.P-REV-007",
+     "readonly": true
+    },
+    {
+     "id": "p_rev_007_evidence",
+     "label": {
+      "en": "Evidence links citing this procedure",
+      "ar": "روابط الأدلة التي تستشهد بهذا الإجراء"
+     },
+     "type": "integer",
+     "required": false,
+     "autofill": "records.RK-EVIDENCE-LINK.for.P-REV-007",
+     "readonly": true
+    },
+    {
+     "id": "p_rev_007_conclusion",
+     "label": {
+      "en": "Conclusion",
+      "ar": "الاستنتاج"
+     },
+     "type": "select",
+     "required": true,
+     "options": [
+      {
+       "value": "performed_no_exception",
+       "label": {
+        "en": "Performed, no exception",
+        "ar": "نُفذ دون استثناء"
+       }
+      },
+      {
+       "value": "performed_exception",
+       "label": {
+        "en": "Performed, exception noted",
+        "ar": "نُفذ مع ملاحظة استثناء"
+       }
+      },
+      {
+       "value": "not_applicable",
+       "label": {
+        "en": "Not applicable, reason stated",
+        "ar": "لا ينطبق، مع بيان السبب"
+       }
+      }
+     ]
+    }
+   ],
+   "note": {
+    "en": "Respond to the presumed fraud risk in revenue recognition.",
+    "ar": "Respond to the presumed fraud risk in revenue recognition."
+   }
+  },
+  {
+   "id": "p_rev_008",
+   "title": {
+    "en": "P-REV-008 External confirmation of receivables",
+    "ar": "P-REV-008 المصادقة الخارجية للمدينين"
+   },
+   "fields": [
+    {
+     "id": "p_rev_008_work",
+     "label": {
+      "en": "Work performed",
+      "ar": "العمل المنفذ"
+     },
+     "type": "textarea",
+     "required": true
+    },
+    {
+     "id": "p_rev_008_result",
+     "label": {
+      "en": "Results and exceptions",
+      "ar": "النتائج والاستثناءات"
+     },
+     "type": "textarea",
+     "required": true
+    },
+    {
+     "id": "p_rev_008_samples",
+     "label": {
+      "en": "Samples recorded for this procedure",
+      "ar": "العينات المسجلة لهذا الإجراء"
+     },
+     "type": "integer",
+     "required": false,
+     "autofill": "records.RK-SAMPLE.for.P-REV-008",
+     "readonly": true
+    },
+    {
+     "id": "p_rev_008_evidence",
+     "label": {
+      "en": "Evidence links citing this procedure",
+      "ar": "روابط الأدلة التي تستشهد بهذا الإجراء"
+     },
+     "type": "integer",
+     "required": false,
+     "autofill": "records.RK-EVIDENCE-LINK.for.P-REV-008",
+     "readonly": true
+    },
+    {
+     "id": "p_rev_008_sample_size",
      "label": {
       "en": "Sample size from the sampling plan",
       "ar": "حجم العينة من خطة العينة"
@@ -759,7 +716,7 @@
      "readonly": true
     },
     {
-     "id": "p_pur_007_upper_limit",
+     "id": "p_rev_008_upper_limit",
      "label": {
       "en": "Upper misstatement limit from the evaluation",
       "ar": "الحد الأعلى للتحريف من التقييم"
@@ -770,7 +727,7 @@
      "readonly": true
     },
     {
-     "id": "p_pur_007_conclusion",
+     "id": "p_rev_008_conclusion",
      "label": {
       "en": "Conclusion",
       "ar": "الاستنتاج"
@@ -803,19 +760,19 @@
     }
    ],
    "note": {
-    "en": "Obtain evidence of occurrence, accuracy and classification of expenses.",
-    "ar": "Obtain evidence of occurrence, accuracy and classification of expenses."
+    "en": "Obtain third-party evidence of the existence and accuracy of receivable balances.",
+    "ar": "Obtain third-party evidence of the existence and accuracy of receivable balances."
    }
   },
   {
-   "id": "p_pur_008",
+   "id": "p_rev_009",
    "title": {
-    "en": "P-PUR-008 Accruals reasonableness and roll-forward",
-    "ar": "P-PUR-008 معقولية المستحقات وترحيلها"
+    "en": "P-REV-009 Alternative procedures for non-responses",
+    "ar": "P-REV-009 الإجراءات البديلة لعدم الرد"
    },
    "fields": [
     {
-     "id": "p_pur_008_work",
+     "id": "p_rev_009_work",
      "label": {
       "en": "Work performed",
       "ar": "العمل المنفذ"
@@ -824,7 +781,7 @@
      "required": true
     },
     {
-     "id": "p_pur_008_result",
+     "id": "p_rev_009_result",
      "label": {
       "en": "Results and exceptions",
       "ar": "النتائج والاستثناءات"
@@ -833,29 +790,29 @@
      "required": true
     },
     {
-     "id": "p_pur_008_samples",
+     "id": "p_rev_009_samples",
      "label": {
       "en": "Samples recorded for this procedure",
       "ar": "العينات المسجلة لهذا الإجراء"
      },
      "type": "integer",
      "required": false,
-     "autofill": "records.RK-SAMPLE.for.P-PUR-008",
+     "autofill": "records.RK-SAMPLE.for.P-REV-009",
      "readonly": true
     },
     {
-     "id": "p_pur_008_evidence",
+     "id": "p_rev_009_evidence",
      "label": {
       "en": "Evidence links citing this procedure",
       "ar": "روابط الأدلة التي تستشهد بهذا الإجراء"
      },
      "type": "integer",
      "required": false,
-     "autofill": "records.RK-EVIDENCE-LINK.for.P-PUR-008",
+     "autofill": "records.RK-EVIDENCE-LINK.for.P-REV-009",
      "readonly": true
     },
     {
-     "id": "p_pur_008_conclusion",
+     "id": "p_rev_009_conclusion",
      "label": {
       "en": "Conclusion",
       "ar": "الاستنتاج"
@@ -888,19 +845,19 @@
     }
    ],
    "note": {
-    "en": "Evaluate accrued expenses for completeness and valuation.",
-    "ar": "Evaluate accrued expenses for completeness and valuation."
+    "en": "Obtain evidence for confirmations not returned.",
+    "ar": "Obtain evidence for confirmations not returned."
    }
   },
   {
-   "id": "p_pur_010",
+   "id": "p_rev_010",
    "title": {
-    "en": "P-PUR-010 Other non-current liabilities and deferred income",
-    "ar": "P-PUR-010 الالتزامات غير المتداولة الأخرى والإيرادات المؤجلة"
+    "en": "P-REV-010 Receivables ageing and expected credit loss allowance",
+    "ar": "P-REV-010 أعمار المدينين ومخصص الخسائر الائتمانية المتوقعة"
    },
    "fields": [
     {
-     "id": "p_pur_010_work",
+     "id": "p_rev_010_work",
      "label": {
       "en": "Work performed",
       "ar": "العمل المنفذ"
@@ -909,7 +866,7 @@
      "required": true
     },
     {
-     "id": "p_pur_010_result",
+     "id": "p_rev_010_result",
      "label": {
       "en": "Results and exceptions",
       "ar": "النتائج والاستثناءات"
@@ -918,29 +875,29 @@
      "required": true
     },
     {
-     "id": "p_pur_010_samples",
+     "id": "p_rev_010_samples",
      "label": {
       "en": "Samples recorded for this procedure",
       "ar": "العينات المسجلة لهذا الإجراء"
      },
      "type": "integer",
      "required": false,
-     "autofill": "records.RK-SAMPLE.for.P-PUR-010",
+     "autofill": "records.RK-SAMPLE.for.P-REV-010",
      "readonly": true
     },
     {
-     "id": "p_pur_010_evidence",
+     "id": "p_rev_010_evidence",
      "label": {
       "en": "Evidence links citing this procedure",
       "ar": "روابط الأدلة التي تستشهد بهذا الإجراء"
      },
      "type": "integer",
      "required": false,
-     "autofill": "records.RK-EVIDENCE-LINK.for.P-PUR-010",
+     "autofill": "records.RK-EVIDENCE-LINK.for.P-REV-010",
      "readonly": true
     },
     {
-     "id": "p_pur_010_conclusion",
+     "id": "p_rev_010_conclusion",
      "label": {
       "en": "Conclusion",
       "ar": "الاستنتاج"
@@ -973,19 +930,19 @@
     }
    ],
    "note": {
-    "en": "Obtain evidence over long-term payables, government grants and deferred income.",
-    "ar": "Obtain evidence over long-term payables, government grants and deferred income."
+    "en": "Evaluate the valuation of receivables and the loss allowance.",
+    "ar": "Evaluate the valuation of receivables and the loss allowance."
    }
   },
   {
-   "id": "p_pur_011",
+   "id": "p_rev_011",
    "title": {
-    "en": "P-PUR-011 Payables presentation and debit balances",
-    "ar": "P-PUR-011 عرض الدائنين والأرصدة المدينة"
+    "en": "P-REV-011 Subsequent receipts testing",
+    "ar": "P-REV-011 اختبار التحصيلات اللاحقة"
    },
    "fields": [
     {
-     "id": "p_pur_011_work",
+     "id": "p_rev_011_work",
      "label": {
       "en": "Work performed",
       "ar": "العمل المنفذ"
@@ -994,7 +951,7 @@
      "required": true
     },
     {
-     "id": "p_pur_011_result",
+     "id": "p_rev_011_result",
      "label": {
       "en": "Results and exceptions",
       "ar": "النتائج والاستثناءات"
@@ -1003,29 +960,29 @@
      "required": true
     },
     {
-     "id": "p_pur_011_samples",
+     "id": "p_rev_011_samples",
      "label": {
       "en": "Samples recorded for this procedure",
       "ar": "العينات المسجلة لهذا الإجراء"
      },
      "type": "integer",
      "required": false,
-     "autofill": "records.RK-SAMPLE.for.P-PUR-011",
+     "autofill": "records.RK-SAMPLE.for.P-REV-011",
      "readonly": true
     },
     {
-     "id": "p_pur_011_evidence",
+     "id": "p_rev_011_evidence",
      "label": {
       "en": "Evidence links citing this procedure",
       "ar": "روابط الأدلة التي تستشهد بهذا الإجراء"
      },
      "type": "integer",
      "required": false,
-     "autofill": "records.RK-EVIDENCE-LINK.for.P-PUR-011",
+     "autofill": "records.RK-EVIDENCE-LINK.for.P-REV-011",
      "readonly": true
     },
     {
-     "id": "p_pur_011_conclusion",
+     "id": "p_rev_011_conclusion",
      "label": {
       "en": "Conclusion",
       "ar": "الاستنتاج"
@@ -1058,19 +1015,19 @@
     }
    ],
    "note": {
-    "en": "Evaluate classification and disclosure of payables.",
-    "ar": "Evaluate classification and disclosure of payables."
+    "en": "Obtain evidence of existence and recoverability from post-period cash.",
+    "ar": "Obtain evidence of existence and recoverability from post-period cash."
    }
   },
   {
-   "id": "p_pur_012",
+   "id": "p_rev_012",
    "title": {
-    "en": "P-PUR-012 Prepayments and advances testing",
-    "ar": "P-PUR-012 اختبار المدفوعات المقدمة والدفعات المقدمة"
+    "en": "P-REV-012 Contract assets and liabilities testing",
+    "ar": "P-REV-012 اختبار أصول والتزامات العقود"
    },
    "fields": [
     {
-     "id": "p_pur_012_work",
+     "id": "p_rev_012_work",
      "label": {
       "en": "Work performed",
       "ar": "العمل المنفذ"
@@ -1079,7 +1036,7 @@
      "required": true
     },
     {
-     "id": "p_pur_012_result",
+     "id": "p_rev_012_result",
      "label": {
       "en": "Results and exceptions",
       "ar": "النتائج والاستثناءات"
@@ -1088,29 +1045,29 @@
      "required": true
     },
     {
-     "id": "p_pur_012_samples",
+     "id": "p_rev_012_samples",
      "label": {
       "en": "Samples recorded for this procedure",
       "ar": "العينات المسجلة لهذا الإجراء"
      },
      "type": "integer",
      "required": false,
-     "autofill": "records.RK-SAMPLE.for.P-PUR-012",
+     "autofill": "records.RK-SAMPLE.for.P-REV-012",
      "readonly": true
     },
     {
-     "id": "p_pur_012_evidence",
+     "id": "p_rev_012_evidence",
      "label": {
       "en": "Evidence links citing this procedure",
       "ar": "روابط الأدلة التي تستشهد بهذا الإجراء"
      },
      "type": "integer",
      "required": false,
-     "autofill": "records.RK-EVIDENCE-LINK.for.P-PUR-012",
+     "autofill": "records.RK-EVIDENCE-LINK.for.P-REV-012",
      "readonly": true
     },
     {
-     "id": "p_pur_012_conclusion",
+     "id": "p_rev_012_conclusion",
      "label": {
       "en": "Conclusion",
       "ar": "الاستنتاج"
@@ -1143,153 +1100,93 @@
     }
    ],
    "note": {
-    "en": "Obtain evidence over prepaid expenses and advances to suppliers.",
-    "ar": "Obtain evidence over prepaid expenses and advances to suppliers."
+    "en": "Evaluate unbilled revenue, deferred revenue and customer advances.",
+    "ar": "Evaluate unbilled revenue, deferred revenue and customer advances."
    }
   },
   {
-   "id": "sch_ap",
+   "id": "p_rev_013",
    "title": {
-    "en": "Movement schedule: Trade payables (LS-AP)",
-    "ar": "جدول الحركة: Trade payables (LS-AP)"
+    "en": "P-REV-013 Revenue completeness through external records",
+    "ar": "P-REV-013 اكتمال الإيرادات من خلال السجلات الخارجية"
    },
    "fields": [
     {
-     "id": "sch_ap",
+     "id": "p_rev_013_work",
      "label": {
-      "en": "Trade payables movement schedule",
-      "ar": "جدول حركة Trade payables"
+      "en": "Work performed",
+      "ar": "العمل المنفذ"
      },
-     "type": "table",
+     "type": "textarea",
+     "required": true
+    },
+    {
+     "id": "p_rev_013_result",
+     "label": {
+      "en": "Results and exceptions",
+      "ar": "النتائج والاستثناءات"
+     },
+     "type": "textarea",
+     "required": true
+    },
+    {
+     "id": "p_rev_013_samples",
+     "label": {
+      "en": "Samples recorded for this procedure",
+      "ar": "العينات المسجلة لهذا الإجراء"
+     },
+     "type": "integer",
      "required": false,
-     "columns": [
+     "autofill": "records.RK-SAMPLE.for.P-REV-013",
+     "readonly": true
+    },
+    {
+     "id": "p_rev_013_evidence",
+     "label": {
+      "en": "Evidence links citing this procedure",
+      "ar": "روابط الأدلة التي تستشهد بهذا الإجراء"
+     },
+     "type": "integer",
+     "required": false,
+     "autofill": "records.RK-EVIDENCE-LINK.for.P-REV-013",
+     "readonly": true
+    },
+    {
+     "id": "p_rev_013_conclusion",
+     "label": {
+      "en": "Conclusion",
+      "ar": "الاستنتاج"
+     },
+     "type": "select",
+     "required": true,
+     "options": [
       {
-       "id": "component",
+       "value": "performed_no_exception",
        "label": {
-        "en": "Component",
-        "ar": "المكوّن"
-       },
-       "type": "select",
-       "required": true,
-       "options": [
-        {
-         "value": "trade_payables",
-         "label": {
-          "en": "Trade payables",
-          "ar": "الدائنون التجاريون"
-         }
-        },
-        {
-         "value": "other_payables",
-         "label": {
-          "en": "Other payables",
-          "ar": "دائنون آخرون"
-         }
-        }
-       ]
+        "en": "Performed, no exception",
+        "ar": "نُفذ دون استثناء"
+       }
       },
       {
-       "id": "opening",
+       "value": "performed_exception",
        "label": {
-        "en": "Opening balance",
-        "ar": "الرصيد الافتتاحي"
-       },
-       "type": "money",
-       "required": true
+        "en": "Performed, exception noted",
+        "ar": "نُفذ مع ملاحظة استثناء"
+       }
       },
       {
-       "id": "additions",
+       "value": "not_applicable",
        "label": {
-        "en": "Invoiced",
-        "ar": "المفوتر"
-       },
-       "type": "money",
-       "required": false
-      },
-      {
-       "id": "disposals",
-       "label": {
-        "en": "Paid",
-        "ar": "المسدد"
-       },
-       "type": "money",
-       "required": false
-      },
-      {
-       "id": "transfers",
-       "label": {
-        "en": "Transfers and reclassifications",
-        "ar": "التحويلات وإعادة التبويب"
-       },
-       "type": "money",
-       "required": false
-      },
-      {
-       "id": "revaluation",
-       "label": {
-        "en": "Revaluation or remeasurement",
-        "ar": "إعادة التقييم أو إعادة القياس"
-       },
-       "type": "money",
-       "required": false
-      },
-      {
-       "id": "other",
-       "label": {
-        "en": "Other movements",
-        "ar": "حركات أخرى"
-       },
-       "type": "money",
-       "required": false
-      },
-      {
-       "id": "closing",
-       "label": {
-        "en": "Closing balance",
-        "ar": "الرصيد الختامي"
-       },
-       "type": "money",
-       "required": true
+        "en": "Not applicable, reason stated",
+        "ar": "لا ينطبق، مع بيان السبب"
+       }
       }
      ]
-    },
-    {
-     "id": "sch_ap_difference",
-     "label": {
-      "en": "Difference between the closing total and the leadsheet",
-      "ar": "الفرق بين الإجمالي الختامي والورقة الرئيسية"
-     },
-     "type": "money",
-     "required": false,
-     "autofill": "paper.rollforward.schedules.SCH-AP.difference",
-     "readonly": true
-    },
-    {
-     "id": "sch_ap_agrees",
-     "label": {
-      "en": "Schedule agrees to the leadsheet",
-      "ar": "الجدول يتفق مع الورقة الرئيسية"
-     },
-     "type": "text",
-     "required": false,
-     "autofill": "paper.rollforward.schedules.SCH-AP.agrees",
-     "readonly": true
-    },
-    {
-     "id": "sch_ap_opening_difference",
-     "label": {
-      "en": "Difference between the opening total and the prior period",
-      "ar": "الفرق بين الإجمالي الافتتاحي والفترة السابقة"
-     },
-     "type": "money",
-     "required": false,
-     "autofill": "paper.rollforward.schedules.SCH-AP.opening_difference",
-     "readonly": true
     }
    ],
    "note": {
-    "en": "Trade and other payables reconciled from the opening to the closing balance. Required by IAS 1.77. Closing balance = opening + additions - disposals + transfers + revaluation + other for every component. The closing total must equal the adjusted balance of Trade payables (LS-AP) read above; the paper computes the schedule and shows the difference.",
-    "ar": "يشترطه IAS 1.77. الرصيد الختامي = الافتتاحي + الإضافات - الاستبعادات + التحويلات + إعادة التقييم + أخرى لكل مكوّن. يجب أن يساوي الإجمالي الختامي الرصيد المعدّل لـ Trade payables (LS-AP) المقروء أعلاه؛ وتحسب الورقة الجدول وتعرض الفرق."
+    "en": "Test completeness from populations outside the sales ledger.",
+    "ar": "Test completeness from populations outside the sales ledger."
    }
   }
  ],
@@ -1308,7 +1205,6 @@
    "partner"
   ]
  },
- "computation": "rollforward",
- "version": 2,
+ "version": 1,
  "ar_status": "draft_pending_review"
 }

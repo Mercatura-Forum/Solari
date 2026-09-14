@@ -691,6 +691,165 @@
     "en": "Evaluate disclosure and rights over inventory.",
     "ar": "Evaluate disclosure and rights over inventory."
    }
+  },
+  {
+   "id": "sch_inv",
+   "title": {
+    "en": "Movement schedule: Inventories (LS-INV)",
+    "ar": "جدول الحركة: Inventories (LS-INV)"
+   },
+   "fields": [
+    {
+     "id": "sch_inv",
+     "label": {
+      "en": "Inventories movement schedule",
+      "ar": "جدول حركة Inventories"
+     },
+     "type": "table",
+     "required": false,
+     "columns": [
+      {
+       "id": "component",
+       "label": {
+        "en": "Component",
+        "ar": "المكوّن"
+       },
+       "type": "select",
+       "required": true,
+       "options": [
+        {
+         "value": "raw_materials",
+         "label": {
+          "en": "Raw materials",
+          "ar": "المواد الخام"
+         }
+        },
+        {
+         "value": "work_in_progress",
+         "label": {
+          "en": "Work in progress",
+          "ar": "الإنتاج تحت التشغيل"
+         }
+        },
+        {
+         "value": "finished_goods",
+         "label": {
+          "en": "Finished goods",
+          "ar": "الإنتاج التام"
+         }
+        },
+        {
+         "value": "write_down",
+         "label": {
+          "en": "Write-down to net realisable value",
+          "ar": "التخفيض إلى صافي القيمة القابلة للتحقق"
+         }
+        }
+       ]
+      },
+      {
+       "id": "opening",
+       "label": {
+        "en": "Opening balance",
+        "ar": "الرصيد الافتتاحي"
+       },
+       "type": "money",
+       "required": true
+      },
+      {
+       "id": "additions",
+       "label": {
+        "en": "Purchases and production",
+        "ar": "المشتريات والإنتاج"
+       },
+       "type": "money",
+       "required": false
+      },
+      {
+       "id": "disposals",
+       "label": {
+        "en": "Cost of sales",
+        "ar": "تكلفة المبيعات"
+       },
+       "type": "money",
+       "required": false
+      },
+      {
+       "id": "transfers",
+       "label": {
+        "en": "Transfers and reclassifications",
+        "ar": "التحويلات وإعادة التبويب"
+       },
+       "type": "money",
+       "required": false
+      },
+      {
+       "id": "revaluation",
+       "label": {
+        "en": "Revaluation or remeasurement",
+        "ar": "إعادة التقييم أو إعادة القياس"
+       },
+       "type": "money",
+       "required": false
+      },
+      {
+       "id": "other",
+       "label": {
+        "en": "Write-downs and reversals",
+        "ar": "التخفيضات وعكسها"
+       },
+       "type": "money",
+       "required": false
+      },
+      {
+       "id": "closing",
+       "label": {
+        "en": "Closing balance",
+        "ar": "الرصيد الختامي"
+       },
+       "type": "money",
+       "required": true
+      }
+     ]
+    },
+    {
+     "id": "sch_inv_difference",
+     "label": {
+      "en": "Difference between the closing total and the leadsheet",
+      "ar": "الفرق بين الإجمالي الختامي والورقة الرئيسية"
+     },
+     "type": "money",
+     "required": false,
+     "autofill": "paper.rollforward.schedules.SCH-INV.difference",
+     "readonly": true
+    },
+    {
+     "id": "sch_inv_agrees",
+     "label": {
+      "en": "Schedule agrees to the leadsheet",
+      "ar": "الجدول يتفق مع الورقة الرئيسية"
+     },
+     "type": "text",
+     "required": false,
+     "autofill": "paper.rollforward.schedules.SCH-INV.agrees",
+     "readonly": true
+    },
+    {
+     "id": "sch_inv_opening_difference",
+     "label": {
+      "en": "Difference between the opening total and the prior period",
+      "ar": "الفرق بين الإجمالي الافتتاحي والفترة السابقة"
+     },
+     "type": "money",
+     "required": false,
+     "autofill": "paper.rollforward.schedules.SCH-INV.opening_difference",
+     "readonly": true
+    }
+   ],
+   "note": {
+    "en": "Each category of inventory reconciled from the opening to the closing balance, with the write-down provision. Required by IAS 2.36. Closing balance = opening + additions - disposals + transfers + revaluation + other for every component; Write-down to net realisable value is stated positive and deducted. The closing total must equal the adjusted balance of Inventories (LS-INV) read above; the paper computes the schedule and shows the difference.",
+    "ar": "يشترطه IAS 2.36. الرصيد الختامي = الافتتاحي + الإضافات - الاستبعادات + التحويلات + إعادة التقييم + أخرى لكل مكوّن؛ ويُذكر المكوّن المقابل موجباً ويُخصم. يجب أن يساوي الإجمالي الختامي الرصيد المعدّل لـ Inventories (LS-INV) المقروء أعلاه؛ وتحسب الورقة الجدول وتعرض الفرق."
+   }
   }
  ],
  "signoff": {
@@ -708,6 +867,7 @@
    "partner"
   ]
  },
- "version": 1,
+ "computation": "rollforward",
+ "version": 2,
  "ar_status": "draft_pending_review"
 }

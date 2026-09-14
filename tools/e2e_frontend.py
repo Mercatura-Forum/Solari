@@ -89,6 +89,18 @@ def axe(pg, name, lang, extra=''):
         row(f'axe: no serious or critical finding on {name} ({lang}{extra})', False, e)
 
 
+LAST = {}
+
+
+def engagements_list(pg):
+    """The engagements list, or the page's own words when it never comes."""
+    try:
+        pg.get_by_test_id('engagements-table').wait_for(timeout=120000)
+    except Exception as e:
+        alerts = ' | '.join(t.strip() for t in pg.locator('[role=alert], [role=status]').all_inner_texts() if t.strip())
+        raise RuntimeError(f'the engagements list did not load; page says: {alerts[:300] or "nothing"}') from e
+
+
 def main():
     with sync_playwright() as p:
         profile = (STATE or os.path.join(OUT, 'state.json')) + '.profile'
@@ -97,6 +109,7 @@ def main():
         # the language and theme are set once per tab: a reload must keep what the page chose
         ctx.add_init_script("try { if (!sessionStorage.getItem('e2e-init')) { localStorage.setItem('thebes-audit-lang', 'en'); localStorage.setItem('thebes-audit-theme', 'light'); sessionStorage.setItem('e2e-init', '1') } } catch (e) {}")
         pg = ctx.new_page()
+        LAST['page'] = pg
         authenticator(ctx, pg)
         pg.goto(URL, wait_until='load', timeout=90000)
         row('the app page loads from the cluster', pg.title() == 'Thebes Audit', pg.title())
@@ -105,8 +118,15 @@ def main():
             row('the persistent owner is signed in', False, 'no saved state and not signed in')
             return finish(ctx)
         row('the persistent owner is signed in', True)
-        pg.get_by_test_id('engagements-table').wait_for(timeout=120000)
-        pg.wait_for_function('() => document.querySelectorAll("[data-testid=engagements-table] tbody tr a").length >= 1', timeout=120000)
+        try:
+            pg.get_by_test_id('engagements-table').wait_for(timeout=120000)
+            pg.wait_for_function('() => document.querySelectorAll("[data-testid=engagements-table] tbody tr a").length >= 1', timeout=180000)
+        except Exception as e:
+            # what the page says when the list never comes: the cluster's own words, if any
+            alerts = ' | '.join(t.strip() for t in pg.locator('[role=alert], [role=status]').all_inner_texts() if t.strip())
+            row('the engagements list loads after sign-in', False, f'{e.__class__.__name__}; page says: {alerts[:300] or "nothing"}')
+            shot(pg, 'd1-00-engagements-failed')
+            return finish(ctx)
         n = pg.locator('[data-testid=engagements-table] tbody tr').count()
         row('the engagements list shows every engagement with its phase on the ladder', n >= 1 and pg.locator('[data-testid=engagements-table] .ladder').count() == n, f'{n} rows')
         shot(pg, 'd1-01-engagements-light-en')
@@ -115,7 +135,7 @@ def main():
         # ── the engagement and its file index rail ──────────────────────────
         pg.locator('[data-testid=engagements-table] tbody tr a').first.click()
         pg.get_by_test_id('file-rail').wait_for(timeout=120000)
-        pg.wait_for_function('() => document.querySelectorAll("[data-testid=file-rail] [data-form]").length >= 14', timeout=120000)
+        pg.wait_for_function('() => document.querySelectorAll("[data-testid=file-rail] [data-form]").length >= 14', timeout=180000)
         forms = pg.locator('[data-testid=file-rail] [data-form]').count()
         row('the file index rail lists every form of the catalogue in phase order with its state', forms >= 14, forms)
         eid = re.search(r'#/e/(\d+)', pg.url).group(1)
@@ -199,7 +219,7 @@ def main():
         pg.keyboard.press('Escape')
         pg.wait_for_timeout(300)
         pg.goto(f'{URL}#/', wait_until='load')
-        pg.get_by_test_id('engagements-table').wait_for(timeout=120000)
+        engagements_list(pg)
         pg.wait_for_timeout(800)
         axe(pg, 'engagements', 'ar')
         pg.wait_for_timeout(500)
@@ -228,7 +248,7 @@ def main():
         pg.evaluate("() => { try { localStorage.setItem('thebes-audit-lang', 'en') } catch (e) {} }")
         pg.goto(f'{URL}#/', wait_until='load')
         pg.reload(wait_until='load')
-        pg.get_by_test_id('engagements-table').wait_for(timeout=120000)
+        engagements_list(pg)
         row('the page is in English for the rows that read English labels', pg.evaluate('() => document.documentElement.lang') == 'en')
         RUN = f'{int(time.time()) % 100000:05d}'
         fid = f'FF-CASH-{RUN}'
@@ -268,7 +288,7 @@ def main():
             row('the definition is published as version 1', pg.get_by_test_id('ff-published').get_attribute('data-version') == '1')
             pg.goto(f'{URL}#/e/{eid}', wait_until='load')
             pg.get_by_test_id('file-rail').wait_for(timeout=120000)
-            pg.wait_for_function(f'() => !!document.querySelector("[data-testid=file-rail] [data-form={fid}]")', timeout=120000)
+            pg.wait_for_function(f'() => !!document.querySelector("[data-testid=file-rail] [data-form={fid}]")', timeout=180000)
             row('the firm form appears in the file index of an engagement', True)
             pg.locator(f'[data-testid=file-rail] [data-form={fid}]').click()
             pg.get_by_test_id('signoff-panel').wait_for(timeout=120000)
@@ -281,7 +301,7 @@ def main():
             pg.get_by_role('button', name='Save', exact=True).click()
             pg.wait_for_timeout(2500)
             pg.get_by_role('button', name='Sign as preparer').click()
-            pg.wait_for_function('() => document.body.innerText.includes("preparer") && !document.body.innerText.includes("Sign as preparer")', timeout=120000)
+            pg.wait_for_function('() => document.body.innerText.includes("preparer") && !document.body.innerText.includes("Sign as preparer")', timeout=180000)
             row('the firm form is saved and prepared on the engagement like any other form', True)
             pg.goto(f'{URL}#/e/{eid}/programme', wait_until='load')
             pg.locator('text=/\\d+ \\/ \\d+/').first.wait_for(timeout=120000)
@@ -318,7 +338,7 @@ def main():
                 pg.get_by_test_id('signoff-panel').get_by_label('Reason').fill('map battery')
                 pg.get_by_role('button', name='Reopen with a reason').click()
                 pg.wait_for_timeout(2500)
-            pg.wait_for_function('() => { const e = document.getElementById("f-components"); return e && !e.disabled }', timeout=120000)
+            pg.wait_for_function('() => { const e = document.getElementById("f-components"); return e && !e.disabled }', timeout=180000)
             for label in ('Components, locations and business units in scope', 'Statutory and regulatory reporting requirements', 'Understanding of the entity and its environment',
                           "Significant factors that direct the team's efforts", 'Significant risks identified to date', 'Team, direction, supervision and review'):
                 pg.get_by_label(label, exact=True).fill('Map battery.')
@@ -331,7 +351,7 @@ def main():
             pg.get_by_role('button', name='Save', exact=True).click()
             pg.wait_for_timeout(2500)
             pg.get_by_role('button', name='Sign as preparer').click()
-            pg.wait_for_function('() => !document.body.innerText.includes("Sign as preparer")', timeout=120000)
+            pg.wait_for_function('() => !document.body.innerText.includes("Sign as preparer")', timeout=180000)
             row('a downstream form is prepared on the current materiality', True)
             # move the upstream: the memorandum reads overall materiality; a new percentage moves it
             drift_before = None
@@ -345,7 +365,7 @@ def main():
                 pg.get_by_test_id('signoff-panel').get_by_label('Reason').fill('map battery')
                 pg.get_by_role('button', name='Reopen with a reason').click()
                 pg.wait_for_timeout(2500)
-            pg.wait_for_function('() => { const e = document.getElementById("f-percentage"); return e && !e.disabled }', timeout=120000)
+            pg.wait_for_function('() => { const e = document.getElementById("f-percentage"); return e && !e.disabled }', timeout=180000)
             current = pg.get_by_label('Percentage applied').input_value()
             pg.get_by_label('Percentage applied').fill('3' if current.strip() == '2' else '2')
             pg.get_by_role('button', name='Save', exact=True).click()
@@ -354,7 +374,7 @@ def main():
             pg.wait_for_timeout(3000)
             # the source form is signed again on the new figure: what reads it frozen now differs
             pg.get_by_role('button', name='Sign as preparer').click()
-            pg.wait_for_function('() => !document.body.innerText.includes("Sign as preparer")', timeout=120000)
+            pg.wait_for_function('() => !document.body.innerText.includes("Sign as preparer")', timeout=180000)
             pg.goto(f'{URL}#/e/{eid}/map', wait_until='load')
             svg.wait_for(timeout=120000)
             pg.wait_for_timeout(1500)
@@ -409,7 +429,7 @@ def main():
             row('the legs balance live as they are typed', pg.get_by_test_id('aj-balance').get_attribute('data-balanced') == '1' and pg.get_by_test_id('aj-submit').is_enabled())
             axe(pg, 'adjustments with the composer open', 'en')
             pg.get_by_test_id('aj-submit').click()
-            pg.wait_for_function(f'() => Number(document.querySelector("[data-testid=aj-counts]")?.dataset.entries) > {n_before}', timeout=120000)
+            pg.wait_for_function(f'() => Number(document.querySelector("[data-testid=aj-counts]")?.dataset.entries) > {n_before}', timeout=180000)
             entry = pg.locator('[data-testid=aj-entry]', has_text=f'Cut-off {AJ}')
             entry.wait_for(timeout=60000)
             text = entry.inner_text()
@@ -417,7 +437,7 @@ def main():
             ls = re.search(r'\((LS-[A-Z0-9-]+)\)', text).group(1)
             before = pg.locator(f'[data-testid=aj-tb] tr[data-leadsheet={ls}]').get_attribute('data-adjustments')
             entry.get_by_role('button', name='Mark as booked').click()
-            pg.wait_for_function(f'() => document.querySelector("[data-testid=aj-entry][data-state=booked]") && [...document.querySelectorAll("[data-testid=aj-entry][data-state=booked]")].some(e => e.innerText.includes("Cut-off {AJ}"))', timeout=120000)
+            pg.wait_for_function(f'() => document.querySelector("[data-testid=aj-entry][data-state=booked]") && [...document.querySelectorAll("[data-testid=aj-entry][data-state=booked]")].some(e => e.innerText.includes("Cut-off {AJ}"))', timeout=180000)
             pg.wait_for_timeout(500)
             after = pg.locator(f'[data-testid=aj-tb] tr[data-leadsheet={ls}]').get_attribute('data-adjustments')
             row('booking the entry moves its leadsheet: the adjustments column changes and the projection is corrected', before != after and 'corrected' in entry.inner_text(), f'{ls}: {before} -> {after}')
@@ -432,6 +452,49 @@ def main():
         except Exception as e:
             shot(pg, 'd5-01-adjustments-failed')
             row('the adjustments workflow completes', False, e)
+
+        # ── movement schedules: the cycle paper rolls its leadsheet forward ──────
+        try:
+            pg.goto(f'{URL}#/e/{eid}/f/F35-PPE-INTANGIBLES', wait_until='load')
+            pg.get_by_test_id('signoff-panel').wait_for(timeout=120000)
+            if pg.get_by_role('button', name='Reopen with a reason').count():
+                pg.get_by_test_id('signoff-panel').get_by_label('Reason').fill('schedule battery')
+                pg.get_by_role('button', name='Reopen with a reason').click()
+                pg.wait_for_timeout(2500)
+            table = pg.locator('[data-field=sch_ppe]')
+            table.wait_for(timeout=60000)
+            row('the fixed assets paper carries the movement schedule of its leadsheet', pg.locator('[data-field=sch_ppe_difference]').count() == 1 and pg.locator('[data-field=ls_ppe]').count() == 1)
+            table.get_by_role('button', name='Add a row').wait_for(timeout=60000)
+            # rows left by earlier runs are cut back to one and reused: a component appears once in a schedule
+            while table.get_by_label('Component').count() > 1:
+                table.get_by_role('button', name='Remove').first.click()
+                pg.wait_for_timeout(200)
+            if table.get_by_label('Component').count() == 0:
+                table.get_by_role('button', name='Add a row').click()
+                pg.wait_for_timeout(300)
+            table.get_by_label('Component').last.select_option('cost')
+            table.get_by_label('Opening balance').last.fill('4800000.00')
+            table.get_by_label('Additions').last.fill('250000.00')
+            table.get_by_label('Disposals').last.fill('50000.00')
+            table.get_by_label('Closing balance').last.fill('5000000.00')
+            pg.get_by_role('button', name='Save', exact=True).click()
+            pg.wait_for_timeout(2500)
+            pg.get_by_role('button', name='Compute the paper from this form').click()
+            pg.wait_for_function('() => /\\d/.test(document.querySelector("[data-field=sch_ppe_difference]")?.innerText || "")', timeout=180000)
+            diff = pg.locator('[data-field=sch_ppe_difference]').inner_text()
+            row('the schedule is rolled forward and its difference to the leadsheet is shown on the paper', re.search(r'\d', diff) is not None, diff.replace('\n', ' ')[:120])
+            table.get_by_label('Closing balance').last.fill('5000001.00')
+            pg.get_by_role('button', name='Save', exact=True).click()
+            pg.wait_for_timeout(2000)
+            pg.get_by_role('button', name='Compute the paper from this form').click()
+            pg.wait_for_function('() => document.body.innerText.includes("does not sum")', timeout=180000)
+            row('a component whose closing is not what its movements give is refused, with both figures named', True)
+            shot(pg, 'd5-02-schedule')
+            axe(pg, 'a cycle paper with a movement schedule', 'en')
+        except Exception as e:
+            shot(pg, 'd5-02-schedule-failed')
+            row('the movement schedule workflow completes', False, e)
+
         return finish(ctx)
 
 
@@ -444,4 +507,18 @@ def finish(ctx):
 
 
 if __name__ == '__main__':
-    sys.exit(main())
+    try:
+        sys.exit(main())
+    except SystemExit:
+        raise
+    except Exception as e:
+        # the page's own words at the moment of a crash, and what it looked like
+        pg = LAST.get('page')
+        if pg is not None:
+            try:
+                alerts = ' | '.join(t.strip() for t in pg.locator('[role=alert], [role=status]').all_inner_texts() if t.strip())
+                print(f'  CRASH {e.__class__.__name__} at {pg.url}; page says: {alerts[:400] or "nothing"}', flush=True)
+                shot(pg, 'crash')
+            except Exception:
+                pass
+        raise

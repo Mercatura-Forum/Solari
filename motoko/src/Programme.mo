@@ -22,8 +22,7 @@ import Nat "mo:core/Nat";
 import Principal "mo:core/Principal";
 import Text "mo:core/Text";
 import Engine "Engine";
-import FormsSeed "FormsSeed";
-import FormsSeedExt "FormsSeedExt";
+import ProductForms "ProductForms";
 import FirmForms "FirmForms";
 import Json "Json";
 import Py "Py";
@@ -42,8 +41,7 @@ module {
   /// A form's definition (the Forms module reads the same seed; this module cannot import it,
   /// since Forms imports this one for the assembly gate).
   func formSpec(ff : FirmForms.State, id : Text) : ?J {
-    switch (FormsSeed.get(id)) { case (?t) return ?parse(t); case null {} };
-    switch (FormsSeedExt.get(id)) { case (?t) return ?parse(t); case null {} };
+    switch (ProductForms.latest(id)) { case (?t) return ?parse(t); case null {} };
     switch (FirmForms.latest(ff, id)) { case (?t) ?parse(t); case null null }
   };
   func rows(table : Text) : [J] {

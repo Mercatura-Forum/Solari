@@ -1,3 +1,4 @@
+import json, os
 """The dependency graph between forms, derived
 from the definitions: every autofill expression that reads a paper another form computes,
 a record kind, the trial balance, the model, the checklist, the programme, the group ladder
@@ -76,10 +77,20 @@ INFORMS = {
 SOURCE_KINDS = {'tb': 'trial_balance', 'adjustments': 'trial_balance', 'seed': 'model', 'disclosures': 'checklist', 'programme': 'programme', 'group': 'group'}
 
 
+STD = os.environ.get('AUDIT_STANDARDS', '../thebes-audit-standards')
+
+
+def schedule_owners():
+    """A movement schedule's paper is computed by the cycle paper that owns the schedule."""
+    rows = json.load(open(os.path.join(STD, 'seed', 'movement_schedules.json'), encoding='utf-8'))
+    return {r['id']: r['form_id'] for r in rows}
+
+
 def build_graph(forms):
     by_id = {f['id']: f for f in forms}
     fields = {f['id']: {fd['id']: fd for s in f['sections'] for fd in s['fields']} for f in forms}
     owner = {kind: fid for fid, kinds in OWNS.items() for kind in kinds}
+    schedules = schedule_owners()
     problems = []
     nodes = [{'id': f['id'], 'kind': 'form', 'number': f['number'], 'phase': f['phase'], 'title': f['title']} for f in forms]
     source_nodes = {}
@@ -108,6 +119,12 @@ def build_graph(forms):
             if root == 'paper':
                 kind = parts[1]
                 src = owner.get(kind)
+                if kind == 'rollforward':
+                    # a schedule's paper belongs to the cycle paper that owns the schedule
+                    src = schedules.get(parts[3]) if len(parts) >= 4 and parts[2] == 'schedules' else None
+                    if not src:
+                        problems.append(f'{f["id"]}.{fid}: {expr} names no movement schedule of the model')
+                        continue
                 if src and src != f['id']:
                     src_field = next((k for k, x in fields[src].items() if x.get('autofill') == expr), None)
                     add({'from': src, 'from_field': src_field, 'to': f['id'], 'to_field': fid, 'via': expr, 'kind': 'computed'})

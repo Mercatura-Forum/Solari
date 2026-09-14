@@ -1168,6 +1168,151 @@
     "en": "Obtain evidence that the cash flow statement and liquidity disclosures are correct.",
     "ar": "Obtain evidence that the cash flow statement and liquidity disclosures are correct."
    }
+  },
+  {
+   "id": "sch_bor",
+   "title": {
+    "en": "Movement schedule: Borrowings (LS-BORNC)",
+    "ar": "جدول الحركة: Borrowings (LS-BORNC)"
+   },
+   "fields": [
+    {
+     "id": "sch_bor",
+     "label": {
+      "en": "Borrowings movement schedule",
+      "ar": "جدول حركة Borrowings"
+     },
+     "type": "table",
+     "required": false,
+     "columns": [
+      {
+       "id": "component",
+       "label": {
+        "en": "Component",
+        "ar": "المكوّن"
+       },
+       "type": "select",
+       "required": true,
+       "options": [
+        {
+         "value": "principal",
+         "label": {
+          "en": "Principal",
+          "ar": "أصل القرض"
+         }
+        },
+        {
+         "value": "accrued_interest",
+         "label": {
+          "en": "Accrued interest",
+          "ar": "الفوائد المستحقة"
+         }
+        }
+       ]
+      },
+      {
+       "id": "opening",
+       "label": {
+        "en": "Opening balance",
+        "ar": "الرصيد الافتتاحي"
+       },
+       "type": "money",
+       "required": true
+      },
+      {
+       "id": "additions",
+       "label": {
+        "en": "Drawdowns",
+        "ar": "السحوبات"
+       },
+       "type": "money",
+       "required": false
+      },
+      {
+       "id": "disposals",
+       "label": {
+        "en": "Repayments",
+        "ar": "السداد"
+       },
+       "type": "money",
+       "required": false
+      },
+      {
+       "id": "transfers",
+       "label": {
+        "en": "Transfers and reclassifications",
+        "ar": "التحويلات وإعادة التبويب"
+       },
+       "type": "money",
+       "required": false
+      },
+      {
+       "id": "revaluation",
+       "label": {
+        "en": "Exchange differences",
+        "ar": "فروق العملة"
+       },
+       "type": "money",
+       "required": false
+      },
+      {
+       "id": "other",
+       "label": {
+        "en": "Interest, fees and other",
+        "ar": "الفوائد والرسوم وأخرى"
+       },
+       "type": "money",
+       "required": false
+      },
+      {
+       "id": "closing",
+       "label": {
+        "en": "Closing balance",
+        "ar": "الرصيد الختامي"
+       },
+       "type": "money",
+       "required": true
+      }
+     ]
+    },
+    {
+     "id": "sch_bor_difference",
+     "label": {
+      "en": "Difference between the closing total and the leadsheet",
+      "ar": "الفرق بين الإجمالي الختامي والورقة الرئيسية"
+     },
+     "type": "money",
+     "required": false,
+     "autofill": "paper.rollforward.schedules.SCH-BOR.difference",
+     "readonly": true
+    },
+    {
+     "id": "sch_bor_agrees",
+     "label": {
+      "en": "Schedule agrees to the leadsheet",
+      "ar": "الجدول يتفق مع الورقة الرئيسية"
+     },
+     "type": "text",
+     "required": false,
+     "autofill": "paper.rollforward.schedules.SCH-BOR.agrees",
+     "readonly": true
+    },
+    {
+     "id": "sch_bor_opening_difference",
+     "label": {
+      "en": "Difference between the opening total and the prior period",
+      "ar": "الفرق بين الإجمالي الافتتاحي والفترة السابقة"
+     },
+     "type": "money",
+     "required": false,
+     "autofill": "paper.rollforward.schedules.SCH-BOR.opening_difference",
+     "readonly": true
+    }
+   ],
+   "note": {
+    "en": "Principal and accrued interest reconciled from the opening to the closing balance, the reconciliation of liabilities arising from financing activities. Required by IAS 7.44A. Closing balance = opening + additions - disposals + transfers + revaluation + other for every component. The closing total must equal the adjusted balance of Borrowings (non-current) (LS-BORNC) read above; the paper computes the schedule and shows the difference.",
+    "ar": "يشترطه IAS 7.44A. الرصيد الختامي = الافتتاحي + الإضافات - الاستبعادات + التحويلات + إعادة التقييم + أخرى لكل مكوّن. يجب أن يساوي الإجمالي الختامي الرصيد المعدّل لـ Borrowings (non-current) (LS-BORNC) المقروء أعلاه؛ وتحسب الورقة الجدول وتعرض الفرق."
+   }
   }
  ],
  "signoff": {
@@ -1185,6 +1330,7 @@
    "partner"
   ]
  },
- "version": 1,
+ "computation": "rollforward",
+ "version": 2,
  "ar_status": "draft_pending_review"
 }
