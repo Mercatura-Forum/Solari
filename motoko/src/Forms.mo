@@ -96,9 +96,37 @@ module {
         ("title", get(f, "title")), ("purpose", get(f, "purpose")), ("procedures", get(f, "procedures")),
         ("standards", get(f, "standards")), ("ar_status", get(f, "ar_status")),
         ("firm", #bool(Py.truthy(Json.get(f, "firm")))), ("version", get(f, "version")), ("retired", #bool(FirmForms.isRetired(ff, id))),
+        ("per", get(f, "per")),
       ])
     }))
   };
+
+  /// The leadsheets the latest accepted trial balance populates, in the model's order.
+  func populated(s : Engine.State, eng : Nat) : [Text] { Adjustments.populatedLeadsheets(s, eng) };
+
+  func perLeadsheet(sp : J) : Bool { Py.textOr(sp, "per", "") == "leadsheet" };
+
+  /// The forms of an engagement as instance ids: every catalogued form once, except a
+  /// per-leadsheet paper, which is one instance for every populated leadsheet. Ids only:
+  /// a definition is instantiated (its tokens replaced) only where a caller reads it.
+  func instanceIds(s : Engine.State, ff : FirmForms.State, eng : Nat) : [Text] {
+    let out = List.empty<Text>();
+    var pop : ?[Text] = null;
+    for ((id, t) in all(ff).vals()) {
+      if (ProductForms.isPer(t)) {
+        let ls = switch (pop) { case (?p) p; case null { let p = populated(s, eng); pop := ?p; p } };
+        for (l in ls.vals()) List.add(out, id # Text.fromChar(ProductForms.SEP) # l);
+      } else List.add(out, id);
+    };
+    List.toArray(out)
+  };
+
+  func instancesOfBase(s : Engine.State, ff : FirmForms.State, eng : Nat, base : Text) : [Text] {
+    Array.filter<Text>(instanceIds(s, ff, eng), func(iid) { baseOf(iid) == base and iid != base })
+  };
+
+  /// The definition a per-leadsheet instance id belongs to (the graph knows only that).
+  func baseOf(id : Text) : Text { ProductForms.split(id).0 };
 
   func fieldsOf(sp : J) : [J] {
     var out : [J] = [];
@@ -113,9 +141,13 @@ module {
 
   // ------------------------------------------------------------------ live values
 
+  /// The latest paper of a kind that every form may read: a paper computed for an instance
+  /// of a per-leadsheet paper (marked with the instance's id) is that instance's alone.
   func latestPaper(s : Engine.State, eng : Nat, kind : Text) : ?Engine.Paper {
     var found : ?Engine.Paper = null;
-    for (p in List.values(s.papers)) { if (p.engagementId == eng and p.kind == kind) found := ?p };
+    for (p in List.values(s.papers)) {
+      if (p.engagementId == eng and p.kind == kind and not Text.contains(p.procedureId, #char (ProductForms.SEP))) found := ?p;
+    };
     found
   };
 
@@ -221,7 +253,7 @@ module {
   };
 
   /// Resolve one autofill expression against the engagement's current data.
-  func resolve(s : Engine.State, ff : FirmForms.State, e : Engine.Engagement, expr : Text, values : J) : J {
+  func resolve(s : Engine.State, ff : FirmForms.State, e : Engine.Engagement, sp : J, expr : Text, values : J) : J {
     let parts = Iter_toArray(Text.split(expr, #char '.'));
     if (parts.size() < 2) return #null_;
     switch (parts[0]) {
@@ -255,15 +287,31 @@ module {
       case "paper" {
         // a movement schedule's paper is the one computed from the cycle paper that owns the
         // schedule, never another paper's roll-forward
-        let paper = if (parts[1] == "rollforward" and parts.size() >= 4 and parts[2] == "schedules") {
-          switch (scheduleOwner(parts[3])) { case (?owner) latestPaperFor(s, e.id, "rollforward", owner); case null null }
-        } else latestPaper(s, e.id, parts[1]);
+        // a form that computes the kind itself reads the paper computed from it (marked with
+        // its id) when there is one, the latest of the kind otherwise
+        let formId = Py.textOr(sp, "id", "");
+        let owns = Py.textOr(sp, "computation", "") == parts[1];
+        let own = if (owns) latestPaperFor(s, e.id, parts[1], formId) else null;
+        // an instance of a per-leadsheet paper reads its own paper only: another leadsheet's
+        // figures are never its figures
+        let paper = switch (own) {
+          case (?p) ?p;
+          case null if (owns and ProductForms.split(formId).1 != null) null else {
+            if (parts[1] == "rollforward" and parts.size() >= 4 and parts[2] == "schedules") {
+              switch (scheduleOwner(parts[3])) { case (?owner) latestPaperFor(s, e.id, "rollforward", owner); case null null }
+            } else latestPaper(s, e.id, parts[1])
+          };
+        };
         switch (paper) {
           case null #null_;
           case (?p) {
             var cur = parse(p.output);
             var i = 2;
-            while (i < parts.size()) { cur := get(cur, parts[i]); i += 1 };
+            while (i < parts.size()) {
+              // a numeric step indexes a list (the first line of a review, say)
+              cur := switch (cur, Nat.fromText(parts[i])) { case (#arr(xs), ?n) { if (n < xs.size()) xs[n] else #null_ }; case _ get(cur, parts[i]) };
+              i += 1;
+            };
             cur
           };
         }
@@ -332,7 +380,7 @@ module {
     let out = List.empty<(Text, J)>();
     for (f in fieldsOf(sp).vals()) {
       switch (Json.get(f, "autofill"), Json.get(f, "default")) {
-        case (?#str(expr), _) List.add(out, (Py.textOr(f, "id", ""), resolve(s, ff, e, expr, values)));
+        case (?#str(expr), _) List.add(out, (Py.textOr(f, "id", ""), resolve(s, ff, e, sp, expr, values)));
         // A field's stated default is its live value: shown until someone enters one, and
         // what preparing freezes if nobody does (a read-only default can be entered by no one).
         case (_, ?d) { if (d != #null_) List.add(out, (Py.textOr(f, "id", ""), d)) };
@@ -388,9 +436,22 @@ module {
     }
   };
 
-  func requiredProblem(f : J, v : J) : ?Text {
+  /// `required_if: {field, equals, message?}`: the field is required while another field's
+  /// effective value equals the stated one (a difference beyond the acceptable amount makes
+  /// the investigation required).
+  func requiredProblem(f : J, v : J, effective : Text -> J) : ?Text {
     let id = Py.textOr(f, "id", "");
     if (Py.truthy(Json.get(f, "required")) and isBlank(v)) return ?(id # " is required");
+    switch (Json.get(f, "required_if")) {
+      case (?cond) {
+        let other = Py.textOr(cond, "field", "");
+        if (other != "" and Py.scalar(effective(other)) == Py.scalar(get(cond, "equals")) and isBlank(v)) {
+          let msg = Py.textOr(get(cond, "message"), "en", "");
+          return ?(id # " is required: " # (if (msg == "") other # " is " # Py.scalar(get(cond, "equals")) else msg));
+        };
+      };
+      case null {};
+    };
     if (Py.textOr(f, "type", "") == "table") {
       for (row in Py.items(v).vals()) {
         for (c in Py.list(f, "columns").vals()) {
@@ -430,7 +491,7 @@ module {
     let stale = staleOf(live, frozen);
     // drift: every moved figure with the node it comes from (the graph names the source form
     // and field; a source outside the graph is the expression's own root)
-    let edges = edgesInto(ff, formId);
+    let edges = edgesInto(ff, baseOf(formId));
     let drift = List.empty<J>();
     for (k in stale.vals()) {
       var src : J = #null_;
@@ -449,12 +510,21 @@ module {
     let seenUp = Map.empty<Text, Bool>();
     for (ed in edges.vals()) {
       let from = Py.textOr(ed, "from", "");
-      if (Map.get(seenUp, Text.compare, from) == null and spec(ff, from) != null) {
-        Map.add(seenUp, Text.compare, from, true);
-        let (st, ver) = switch (instance(s, eng, from)) { case (?i) (i.status, i.version); case null ("not_started", 0) };
-        var moved = false;
-        for (k in stale.vals()) { if (Py.textOr(ed, "to_field", "") == k) moved := true };
-        List.add(upstream, #obj([("form", #str(from)), ("field", get(ed, "from_field")), ("status", #str(st)), ("version", Json.nat(ver)), ("kind", get(ed, "kind")), ("drifted", #bool(moved))]));
+      if (Map.get(seenUp, Text.compare, from) == null) {
+        switch (spec(ff, from)) {
+          case (?fsp) {
+            Map.add(seenUp, Text.compare, from, true);
+            var moved = false;
+            for (k in stale.vals()) { if (Py.textOr(ed, "to_field", "") == k) moved := true };
+            // a per-leadsheet paper upstream is every one of its instances
+            let sources : [Text] = if (perLeadsheet(fsp)) instancesOfBase(s, ff, eng, from) else [from];
+            for (src in sources.vals()) {
+              let (st, ver) = switch (instance(s, eng, src)) { case (?i) (i.status, i.version); case null ("not_started", 0) };
+              List.add(upstream, #obj([("form", #str(src)), ("field", get(ed, "from_field")), ("status", #str(st)), ("version", Json.nat(ver)), ("kind", get(ed, "kind")), ("drifted", #bool(moved))]));
+            };
+          };
+          case null {};
+        };
       };
     };
     #ok(#obj([
@@ -502,7 +572,7 @@ module {
                   if (parts[1] == "rollforward" and parts.size() >= 4 and parts[2] == "schedules") {
                     switch (scheduleOwner(parts[3])) { case (?o) owner := o; case null {} };
                   } else {
-                    for ((oid, ot) in seeds().vals()) { if (Py.textOr(parse(ot), "computation", "") == parts[1]) owner := oid };
+                    for ((oid, ot) in seeds().vals()) { let osp = parse(ot); if (Py.textOr(osp, "computation", "") == parts[1] and not perLeadsheet(osp)) owner := oid };
                   };
                   if (owner != "") (owner, #null_, "computed") else ("paper:" # parts[1], #null_, "paper")
                 };
@@ -553,26 +623,32 @@ module {
     Map.add(seen, Text.compare, "F14-COMPLETION", true);
     while (List.size(queue) > 0) {
       let cur = switch (List.removeLast(queue)) { case (?x) x; case null "" };
-      // the node itself
-      switch (spec(ff, cur)) {
-        case (?sp) {
-          if (cur == "F14-COMPLETION" or applicable(sp, statuses)) {
-            let (st, values) = switch (instance(s, e.id, cur)) { case (?i) (i.status, parse(i.values)); case null ("not_started", #obj([])) };
-            if (cur != "F14-COMPLETION" and st != "prepared" and st != "reviewed" and st != "approved") {
-              List.add(out, #obj([("form", #str(cur)), ("status", #str(st)), ("reason", #str("unsigned"))]));
-            } else {
-              let live = liveValues(s, ff, e, sp, values);
-              for (k in staleOf(live, get(values, "_frozen")).vals()) {
-                var src = "";
-                for (ed in edges.vals()) { if (Py.textOr(ed, "to", "") == cur and Py.textOr(ed, "to_field", "") == k and src == "") src := Py.textOr(ed, "from", "") # (switch (Json.get(ed, "from_field")) { case (?#str(f)) "." # f; case _ "" }) };
-                // a figure the form computes for itself has no edge: its source is the expression
-                if (src == "") { for (f in fieldsOf(sp).vals()) { if (Py.textOr(f, "id", "") == k) src := Py.textOr(f, "autofill", "") } };
-                List.add(out, #obj([("form", #str(cur)), ("status", #str(st)), ("reason", #str("drifted")), ("field", #str(k)), ("source", #str(src))]));
+      // the node itself: a per-leadsheet paper is every one of its instances
+      let targets : [Text] = switch (spec(ff, cur)) {
+        case (?sp) { if (perLeadsheet(sp)) instancesOfBase(s, ff, e.id, cur) else [cur] };
+        case null [];
+      };
+      for (target in targets.vals()) {
+        switch (spec(ff, target)) {
+          case (?sp) {
+            if (target == "F14-COMPLETION" or applicable(sp, statuses)) {
+              let (st, values) = switch (instance(s, e.id, target)) { case (?i) (i.status, parse(i.values)); case null ("not_started", #obj([])) };
+              if (target != "F14-COMPLETION" and st != "prepared" and st != "reviewed" and st != "approved") {
+                List.add(out, #obj([("form", #str(target)), ("status", #str(st)), ("reason", #str("unsigned"))]));
+              } else {
+                let live = liveValues(s, ff, e, sp, values);
+                for (k in staleOf(live, get(values, "_frozen")).vals()) {
+                  var src = "";
+                  for (ed in edges.vals()) { if (Py.textOr(ed, "to", "") == cur and Py.textOr(ed, "to_field", "") == k and src == "") src := Py.textOr(ed, "from", "") # (switch (Json.get(ed, "from_field")) { case (?#str(f)) "." # f; case _ "" }) };
+                  // a figure the form computes for itself has no edge: its source is the expression
+                  if (src == "") { for (f in fieldsOf(sp).vals()) { if (Py.textOr(f, "id", "") == k) src := Py.textOr(f, "autofill", "") } };
+                  List.add(out, #obj([("form", #str(target)), ("status", #str(st)), ("reason", #str("drifted")), ("field", #str(k)), ("source", #str(src))]));
+                };
               };
             };
           };
+          case null {};
         };
-        case null {};
       };
       for (ed in edges.vals()) {
         if (Py.textOr(ed, "to", "") == cur) {
@@ -604,16 +680,44 @@ module {
     let statuses = Programme.statusMap(s, ff, e.id);
     let staleBy = Map.empty<Text, [Text]>();
     let nodes = List.empty<J>();
+    let rank = func(st : Text) : Nat { switch (st) { case "approved" 4; case "reviewed" 3; case "prepared" 2; case "draft" 1; case _ 0 } };
     for ((id, t) in all(ff).vals()) {
-      let (st, ver, values) = switch (instance(s, e.id, id)) { case (?i) (i.status, i.version, parse(i.values)); case null ("not_started", 0, #obj([])) };
-      let sp = switch (specFor(ff, id, values)) { case (?x) x; case null parse(t) };
-      let stale = if (st == "not_started") [] else staleOf(liveValues(s, ff, e, sp, values), get(values, "_frozen"));
-      Map.add(staleBy, Text.compare, id, stale);
-      List.add(nodes, #obj([
-        ("id", #str(id)), ("kind", #str("form")), ("number", get(sp, "number")), ("phase", get(sp, "phase")), ("title", get(sp, "title")),
-        ("status", #str(st)), ("version", Json.nat(ver)), ("drift", Json.nat(stale.size())), ("applicable", #bool(applicable(sp, statuses))),
-        ("firm", #bool(Py.truthy(Json.get(sp, "firm")))),
-      ]));
+      let tsp = parse(t);
+      if (perLeadsheet(tsp)) {
+        // one node for the paper, its state the least advanced of its instances, its drift their sum
+        var lowest = "approved";
+        var drift = 0;
+        var n = 0;
+        var stale : [Text] = [];
+        let rows = List.empty<J>();
+        for (iid in instancesOfBase(s, ff, e.id, id).vals()) {
+            n += 1;
+            let (st, ver, values) = switch (instance(s, e.id, iid)) { case (?i) (i.status, i.version, parse(i.values)); case null ("not_started", 0, #obj([])) };
+            let sp = switch (specFor(ff, iid, values)) { case (?x) x; case null tsp };
+            let moved = if (st == "not_started") [] else staleOf(liveValues(s, ff, e, sp, values), get(values, "_frozen"));
+            if (rank(st) < rank(lowest)) lowest := st;
+            drift += moved.size();
+            stale := Array.concat(stale, moved);
+            let leadsheet = switch (ProductForms.split(iid).1) { case (?l) l; case null "" };
+            List.add(rows, #obj([("id", #str(iid)), ("leadsheet", #str(leadsheet)), ("status", #str(st)), ("version", Json.nat(ver)), ("drift", Json.nat(moved.size()))]));
+        };
+        Map.add(staleBy, Text.compare, id, stale);
+        List.add(nodes, #obj([
+          ("id", #str(id)), ("kind", #str("form")), ("number", get(tsp, "number")), ("phase", get(tsp, "phase")), ("title", get(tsp, "title")),
+          ("status", #str(if (n == 0) "not_started" else lowest)), ("version", Json.nat(0)), ("drift", Json.nat(drift)), ("applicable", #bool(n > 0)),
+          ("firm", #bool(false)), ("per", #str("leadsheet")), ("instances", #arr(List.toArray(rows))),
+        ]));
+      } else {
+        let (st, ver, values) = switch (instance(s, e.id, id)) { case (?i) (i.status, i.version, parse(i.values)); case null ("not_started", 0, #obj([])) };
+        let sp = switch (specFor(ff, id, values)) { case (?x) x; case null tsp };
+        let stale = if (st == "not_started") [] else staleOf(liveValues(s, ff, e, sp, values), get(values, "_frozen"));
+        Map.add(staleBy, Text.compare, id, stale);
+        List.add(nodes, #obj([
+          ("id", #str(id)), ("kind", #str("form")), ("number", get(sp, "number")), ("phase", get(sp, "phase")), ("title", get(sp, "title")),
+          ("status", #str(st)), ("version", Json.nat(ver)), ("drift", Json.nat(stale.size())), ("applicable", #bool(applicable(sp, statuses))),
+          ("firm", #bool(Py.truthy(Json.get(sp, "firm")))),
+        ]));
+      };
     };
     for (n in Py.list(g, "nodes").vals()) { if (Py.textOr(n, "kind", "") != "form") List.add(nodes, n) };
     let edges = Array.map<J, J>(allEdges(ff), func(ed) {
@@ -632,19 +736,24 @@ module {
   public func statuses(s : Engine.State, ff : FirmForms.State, by : Principal, isAdmin : Bool, eng : Nat) : R {
     let e = switch (Engine.authorise(s, eng, by, isAdmin, [#partner, #manager, #senior, #staff, #eqr], true)) { case (#ok(e)) e; case (#err(m)) return #err(m) };
     let out = List.empty<J>();
-    for ((id, t) in all(ff).vals()) {
+    for (id in instanceIds(s, ff, eng).vals()) {
+      let (base, ls) = ProductForms.split(id);
+      let ident : [(Text, J)] = switch (ls) {
+        case (?l) [("form", #str(id)), ("base", #str(base)), ("leadsheet", #str(l)), ("title", switch (spec(ff, id)) { case (?x) get(x, "title"); case null #null_ })];
+        case null [("form", #str(id))];
+      };
       switch (instance(s, eng, id)) {
-        case null List.add(out, #obj([("form", #str(id)), ("status", #str("not_started")), ("version", Json.nat(0)), ("stale", Json.nat(0))]));
+        case null List.add(out, #obj(Array.concat(ident, [("status", #str("not_started")), ("version", Json.nat(0)), ("stale", Json.nat(0))])));
         case (?i) {
           let values = parse(i.values);
-          let sp = switch (specFor(ff, id, values)) { case (?x) x; case null parse(t) };
+          let sp = switch (specFor(ff, id, values)) { case (?x) x; case null #obj([]) };
           let live = liveValues(s, ff, e, sp, values);
           var stale = 0;
           switch (get(values, "_frozen")) {
             case (#obj(kvs)) { for ((k, fv) in kvs.vals()) { for ((lk, lv) in live.vals()) { if (lk == k and Json.toText(lv) != Json.toText(fv)) stale += 1 } } };
             case _ {};
           };
-          List.add(out, #obj([("form", #str(id)), ("status", #str(i.status)), ("version", Json.nat(i.version)), ("stale", Json.nat(stale))]));
+          List.add(out, #obj(Array.concat(ident, [("status", #str(i.status)), ("version", Json.nat(i.version)), ("stale", Json.nat(stale))])));
         };
       };
     };
@@ -658,6 +767,11 @@ module {
     let existing = instance(s, eng, formId);
     let sp = switch (specFor(ff, formId, switch (existing) { case (?i) parse(i.values); case null #obj([]) })) { case (?f) f; case null return #err("unknown form " # Py.repr(formId)) };
     switch (existing) { case null { if (FirmForms.isRetired(ff, formId)) return #err("the firm has retired " # formId # "; no new instance is started") }; case (?_) {} };
+    if (perLeadsheet(sp) and ProductForms.split(formId).1 == null) return #err(formId # " is filled per leadsheet: " # formId # Text.fromChar(ProductForms.SEP) # "<leadsheet id>");
+    switch (ProductForms.split(formId).1) {
+      case (?ls) { var found = false; for (p in populated(s, eng).vals()) { if (p == ls) found := true }; if (not found) return #err(ls # " is not populated on this engagement's trial balance") };
+      case null {};
+    };
     // the preparing roles of the file, and any role the form itself names as a preparer (the
     // quality reviewer fills the quality review)
     var allowed = Engine.PREPARERS;
@@ -725,7 +839,8 @@ module {
           let id = Py.textOr(f, "id", "");
           var v = get(values, id);
           if (isBlank(v)) { for ((k, lv) in live.vals()) { if (k == id) v := lv } };
-          switch (requiredProblem(f, v)) { case (?p) return #err("cannot prepare: " # p); case null {} };
+          let effective = func(k : Text) : J { let ev = get(values, k); if (isBlank(ev)) { for ((lk, lv) in live.vals()) { if (lk == k) return lv }; #null_ } else ev };
+          switch (requiredProblem(f, v, effective)) { case (?p) return #err("cannot prepare: " # p); case null {} };
         };
         let kvs = switch (values) { case (#obj(kvs)) kvs; case _ [] };
         // the form is stamped with the exact definition it is prepared under (id, version, SHA-256):

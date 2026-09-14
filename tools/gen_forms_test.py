@@ -11,10 +11,11 @@ balances and moves the revenue benchmark.
 
 Attribution: Thebes Core Team. Licence: Apache 2.0.
 """
-import csv, io, os
+import csv, io, json, os, sys
 from decimal import Decimal
 
 STD = os.environ.get('AUDIT_STANDARDS', os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', '..', 'thebes-audit-standards'))
+HERE = os.path.dirname(os.path.abspath(__file__))
 OUT = os.path.join(os.path.dirname(__file__), '..', 'motoko', 'test', 'FormsScenario.test.mo')
 
 
@@ -111,7 +112,7 @@ ignore must("open", E.createEngagement(s, partner, true, 1, j("{\"client\":\"Nil
 for ((p, r) in [(manager, "manager"), (senior, "senior"), (staff, "staff"), (eqr, "eqr"), (client, "client")].vals()) ignore must("member " # r, E.setMember(s, partner, true, 2, 1, p, r));
 
 // the catalogue
-check("thirty-eight product forms are catalogued", Py.items(F.catalogue(ff)).size() == 38);
+check("thirty-nine product forms are catalogued", Py.items(F.catalogue(ff)).size() == 39);
 
 // live values before and after a trial balance
 let before = view(staff, "F06-MATERIALITY");
@@ -293,6 +294,7 @@ ignore must("fill F37-EQUITY", F.save(s, ff, staff, false, 24, 1, "F37-EQUITY", 
 ignore signed("prepare F37-EQUITY", F.sign(s, ff, staff, 24, 1, "F37-EQUITY", "prepare", "2026-01-25T09:50"));
 ignore must("fill F38-TAXES", F.save(s, ff, staff, false, 24, 1, "F38-TAXES", j("{\"values\":{\"p_tax_001_work\": \"Recorded for the graph battery.\", \"p_tax_001_result\": \"Recorded for the graph battery.\", \"p_tax_001_conclusion\": \"performed_no_exception\", \"p_tax_002_work\": \"Recorded for the graph battery.\", \"p_tax_002_result\": \"Recorded for the graph battery.\", \"p_tax_002_conclusion\": \"performed_no_exception\", \"p_tax_003_work\": \"Recorded for the graph battery.\", \"p_tax_003_result\": \"Recorded for the graph battery.\", \"p_tax_003_conclusion\": \"performed_no_exception\", \"p_tax_004_work\": \"Recorded for the graph battery.\", \"p_tax_004_result\": \"Recorded for the graph battery.\", \"p_tax_004_conclusion\": \"performed_no_exception\", \"p_tax_005_work\": \"Recorded for the graph battery.\", \"p_tax_005_result\": \"Recorded for the graph battery.\", \"p_tax_005_conclusion\": \"performed_no_exception\"}}")));
 ignore signed("prepare F38-TAXES", F.sign(s, ff, staff, 24, 1, "F38-TAXES", "prepare", "2026-01-25T09:50"));
+__ANALYTICS__
 // the gate: a figure moved upstream refuses completion, naming the source; refreshed, it is approved
 ignore must("the materiality paper is recomputed after the plan was prepared", E.compute(s, senior, false, 24, 1, j("{\"kind\":\"materiality\",\"input\":{\"benchmark\":\"revenue\",\"benchmark_amount\":\"10500000.00\",\"percentage\":\"2\"}}")));
 refused("completion is refused while an upstream figure has moved, naming it", F.sign(s, ff, partner, 24, 1, "F14-COMPLETION", "approve", "2026-01-25T10:00"), "drifted from F06-MATERIALITY");
@@ -343,7 +345,7 @@ let f31b = view(manager, "F31-REVENUE-RECEIVABLES");
 check("preparing the paper freezes the balances it was performed on", field(f31b, ["frozen", "ls_rev"]) == #str("-10500000.00") and field(f31b, ["frozen", "risks"]) != #null_);
 ignore must("the original trial balance is re-imported", E.importTrialBalance(s, staff, false, 27, 1, #obj([("profile_id", #str("spreadsheet-generic-csv")), ("source", #str(__FIXTURE__))])));
 check("the paper's balance is flagged as moved", staleHas(view(manager, "F31-REVENUE-RECEIVABLES"), "ls_rev"));
-check("statuses lists every form of the catalogue", Py.items(peek("statuses", F.statuses(s, ff, manager, false, 1))).size() == 38);
+check("statuses lists every form of the catalogue, a per-balance paper once per populated leadsheet", Py.items(peek("statuses", F.statuses(s, ff, manager, false, 1))).size() == 38 + __POPULATED__);
 check("statuses counts the moved figure", (switch (Py.items(peek("statuses 2", F.statuses(s, ff, manager, false, 1))).vals().next()) { case (?_) true; case null false }));
 ignore must("the revised trial balance is imported again", E.importTrialBalance(s, staff, false, 27, 1, #obj([("profile_id", #str("spreadsheet-generic-csv")), ("source", #str(__FIXTURE2__))])));
 
@@ -499,8 +501,29 @@ Debug.print("FORMS GREEN");
 '''
 
 
+def analytics_instances():
+    """The per-balance analytical procedure paper, one instance per populated leadsheet of the
+    fixture, filled and prepared before the gate: every populated leadsheet's paper closes
+    before completion attests the sufficiency of evidence."""
+    sys.path.insert(0, HERE)
+    from gen_graph_test import load_forms, required_values, populated_leadsheets
+    form = load_forms()['F40-BALANCE-ANALYTICS']
+    values = required_values(form)
+    out = []
+    for ls in populated_leadsheets(os.path.join(STD, 'adapters', 'fixtures', 'spreadsheet-basic.csv')):
+        fid = f'F40-BALANCE-ANALYTICS@{ls}'
+        out.append(f'ignore must("fill {fid}", F.save(s, ff, staff, false, 24, 1, {mo(fid)}, j({mo(json.dumps({"values": values}, ensure_ascii=False))})));')
+        out.append(f'ignore signed("prepare {fid}", F.sign(s, ff, staff, 24, 1, {mo(fid)}, "prepare", "2026-01-25T09:50"));')
+    empty = mo('{"values":{}}')
+    out.append(f'refused("the per-balance paper is not filled under its bare id", F.save(s, ff, staff, false, 24, 1, "F40-BALANCE-ANALYTICS", j({empty})), "filled per leadsheet");')
+    out.append(f'refused("nor for a leadsheet the trial balance does not populate", F.save(s, ff, staff, false, 24, 1, "F40-BALANCE-ANALYTICS@LS-NCI", j({empty})), "not populated");')
+    return '\n'.join(out)
+
+
 def main():
-    body = BODY.replace('__FIXTURE__', mo(FIXTURE)).replace('__FIXTURE2__', mo(FIXTURE2))
+    from gen_graph_test import populated_leadsheets
+    n_pop = len(populated_leadsheets(os.path.join(STD, 'adapters', 'fixtures', 'spreadsheet-basic.csv')))
+    body = BODY.replace('__FIXTURE__', mo(FIXTURE)).replace('__FIXTURE2__', mo(FIXTURE2)).replace('__ANALYTICS__', analytics_instances()).replace('__POPULATED__', str(n_pop))
     with open(OUT, 'w', encoding='utf-8') as f:
         f.write('// GENERATED by tools/gen_forms_test.py. Do not edit.\n// Attribution: Thebes Core Team. Licence: Apache 2.0.\n' + body)
     print('wrote', os.path.relpath(OUT))

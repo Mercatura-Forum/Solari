@@ -293,7 +293,7 @@ def main():
         pg.goto(pg.url.split('#')[0] + '#/e/' + pg.url.split('/e/')[1].split('/')[0] + '/forms', wait_until='load')
         pg.locator('a[href*="/f/F14-COMPLETION"]').first.wait_for(timeout=60000)
         n_forms = pg.locator('a[href*="/f/F"]').count()
-        row('every form of the catalogue is listed (38 product forms, once in the list and once in the rail)', n_forms >= 38, n_forms)
+        row('every form of the catalogue is listed (39 product forms, once in the list and once in the rail)', n_forms >= 38, n_forms)
         pg.locator('a[href*="/f/F06-MATERIALITY"]').first.click()
         pg.get_by_role('button', name='Word').wait_for(timeout=60000)
         live = pg.locator('text=/^live: /i').all_inner_texts()

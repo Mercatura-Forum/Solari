@@ -104,7 +104,7 @@ ignore must("staff joins", E.setMember(s, admin, true, 9, 1, staff, "staff"));
 let cat = Py.items(F.catalogue(ff));
 var firmInCat = 0;
 for (c in cat.vals()) { if (Py.truthy(Json.get(c, "firm"))) firmInCat += 1 };
-check("the catalogue lists the product's forms and the firm's", cat.size() == 38 + 2 and firmInCat == 2);
+check("the catalogue lists the product's forms and the firm's", cat.size() == 39 + 2 and firmInCat == 2);
 let fv = switch (F.view(s, ff, staff, false, 1, "FF-CASH-COUNT")) { case (#ok(v)) v; case (#err(m)) { Debug.print(m); #null_ } };
 check("a firm form renders under its latest version", field(fv, ["form", "version"]) == #num("2") and field(fv, ["status"]) == #str("not_started"));
 ignore must("staff save the firm form", F.save(s, ff, staff, false, 10, 1, "FF-CASH-COUNT", j("{\"values\":{\"counted_on\":\"2025-12-31\",\"amount\":\"12500.00\",\"denominations\":[{\"denomination\":\"200\",\"count\":50}],\"result\":\"agrees\"}}")));

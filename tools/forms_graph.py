@@ -25,6 +25,7 @@ OWNS = {
 
 # (from form, from field, to form, to field, reason)
 DECLARED = [
+    ('F40-BALANCE-ANALYTICS', 'conclusion', 'F14-COMPLETION', 'evidence_sufficient', 'Every populated leadsheet\'s analytical procedure concludes before completion attests the sufficiency of evidence.'),
     ('F15-INDEPENDENCE', 'independent', 'F01-ACCEPTANCE', 'threats', 'The acceptance decision relies on the independence conclusion.'),
     ('F05-FRAUD-DISCUSSION', 'risk_factors', 'F04-RISK-REGISTER', 'risks', 'The fraud risk factors identified in the discussion are placed on the register.'),
     ('F16-UNDERSTANDING-ENTITY', 'analytics_notes', 'F04-RISK-REGISTER', 'risks', 'Unusual relationships from the preliminary analytical review are assessed as risks.'),
@@ -119,6 +120,8 @@ def build_graph(forms):
             if root == 'paper':
                 kind = parts[1]
                 src = owner.get(kind)
+                if f.get('computation') == kind:
+                    continue                                   # the form's own paper: no edge, the figure is its own
                 if kind == 'rollforward':
                     # a schedule's paper belongs to the cycle paper that owns the schedule
                     src = schedules.get(parts[3]) if len(parts) >= 4 and parts[2] == 'schedules' else None

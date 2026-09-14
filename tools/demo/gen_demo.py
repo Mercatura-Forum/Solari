@@ -11,7 +11,7 @@ import re
 import sys
 
 sys.path.insert(0, os.path.dirname(__file__))
-from common import ROOT, TEAM, FIRM, mo  # noqa: E402
+from common import ROOT, STD, TEAM, FIRM, D, mo  # noqa: E402
 import companies as K  # noqa: E402
 import hospitality as H  # noqa: E402
 import journals as J  # noqa: E402
@@ -106,6 +106,9 @@ def team(st, e, members):
         st.ok(f'member {role}', f'E.setMember(s, P1, true, at, {e}, {key}, {mo(role)})')
 
 
+LEADSHEET_NAMES = {l['id']: l['name'] for l in json.load(open(os.path.join(STD, 'seed', 'leadsheets.json'), encoding='utf-8'))}
+
+
 def steps():
     tb_a, tb_b = K.TEXTILES, K.HOSPITALITY
     je_a, par_a = J.textiles()
@@ -183,8 +186,39 @@ def steps():
         form = [f for f in FORM_IDS if f.startswith(f'F{n}-')][0]
         st.save('P3', 'a', form, C.cycle_values(FORMS_BY_ID[form]))
         chain(st, 'a', form, 'P3', (f'{d}T09:00', f'{d}T11:00', f'{d}T15:00'))
+    # the per-balance substantive analytical procedure: one paper per populated leadsheet, its
+    # expectation built from the prior period (or proved in total where there is none), computed
+    # from the paper itself and signed through four eyes
+    minute = 0
+    lt_now, lt_prior = tb_a.leadsheet_totals(), tb_a.leadsheet_totals(prior=True)
+    for ls, recorded in lt_now.items():
+        fid = f'F40-BALANCE-ANALYTICS@{ls}'
+        name = LEADSHEET_NAMES.get(ls, ls)
+        prior = lt_prior.get(ls, '0.00')
+        if D(prior) != 0:
+            growth = ((D(recorded) / D(prior) - 1) * 100).quantize(D('0.01'))
+            model = {'kind': 'prior_growth', 'prior': prior, 'growth_pct': str(growth)}
+            values = {'model': 'prior_growth', 'growth_pct': str(growth),
+                      'precision': f'The prior period balance grown at the rate the ledger shows for {name}; the rate is corroborated to the cycle working paper, and the acceptable difference is half of performance materiality.'}
+        else:
+            model = {'kind': 'proof_in_total', 'components': [recorded]}
+            values = {'model': 'proof_in_total', 'components': [{'name': 'Balance per the ledger', 'amount': recorded}],
+                      'precision': f'{name} had no balance in the prior period; the expectation is a proof in total of the ledger balance, so any difference is a posting error.'}
+        values.update({
+            'suitability': f'The balance of {name} moves with the volume of the business, so an expectation from the prior period and the year\'s activity tests its completeness and accuracy.',
+            'data_reliability': 'The prior period figures are the audited comparatives; the current figures are the accepted trial balance, agreed to the general ledger by the import.',
+            'threshold_pct': '50', 'conclusion': 'consistent',
+            'rationale': f'The recorded balance of {name} is within the acceptable difference of the expectation; no further procedure is needed on this basis.',
+        })
+        st.save('P3', 'a', fid, values)
+        st.compute('P3', 'a', 'analytical_review', {'lines': [{'name': name, 'recorded': recorded, 'model': model}], 'performance_materiality': '@@LIVE:F06-MATERIALITY:performance@@', 'threshold_pct': '50'}, fid)
+        # after the last cycle paper (2026-03-06 15:00) and before the next dated step of the file
+        base_minute = 15 * 60 + 5 + minute
+        stamp = lambda m: f'2026-03-06T{m // 60:02d}:{m % 60:02d}'
+        chain(st, 'a', fid, 'P3', (stamp(base_minute), stamp(base_minute + 5), stamp(base_minute + 10)))
+        minute += 15
     st.advance('P1', 'a', 'completion')
-    st.summary('Wadi Qamar fieldwork: MUS on export receivables, confirmations, analytics, trend')
+    st.summary('Wadi Qamar fieldwork: MUS on export receivables, confirmations, analytics, trend, a substantive analytical procedure on every populated leadsheet')
     out.append(st)
 
     # 4 — Wadi Qamar completion, assembly, roll-forward

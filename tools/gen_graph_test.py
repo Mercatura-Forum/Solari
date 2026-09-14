@@ -13,7 +13,7 @@ accepted.
 
 Attribution: Thebes Core Team. Licence: Apache 2.0.
 """
-import json, os
+import json, os, sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 R = os.path.join(HERE, '..')
@@ -220,10 +220,23 @@ MOVES = {
 }
 
 
+def populated_leadsheets(fixture_path):
+    """The leadsheets the fixture populates, from the standards' import reference."""
+    sys.path.insert(0, os.path.join(STD, 'tools'))
+    import tb_import as T
+    profile = json.load(open(os.path.join(STD, 'adapters', 'profiles', 'spreadsheet-generic-csv.json'), encoding='utf-8'))
+    tb, _counts = T.normalise(profile, fixture_path, 'Nile Trading SAE', '2025-01-01', '2025-12-31', 'EGP')
+    return [l['leadsheet_id'] for l in T.map_to_leadsheets(tb, 'IFRS-4D')['leadsheets']]
+
+
 def main():
     forms = load_forms()
     graph = json.load(open(os.path.join(R, 'forms', 'GRAPH.json'), encoding='utf-8'))
-    fixture = open(os.path.join(STD, 'adapters', 'fixtures', 'spreadsheet-basic.csv'), encoding='utf-8', newline='').read()
+    fixture_path = os.path.join(STD, 'adapters', 'fixtures', 'spreadsheet-basic.csv')
+    fixture = open(fixture_path, encoding='utf-8', newline='').read()
+    # a per-leadsheet paper is filled per instance: its edges are exercised on the first populated leadsheet
+    first_leadsheet = populated_leadsheets(fixture_path)[0]
+    inst = lambda fid: f'{fid}@{first_leadsheet}' if forms[fid].get('per') == 'leadsheet' else fid
     import sys
     sys.path.insert(0, HERE)
     body = [HEAD]
@@ -247,10 +260,10 @@ def main():
                 continue
             v2 = other_value(sf, v1)
             body.append(f'saveOnly({mo(src)}, {mo(json.dumps({e["from_field"]: v1}, ensure_ascii=False))});')
-            body.append(f'prepare({mo(e["to"])}, {mo(json.dumps(required_values(dst), ensure_ascii=False))});')
-            body.append(f'check("{label}: frozen on the source value", field(view({mo(e["to"])}), ["frozen", {mo(to_field)}]) != #null_);')
+            body.append(f'prepare({mo(inst(e["to"]))}, {mo(json.dumps(required_values(dst), ensure_ascii=False))});')
+            body.append(f'check("{label}: frozen on the source value", field(view({mo(inst(e["to"]))}), ["frozen", {mo(to_field)}]) != #null_);')
             body.append(f'saveOnly({mo(src)}, {mo(json.dumps({e["from_field"]: v2}, ensure_ascii=False))});')
-            body.append(f'switch (driftOf(view({mo(e["to"])}), {mo(to_field)})) {{ case (?d) check("{label}: the source is named", field(d, ["source", "node"]) == #str({mo(src)}) and field(d, ["source", "field"]) == #str({mo(e["from_field"])})); case null check("{label}: drifted", false) }};')
+            body.append(f'switch (driftOf(view({mo(inst(e["to"]))}), {mo(to_field)})) {{ case (?d) check("{label}: the source is named", field(d, ["source", "node"]) == #str({mo(src)}) and field(d, ["source", "field"]) == #str({mo(e["from_field"])})); case null check("{label}: drifted", false) }};')
         elif kind == 'computed':
             paper_kind = e['via'].split('.')[1]
             if paper_kind not in PAPER_MOVES:
@@ -259,15 +272,15 @@ def main():
                 continue
             first, second = PAPER_MOVES[paper_kind]
             body.append(f'ignore must("compute {paper_kind}", E.compute(s, staff, false, stamp, 1, {jl({"kind": paper_kind, "input": first})}));')
-            body.append(f'prepare({mo(e["to"])}, {mo(json.dumps(required_values(dst), ensure_ascii=False))});')
+            body.append(f'prepare({mo(inst(e["to"]))}, {mo(json.dumps(required_values(dst), ensure_ascii=False))});')
             body.append(f'ignore must("recompute {paper_kind}", E.compute(s, staff, false, stamp, 1, {jl({"kind": paper_kind, "input": second})}));')
-            body.append(f'switch (driftOf(view({mo(e["to"])}), {mo(to_field)})) {{ case (?d) check("{label}: the source is named", field(d, ["source", "node"]) == #str({mo(src)})); case null check("{label}: drifted", false) }};')
+            body.append(f'switch (driftOf(view({mo(inst(e["to"]))}), {mo(to_field)})) {{ case (?d) check("{label}: the source is named", field(d, ["source", "node"]) == #str({mo(src)})); case null check("{label}: drifted", false) }};')
             body.append(f'ignore must("compute {paper_kind} back", E.compute(s, staff, false, stamp, 1, {jl({"kind": paper_kind, "input": first})}));')
         elif kind in ('trial_balance', 'records', 'paper', 'model', 'checklist', 'programme', 'group'):
             if kind == 'trial_balance':
-                body.append(f'prepare({mo(e["to"])}, {mo(json.dumps(required_values(dst), ensure_ascii=False))});')
+                body.append(f'prepare({mo(inst(e["to"]))}, {mo(json.dumps(required_values(dst), ensure_ascii=False))});')
                 body.append(MOVES['tb'][0])
-                body.append(f'switch (driftOf(view({mo(e["to"])}), {mo(to_field)})) {{ case (?d) check("{label}: the source is named", field(d, ["source", "node"]) == #str("tb")); case null check("{label}: an empty leadsheet stays empty", isEmpty(field(view({mo(e["to"])}), ["frozen", {mo(to_field)}]))) }};')
+                body.append(f'switch (driftOf(view({mo(inst(e["to"]))}), {mo(to_field)})) {{ case (?d) check("{label}: the source is named", field(d, ["source", "node"]) == #str("tb")); case null check("{label}: an empty leadsheet stays empty", isEmpty(field(view({mo(inst(e["to"]))}), ["frozen", {mo(to_field)}]))) }};')
                 body.append(MOVES['tb'][1])
             elif kind == 'records':
                 rk = src.split(':')[1]
@@ -285,44 +298,44 @@ def main():
                     skipped.append(label + f': no mover for {rk}')
                     body.append(f'// no mover for record kind {rk}')
                     continue
-                body.append(f'prepare({mo(e["to"])}, {mo(json.dumps(required_values(dst), ensure_ascii=False))});')
+                body.append(f'prepare({mo(inst(e["to"]))}, {mo(json.dumps(required_values(dst), ensure_ascii=False))});')
                 if e['via'].endswith('.open'):
-                    body.append(f'let before_{n} = field(view({mo(e["to"])}), ["live", {mo(to_field)}]);')
+                    body.append(f'let before_{n} = field(view({mo(inst(e["to"]))}), ["live", {mo(to_field)}]);')
                     body.append(add)
-                    body.append(f'let after_{n} = view({mo(e["to"])});')
+                    body.append(f'let after_{n} = view({mo(inst(e["to"]))});')
                     body.append(f'check("{label}: a live count moves and is never frozen", field(after_{n}, ["live", {mo(to_field)}]) != before_{n} and Json.get(field(after_{n}, ["frozen"]), {mo(to_field)}) == null);')
                 else:
                     body.append(add)
-                    body.append(f'switch (driftOf(view({mo(e["to"])}), {mo(to_field)})) {{ case (?d) check("{label}: the source is named", field(d, ["source", "node"]) == #str({mo(src)})); case null check("{label}: drifted", false) }};')
+                    body.append(f'switch (driftOf(view({mo(inst(e["to"]))}), {mo(to_field)})) {{ case (?d) check("{label}: the source is named", field(d, ["source", "node"]) == #str({mo(src)})); case null check("{label}: drifted", false) }};')
             elif kind == 'paper':
                 pk = src.split(':')[1]
                 if MOVES.get(src) is None:
                     body.append(f'// the {pk} paper is produced by a population run, not a one-call computation; its downstream is observed in the journal battery')
                     skipped.append(label + ': population paper')
                     continue
-                body.append(f'prepare({mo(e["to"])}, {mo(json.dumps(required_values(dst), ensure_ascii=False))});')
+                body.append(f'prepare({mo(inst(e["to"]))}, {mo(json.dumps(required_values(dst), ensure_ascii=False))});')
                 body.append(MOVES[src][0])
-                body.append(f'switch (driftOf(view({mo(e["to"])}), {mo(to_field)})) {{ case (?d) check("{label}: the source is named", field(d, ["source", "node"]) == #str({mo(src)})); case null check("{label}: drifted", false) }};')
+                body.append(f'switch (driftOf(view({mo(inst(e["to"]))}), {mo(to_field)})) {{ case (?d) check("{label}: the source is named", field(d, ["source", "node"]) == #str({mo(src)})); case null check("{label}: drifted", false) }};')
             elif kind in ('checklist', 'programme'):
                 mover = 'ignore must("answer a disclosure item", Dc_answer());' if kind == 'checklist' else 'ignore must("conclude a procedure", Pg_conclude());'
-                body.append(f'prepare({mo(e["to"])}, {mo(json.dumps(required_values(dst), ensure_ascii=False))});')
-                body.append(f'let before_{n} = field(view({mo(e["to"])}), ["live", {mo(to_field)}]);')
+                body.append(f'prepare({mo(inst(e["to"]))}, {mo(json.dumps(required_values(dst), ensure_ascii=False))});')
+                body.append(f'let before_{n} = field(view({mo(inst(e["to"]))}), ["live", {mo(to_field)}]);')
                 body.append(mover)
-                body.append(f'let after_{n} = view({mo(e["to"])});')
+                body.append(f'let after_{n} = view({mo(inst(e["to"]))});')
                 body.append(f'check("{label}: a live count moves and is never frozen", field(after_{n}, ["live", {mo(to_field)}]) != before_{n} and Json.get(field(after_{n}, ["frozen"]), {mo(to_field)}) == null);')
             elif kind == 'group':
-                body.append(f'prepare({mo(e["to"])}, {mo(json.dumps(required_values(dst), ensure_ascii=False))});')
+                body.append(f'prepare({mo(inst(e["to"]))}, {mo(json.dumps(required_values(dst), ensure_ascii=False))});')
                 body.append(f'ignore must("identify a component", E.addRecord(s, manager, false, stamp, 1, {jl({"kind": "RK-COMPONENT", "fields": {"name": "Delta", "entity": "Delta SAE", "component_auditor": "Other & Co", "scope": "full", "performance_materiality": "50000.00", "threshold": "1000.00"}})}));')
-                body.append(f'switch (driftOf(view({mo(e["to"])}), {mo(to_field)})) {{ case (?d) check("{label}: the source is named", field(d, ["source", "node"]) == #str("group")); case null check("{label}: drifted", false) }};')
+                body.append(f'switch (driftOf(view({mo(inst(e["to"]))}), {mo(to_field)})) {{ case (?d) check("{label}: the source is named", field(d, ["source", "node"]) == #str("group")); case null check("{label}: drifted", false) }};')
             elif kind == 'model':
                 body.append('// the model is the contract\'s own seed and never changes on an engagement: the edge is exercised by the register loading the presumed risks')
-                body.append(f'check("{label}: the presumed risks are live", Py.items(field(view({mo(e["to"])}), ["live", {mo(to_field)}])).size() >= 1);')
+                body.append(f'check("{label}: the presumed risks are live", Py.items(field(view({mo(inst(e["to"]))}), ["live", {mo(to_field)}])).size() >= 1);')
         elif kind == 'declared':
-            body.append(f'prepare({mo(src)}, {mo(json.dumps(required_values(forms[src]), ensure_ascii=False))});')
-            body.append(f'prepare({mo(e["to"])}, {mo(json.dumps(required_values(dst), ensure_ascii=False))});')
-            body.append(f'check("{label}: the upstream is listed as prepared", upstreamIs(view({mo(e["to"])}), {mo(src)}, "prepared"));')
-            body.append(f'ignore must("reopen the upstream {src}", F.reopen(s, partner, false, stamp, 1, {mo(src)}, "graph battery"));')
-            body.append(f'check("{label}: the upstream is listed as unsigned after reopening", upstreamIs(view({mo(e["to"])}), {mo(src)}, "draft"));')
+            body.append(f'prepare({mo(inst(src))}, {mo(json.dumps(required_values(forms[src]), ensure_ascii=False))});')
+            body.append(f'prepare({mo(inst(e["to"]))}, {mo(json.dumps(required_values(dst), ensure_ascii=False))});')
+            body.append(f'check("{label}: the upstream is listed as prepared", upstreamIs(view({mo(inst(e["to"]))}), {mo(inst(src))}, "prepared"));')
+            body.append(f'ignore must("reopen the upstream {src}", F.reopen(s, partner, false, stamp, 1, {mo(inst(src))}, "graph battery"));')
+            body.append(f'check("{label}: the upstream is listed as unsigned after reopening", upstreamIs(view({mo(inst(e["to"]))}), {mo(inst(src))}, "draft"));')
         n += 1
     body.append(TAIL)
     helpers = r'''

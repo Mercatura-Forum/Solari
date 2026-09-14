@@ -1725,7 +1725,7 @@ shared (install) persistent actor class AuditEngine() = self {
 
   // `transient`, so every build states its own label: a plain `let` here is a stable field,
   // and an upgrade would restore the previous build's label over the new code's.
-  transient let THIS_BUILD : Text = "2026-09-13.16 movement schedules tied to the leadsheet: the roll-forward computation, the cycle papers at version 2, product forms versioned";
+  transient let THIS_BUILD : Text = "2026-09-13.17 the per-balance analytical procedure paper: one instance per populated leadsheet, its figures from its own computation, an uninvestigated excess refused";
   func buildJ() : Json.J { #obj([("build", #str(THIS_BUILD)), ("rulebook", #str(Seed.SOURCE_COMMIT))]) };
 
   func scopeOf(json : Text) : ?[Nat] {

@@ -424,6 +424,22 @@ module {
     }
   };
 
+  /// The leadsheets the latest accepted trial balance populates (an account mapped to them,
+  /// or a booked entry's new account on them), in the model's order, without building the fold.
+  public func populatedLeadsheets(s : Engine.State, eng : Nat) : [Text] {
+    let (_, lines, _) = switch (tbLines(s, eng)) { case (?x) x; case null return [] };
+    let hit = List.empty<Text>();
+    let add = func(id : Text) { if (id != "") { for (x in List.values(hit)) { if (x == id) return }; List.add(hit, id) } };
+    for (l in lines.vals()) add(l.leadsheet);
+    for (r in entries(s, eng).vals()) {
+      let f = parse(r.fields);
+      if (Py.textOr(f, "state", "") == "booked") { for (g in legsOf(f).vals()) add(g.leadsheet) };
+    };
+    let out = List.empty<Text>();
+    for (meta in seedRows("leadsheets").vals()) { let id = Py.textOr(meta, "id", ""); for (x in List.values(hit)) { if (x == id) List.add(out, id) } };
+    List.toArray(out)
+  };
+
   /// The adjusted leadsheet totals as the tie-out reads them: {leadsheet_id: adjusted}.
   public func leadsheetTotals(s : Engine.State, eng : Nat) : J {
     #obj(Array.map<J, (Text, J)>(Py.list(adjusted(s, eng), "leadsheets"), func(l) { (Py.textOr(l, "leadsheet_id", ""), get(l, "adjusted")) }))

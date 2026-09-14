@@ -381,6 +381,16 @@
    }
   },
   {
+   "id": "F40-BALANCE-ANALYTICS",
+   "kind": "form",
+   "number": 40,
+   "phase": "fieldwork",
+   "title": {
+    "en": "Substantive analytical procedure: {leadsheet_name} ({leadsheet})",
+    "ar": "إجراء تحليلي أساسي: {leadsheet_name} ({leadsheet})"
+   }
+  },
+  {
    "id": "seed",
    "kind": "model",
    "title": {
@@ -2411,6 +2421,37 @@
    "to_field": "p_tax_005_evidence",
    "via": "records.RK-EVIDENCE-LINK.for.P-TAX-005",
    "kind": "records"
+  },
+  {
+   "from": "tb",
+   "to": "F40-BALANCE-ANALYTICS",
+   "to_field": "recorded",
+   "via": "tb.leadsheet.{leadsheet}",
+   "kind": "trial_balance"
+  },
+  {
+   "from": "tb",
+   "to": "F40-BALANCE-ANALYTICS",
+   "to_field": "prior",
+   "via": "tb.leadsheet.{leadsheet}.prior",
+   "kind": "trial_balance"
+  },
+  {
+   "from": "F06-MATERIALITY",
+   "from_field": "performance",
+   "to": "F40-BALANCE-ANALYTICS",
+   "to_field": "performance_materiality",
+   "via": "paper.materiality.performance",
+   "kind": "computed"
+  },
+  {
+   "from": "F40-BALANCE-ANALYTICS",
+   "from_field": "conclusion",
+   "to": "F14-COMPLETION",
+   "to_field": "evidence_sufficient",
+   "via": "declared",
+   "kind": "declared",
+   "reason": "Every populated leadsheet's analytical procedure concludes before completion attests the sufficiency of evidence."
   },
   {
    "from": "F15-INDEPENDENCE",
