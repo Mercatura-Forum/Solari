@@ -58,9 +58,11 @@ module {
     }
   };
 
+  /// The instance text is built flat: a replacement that appends character by character
+  /// leaves a rope the runtime cannot measure on a small stack.
   public func instantiate(base : Text, t : Text, leadsheet : Text) : Text {
-    let named = Text.replace(Text.replace(t, #text "{leadsheet_name}", leadsheetName(leadsheet)), #text "{leadsheet}", leadsheet);
-    Text.replace(named, #text ("\"id\":\"" # base # "\""), "\"id\":\"" # base # Text.fromChar(SEP) # leadsheet # "\"")
+    let named = Json.replaceFlat(Json.replaceFlat(t, "{leadsheet_name}", leadsheetName(leadsheet)), "{leadsheet}", leadsheet);
+    Json.replaceFlat(named, "\"id\":\"" # base # "\"", "\"id\":\"" # base # Text.fromChar(SEP) # leadsheet # "\"")
   };
 
   func find(forms : [(Text, Text)], id : Text) : ?Text {

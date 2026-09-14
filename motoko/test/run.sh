@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 # Runs every test/*.test.mo compiled to WASI under wasmtime. A test passes when it
 # exits 0 AND prints at least one "count: <what> = <n>" line with no zero count:
-# a test that examined nothing has failed.
+# a test that examined nothing has failed. WASM_STACK=<bytes> runs every test under that wasm
+# stack, as the substrate does with a small one.
 # Attribution: Thebes Core Team. Licence: Apache 2.0.
 set -u
 cd "$(dirname "$0")/.."
@@ -16,7 +17,7 @@ for t in test/${1:-*}.test.mo; do
   if ! "$MOC" -wasi-system-api $SOURCES -o "$OUT/$name.wasm" "$t" 2> "$OUT/$name.compile.log"; then
     echo "COMPILE FAILED: $name"; grep -v "warning" "$OUT/$name.compile.log" | head -20; fail=$((fail+1)); continue
   fi
-  if ! wasmtime "$OUT/$name.wasm" > "$OUT/$name.log" 2>&1; then
+  if ! wasmtime ${WASM_STACK:+-W max-wasm-stack=$WASM_STACK} "$OUT/$name.wasm" > "$OUT/$name.log" 2>&1; then
     echo "FAILED: $name"; tail -30 "$OUT/$name.log"; fail=$((fail+1)); continue
   fi
   grep -E '^(count:|FAIL|[A-Z]+ GREEN)' "$OUT/$name.log"

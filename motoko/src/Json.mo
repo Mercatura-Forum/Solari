@@ -67,12 +67,57 @@ module {
       else { grow(4); byte(low(0xF0 | (u >> 18))); byte(low(0x80 | ((u >> 12) & 0x3F))); byte(low(0x80 | ((u >> 6) & 0x3F))); byte(low(0x80 | (u & 0x3F))) };
     };
 
-    public func text(t : Text) { for (b in Prim.encodeUtf8(t).vals()) byte(b) };
+    public func text(t : Text) { for (c in t.chars()) char(c) };
 
     public func toText() : Text {
       let exact = if (len == buf.size()) buf else { let e = Prim.Array_init<Nat8>(len, 0); var i = 0; while (i < len) { e[i] := buf[i]; i += 1 }; e };
       switch (Prim.decodeUtf8(Blob.fromVarArray(exact))) { case (?t) t; case null "" }
     };
+  };
+
+  /// The characters of a text, collected by iteration and never by its length: a text left
+  /// in the heap as a rope of one node per character (texts once built by appending) makes the
+  /// runtime's length recurse once per node, and a small stack is exhausted before a long one
+  /// is measured. Iteration walks the rope without recursion.
+  public func charsOf(t : Text) : [Char] {
+    var buf : [var Char] = Prim.Array_init<Char>(256, ' ');
+    var len = 0;
+    for (c in t.chars()) {
+      if (len == buf.size()) {
+        let next = Prim.Array_init<Char>(buf.size() * 2, ' ');
+        var i = 0;
+        while (i < len) { next[i] := buf[i]; i += 1 };
+        buf := next;
+      };
+      buf[len] := c;
+      len += 1;
+    };
+    Array.tabulate<Char>(len, func(i) { buf[i] })
+  };
+
+  /// A text made flat: the same characters in one blob, however it was built.
+  public func flatten(t : Text) : Text {
+    let b = Bytes();
+    for (c in t.chars()) b.char(c);
+    b.toText()
+  };
+
+  /// `pattern` replaced by `by` throughout `t`, the result flat. The pattern is matched
+  /// character by character over the iteration, so neither the input nor the output is measured.
+  public func replaceFlat(t : Text, pattern : Text, by : Text) : Text {
+    let pat = charsOf(pattern);
+    if (pat.size() == 0) return flatten(t);
+    let cs = charsOf(t);
+    let b = Bytes();
+    var i = 0;
+    while (i < cs.size()) {
+      var hit = i + pat.size() <= cs.size();
+      var k = 0;
+      while (hit and k < pat.size()) { if (cs[i + k] != pat[k]) hit := false; k += 1 };
+      if (hit) { for (c in by.chars()) b.char(c); i += pat.size() }
+      else { b.char(cs[i]); i += 1 };
+    };
+    b.toText()
   };
 
   func utf8Length(c : Char) : Nat {
@@ -158,7 +203,7 @@ module {
 
   /// Strict RFC 8259 parser. Returns `#err` with the character offset of the fault.
   public func parse(t : Text) : ParseResult {
-    let cs = Text.toArray(t);
+    let cs = charsOf(t);
     let n = cs.size();
     var i = 0;
     var fault : ?Text = null;
